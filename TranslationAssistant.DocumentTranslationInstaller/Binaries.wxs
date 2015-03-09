@@ -11,7 +11,7 @@
         <File Id="TranslationAssistant.AutomationToolkit.TranslationPlugins" Source="$(var.TranslationAssistant.AutomationToolkit.TranslationPlugins.TargetPath)" DiskId="1" KeyPath="no" />
         
         <File Id="TranslationAssistant.Business" Source="$(var.TranslationAssistant.Business.TargetPath)" DiskId="1" KeyPath="no" />
-        <File Id="TranslationAssistant.DocumentTranslationInterface" Source="$(var.FileTranslator.TargetPath)" DiskId="1" KeyPath="no" />
+        <File Id="FileTranslator" Source="$(var.FileTranslator.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="TranslationServices.Core" Source="$(var.TranslationServices.Core.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="FileTranslator.config" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInterface\FileTranslator.config" Name="FileTranslator.config" DiskId="1" KeyPath="yes" />
         

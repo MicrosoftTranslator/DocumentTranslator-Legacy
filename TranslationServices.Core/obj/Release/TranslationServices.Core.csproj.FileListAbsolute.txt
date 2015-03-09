@@ -9,3 +9,8 @@ D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationServices.Core\bin
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationServices.Core\obj\Release\TranslationServices.Core.csprojResolveAssemblyReference.cache
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationServices.Core\obj\Release\Tools.TranslationAssistant.TranslationServices.Core.dll
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationServices.Core\obj\Release\Tools.TranslationAssistant.TranslationServices.Core.pdb
+C:\Users\christw\Documents\GitHub\FileTranslator\TranslationServices.Core\bin\Release\Tools.TranslationAssistant.TranslationServices.Core.dll.config
+C:\Users\christw\Documents\GitHub\FileTranslator\TranslationServices.Core\bin\Release\Tools.TranslationAssistant.TranslationServices.Core.dll
+C:\Users\christw\Documents\GitHub\FileTranslator\TranslationServices.Core\bin\Release\Tools.TranslationAssistant.TranslationServices.Core.pdb
+C:\Users\christw\Documents\GitHub\FileTranslator\TranslationServices.Core\obj\Release\Tools.TranslationAssistant.TranslationServices.Core.dll
+C:\Users\christw\Documents\GitHub\FileTranslator\TranslationServices.Core\obj\Release\Tools.TranslationAssistant.TranslationServices.Core.pdb

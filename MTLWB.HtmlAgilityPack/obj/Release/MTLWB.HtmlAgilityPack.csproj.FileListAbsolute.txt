@@ -3,3 +3,6 @@ D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.H
 D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.HtmlAgilityPack\obj\Release\HtmlAgilityPack.dll
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\bin\Release\HtmlAgilityPack.dll
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.HtmlAgilityPack\obj\Release\HtmlAgilityPack.dll
+C:\Users\christw\Documents\GitHub\FileTranslator\bin\Release\HtmlAgilityPack.dll
+C:\Users\christw\Documents\GitHub\FileTranslator\MTLWB.HtmlAgilityPack\obj\Release\MTLWB.HtmlAgilityPack.csprojResolveAssemblyReference.cache
+C:\Users\christw\Documents\GitHub\FileTranslator\MTLWB.HtmlAgilityPack\obj\Release\HtmlAgilityPack.dll

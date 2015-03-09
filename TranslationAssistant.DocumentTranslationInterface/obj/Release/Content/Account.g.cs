@@ -66,8 +66,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/TranslationAssistant.DocumentTranslationInterface;component/content/account.xaml" +
-                    "", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/FileTranslator;component/content/account.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\Content\Account.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

@@ -5,12 +5,12 @@
 
   <?define ProductVersion="2.1.1" ?>
   <!--<?define ProductInstallationDirVersion="2.1.1" ?>-->
-  <?define ProductInstallationDir="MicrosoftTranslatorExplorer"?>
+  <?define ProductInstallationDir="Microsoft Translator"?>
   <?define UpgradeCode="{69CB62B3-53BB-4BF5-9E53-B5677940AB8E}"?>
   <?define ProductCode="{4C933C35-A46B-4675-A38F-5C0077AB58FE}"?>
   <?define PackageCode="{58B29304-9AF5-4864-8BB1-E10B0D6079F4}"?>
   <?define Manufacturer="Microsoft Corporation"?>
-  <?define ProductName="Microsoft Translator FileTranslator"?>
+  <?define ProductName="Microsoft Translator"?>
 
   
   <Product Id="*"

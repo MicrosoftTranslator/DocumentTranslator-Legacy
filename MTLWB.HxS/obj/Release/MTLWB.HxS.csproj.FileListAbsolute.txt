@@ -14,3 +14,11 @@ D:\Users\Chris\Documents\GitHub\Translator.Explorer\bin\Release\MTLWB.HxS.pdb
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.HxS\obj\Release\MTLWB.HxS.csprojResolveAssemblyReference.cache
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.HxS\obj\Release\MTLWB.HxS.dll
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.HxS\obj\Release\MTLWB.HxS.pdb
+C:\Users\christw\Documents\GitHub\FileTranslator\bin\Release\MTMarkup.config
+C:\Users\christw\Documents\GitHub\FileTranslator\bin\Release\Settings.ini
+C:\Users\christw\Documents\GitHub\FileTranslator\bin\Release\MTLWB.HxS.XML
+C:\Users\christw\Documents\GitHub\FileTranslator\bin\Release\MTLWB.HxS.dll
+C:\Users\christw\Documents\GitHub\FileTranslator\bin\Release\MTLWB.HxS.pdb
+C:\Users\christw\Documents\GitHub\FileTranslator\MTLWB.HxS\obj\Release\MTLWB.HxS.csprojResolveAssemblyReference.cache
+C:\Users\christw\Documents\GitHub\FileTranslator\MTLWB.HxS\obj\Release\MTLWB.HxS.dll
+C:\Users\christw\Documents\GitHub\FileTranslator\MTLWB.HxS\obj\Release\MTLWB.HxS.pdb

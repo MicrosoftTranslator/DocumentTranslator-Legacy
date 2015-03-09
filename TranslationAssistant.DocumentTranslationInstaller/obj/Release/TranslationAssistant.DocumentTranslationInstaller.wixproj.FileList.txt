@@ -2,6 +2,8 @@ D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\Transla
 D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.DocumentTranslationInstaller\bin\Release\DocumentTranslationAssistant.wixpdb
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.DocumentTranslationInstaller\bin\Release\MicrosoftTranslator.FileTranslator.msi
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.DocumentTranslationInstaller\bin\Release\MicrosoftTranslator.FileTranslator.wixpdb
+C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.DocumentTranslationInstaller\bin\Release\MicrosoftTranslator.FileTranslator.msi
+C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.DocumentTranslationInstaller\bin\Release\MicrosoftTranslator.FileTranslator.wixpdb
 obj\Release\Binaries.wixobj
 obj\Release\Product.wixobj
 obj\Release\TranslationAssistant.DocumentTranslationInstaller.wixproj.BindContentsFileListnull.txt

@@ -10,3 +10,9 @@ D:\Users\Chris\Documents\GitHub\Translator.Explorer\bin\Release\MTLWB.Common.pdb
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.Common\obj\Release\MTLWB.Common.csprojResolveAssemblyReference.cache
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.Common\obj\Release\MTLWB.Common.dll
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.Common\obj\Release\MTLWB.Common.pdb
+C:\Users\christw\Documents\GitHub\FileTranslator\bin\Release\MTLWB.Common.XML
+C:\Users\christw\Documents\GitHub\FileTranslator\bin\Release\MTLWB.Common.dll
+C:\Users\christw\Documents\GitHub\FileTranslator\bin\Release\MTLWB.Common.pdb
+C:\Users\christw\Documents\GitHub\FileTranslator\MTLWB.Common\obj\Release\MTLWB.Common.csprojResolveAssemblyReference.cache
+C:\Users\christw\Documents\GitHub\FileTranslator\MTLWB.Common\obj\Release\MTLWB.Common.dll
+C:\Users\christw\Documents\GitHub\FileTranslator\MTLWB.Common\obj\Release\MTLWB.Common.pdb

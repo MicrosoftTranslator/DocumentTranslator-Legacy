@@ -56,7 +56,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/TranslationAssistant.DocumentTranslationInterface;component/pages/settings.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/FileTranslator;component/pages/settings.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\Pages\Settings.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

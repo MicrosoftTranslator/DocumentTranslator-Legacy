@@ -7,3 +7,8 @@ D:\Users\Chris\Documents\GitHub\Translator.Explorer\bin\Release\MTLWB.HtmlParser
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\bin\Release\MTLWB.HtmlParser.pdb
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.HtmlParser\obj\Release\MTLWB.HtmlParser.dll
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.HtmlParser\obj\Release\MTLWB.HtmlParser.pdb
+C:\Users\christw\Documents\GitHub\FileTranslator\bin\Release\MTLWB.HtmlParser.dll
+C:\Users\christw\Documents\GitHub\FileTranslator\bin\Release\MTLWB.HtmlParser.pdb
+C:\Users\christw\Documents\GitHub\FileTranslator\MTLWB.HtmlParser\obj\Release\MTLWB.HtmlParser.csprojResolveAssemblyReference.cache
+C:\Users\christw\Documents\GitHub\FileTranslator\MTLWB.HtmlParser\obj\Release\MTLWB.HtmlParser.dll
+C:\Users\christw\Documents\GitHub\FileTranslator\MTLWB.HtmlParser\obj\Release\MTLWB.HtmlParser.pdb
