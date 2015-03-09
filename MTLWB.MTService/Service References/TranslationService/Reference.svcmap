@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="405412e8-cfc9-4e78-9ceb-ee5983b3772c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>true</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://api.microsofttranslator.com/v2/soap.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="Soap4.xsd" MetadataType="Schema" ID="8f4dd3fe-6811-4b96-83d9-1118d6a394ee" SourceId="1" SourceUrl="http://api.microsofttranslator.com/v2/Soap.svc?xsd=xsd0" />
+    <MetadataFile FileName="Soap41.xsd" MetadataType="Schema" ID="acda633f-efe4-49a3-b039-c7acae51b0e2" SourceId="1" SourceUrl="http://api.microsofttranslator.com/v2/Soap.svc?xsd=xsd3" />
+    <MetadataFile FileName="Soap42.xsd" MetadataType="Schema" ID="b87f89eb-8776-4bd7-ac58-6a9605e07d3b" SourceId="1" SourceUrl="http://api.microsofttranslator.com/v2/Soap.svc?xsd=xsd2" />
+    <MetadataFile FileName="Soap2.wsdl" MetadataType="Wsdl" ID="02716797-e466-4491-b5f2-83a76f97c775" SourceId="1" SourceUrl="http://api.microsofttranslator.com/v2/Soap.svc?wsdl=wsdl0" />
+    <MetadataFile FileName="Soap43.xsd" MetadataType="Schema" ID="932dd4bf-017e-4e9d-8059-12419be79022" SourceId="1" SourceUrl="http://api.microsofttranslator.com/v2/Soap.svc?xsd=xsd1" />
+    <MetadataFile FileName="Soap21.wsdl" MetadataType="Wsdl" ID="daa21324-2016-40f1-ac90-e995e7243cf9" SourceId="1" SourceUrl="http://api.microsofttranslator.com/v2/soap.svc" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

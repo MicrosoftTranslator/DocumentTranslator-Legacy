@@ -1,0 +1,4 @@
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.AutomationToolkit.BasePlugin\bin\Debug\TranslationAssistant.AutomationToolkit.BasePlugin.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.AutomationToolkit.BasePlugin\bin\Debug\TranslationAssistant.AutomationToolkit.BasePlugin.pdb
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.AutomationToolkit.BasePlugin\obj\Debug\TranslationAssistant.AutomationToolkit.BasePlugin.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.AutomationToolkit.BasePlugin\obj\Debug\TranslationAssistant.AutomationToolkit.BasePlugin.pdb

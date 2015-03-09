@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Fragment>
+    <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
+      <Component Id="Binaries" Guid="{FA17B933-76C4-4E7D-AA08-5C4E7B003842}">
+
+        <File Id="TranslationAssistant.AutomationToolkit" Source="$(var.TranslationAssistant.AutomationToolkit.TargetPath)" DiskId="1" KeyPath="no" />
+        <File Id="TranslationAssistant.AutomationToolkit.BasePlugin" Source="$(var.TranslationAssistant.AutomationToolkit.BasePlugin.TargetPath)" DiskId="1" KeyPath="no" />
+        <File Id="TranslationAssistant.AutomationToolkit.TranslationPlugins" Source="$(var.TranslationAssistant.AutomationToolkit.TranslationPlugins.TargetPath)" DiskId="1" KeyPath="no" />
+        
+        <File Id="TranslationAssistant.Business" Source="$(var.TranslationAssistant.Business.TargetPath)" DiskId="1" KeyPath="no" />
+        <File Id="TranslationAssistant.DocumentTranslationInterface" Source="$(var.FileTranslator.TargetPath)" DiskId="1" KeyPath="no" />
+        <File Id="TranslationServices.Core" Source="$(var.TranslationServices.Core.TargetPath)" DiskId="1" KeyPath="no" />
+        <File Id="FileTranslator.config" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInterface\FileTranslator.config" Name="FileTranslator.config" DiskId="1" KeyPath="yes" />
+        
+        <File Id="System.Windows.Interactivity" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\System.Windows.Interactivity.dll" DiskId="1" KeyPath="no" />
+        <File Id="Microsoft.Practices.Prism" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Practices.Prism.dll" DiskId="1" KeyPath="no" />
+        
+        <File Id="DocumentFormat.OpenXml" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\DocumentFormat.OpenXml.dll" DiskId="1" KeyPath="no" />
+        
+        <File Id="FirstFloor.ModernUI" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\FirstFloor.ModernUI.dll" DiskId="1" KeyPath="no" />
+        <File Id="Microsoft.Windows.Shell" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Windows.Shell.dll" DiskId="1" KeyPath="no" />
+        <File Id="MSTicon_200_wbg.ico" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\MSTicon_200_wbg.ico" DiskId="1" KeyPath="no"/>
+        
+      </Component>
+    </DirectoryRef>
+
+    <Icon Id="MSTicon_200_wbg.ico" SourceFile="MSTicon_200_wbg.ico" />
+    
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="ApplicationShortcut" Guid="{42850908-AF5D-43EC-A8FA-2038E139C762}">
+        <Shortcut Id="ApplicationStartMenuShortcut" Icon="MSTicon_200_wbg.ico"
+                  Name="Microsoft Translator File Translator" Description="Microsoft Translator File Translator" Target="[APPLICATIONROOTDIRECTORY]FileTranslator.exe"
+                  WorkingDirectory="APPLICATIONROOTDIRECTORY" />
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\Translator\FileTranslator" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+  </Fragment>
+</Wix>

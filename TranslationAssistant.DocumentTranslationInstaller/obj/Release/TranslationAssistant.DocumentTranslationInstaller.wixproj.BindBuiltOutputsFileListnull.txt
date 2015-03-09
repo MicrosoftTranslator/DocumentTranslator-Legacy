@@ -1,0 +1,2 @@
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.DocumentTranslationInstaller\bin\Release\MicrosoftTranslator.FileTranslator.msi
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.DocumentTranslationInstaller\bin\Release\MicrosoftTranslator.FileTranslator.wixpdb

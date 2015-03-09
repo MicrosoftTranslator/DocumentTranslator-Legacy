@@ -1,0 +1,5 @@
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Release\HtmlAgilityPack.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.HtmlAgilityPack\obj\Release\MTLWB.HtmlAgilityPack.csprojResolveAssemblyReference.cache
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.HtmlAgilityPack\obj\Release\HtmlAgilityPack.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\bin\Release\HtmlAgilityPack.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.HtmlAgilityPack\obj\Release\HtmlAgilityPack.dll

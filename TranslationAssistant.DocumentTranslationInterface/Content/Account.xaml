@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="TranslationAssistant.DocumentTranslationInterface.Content.Account"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:viewModel="clr-namespace:TranslationAssistant.DocumentTranslationInterface.ViewModel"
+             mc:Ignorable="d"
+             d:DesignHeight="342" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <viewModel:AccountViewModel/>
+    </UserControl.DataContext>
+    <Grid>
+        <ScrollViewer Margin="0,0,0,0">
+            <StackPanel x:Name="Panel" MinWidth="200">
+                <TextBlock Text="Account" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
+
+                <TextBlock Height="20" />
+                <TextBlock TextWrapping="Wrap" Text="Please obtain a client ID and client secret from https://datamarket.azure.com/developer/applications/. " />
+                <TextBlock TextWrapping="Wrap" Text="Optionally you may enter a category identifier to use a customized machine translation system. Copy the category ID from the projects page on https://hub.microsofttranslator.com." />
+                <TextBlock Height="20" />
+                
+                <Grid HorizontalAlignment="Left">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition MinWidth="120" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Client ID:" VerticalAlignment="Center" Margin="0,0,16,4" />
+                    <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,4" Text="{Binding ClientID, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Client Secret:" VerticalAlignment="Center" Margin="0,0,16,4"  />
+                    <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,4"  Text="{Binding ClientSecret, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Category:" VerticalAlignment="Center" Margin="0,0,16,4"  />
+                    <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="0,0,0,4"  Text="{Binding CategoryID, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Button Grid.Row="4" Grid.Column="1" Content="Save" Width="80" Margin="100,70,0,0">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseUp">
+                                <i:InvokeCommandAction
+                                        Command="{Binding SaveAccountSettingsClickCommand}" />
+
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <!--<TextBlock Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" Text="{Binding StatusText}"></TextBlock>-->
+                </Grid>
+
+                <StackPanel VerticalAlignment="Bottom" Background="White" Margin="100,100,0,0">
+                    <StatusBar Background="{x:Null}">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding StatusText}" />
+                    </StatusBar>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,7 @@
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.DocumentTranslationInstaller\bin\Debug\DocumentTranslationAssistant.msi
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.DocumentTranslationInstaller\bin\Debug\DocumentTranslationAssistant.wixpdb
+obj\Debug\Binaries.wixobj
+obj\Debug\Product.wixobj
+obj\Debug\TranslationAssistant.DocumentTranslationInstaller.wixproj.BindContentsFileListnull.txt
+obj\Debug\TranslationAssistant.DocumentTranslationInstaller.wixproj.BindOutputsFileListnull.txt
+obj\Debug\TranslationAssistant.DocumentTranslationInstaller.wixproj.BindBuiltOutputsFileListnull.txt

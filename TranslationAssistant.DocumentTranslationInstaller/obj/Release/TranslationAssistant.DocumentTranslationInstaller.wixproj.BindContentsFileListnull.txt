@@ -1,0 +1,13 @@
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\\TranslationAssistant.DocumentTranslationInstaller\Dlls\DocumentFormat.OpenXml.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\\TranslationAssistant.DocumentTranslationInterface\FileTranslator.config
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\\TranslationAssistant.DocumentTranslationInstaller\Dlls\FirstFloor.ModernUI.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Practices.Prism.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Windows.Shell.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\\TranslationAssistant.DocumentTranslationInstaller\MSTicon_200_wbg.ico
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\\TranslationAssistant.DocumentTranslationInstaller\Dlls\System.Windows.Interactivity.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.AutomationToolkit\bin\Release\TranslationAssistant.AutomationToolkit.exe
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.AutomationToolkit.BasePlugin\bin\Release\TranslationAssistant.AutomationToolkit.BasePlugin.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.AutomationToolkit.TranslationPlugins\bin\Release\TranslationAssistant.AutomationToolkit.TranslationPlugins.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.Business\bin\Release\TranslationAssistant.Business.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.DocumentTranslationInterface\bin\Release\TranslationAssistant.DocumentTranslationInterface.exe
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationServices.Core\bin\Release\Tools.TranslationAssistant.TranslationServices.Core.dll

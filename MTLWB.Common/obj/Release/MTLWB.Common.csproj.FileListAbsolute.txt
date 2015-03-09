@@ -1,0 +1,12 @@
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Release\MTLWB.Common.XML
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Release\MTLWB.Common.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Release\MTLWB.Common.pdb
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.Common\obj\Release\MTLWB.Common.csprojResolveAssemblyReference.cache
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.Common\obj\Release\MTLWB.Common.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.Common\obj\Release\MTLWB.Common.pdb
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\bin\Release\MTLWB.Common.XML
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\bin\Release\MTLWB.Common.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\bin\Release\MTLWB.Common.pdb
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.Common\obj\Release\MTLWB.Common.csprojResolveAssemblyReference.cache
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.Common\obj\Release\MTLWB.Common.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.Common\obj\Release\MTLWB.Common.pdb

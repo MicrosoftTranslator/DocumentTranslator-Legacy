@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="TranslationAssistant.DocumentTranslationInterface.Pages.Home"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+    <Grid Style="{StaticResource ContentRoot}">
+        <ScrollViewer>
+            <StackPanel MinWidth="200">
+                <TextBlock Text="Microsoft Translator Explorer." Style="{StaticResource Heading1}" />
+                <TextBlock Height="30" />
+                <Grid HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition MinWidth="120" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <Image Width="100" Grid.Row="0" Grid.Column="0" Source="..\Images\MSTicon_flat_200x200_wbg.png" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="  " Style="{StaticResource Heading2}" VerticalAlignment="Center"/>
+                    <Image Width="200"  Grid.Row="0" Grid.Column="2" Source="..\Images\MSTLogoBlack250.png" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">            
+                        <Hyperlink NavigateUri="http://www.microsoft.com/translator" RequestNavigate="Hyperlink_OnRequestNavigate">
+                         http://www.microsoft.com/translator
+                        </Hyperlink>             
+                    </TextBlock>
+                    
+                    <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">            
+                        <Hyperlink TextDecorations="None"  NavigateUri="http://www.facebook.com/BingTranslator" RequestNavigate="Hyperlink_OnRequestNavigate">
+                            <Image Width="20" Source="../Images/FB-f-Logo__blue_50.png" Margin="5"   />
+                        </Hyperlink>
+                        <Hyperlink TextDecorations="None"  NavigateUri="http://www.twitter.com/mstranslator" RequestNavigate="Hyperlink_OnRequestNavigate">
+                            <Image Width="20" Source="../Images/Twitter_logo_blue.png" Margin="5"   />
+                        </Hyperlink>
+                    </TextBlock>
+
+                </Grid>
+
+                <TextBlock Height="30" />
+
+                <StackPanel>
+                    <BulletDecorator Height="22" VerticalAlignment="Top">
+                        <TextBlock Text="Batch translation of Office documents. (Word/Excel/Powerpoint)." Width="3148" />
+                    </BulletDecorator>
+
+                    <BulletDecorator Height="22" VerticalAlignment="Top">
+                        <TextBlock Text="Coming soon: Batch translation of HTML documents." Width="3148" />
+                    </BulletDecorator>
+
+                    <BulletDecorator Height="22" VerticalAlignment="Top">
+                        <TextBlock Text="PDFs will be saved as Word documents. Requires Office 2013 installed on this PC." Width="3148" />
+                    </BulletDecorator>
+
+                    <BulletDecorator Height="22" VerticalAlignment="Top">
+                        <TextBlock Text="Auto-detects source language. " Width="3148" />
+                    </BulletDecorator>
+
+                    <BulletDecorator Height="22" VerticalAlignment="Top">
+                        <TextBlock Text="Translate from any source to any target language" Width="3148" />
+                    </BulletDecorator>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

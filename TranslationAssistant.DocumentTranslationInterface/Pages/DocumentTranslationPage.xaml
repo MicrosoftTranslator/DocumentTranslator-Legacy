@@ -1,0 +1,293 @@
+﻿<UserControl x:Class="TranslationAssistant.DocumentTranslationInterface.Pages.DocumentTranslationPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:converters="clr-namespace:TranslationAssistant.DocumentTranslationInterface.Converters"
+             xmlns:viewModel="clr-namespace:TranslationAssistant.DocumentTranslationInterface.ViewModel"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <viewModel:DocumentTranslation />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="GhostWhite" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Blue" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="PerformanceProgressBar" TargetType="ProgressBar">
+            <Setter Property="Foreground" Value="LightBlue" />
+            <Setter Property="Background" Value="LightBlue" />
+            <Setter Property="Maximum" Value="100" />
+            <Setter Property="IsHitTestVisible" Value="False" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ProgressBar">
+                        <mui:RelativeAnimatingContentControl HorizontalContentAlignment="Stretch"
+                                                             VerticalContentAlignment="Stretch">
+                            <mui:RelativeAnimatingContentControl.Resources>
+                                <ExponentialEase EasingMode="EaseOut" Exponent="1" x:Key="ProgressBarEaseOut" />
+                                <ExponentialEase EasingMode="EaseIn" Exponent="1" x:Key="ProgressBarEaseIn" />
+                            </mui:RelativeAnimatingContentControl.Resources>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Determinate" />
+                                    <VisualState x:Name="Indeterminate">
+                                        <Storyboard RepeatBehavior="Forever" Duration="00:00:04.4">
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility"
+                                                                           Storyboard.TargetName="IndeterminateRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility"
+                                                                           Storyboard.TargetName="DeterminateRoot">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.0"
+                                                                           Storyboard.TargetProperty="X"
+                                                                           Storyboard.TargetName="R1TT">
+                                                <LinearDoubleKeyFrame KeyTime="00:00:00.0" Value="0.1" />
+                                                <EasingDoubleKeyFrame KeyTime="00:00:00.5" Value="33.1"
+                                                                      EasingFunction="{StaticResource ProgressBarEaseOut}" />
+                                                <LinearDoubleKeyFrame KeyTime="00:00:02.0" Value="66.1" />
+                                                <EasingDoubleKeyFrame KeyTime="00:00:02.5" Value="100.1"
+                                                                      EasingFunction="{StaticResource ProgressBarEaseIn}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.2"
+                                                                           Storyboard.TargetProperty="X"
+                                                                           Storyboard.TargetName="R2TT">
+                                                <LinearDoubleKeyFrame KeyTime="00:00:00.0" Value="0.1" />
+                                                <EasingDoubleKeyFrame KeyTime="00:00:00.5" Value="33.1"
+                                                                      EasingFunction="{StaticResource ProgressBarEaseOut}" />
+                                                <LinearDoubleKeyFrame KeyTime="00:00:02.0" Value="66.1" />
+                                                <EasingDoubleKeyFrame KeyTime="00:00:02.5" Value="100.1"
+                                                                      EasingFunction="{StaticResource ProgressBarEaseIn}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.4"
+                                                                           Storyboard.TargetProperty="X"
+                                                                           Storyboard.TargetName="R3TT">
+                                                <LinearDoubleKeyFrame KeyTime="00:00:00.0" Value="0.1" />
+                                                <EasingDoubleKeyFrame KeyTime="00:00:00.5" Value="33.1"
+                                                                      EasingFunction="{StaticResource ProgressBarEaseOut}" />
+                                                <LinearDoubleKeyFrame KeyTime="00:00:02.0" Value="66.1" />
+                                                <EasingDoubleKeyFrame KeyTime="00:00:02.5" Value="100.1"
+                                                                      EasingFunction="{StaticResource ProgressBarEaseIn}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.6"
+                                                                           Storyboard.TargetProperty="X"
+                                                                           Storyboard.TargetName="R4TT">
+                                                <LinearDoubleKeyFrame KeyTime="00:00:00.0" Value="0.1" />
+                                                <EasingDoubleKeyFrame KeyTime="00:00:00.5" Value="33.1"
+                                                                      EasingFunction="{StaticResource ProgressBarEaseOut}" />
+                                                <LinearDoubleKeyFrame KeyTime="00:00:02.0" Value="66.1" />
+                                                <EasingDoubleKeyFrame KeyTime="00:00:02.5" Value="100.1"
+                                                                      EasingFunction="{StaticResource ProgressBarEaseIn}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.8"
+                                                                           Storyboard.TargetProperty="X"
+                                                                           Storyboard.TargetName="R5TT">
+                                                <LinearDoubleKeyFrame KeyTime="00:00:00.0" Value="0.1" />
+                                                <EasingDoubleKeyFrame KeyTime="00:00:00.5" Value="33.1"
+                                                                      EasingFunction="{StaticResource ProgressBarEaseOut}" />
+                                                <LinearDoubleKeyFrame KeyTime="00:00:02.0" Value="66.1" />
+                                                <EasingDoubleKeyFrame KeyTime="00:00:02.5" Value="100.1"
+                                                                      EasingFunction="{StaticResource ProgressBarEaseIn}" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.0"
+                                                                           Storyboard.TargetProperty="Opacity"
+                                                                           Storyboard.TargetName="R1">
+                                                <DiscreteDoubleKeyFrame KeyTime="0" Value="1" />
+                                                <DiscreteDoubleKeyFrame KeyTime="00:00:02.5" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.2"
+                                                                           Storyboard.TargetProperty="Opacity"
+                                                                           Storyboard.TargetName="R2">
+                                                <DiscreteDoubleKeyFrame KeyTime="0" Value="1" />
+                                                <DiscreteDoubleKeyFrame KeyTime="00:00:02.5" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.4"
+                                                                           Storyboard.TargetProperty="Opacity"
+                                                                           Storyboard.TargetName="R3">
+                                                <DiscreteDoubleKeyFrame KeyTime="0" Value="1" />
+                                                <DiscreteDoubleKeyFrame KeyTime="00:00:02.5" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.6"
+                                                                           Storyboard.TargetProperty="Opacity"
+                                                                           Storyboard.TargetName="R4">
+                                                <DiscreteDoubleKeyFrame KeyTime="0" Value="1" />
+                                                <DiscreteDoubleKeyFrame KeyTime="00:00:02.5" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.8"
+                                                                           Storyboard.TargetProperty="Opacity"
+                                                                           Storyboard.TargetName="R5">
+                                                <DiscreteDoubleKeyFrame KeyTime="0" Value="1" />
+                                                <DiscreteDoubleKeyFrame KeyTime="00:00:02.5" Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid>
+                                <Grid x:Name="DeterminateRoot" Margin="{TemplateBinding Padding}" Visibility="Visible">
+                                    <Rectangle x:Name="ProgressBarTrack" Fill="{TemplateBinding Background}" Height="4"
+                                               Opacity="0.1" />
+                                    <Rectangle x:Name="ProgressBarIndicator" Fill="{TemplateBinding Foreground}"
+                                               HorizontalAlignment="Left" Height="4" />
+                                </Grid>
+                                <Border x:Name="IndeterminateRoot" Margin="{TemplateBinding Padding}"
+                                        Visibility="Collapsed">
+                                    <Grid HorizontalAlignment="Left">
+                                        <Rectangle Fill="{TemplateBinding Foreground}" Height="4"
+                                                   IsHitTestVisible="False" Width="4" x:Name="R1" Opacity="0">
+                                            <Rectangle.RenderTransform>
+                                                <TranslateTransform x:Name="R1TT" />
+                                            </Rectangle.RenderTransform>
+                                        </Rectangle>
+                                        <Rectangle Fill="{TemplateBinding Foreground}" Height="4"
+                                                   IsHitTestVisible="False" Width="4" x:Name="R2" Opacity="0">
+                                            <Rectangle.RenderTransform>
+                                                <TranslateTransform x:Name="R2TT" />
+                                            </Rectangle.RenderTransform>
+                                        </Rectangle>
+                                        <Rectangle Fill="{TemplateBinding Foreground}" Height="4"
+                                                   IsHitTestVisible="False" Width="4" x:Name="R3" Opacity="0">
+                                            <Rectangle.RenderTransform>
+                                                <TranslateTransform x:Name="R3TT" />
+                                            </Rectangle.RenderTransform>
+                                        </Rectangle>
+                                        <Rectangle Fill="{TemplateBinding Foreground}" Height="4"
+                                                   IsHitTestVisible="False" Width="4" x:Name="R4" Opacity="0">
+                                            <Rectangle.RenderTransform>
+                                                <TranslateTransform x:Name="R4TT" />
+                                            </Rectangle.RenderTransform>
+                                        </Rectangle>
+                                        <Rectangle Fill="{TemplateBinding Foreground}" Height="4"
+                                                   IsHitTestVisible="False" Width="4" x:Name="R5" Opacity="0">
+                                            <Rectangle.RenderTransform>
+                                                <TranslateTransform x:Name="R5TT" />
+                                            </Rectangle.RenderTransform>
+                                        </Rectangle>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </mui:RelativeAnimatingContentControl>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <ScrollViewer>
+            <StackPanel Orientation="Vertical" Width="600" Height="450">
+
+                <TextBlock Height="30" />
+                <TextBlock Text="Translate documents:" Style="{StaticResource Heading2}" HorizontalAlignment="Left" Margin="0,0,0,0" />
+                <TextBlock Height="40" />
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="15" />
+                        <RowDefinition />
+                        <RowDefinition Height="15" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Path" Width="Auto" />
+
+                    <Grid Grid.Row="0" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ListBox Grid.Column="0" Grid.Row="0" Name="Files" Height="110" Width="400" BorderThickness="10" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ItemsSource="{Binding InputFilePaths,UpdateSourceTrigger=PropertyChanged}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Grid.Column="1" Content="Browse" Width="80" Margin="10,0,0,0">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="PreviewMouseUp">
+                                    <i:InvokeCommandAction
+                                        Command="{Binding InputFilePathBrowseClickCommand}" />
+
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </Grid>
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Source Language" Width="Auto" />
+                    <ComboBox Grid.Column="1" Grid.Row="2" Width="300" AllowDrop="True" ItemsSource="{Binding SourceLanguageList,UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" SelectedItem="{Binding SelectedSourceLanguage}" />
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="Target Language" Width="Auto" />
+                    <ComboBox Grid.Column="1" Grid.Row="4" Width="300" AllowDrop="True" ItemsSource="{Binding TargetLanguageList,UpdateSourceTrigger=PropertyChanged}" SelectedIndex="8" SelectedItem="{Binding SelectedTargetLanguage}" />
+                </Grid>
+                <TextBlock Height="50" />
+                <StackPanel Margin="0,0,10,0">
+                    <Button Content="Go" Width="150" Height="30" HorizontalAlignment="Right"
+                            IsEnabled="{Binding IsGoButtonEnabled}"
+                            VerticalAlignment="Bottom" Margin="0,0,0,10">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseUp">
+                                <i:InvokeCommandAction
+                                    Command="{Binding GoButtonClickCommand}" />
+
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+
+                    <TextBlock Height="5" />
+
+                    <StackPanel VerticalAlignment="Bottom" Background="White" Margin="70,0,0,0">
+                        <StatusBar Background="{x:Null}">
+                            <TextBlock TextWrapping="Wrap" Text="{Binding StatusText}" />
+                        </StatusBar>
+                    </StackPanel>
+
+                    <TextBlock Margin="70,0,0,0">
+                        <Hyperlink NavigateUri="{Binding TargetFolder}" IsEnabled="{Binding IsNavigateToTargetFolderEnabled}">
+                            Click here to navigate to target folder.
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="RequestNavigate">
+                                    <i:InvokeCommandAction Command="{Binding TargetFolderNavigateClickCommand}" />
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Hyperlink>
+                    </TextBlock>
+
+                    <ProgressBar IsIndeterminate="True" Style="{StaticResource PerformanceProgressBar}" Grid.Row="5"
+                                 RenderTransformOrigin="0.5,0.5" Margin="0,10,0,0"
+                                 Visibility="{Binding ShowProgressBar,Converter={StaticResource BoolToVisibility}}">
+                        <ProgressBar.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform />
+                                <RotateTransform Angle="0.196" />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </ProgressBar.RenderTransform>
+                    </ProgressBar>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

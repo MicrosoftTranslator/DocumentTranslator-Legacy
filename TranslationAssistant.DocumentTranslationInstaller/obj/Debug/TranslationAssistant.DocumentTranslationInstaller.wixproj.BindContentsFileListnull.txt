@@ -1,0 +1,13 @@
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\\TranslationAssistant.DocumentTranslationInterface\Assistant.config
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\\TranslationAssistant.DocumentTranslationInstaller\Dlls\DocumentFormat.OpenXml.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\\TranslationAssistant.DocumentTranslationInstaller\Dlls\FirstFloor.ModernUI.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Practices.Prism.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Windows.Shell.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\\TranslationAssistant.DocumentTranslationInstaller\MSTicon_200_wbg.ico
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\\TranslationAssistant.DocumentTranslationInstaller\Dlls\System.Windows.Interactivity.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.AutomationToolkit\bin\Debug\TranslationAssistant.AutomationToolkit.exe
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.AutomationToolkit.BasePlugin\bin\Debug\TranslationAssistant.AutomationToolkit.BasePlugin.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.AutomationToolkit.TranslationPlugins\bin\Debug\TranslationAssistant.AutomationToolkit.TranslationPlugins.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.Business\bin\Debug\TranslationAssistant.Business.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.DocumentTranslationInterface\bin\Debug\TranslationAssistant.DocumentTranslationInterface.exe
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationServices.Core\bin\Debug\Tools.TranslationAssistant.TranslationServices.Core.dll

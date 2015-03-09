@@ -1,0 +1,5 @@
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationServices.Core\bin\Debug\Tools.TranslationAssistant.TranslationServices.Core.dll.config
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationServices.Core\bin\Debug\Tools.TranslationAssistant.TranslationServices.Core.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationServices.Core\bin\Debug\Tools.TranslationAssistant.TranslationServices.Core.pdb
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationServices.Core\obj\Debug\Tools.TranslationAssistant.TranslationServices.Core.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationServices.Core\obj\Debug\Tools.TranslationAssistant.TranslationServices.Core.pdb

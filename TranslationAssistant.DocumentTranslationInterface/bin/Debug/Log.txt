@@ -1,0 +1,16 @@
+2/14/2015 12:19:11 PM : D:\TestDocuments\Test1htm.German.docx:File contains corrupted data.   at MS.Internal.IO.Zip.ZipIOEndOfCentralDirectoryBlock.FindPosition(Stream archiveStream)
+   at MS.Internal.IO.Zip.ZipIOEndOfCentralDirectoryBlock.SeekableLoad(ZipIOBlockManager blockManager)
+   at MS.Internal.IO.Zip.ZipArchive..ctor(Stream archiveStream, FileMode mode, FileAccess access, Boolean streaming, Boolean ownStream)
+   at MS.Internal.IO.Zip.ZipArchive.OpenOnFile(String path, FileMode mode, FileAccess access, FileShare share, Boolean streaming)
+   at System.IO.Packaging.ZipPackage..ctor(String path, FileMode mode, FileAccess access, FileShare share, Boolean streaming)
+   at System.IO.Packaging.Package.Open(String path, FileMode packageMode, FileAccess packageAccess, FileShare packageShare, Boolean streaming)
+   at System.IO.Packaging.Package.Open(String path, FileMode packageMode, FileAccess packageAccess, FileShare packageShare)
+   at DocumentFormat.OpenXml.Packaging.OpenXmlPackage.OpenCore(String path, Boolean readWriteMode)
+   at DocumentFormat.OpenXml.Packaging.WordprocessingDocument.Open(String path, Boolean isEditable, OpenSettings openSettings)
+   at DocumentFormat.OpenXml.Packaging.WordprocessingDocument.Open(String path, Boolean isEditable)
+   at TranslationAssistant.Business.DocumentTranslationManager.ProcessWordDocument(String outputDocumentFullName, String sourceLanguage, String targetLanguage) in d:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.Business\DocumentTranslationManager.cs:line 686
+   at TranslationAssistant.Business.DocumentTranslationManager.DoTranslationInternal(String fullNameForDocumentToProcess, String sourceLanguage, String targetLangauge) in d:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.Business\DocumentTranslationManager.cs:line 281
+3/1/2015 3:49:38 PM : 3/1/2015 3:49:38 PM : Converting the document from doc or pdf to docx.
+3/1/2015 3:49:51 PM : 3/1/2015 3:49:51 PM : Converted the document from doc or pdf to docx.
+3/1/2015 3:50:26 PM : 3/1/2015 3:50:26 PM : Converting the document from doc or pdf to docx.
+3/1/2015 3:50:30 PM : 3/1/2015 3:50:30 PM : Converted the document from doc or pdf to docx.

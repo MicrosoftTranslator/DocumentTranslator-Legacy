@@ -1,0 +1,10 @@
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.AutomationToolkit.BasePlugin\bin\Release\TranslationAssistant.AutomationToolkit.BasePlugin.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.AutomationToolkit.BasePlugin\bin\Release\TranslationAssistant.AutomationToolkit.BasePlugin.pdb
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.AutomationToolkit.BasePlugin\obj\Release\TranslationAssistant.AutomationToolkit.BasePlugin.csprojResolveAssemblyReference.cache
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.AutomationToolkit.BasePlugin\obj\Release\TranslationAssistant.AutomationToolkit.BasePlugin.dll
+D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.AutomationToolkit.BasePlugin\obj\Release\TranslationAssistant.AutomationToolkit.BasePlugin.pdb
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.AutomationToolkit.BasePlugin\bin\Release\TranslationAssistant.AutomationToolkit.BasePlugin.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.AutomationToolkit.BasePlugin\bin\Release\TranslationAssistant.AutomationToolkit.BasePlugin.pdb
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.AutomationToolkit.BasePlugin\obj\Release\TranslationAssistant.AutomationToolkit.BasePlugin.csprojResolveAssemblyReference.cache
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.AutomationToolkit.BasePlugin\obj\Release\TranslationAssistant.AutomationToolkit.BasePlugin.dll
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.AutomationToolkit.BasePlugin\obj\Release\TranslationAssistant.AutomationToolkit.BasePlugin.pdb
