@@ -20,14 +20,3 @@ D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.Automat
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.AutomationToolkit.TranslationPlugins\obj\Release\TranslationAssistant.AutomationToolkit.TranslationPlugins.csprojResolveAssemblyReference.cache
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.AutomationToolkit.TranslationPlugins\obj\Release\TranslationAssistant.AutomationToolkit.TranslationPlugins.dll
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.AutomationToolkit.TranslationPlugins\obj\Release\TranslationAssistant.AutomationToolkit.TranslationPlugins.pdb
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.AutomationToolkit.TranslationPlugins\bin\Release\TranslationAssistant.AutomationToolkit.TranslationPlugins.dll
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.AutomationToolkit.TranslationPlugins\bin\Release\TranslationAssistant.AutomationToolkit.TranslationPlugins.pdb
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.AutomationToolkit.TranslationPlugins\bin\Release\Tools.TranslationAssistant.TranslationServices.Core.dll
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.AutomationToolkit.TranslationPlugins\bin\Release\TranslationAssistant.AutomationToolkit.BasePlugin.dll
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.AutomationToolkit.TranslationPlugins\bin\Release\TranslationAssistant.Business.dll
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.AutomationToolkit.TranslationPlugins\bin\Release\TranslationAssistant.AutomationToolkit.BasePlugin.pdb
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.AutomationToolkit.TranslationPlugins\bin\Release\TranslationAssistant.Business.pdb
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.AutomationToolkit.TranslationPlugins\bin\Release\Tools.TranslationAssistant.TranslationServices.Core.pdb
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.AutomationToolkit.TranslationPlugins\obj\Release\TranslationAssistant.AutomationToolkit.TranslationPlugins.csprojResolveAssemblyReference.cache
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.AutomationToolkit.TranslationPlugins\obj\Release\TranslationAssistant.AutomationToolkit.TranslationPlugins.dll
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.AutomationToolkit.TranslationPlugins\obj\Release\TranslationAssistant.AutomationToolkit.TranslationPlugins.pdb

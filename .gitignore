@@ -1,0 +1,4 @@
+*.cache
+TranslationAssistant.DocumentTranslationInterface/obj/Release/FileTranslator_Content.g.i.cs
+TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vshost.exe
+TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vshost.exe.manifest

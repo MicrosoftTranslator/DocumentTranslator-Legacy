@@ -20,14 +20,3 @@ D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.Busines
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.Business\obj\Release\TranslationAssistant.Business.csproj.ResolveComReference.cache
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.Business\obj\Release\TranslationAssistant.Business.dll
 D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.Business\obj\Release\TranslationAssistant.Business.pdb
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.Business\bin\Release\TranslationAssistant.Business.dll
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.Business\bin\Release\TranslationAssistant.Business.pdb
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.Business\bin\Release\DocumentFormat.OpenXml.dll
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.Business\bin\Release\Tools.TranslationAssistant.TranslationServices.Core.dll
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.Business\bin\Release\TranslationAssistant.AutomationToolkit.BasePlugin.dll
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.Business\bin\Release\TranslationAssistant.AutomationToolkit.BasePlugin.pdb
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.Business\bin\Release\Tools.TranslationAssistant.TranslationServices.Core.pdb
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.Business\obj\Release\TranslationAssistant.Business.csprojResolveAssemblyReference.cache
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.Business\obj\Release\TranslationAssistant.Business.csproj.ResolveComReference.cache
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.Business\obj\Release\TranslationAssistant.Business.dll
-C:\Users\christw\Documents\GitHub\FileTranslator\TranslationAssistant.Business\obj\Release\TranslationAssistant.Business.pdb
