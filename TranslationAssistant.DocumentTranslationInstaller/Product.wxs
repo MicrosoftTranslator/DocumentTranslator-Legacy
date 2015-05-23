@@ -10,7 +10,7 @@
   <?define ProductCode="{4C933C35-A46B-4675-A38F-5C0077AB58FE}"?>
   <?define PackageCode="{58B29304-9AF5-4864-8BB1-E10B0D6079F4}"?>
   <?define Manufacturer="Microsoft Corporation"?>
-  <?define ProductName="Microsoft Translator Document Translator"?>
+  <?define ProductName="Document Translator"?>
   <?define GroupName="Microsoft Translator"?>
 
 
@@ -24,7 +24,7 @@
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
     <!--<Property Id="REINSTALLMODE" Value="amus" />-->
-    <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." AllowDowngrades="no" />
+    <MajorUpgrade Schedule="afterInstallInitialize" AllowDowngrades="yes" />
 
     <Media Id="1" Cabinet="DocumentTranslator.cab" EmbedCab="yes" />
     <Property Id="ARPPRODUCTICON" Value="MSTicon_200wbg.ico" />
@@ -52,7 +52,7 @@
     </Feature>
 
     <UIRef Id="WixUI_Minimal" />
-    <WixVariable Id="WixUILicenseRtf" Value="EULA.rtf" />
+    <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
     <UIRef Id="WixUI_ErrorProgressText" />
   </Product>
 

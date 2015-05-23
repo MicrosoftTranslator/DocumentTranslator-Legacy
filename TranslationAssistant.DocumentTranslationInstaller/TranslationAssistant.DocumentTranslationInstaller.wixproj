@@ -42,7 +42,7 @@
     <Content Include="Dlls\Microsoft.Practices.Prism.dll" />
     <Content Include="Dlls\Microsoft.Windows.Shell.dll" />
     <Content Include="Dlls\System.Windows.Interactivity.dll" />
-    <Content Include="EULA.rtf" />
+    <Content Include="LICENSE.rtf" />
     <Content Include="MSTicon_200_wbg.ico" />
     <Content Include="MSTicon_200x200_wbackg.png" />
   </ItemGroup>
