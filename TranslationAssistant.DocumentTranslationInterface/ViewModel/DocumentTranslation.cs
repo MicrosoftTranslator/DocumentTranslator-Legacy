@@ -15,16 +15,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
 {
     #region
 
+    using Microsoft.Practices.Prism.Commands;
+    using Microsoft.Win32;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
+    using System;
     using System.IO;
     using System.Linq;
     using System.Windows.Input;
-
-    using Microsoft.Practices.Prism.Commands;
-    using Microsoft.Win32;
-
     using TranslationAssistant.Business;
     using TranslationAssistant.Business.Model;
     using TranslationAssistant.DocumentTranslationInterface.Common;
@@ -88,6 +87,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private ICommand targetFolderNavigateClickCommand;
 
         /// <summary>
+        /// Shows at top of page to indicate we are note ready to translate
+        /// </summary>
+        private string _ReadyToTranslateMessage;
+
+        /// <summary>
         ///     The target language list.
         /// </summary>
         private List<string> targetLanguageList = new List<string>();
@@ -107,7 +111,13 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             this.ShowProgressBar = false;
             this.IsGoButtonEnabled = false;
             this.TargetFolder = string.Empty;
+            this.SelectedSourceLanguage = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultSourceLanguage;
+            this.SelectedTargetLanguage = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultTargetLanguage;
             this.StatusText = "Please select file(s) to translate... ";
+            this.PopulateReadyToTranslateMessage(TranslationServiceFacade.IsTranslationServiceReady());
+
+            SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Unsubscribe(PopulateReadyToTranslateMessage);
+            SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Subscribe(PopulateReadyToTranslateMessage);
         }
 
         #endregion
@@ -128,6 +138,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                             this.IsGoButtonEnabled = false;
                             this.StatusText = "Started";
 
+
                             var worker = new BackgroundWorker();
                             var model = new CommentTranslationModel
                                             {
@@ -144,7 +155,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                                         this.TargetFolder = Path.GetDirectoryName(file);
                                         this.IsNavigateToTargetFolderEnabled = true;
                                         model.TargetPath = file;
-                                        this.StatusText = "Processing file: " + Path.GetFileName(model.TargetPath);
+                                        this.StatusText = "Translating document: " + Path.GetFileName(model.TargetPath);
                                         DocumentTranslationManager.DoTranslation(
                                             file,
                                             false,
@@ -157,17 +168,21 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                                 {
                                     if (e.Error != null)
                                     {
-                                        this.StatusText = "Error while processing file: " + model.TargetPath + " "
+                                        this.StatusText = "Error while processing document: " + model.TargetPath + " "
                                                           + e.Error.Message;
                                     }
                                     else
                                     {
-                                        this.StatusText = "Translation completed successfully.";
+                                        this.StatusText = "Translation completed successfully.\r\nThe translated documents contain the language identifier \"."+TranslationServiceFacade.LanguageNameToLanguageCode(this.SelectedTargetLanguage)+".\" in the file name.";
                                     }
 
                                     this.IsStarted = false;
                                     this.IsGoButtonEnabled = true;
                                     this.ShowProgressBar = false;
+                                    //Save the selected source and target languages for the next session;
+                                    TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultSourceLanguage = this.SelectedSourceLanguage;
+                                    TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultTargetLanguage = this.SelectedTargetLanguage;
+                                    TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.Save();
                                 };
                             worker.WorkerReportsProgress = false;
                             worker.RunWorkerAsync();
@@ -321,6 +336,16 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             }
         }
 
+        public string ReadyToTranslateMessage
+        {
+            get { return this._ReadyToTranslateMessage; }
+            set
+            {
+                this._ReadyToTranslateMessage = value;
+                this.NotifyPropertyChanged("ReadyToTranslateMessage");
+            }
+        }
+
         /// <summary>
         ///     Gets or sets the status text.
         /// </summary>
@@ -390,13 +415,14 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             var openfileDlg = new OpenFileDialog
                                   {
                                       Filter =
-                                          "Supported Files|*.doc; *.docx; *.pdf; *.xls; *.xlsx; *.ppt; *.pptx; *.htm; *.html",
+                                          "Supported Files|*.doc; *.docx; *.pdf; *.xls; *.xlsx; *.ppt; *.pptx",      //Add HTML and XLF file types here
                                       Multiselect = true
                                   };
             if (openfileDlg.ShowDialog().Value)
             {
                 this.InputFilePaths = openfileDlg.FileNames.ToList();
             }
+            this.StatusText = "";
         }
 
         private void NavigateToTargetFolderClick()
@@ -408,20 +434,47 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         }
 
         /// <summary>
-        ///     The pouplate available source languages.
+        ///     Populate available source languages.
         /// </summary>
         private void PopulateAvailableSourceLanguages()
         {
             this.SourceLanguageList.Add("Auto-Detect");
-            this.SourceLanguageList.AddRange(TranslationServiceFacade.AvailableLanguages.Values);
+            try
+            {
+                this.SourceLanguageList.AddRange(TranslationServiceFacade.AvailableLanguages.Values);
+            }
+            catch { };
         }
 
         /// <summary>
-        ///     The pouplate available target languages.
+        ///     Populate available target languages.
         /// </summary>
         private void PopulateAvailableTargetLanguages()
         {
-            this.TargetLanguageList.AddRange(TranslationServiceFacade.AvailableLanguages.Values);
+            try
+            {
+                this.TargetLanguageList.AddRange(TranslationServiceFacade.AvailableLanguages.Values);
+            }
+            catch { };
+        }
+
+        /// <summary>
+        /// Populate the Ready to Translate message at top of screen.
+        /// </summary>
+        private void PopulateReadyToTranslateMessage(bool successful)
+        {
+            //if (TranslationServiceFacade.IsTranslationServiceReady())
+            if (successful)
+            {
+                this.ReadyToTranslateMessage = "";
+                PopulateAvailableSourceLanguages();
+                PopulateAvailableTargetLanguages();
+            }
+            else
+            {
+                this.ReadyToTranslateMessage = "Invalid credentials.\r\nPlease visit the Settings page first to enter your Microsoft Translator credentials.";
+                this.NotifyPropertyChanged("Credentials");
+            }
         }
 
         #endregion

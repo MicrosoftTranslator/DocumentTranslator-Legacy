@@ -1,2 +1,0 @@
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.DocumentTranslationInstaller\bin\Debug\DocumentTranslationAssistant.msi
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.DocumentTranslationInstaller\bin\Debug\DocumentTranslationAssistant.wixpdb

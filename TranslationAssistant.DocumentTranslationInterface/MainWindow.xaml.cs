@@ -43,6 +43,8 @@ namespace TranslationAssistant.DocumentTranslationInterface
         public string ProjectToProcess { get; set; }
         public string SolutionToProcess { get; set; }
 
+        public bool IsTranslationServiceReady { get; set; }
+
         #endregion
     }
 }

@@ -90,6 +90,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
 
         #region Constructors and Destructors
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SettingsAppearanceViewModel()
         {
             // add the default themes

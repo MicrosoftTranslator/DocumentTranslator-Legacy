@@ -1,0 +1,10 @@
+﻿<?xml version="1.0"?>
+<manifest>
+  <assembly>
+    <name>Microsoft.Practices.Prism</name>
+    <version>4.1.0.0</version>
+    <publickeytoken>31bf3856ad364e35</publickeytoken>
+    <relpath>Microsoft.Practices.Prism.dll</relpath>
+    <extension downloadUri="Microsoft.Practices.Prism.zip" />
+  </assembly>
+</manifest>

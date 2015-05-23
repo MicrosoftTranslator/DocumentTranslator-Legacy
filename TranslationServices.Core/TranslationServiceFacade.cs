@@ -31,15 +31,54 @@ namespace TranslationAssistant.TranslationServices.Core
         
         public static Dictionary<string, string> AvailableLanguages = new Dictionary<string, string>();
 
+        private static string _CategoryID;
+        public static string CategoryID{
+            get { return _CategoryID; }
+            set { _CategoryID = value; }
+        }
+
+        private static string _ClientID;
+        public static string ClientID
+        {
+            get { return _ClientID; }
+            set { _ClientID = value; }
+        }
+
+        private static string _ClientSecret;
+        public static string ClientSecret
+        {
+            get { return _ClientSecret; }
+            set { _ClientSecret = value; }
+        }
+
+
         #endregion
 
         #region Public Methods and Operators
+
+        /// <summary>
+        /// Check if the Translation service is ready to use, with a valid client ID and secret
+        /// </summary>
+        /// <returns>true if ready, false if not</returns>
+        public static bool IsTranslationServiceReady()
+        {
+            Utils.ClientID = _ClientID;
+            Utils.ClientSecret = _ClientSecret;
+            try
+            {
+                string headerValue = "Bearer " + Utils.GetAccesToken();
+            }
+            catch { return false; }
+            return true;
+        }
+
 
         /// <summary>
         /// Call once to initialize the static variables
         /// </summary>
         public static void Initialize()
         {
+            if (!IsTranslationServiceReady()) return;
             var bind = new BasicHttpBinding { Name = "BasicHttpBinding_LanguageService" };
             var epa = new EndpointAddress("http://api.microsofttranslator.com/V2/soap.svc");
             LanguageServiceClient client = new LanguageServiceClient(bind, epa);
@@ -49,7 +88,10 @@ namespace TranslationAssistant.TranslationServices.Core
             string[] languagenames = client.GetLanguageNames(headerValue, "en", languages, false);
             for (int i = 0; i < languages.Length; i++)
             {
-                AvailableLanguages.Add(languages[i], languagenames[i]);
+                if (!AvailableLanguages.ContainsKey(languages[i]))
+                {
+                    AvailableLanguages.Add(languages[i], languagenames[i]);
+                }
             }
         }
 
@@ -78,7 +120,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
         /// <summary>
         /// Translates an array of strings from the from langauge code to the to language code.
-        /// From langauge code can stay empty, in that case the source langauge is auto-detected, across all elements of teh array together.
+        /// From langauge code can stay empty, in that case the source language is auto-detected, across all elements of the array together.
         /// </summary>
         /// <param name="texts">Array of strings to translate</param>
         /// <param name="from">From language code. May be empty</param>
@@ -100,6 +142,8 @@ namespace TranslationAssistant.TranslationServices.Core
 
             toCode = LanguageNameToLanguageCode(to);
 
+            Utils.ClientID = _ClientID;
+            Utils.ClientSecret = _ClientSecret;
             string headerValue = "Bearer " + Utils.GetAccesToken();
             var bind = new BasicHttpBinding
                            {
@@ -134,7 +178,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 }
 
                 TranslateOptions options = new TranslateOptions();
-                options.Category = SettingsManager.GetCategoryID();
+                options.Category = _CategoryID;
 
                 var translatedTexts = client.TranslateArray(
                     string.Empty,

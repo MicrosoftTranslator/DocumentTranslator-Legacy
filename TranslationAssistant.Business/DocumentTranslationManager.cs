@@ -13,7 +13,7 @@
 
 namespace TranslationAssistant.Business
 {
-    #region
+    #region Usings
 
     using System;
     using System.Collections.Concurrent;
@@ -42,6 +42,9 @@ namespace TranslationAssistant.Business
     /// </summary>
     public class DocumentTranslationManager
     {
+        #region Public Properties
+
+        #endregion
         #region Public Methods and Operators
 
         /// <summary>
@@ -53,11 +56,6 @@ namespace TranslationAssistant.Business
         /// <param name="targetLanguage">The target langauge.</param>
         public static void DoTranslation(string path, bool isDir, string sourceLanguage, string targetLanguage)
         {
-            if (string.IsNullOrEmpty(SettingsManager.GetClientId()) || string.IsNullOrEmpty(SettingsManager.GetClientSecret()))
-            {
-                throw new ArgumentException("Client ID and Client Secret are required for any translation. Please obtain yours from https://datamarket.azure.com/developer/applications/ and update application settings or configuration file.");
-            }
-
             GetAllDocumentsToProcess(path, targetLanguage)
                 .ForEach(t => DoTranslationInternal(t, sourceLanguage, targetLanguage));
         }
@@ -288,10 +286,10 @@ namespace TranslationAssistant.Business
                 {
                     ProcessPowerPointDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
                 }
-                else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".html") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".htm"))
-                {
-                    ProcessHTMLDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
-                }
+//                else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".html") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".htm"))
+//                {
+//                    ProcessHTMLDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+//                }
             }
             catch (AggregateException ae)
             {
@@ -354,11 +352,11 @@ namespace TranslationAssistant.Business
                 File.Copy(documentPath, outputDocumentName);
                 allFiles.Add(outputDocumentName);
             }
-            else if (documentPath.ToLowerInvariant().EndsWith(".htm") || documentPath.ToLowerInvariant().EndsWith(".html"))
-            {
-                File.Copy(documentPath, outputDocumentName);
-                allFiles.Add(outputDocumentName);
-            }
+//            else if (documentPath.ToLowerInvariant().EndsWith(".htm") || documentPath.ToLowerInvariant().EndsWith(".html"))
+//            {
+//                File.Copy(documentPath, outputDocumentName);
+//                allFiles.Add(outputDocumentName);
+//            }
 
             return allFiles;
         }

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.DocumentTranslationInterface\obj\Debug\
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.DocumentTranslationInterface\obj\Debug\
 TranslationAssistant.DocumentTranslationInterface
 none
 false
 DEBUG;TRACE
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\TranslationAssistant.DocumentTranslationInterface\App.xaml
+D:\Users\Chris\Documents\GitHub\Translator.Explorer\TranslationAssistant.DocumentTranslationInterface\App.xaml
 71476473616
 3969799174
-19-1323534202
-18441826139
+22655678297
+181083656764
 Content\Account.xaml;MainWindow.xaml;Content\About.xaml;Content\SettingsAppearance.xaml;Pages\Home.xaml;Pages\DocumentTranslationPage.xaml;Pages\Settings.xaml;
 
-True
+False
 

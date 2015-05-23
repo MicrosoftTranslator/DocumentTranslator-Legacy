@@ -8,7 +8,8 @@
     <Grid>
         <ScrollViewer>
             <StackPanel MinWidth="200">
-                <TextBlock Text="Microsoft Translator Assistant" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading2}" />
+                <TextBlock Text="Microsoft Translator" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading1}" />
+                <TextBlock Text="Document Translator" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading2}" />
                 <TextBlock Text="Version 2.1" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading2}" />
                 <TextBlock Text="Microsoft Corporation" Style="{StaticResource Heading2}" />
 

@@ -11,9 +11,8 @@
         <File Id="TranslationAssistant.AutomationToolkit.TranslationPlugins" Source="$(var.TranslationAssistant.AutomationToolkit.TranslationPlugins.TargetPath)" DiskId="1" KeyPath="no" />
         
         <File Id="TranslationAssistant.Business" Source="$(var.TranslationAssistant.Business.TargetPath)" DiskId="1" KeyPath="no" />
-        <File Id="FileTranslator" Source="$(var.FileTranslator.TargetPath)" DiskId="1" KeyPath="no" />
+        <File Id="TranslationAssistant.DocumentTranslationInterface" Source="$(var.DocumentTranslator.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="TranslationServices.Core" Source="$(var.TranslationServices.Core.TargetPath)" DiskId="1" KeyPath="no" />
-        <File Id="FileTranslator.config" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInterface\FileTranslator.config" Name="FileTranslator.config" DiskId="1" KeyPath="yes" />
         
         <File Id="System.Windows.Interactivity" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\System.Windows.Interactivity.dll" DiskId="1" KeyPath="no" />
         <File Id="Microsoft.Practices.Prism" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Practices.Prism.dll" DiskId="1" KeyPath="no" />
@@ -32,10 +31,10 @@
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="{42850908-AF5D-43EC-A8FA-2038E139C762}">
         <Shortcut Id="ApplicationStartMenuShortcut" Icon="MSTicon_200_wbg.ico"
-                  Name="Microsoft Translator File Translator" Description="Microsoft Translator File Translator" Target="[APPLICATIONROOTDIRECTORY]FileTranslator.exe"
+                  Name="Document Translator" Description="Microsoft Translator Document Translator" Target="[APPLICATIONROOTDIRECTORY]DocumentTranslator.exe"
                   WorkingDirectory="APPLICATIONROOTDIRECTORY" />
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
-        <RegistryValue Root="HKCU" Key="Software\Microsoft\Translator\FileTranslator" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\Translator\DocumentTranslator" Name="installed" Type="integer" Value="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 

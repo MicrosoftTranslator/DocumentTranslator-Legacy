@@ -1,7 +1,0 @@
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Debug\MTMarkup.config
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Debug\Settings.ini
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Debug\MTLWB.HxS.dll
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Debug\MTLWB.HxS.pdb
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.HxS\obj\Debug\MTLWB.HxS.csprojResolveAssemblyReference.cache
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.HxS\obj\Debug\MTLWB.HxS.dll
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.HxS\obj\Debug\MTLWB.HxS.pdb

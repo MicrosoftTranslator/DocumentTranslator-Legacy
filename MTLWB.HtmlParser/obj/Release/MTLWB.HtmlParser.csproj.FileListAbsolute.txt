@@ -1,9 +1,0 @@
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Release\MTLWB.HtmlParser.dll
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Release\MTLWB.HtmlParser.pdb
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.HtmlParser\obj\Release\MTLWB.HtmlParser.csprojResolveAssemblyReference.cache
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.HtmlParser\obj\Release\MTLWB.HtmlParser.dll
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.HtmlParser\obj\Release\MTLWB.HtmlParser.pdb
-D:\Users\Chris\Documents\GitHub\Translator.Explorer\bin\Release\MTLWB.HtmlParser.dll
-D:\Users\Chris\Documents\GitHub\Translator.Explorer\bin\Release\MTLWB.HtmlParser.pdb
-D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.HtmlParser\obj\Release\MTLWB.HtmlParser.dll
-D:\Users\Chris\Documents\GitHub\Translator.Explorer\MTLWB.HtmlParser\obj\Release\MTLWB.HtmlParser.pdb

@@ -15,6 +15,7 @@
 
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Resources;
 
 #endregion
 
@@ -22,12 +23,12 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 
-[assembly: AssemblyTitle("ModernUI.App")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Document Translator")]
+[assembly: AssemblyDescription("Microsoft Translator document translation utility.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft Corporation")]
-[assembly: AssemblyProduct("ModernUI.App")]
-[assembly: AssemblyCopyright("Copyright © 2014 Microsoft Corporation")]
+[assembly: AssemblyProduct("Microsoft Translator")]
+[assembly: AssemblyCopyright("Copyright © 2015 Microsoft Corporation")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -50,5 +51,6 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyVersion("0.1.0.0")]
+[assembly: AssemblyFileVersion("0.1.0.0")]
+[assembly: NeutralResourcesLanguageAttribute("en-US")]

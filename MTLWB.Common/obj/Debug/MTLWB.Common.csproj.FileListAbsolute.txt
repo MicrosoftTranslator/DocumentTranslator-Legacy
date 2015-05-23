@@ -1,5 +1,0 @@
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Debug\MTLWB.Common.dll
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Debug\MTLWB.Common.pdb
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.Common\obj\Debug\MTLWB.Common.csprojResolveAssemblyReference.cache
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.Common\obj\Debug\MTLWB.Common.dll
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.Common\obj\Debug\MTLWB.Common.pdb

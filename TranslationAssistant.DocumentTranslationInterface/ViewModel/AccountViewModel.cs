@@ -14,6 +14,7 @@
 namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
 {
     using System;
+    using System.Windows;
     using System.Windows.Input;
 
     using Microsoft.Practices.Prism.Commands;
@@ -58,18 +59,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
 
         #region Constructors and Destructors
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="AccountViewModel" /> class.
-        /// </summary>
-        public AccountViewModel()
-        {
-            this.StatusText = string.Empty;
-            AccountModel settings = new AccountManager().GetAccountSettings();
-            this.clientSecret = settings.ClientSecret;
-            this.clientID = settings.ClientID;
-            this.categoryID = settings.CategoryID;
-
-        }
 
         #endregion
 
@@ -155,24 +144,43 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Load the account settings from the DocumentTranslator.settings file, which is actually in the user appsettings folder and named user.config.
+        /// </summary>
+        public AccountViewModel()
+        {
+            this.clientID = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.ClientID;
+            this.clientSecret = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.ClientSecret;
+            this.categoryID = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.CategoryID;
+        }
 
         /// <summary>
         ///     Assemblies the browse_ click.
         /// </summary>
         private void SaveAccountClick()
         {
-            var model = new AccountModel { ClientSecret = this.ClientSecret, ClientID = this.clientID, CategoryID = this.categoryID};
+            //Set the Account values and save.
+            TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.ClientID = this.clientID;
+            TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.ClientSecret = this.clientSecret;
+            TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.CategoryID = this.categoryID;
+            TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.Save();
 
-            try
-            {
-                new AccountManager().SaveAccountSettings(model);
-            }
-            catch (Exception ex)
-            {
-                this.StatusText = ex.Message;
-            }
+            //Set the public properties for the translation service.
+            TranslationServices.Core.TranslationServiceFacade.ClientID = this.clientID;
+            TranslationServices.Core.TranslationServiceFacade.ClientSecret = this.clientSecret;
+            TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID;
 
-            this.StatusText = "Settings saved.";
+            if (TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReady()) { 
+                this.StatusText = "Settings saved. Ready to translate.";
+                NotifyPropertyChanged("SettingsSaved");
+                SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(true);
+            }
+            else
+            {
+                this.StatusText = "Client ID or client secret are invalid. Please visit the Azure Marketplace to obtain a subscription.";
+                SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
+            }
+            
         }
 
         #endregion

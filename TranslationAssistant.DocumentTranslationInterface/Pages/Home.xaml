@@ -7,7 +7,7 @@
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">
-                <TextBlock Text="Microsoft Translator Explorer." Style="{StaticResource Heading1}" />
+                <TextBlock Text="Document Translator" Style="{StaticResource Heading1}" />
                 <TextBlock Height="30" />
                 <Grid HorizontalAlignment="Center">
                     <Grid.ColumnDefinitions>
@@ -48,15 +48,11 @@
 
                 <StackPanel>
                     <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="Batch translation of Office documents. (Word/Excel/Powerpoint)." Width="3148" />
+                        <TextBlock Text="Translation of Microsoft Office documents: Word | Excel | Powerpoint." Width="3148" />
                     </BulletDecorator>
 
                     <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="Coming soon: Batch translation of HTML documents." Width="3148" />
-                    </BulletDecorator>
-
-                    <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="PDFs will be saved as Word documents. Requires Office 2013 installed on this PC." Width="3148" />
+                        <TextBlock Text="PDF Translation. Requires Office 2013 installed on this PC. PDFs will be saved as Word documents." Width="3148" />
                     </BulletDecorator>
 
                     <BulletDecorator Height="22" VerticalAlignment="Top">
@@ -64,8 +60,18 @@
                     </BulletDecorator>
 
                     <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="Translate from any source to any target language" Width="3148" />
+                        <TextBlock Text="Translate from any Microsoft Translator source language to any target language." Width="3148" />
                     </BulletDecorator>
+
+                    <BulletDecorator Height="22" VerticalAlignment="Top">
+                        <TextBlock Text="Uses your Microsoft API account, data stored in CTF, and MT system that have been customized using the Hub." Width="3148" />
+                    </BulletDecorator>
+
+                </StackPanel>
+                <StackPanel VerticalAlignment="Bottom" Background="White"  Margin="0,100,0,0">
+                    <StatusBar Background="{x:Null}">
+                        <TextBlock TextWrapping="Wrap" Text="{Binding StatusText}" />
+                    </StatusBar>
                 </StackPanel>
 
             </StackPanel>

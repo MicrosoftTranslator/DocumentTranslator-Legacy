@@ -21,24 +21,37 @@ namespace TranslationAssistant.TranslationServices.Core
 
     #endregion
 
+    
     public class Utils
     {
         #region Public Methods and Operators
+
+        private static string _ClientID;
+        public static string ClientID {
+            get {return _ClientID;}
+            set { _ClientID = value; }
+        }
+
+        private static string _ClientSecret;
+        public static string ClientSecret
+        {
+            get { return _ClientSecret; }
+            set { _ClientSecret = value; }
+        }
+
 
         public static string GetAccesToken()
         {
             // Get Client Id and Client Secret from https://datamarket.azure.com/developer/applications/
             // Refer obtaining AccessToken (http://msdn.microsoft.com/en-us/library/hh454950.aspx) 
-            string clientId = SettingsManager.GetClientId();
-            string clientSecret = SettingsManager.GetClientSecret();
 
-            if (string.IsNullOrEmpty(clientSecret) || string.IsNullOrEmpty(clientId))
+            if (string.IsNullOrEmpty(_ClientSecret) || string.IsNullOrEmpty(_ClientID))
             {
                 throw new ArgumentException(
                     "Client ID and Client Secret are required. Please obtain your credentials from https://datamarket.azure.com/developer/applications/ and update in Settings.");
             }
 
-            AdmAuthentication admAuth = new AdmAuthentication(clientId, clientSecret);
+            AdmAuthentication admAuth = new AdmAuthentication(_ClientID, _ClientSecret);
             try
             {
                 AdmAccessToken admToken = admAuth.GetAccessToken();

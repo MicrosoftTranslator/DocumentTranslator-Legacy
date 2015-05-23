@@ -3,16 +3,18 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 
-  <?define ProductVersion="2.1.1" ?>
-  <!--<?define ProductInstallationDirVersion="2.1.1" ?>-->
-  <?define ProductInstallationDir="Microsoft Translator"?>
+  <?define ProductVersion="1.0.0" ?>
+  <!--<?define ProductInstallationDirVersion="1.0.0" ?>-->
+  <?define ProductInstallationDir="Microsoft Document Translator"?>
   <?define UpgradeCode="{69CB62B3-53BB-4BF5-9E53-B5677940AB8E}"?>
   <?define ProductCode="{4C933C35-A46B-4675-A38F-5C0077AB58FE}"?>
   <?define PackageCode="{58B29304-9AF5-4864-8BB1-E10B0D6079F4}"?>
   <?define Manufacturer="Microsoft Corporation"?>
-  <?define ProductName="Microsoft Translator"?>
+  <?define ProductName="Microsoft Translator Document Translator"?>
+  <?define GroupName="Microsoft Translator"?>
 
-  
+
+
   <Product Id="*"
            Name="$(var.ProductName)"
            Language="1033"
@@ -24,7 +26,7 @@
     <!--<Property Id="REINSTALLMODE" Value="amus" />-->
     <MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." AllowDowngrades="no" />
 
-    <Media Id="1" Cabinet="FileTranslator.cab" EmbedCab="yes" />
+    <Media Id="1" Cabinet="DocumentTranslator.cab" EmbedCab="yes" />
     <Property Id="ARPPRODUCTICON" Value="MSTicon_200wbg.ico" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
@@ -33,7 +35,7 @@
         </Directory>
 
         <Directory Id="ProgramMenuFolder">
-          <Directory Id="ApplicationProgramsFolder" Name="$(var.ProductName)" />
+          <Directory Id="ApplicationProgramsFolder" Name="$(var.GroupName)" />
         </Directory>
       </Directory>
     </Directory>

@@ -46,13 +46,13 @@
     <Compile Include="AdmAccessToken.cs" />
     <Compile Include="AdmAuthentication.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="DocumentTranslator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\TranslatorService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
-    <Compile Include="SettingsManager.cs" />
     <Compile Include="TranslationServiceFacade.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>

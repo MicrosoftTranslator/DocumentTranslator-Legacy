@@ -1,6 +1,0 @@
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Debug\HtmlAgilityPack.dll
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Debug\HtmlAgilityPack.pdb
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\bin\Debug\HtmlAgilityPack.xml
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.HtmlAgilityPack\obj\Debug\MTLWB.HtmlAgilityPack.csprojResolveAssemblyReference.cache
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.HtmlAgilityPack\obj\Debug\HtmlAgilityPack.dll
-D:\Users\Chris\Source\Workspaces\MTExplorer\DocumentTranslationAssistant\MTLWB.HtmlAgilityPack\obj\Debug\HtmlAgilityPack.pdb
