@@ -1,2 +1,2 @@
-# FileTranslator
-Microsoft Translator Office Document File Translator
+# DocumentTranslator
+Microsoft Document Translator
