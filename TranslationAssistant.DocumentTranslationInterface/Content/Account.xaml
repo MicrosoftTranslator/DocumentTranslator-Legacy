@@ -17,7 +17,7 @@
             <StackPanel x:Name="Panel" MinWidth="200">
                 <TextBlock Text="Account" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
 
-                <TextBlock Height="20" />
+                <TextBlock Height="20"/>
                 <TextBlock TextWrapping="Wrap" Text="Please subscribe to Microsoft Translator at" />
                 <TextBlock TextWrapping="Wrap">
                     <Hyperlink NavigateUri="https://datamarket.azure.com/dataset/bing/microsofttranslator" ToolTip="Subscribe to Microsoft Translator"  RequestNavigate="Hyperlink_OnRequestNavigate">

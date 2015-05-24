@@ -3,13 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d">
+             mc:Ignorable="d" Width="759">
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">
-                <TextBlock Text="Document Translator" Style="{StaticResource Heading1}" />
                 <TextBlock Height="30" />
-                <Grid HorizontalAlignment="Center">
+                <Grid HorizontalAlignment="Left">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
@@ -18,41 +17,45 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="40"/>
                         <RowDefinition />
                         <RowDefinition />
                     </Grid.RowDefinitions>
+                    <Image Width="100" Grid.Row="0" Grid.Column="0" Source="..\Images\DocumentTranslatorIcon_100.png" />
+                    <TextBlock Grid.Row="0" Grid.Column="3" Text="Document Translator" Style="{StaticResource Heading1}" VerticalAlignment="Center"/>
+                <Image Width="22"  Grid.Row="1" Grid.Column="0" Source="..\Images\MSTIcon32.png"/>
+                    <TextBlock Grid.Row="1" Grid.Column="3" Text="Translations by Microsoft® Translator" VerticalAlignment="Center"/>
 
-                    <Image Width="100" Grid.Row="0" Grid.Column="0" Source="..\Images\MSTicon_flat_200x200_wbg.png" />
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="  " Style="{StaticResource Heading2}" VerticalAlignment="Center"/>
-                    <Image Width="200"  Grid.Row="0" Grid.Column="2" Source="..\Images\MSTLogoBlack250.png" />
-
-                    <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">            
+                    <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">            
                         <Hyperlink NavigateUri="http://www.microsoft.com/translator" RequestNavigate="Hyperlink_OnRequestNavigate">
                          http://www.microsoft.com/translator
                         </Hyperlink>             
                     </TextBlock>
                     
-                    <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">            
+                    <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">            
                         <Hyperlink TextDecorations="None"  NavigateUri="http://www.facebook.com/BingTranslator" RequestNavigate="Hyperlink_OnRequestNavigate">
                             <Image Width="20" Source="../Images/FB-f-Logo__blue_50.png" Margin="5"   />
                         </Hyperlink>
                         <Hyperlink TextDecorations="None"  NavigateUri="http://www.twitter.com/mstranslator" RequestNavigate="Hyperlink_OnRequestNavigate">
                             <Image Width="20" Source="../Images/Twitter_logo_blue.png" Margin="5"   />
                         </Hyperlink>
+                        <Hyperlink TextDecorations="None"  NavigateUri="https://www.linkedin.com/company/microsoft-translator" RequestNavigate="Hyperlink_OnRequestNavigate">
+                            <Image Width="20" Source="../Images/In-2C-48px-R.png" Margin="5"   />
+                        </Hyperlink>
                     </TextBlock>
 
                 </Grid>
+
 
                 <TextBlock Height="30" />
 
                 <StackPanel>
                     <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="Translation of Microsoft Office documents: Word | Excel | Powerpoint." Width="3148" />
+                        <TextBlock Text="Translation of Microsoft Office documents: Word | Excel | Powerpoint." />
                     </BulletDecorator>
 
                     <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="PDF Translation. Requires Office 2013 installed on this PC. PDFs will be saved as Word documents." Width="3148" />
+                        <TextBlock Text="PDF Translation. Requires Office 2013 installed on this PC. PDFs will be saved as Word documents." />
                     </BulletDecorator>
 
                     <BulletDecorator Height="22" VerticalAlignment="Top">
@@ -60,11 +63,11 @@
                     </BulletDecorator>
 
                     <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="Translate from any Microsoft Translator source language to any target language." Width="3148" />
+                        <TextBlock Text="Translate from any Microsoft Translator source language to any target language." />
                     </BulletDecorator>
 
                     <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="Uses your Microsoft API account, data stored in CTF, and MT system that have been customized using the Hub." Width="3148" />
+                        <TextBlock Text="Uses your Microsoft API account, data stored in CTF, and MT systems that have been customized using the Hub." TextWrapping="Wrap"/>
                     </BulletDecorator>
 
                 </StackPanel>

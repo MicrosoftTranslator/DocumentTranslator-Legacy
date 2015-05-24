@@ -8,12 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("documenttranslator_48.ico")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/documenttranslator_16.ico")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/documenttranslator_32.ico")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/documenttranslator_48.ico")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/msticon.ico")]
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/msticon32.png")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("images/msticon48.png")]
 
 

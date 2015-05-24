@@ -21,16 +21,16 @@
         
         <File Id="FirstFloor.ModernUI" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\FirstFloor.ModernUI.dll" DiskId="1" KeyPath="no" />
         <File Id="Microsoft.Windows.Shell" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Windows.Shell.dll" DiskId="1" KeyPath="no" />
-        <File Id="MSTicon_200_wbg.ico" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\MSTicon_200_wbg.ico" DiskId="1" KeyPath="no"/>
+        <File Id="MSTicon_200_wbg.ico" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\DocumentTranslator_48.ico" DiskId="1" KeyPath="no"/>
         
       </Component>
     </DirectoryRef>
 
-    <Icon Id="MSTicon_200_wbg.ico" SourceFile="MSTicon_200_wbg.ico" />
+    <Icon Id="DocumentTranslator_48.ico" SourceFile="DocumentTranslator_48.ico" />
     
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="{42850908-AF5D-43EC-A8FA-2038E139C762}">
-        <Shortcut Id="ApplicationStartMenuShortcut" Icon="MSTicon_200_wbg.ico"
+        <Shortcut Id="ApplicationStartMenuShortcut" Icon="DocumentTranslator_48.ico"
                   Name="Document Translator" Description="Microsoft Translator Document Translator" Target="[APPLICATIONROOTDIRECTORY]DocumentTranslator.exe"
                   WorkingDirectory="APPLICATIONROOTDIRECTORY" />
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />

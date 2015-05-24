@@ -27,7 +27,7 @@
     <MajorUpgrade Schedule="afterInstallInitialize" AllowDowngrades="yes" />
 
     <Media Id="1" Cabinet="DocumentTranslator.cab" EmbedCab="yes" />
-    <Property Id="ARPPRODUCTICON" Value="MSTicon_200wbg.ico" />
+    <Property Id="ARPPRODUCTICON" Value="DocumentTranslator_48.ico" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
