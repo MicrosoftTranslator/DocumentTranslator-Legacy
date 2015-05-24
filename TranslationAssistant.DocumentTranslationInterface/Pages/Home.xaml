@@ -23,8 +23,6 @@
                     </Grid.RowDefinitions>
                     <Image Width="100" Grid.Row="0" Grid.Column="0" Source="..\Images\DocumentTranslatorIcon_100.png" />
                     <TextBlock Grid.Row="0" Grid.Column="3" Text="Document Translator" Style="{StaticResource Heading1}" VerticalAlignment="Center"/>
-                <Image Width="22"  Grid.Row="1" Grid.Column="0" Source="..\Images\MSTIcon32.png"/>
-                    <TextBlock Grid.Row="1" Grid.Column="3" Text="Translations by Microsoft® Translator" VerticalAlignment="Center"/>
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">            
                         <Hyperlink NavigateUri="http://www.microsoft.com/translator" RequestNavigate="Hyperlink_OnRequestNavigate">
@@ -66,8 +64,15 @@
                         <TextBlock Text="Translate from any Microsoft Translator source language to any target language." />
                     </BulletDecorator>
 
-                    <BulletDecorator Height="22" VerticalAlignment="Top">
+                    <BulletDecorator Height="44" VerticalAlignment="Top">
                         <TextBlock Text="Uses your Microsoft API account, data stored in CTF, and MT systems that have been customized using the Hub." TextWrapping="Wrap"/>
+                    </BulletDecorator>
+
+                    <BulletDecorator Height="22" VerticalAlignment="Bottom">
+                        <TextBlock>
+                            <Image Source="..\Images\MSTIcon32.png" Width="20" HorizontalAlignment="Left"/>
+                            <Run Text="Translations by Microsoft® Translator" />
+                        </TextBlock>
                     </BulletDecorator>
 
                 </StackPanel>

@@ -235,9 +235,9 @@
                             </i:Interaction.Triggers>
                         </Button>
                     </Grid>
-                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Source Language" Width="Auto" />
+                    <TextBlock Grid.Column="0" Grid.Row="2" Text="From Language" Width="Auto" />
                     <ComboBox Grid.Column="1" Grid.Row="2" Width="300" AllowDrop="True" ItemsSource="{Binding SourceLanguageList,UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" SelectedItem="{Binding SelectedSourceLanguage}" />
-                    <TextBlock Grid.Column="0" Grid.Row="4" Text="Target Language" Width="Auto" />
+                    <TextBlock Grid.Column="0" Grid.Row="4" Text="To Language" Width="Auto" />
                     <ComboBox Grid.Column="1" Grid.Row="4" Width="300" AllowDrop="True" ItemsSource="{Binding TargetLanguageList,UpdateSourceTrigger=PropertyChanged}" SelectedIndex="8"  SelectedItem="{Binding SelectedTargetLanguage}" />
                 </Grid>
                 <TextBlock Height="40" />
