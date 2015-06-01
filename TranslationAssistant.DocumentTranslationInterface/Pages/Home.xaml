@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" Width="759">
+             mc:Ignorable="d" Width="700">
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">
@@ -76,7 +76,7 @@
                     </BulletDecorator>
 
                 </StackPanel>
-                <StackPanel VerticalAlignment="Bottom" Background="White"  Margin="0,100,0,0">
+                <StackPanel VerticalAlignment="Bottom" Background="White"  Margin="0,50,0,0">
                     <StatusBar Background="{x:Null}">
                         <TextBlock TextWrapping="Wrap" Text="{Binding StatusText}" />
                     </StatusBar>

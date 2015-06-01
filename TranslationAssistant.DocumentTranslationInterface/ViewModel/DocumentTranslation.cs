@@ -13,7 +13,7 @@
 
 namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
 {
-    #region
+    #region Usings
 
     using Microsoft.Practices.Prism.Commands;
     using Microsoft.Win32;
@@ -87,7 +87,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private ICommand targetFolderNavigateClickCommand;
 
         /// <summary>
-        /// Shows at top of page to indicate we are note ready to translate
+        /// Shows at top of page to indicate we are not ready to translate
         /// </summary>
         private string _ReadyToTranslateMessage;
 
@@ -106,14 +106,14 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         public DocumentTranslation()
         {
             TranslationServiceFacade.Initialize();
-            this.PopulateAvailableSourceLanguages();
-            this.PopulateAvailableTargetLanguages();
+            this.PopulateAvailableLanguages();
             this.ShowProgressBar = false;
             this.IsGoButtonEnabled = false;
             this.TargetFolder = string.Empty;
+            this.SelectedTargetLanguage = string.Empty;
             this.SelectedSourceLanguage = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultSourceLanguage;
             this.SelectedTargetLanguage = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultTargetLanguage;
-            this.StatusText = "Please select file(s) to translate... ";
+            this.StatusText = "Please select the documents and languages to translate.";
             this.PopulateReadyToTranslateMessage(TranslationServiceFacade.IsTranslationServiceReady());
 
             SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Unsubscribe(PopulateReadyToTranslateMessage);
@@ -216,7 +216,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             set
             {
                 this.inputFilePaths = value;
-                this.IsGoButtonEnabled = this.InputFilePaths.Count > 0;
+                this.IsGoButtonEnabled = ((this.InputFilePaths.Count > 0) && (selectedTargetLanguage != string.Empty) && TranslationServiceFacade.IsTranslationServiceReady());
                 this.NotifyPropertyChanged("InputFilePaths");
             }
         }
@@ -434,29 +434,28 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         }
 
         /// <summary>
-        ///     Populate available source languages.
+        ///     Populate available source and target languages.
         /// </summary>
-        private void PopulateAvailableSourceLanguages()
+        private void PopulateAvailableLanguages()
         {
+            this.SourceLanguageList.Clear();
+            this.TargetLanguageList.Clear();
             this.SourceLanguageList.Add("Auto-Detect");
-            try
-            {
-                this.SourceLanguageList.AddRange(TranslationServiceFacade.AvailableLanguages.Values);
-            }
-            catch { };
-        }
-
-        /// <summary>
-        ///     Populate available target languages.
-        /// </summary>
-        private void PopulateAvailableTargetLanguages()
-        {
             try
             {
                 this.TargetLanguageList.AddRange(TranslationServiceFacade.AvailableLanguages.Values);
             }
-            catch { };
+            catch {
+                this.StatusText = "Unable to retrieve language list from Translator service.";
+                this.NotifyPropertyChanged("StatusText");
+                return;
+            };
+            this.TargetLanguageList.Sort();
+            this.SourceLanguageList.AddRange(this.TargetLanguageList);
+            this.NotifyPropertyChanged("SourceLanguageList");
+            this.NotifyPropertyChanged("TargetLanguageList");
         }
+
 
         /// <summary>
         /// Populate the Ready to Translate message at top of screen.
@@ -467,13 +466,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             if (successful)
             {
                 this.ReadyToTranslateMessage = "";
-                PopulateAvailableSourceLanguages();
-                PopulateAvailableTargetLanguages();
+                PopulateAvailableLanguages();
             }
             else
             {
                 this.ReadyToTranslateMessage = "Invalid credentials.\r\nPlease visit the Settings page first to enter your Microsoft Translator credentials.";
-                this.NotifyPropertyChanged("Credentials");
             }
         }
 

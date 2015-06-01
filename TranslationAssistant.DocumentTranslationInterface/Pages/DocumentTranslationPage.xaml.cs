@@ -13,9 +13,11 @@
 
 namespace TranslationAssistant.DocumentTranslationInterface.Pages
 {
-    #region
+    #region Usings
 
     using System.Windows.Controls;
+    using TranslationAssistant.DocumentTranslationInterface.Common;
+
 
     #endregion
 
@@ -32,6 +34,14 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         public DocumentTranslationPage()
         {
             this.InitializeComponent();
+            SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Unsubscribe(RefreshLanguageComboBoxes);
+            SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Subscribe(RefreshLanguageComboBoxes);
+        }
+
+        private void RefreshLanguageComboBoxes(bool successful)
+        {
+            cbSourceLanguages.Items.Refresh();
+            cbTargetLanguages.Items.Refresh();
         }
 
         #endregion

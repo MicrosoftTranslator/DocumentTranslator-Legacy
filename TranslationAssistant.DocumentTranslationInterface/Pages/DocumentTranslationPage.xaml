@@ -8,7 +8,7 @@
              xmlns:converters="clr-namespace:TranslationAssistant.DocumentTranslationInterface.Converters"
              xmlns:viewModel="clr-namespace:TranslationAssistant.DocumentTranslationInterface.ViewModel"
              mc:Ignorable="d"
-             d:DesignHeight="488" d:DesignWidth="706">
+             d:DesignHeight="488" Width="622">
     <UserControl.DataContext>
         <viewModel:DocumentTranslation />
     </UserControl.DataContext>
@@ -230,18 +230,17 @@
                                 <i:EventTrigger EventName="PreviewMouseUp">
                                     <i:InvokeCommandAction
                                         Command="{Binding InputFilePathBrowseClickCommand}" />
-
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                         </Button>
                     </Grid>
                     <TextBlock Grid.Column="0" Grid.Row="2" Text="From Language" Width="Auto" />
-                    <ComboBox Grid.Column="1" Grid.Row="2" Width="300" AllowDrop="True" ItemsSource="{Binding SourceLanguageList,UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" SelectedItem="{Binding SelectedSourceLanguage}" />
+                    <ComboBox Grid.Column="1" Grid.Row="2" Width="300" AllowDrop="True" x:Name="cbSourceLanguages" ItemsSource="{Binding SourceLanguageList, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" SelectedItem="{Binding SelectedSourceLanguage}" />
                     <TextBlock Grid.Column="0" Grid.Row="4" Text="To Language" Width="Auto" />
-                    <ComboBox Grid.Column="1" Grid.Row="4" Width="300" AllowDrop="True" ItemsSource="{Binding TargetLanguageList,UpdateSourceTrigger=PropertyChanged}" SelectedIndex="8"  SelectedItem="{Binding SelectedTargetLanguage}" />
+                    <ComboBox Grid.Column="1" Grid.Row="4" Width="300" AllowDrop="True" x:Name="cbTargetLanguages" ItemsSource="{Binding TargetLanguageList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTargetLanguage}" />
                 </Grid>
                 <TextBlock Height="40" />
-                <StackPanel Margin="0,0,0,0">
+                <StackPanel Margin="0,0,0,0" Width="582">
                     <Button Content="Go" Width="80" Height="30" HorizontalAlignment="Right"
                             IsEnabled="{Binding IsGoButtonEnabled}"
                             VerticalAlignment="Bottom" Margin="0,0,0,10">

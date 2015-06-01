@@ -93,6 +93,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     AvailableLanguages.Add(languages[i], languagenames[i]);
                 }
             }
+            client.Close();
         }
 
 

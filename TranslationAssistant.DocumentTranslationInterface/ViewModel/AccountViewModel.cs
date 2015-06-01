@@ -155,7 +155,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         }
 
         /// <summary>
-        ///     Assemblies the browse_ click.
+        ///     Saves the account settings to the settings file for next use.
         /// </summary>
         private void SaveAccountClick()
         {
@@ -173,11 +173,13 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             if (TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReady()) { 
                 this.StatusText = "Settings saved. Ready to translate.";
                 NotifyPropertyChanged("SettingsSaved");
+                //Need to initialize with new credentials in order to get the language list.
+                TranslationServices.Core.TranslationServiceFacade.Initialize();
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(true);
             }
             else
             {
-                this.StatusText = "Client ID or client secret are invalid. Please visit the Azure Marketplace to obtain a subscription.";
+                this.StatusText = "Client ID or client secret are invalid.\r\nPlease visit the Azure Marketplace to obtain a subscription.";
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
             }
             
