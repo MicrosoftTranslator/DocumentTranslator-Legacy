@@ -57,17 +57,18 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         public TranslateDocuments(ConsoleLogger Logger)
             : base(Logger)
         {
+            TranslationServiceFacade.Initialize();
             this.sourceDocuments = new SimpleStringArgument(
                 "SourceDocuments",
                 true,
                 new[] { ',' },
-                "Full path to the list of documents to translate. List of documents can be seperated by comma.");
+                "Full path to the list of documents to translate, or list of documents seperated by comma.");
 
             this.sourceLanguage = new Argument(
                 "SourceLanguage",
                 false,
                 new[] { "Auto-Detect" },
-                TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),
+                TranslationServiceFacade.AvailableLanguages.Values.ToArray(),
                 true,
                 "The source language. Auto-detect if no language specified.");
 
@@ -75,9 +76,9 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 "TargetLanguages",
                 true,
                 new string[] { },
-                TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),
+                TranslationServiceFacade.AvailableLanguages.Values.ToArray(),
                 new[] { ',' },
-                "The target language code.");
+                "The target language code, or comma-separated list of codes.");
 
             this.Arguments = new ArgumentList(
                 new[] { this.sourceDocuments, this.sourceLanguage, this.targetLanguages },

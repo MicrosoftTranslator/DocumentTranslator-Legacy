@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft Corporation")]
 [assembly: AssemblyProduct("TranslationAssistant.AutomationToolkit")]
-[assembly: AssemblyCopyright("Copyright © 2014 Microsoft Corporation")]
+[assembly: AssemblyCopyright("Copyright Microsoft Corporation")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

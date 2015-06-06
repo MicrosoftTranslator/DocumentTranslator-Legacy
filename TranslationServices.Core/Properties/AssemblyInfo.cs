@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft Corporation")]
 [assembly: AssemblyProduct("TranslationAssistant.TranslationServices.Core")]
-[assembly: AssemblyCopyright("Copyright © 2014 Microsoft Corporation")]
+[assembly: AssemblyCopyright("Microsoft Corporation")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

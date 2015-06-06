@@ -23,7 +23,7 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyCompany("Microsoft Corporation")]
-[assembly: AssemblyCopyright("Copyright © 2014 Microsoft Corporation")]
+[assembly: AssemblyCopyright("Copyright Microsoft Corporation")]
 [assembly: AssemblyTrademark("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

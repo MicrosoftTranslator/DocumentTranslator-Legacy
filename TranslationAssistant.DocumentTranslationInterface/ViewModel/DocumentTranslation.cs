@@ -113,7 +113,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             this.SelectedTargetLanguage = string.Empty;
             this.SelectedSourceLanguage = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultSourceLanguage;
             this.SelectedTargetLanguage = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultTargetLanguage;
-            this.StatusText = "Please select the documents and languages to translate.";
+            this.StatusText = string.Empty;
+            if (TranslationServiceFacade.IsTranslationServiceReady())
+            {
+                this.StatusText = "Please select the documents and languages to translate.";
+            }
             this.PopulateReadyToTranslateMessage(TranslationServiceFacade.IsTranslationServiceReady());
 
             SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Unsubscribe(PopulateReadyToTranslateMessage);
@@ -216,8 +220,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             set
             {
                 this.inputFilePaths = value;
-                this.IsGoButtonEnabled = ((this.InputFilePaths.Count > 0) && (selectedTargetLanguage != string.Empty) && TranslationServiceFacade.IsTranslationServiceReady());
                 this.NotifyPropertyChanged("InputFilePaths");
+                this.IsGoButtonEnabled = ((this.InputFilePaths.Count > 0) && (selectedTargetLanguage != string.Empty) && TranslationServiceFacade.IsTranslationServiceReady());
             }
         }
 
@@ -299,6 +303,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             {
                 this.selectedTargetLanguage = value;
                 this.NotifyPropertyChanged("SelectedTargetLanguage");
+                this.IsGoButtonEnabled = ((this.InputFilePaths.Count > 0) && (selectedTargetLanguage != string.Empty) && TranslationServiceFacade.IsTranslationServiceReady());
             }
         }
 

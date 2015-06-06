@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TranslationAssistant.AutomationToolkit</RootNamespace>
-    <AssemblyName>TranslationAssistant.AutomationToolkit</AssemblyName>
+    <AssemblyName>DocumentTranslatorCmd</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -50,6 +50,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>DocumentTranslator_48.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -66,9 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Assistant.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TranslationAssistant.AutomationToolkit.BasePlugin\TranslationAssistant.AutomationToolkit.BasePlugin.csproj">
@@ -78,6 +78,10 @@
     <ProjectReference Include="..\TranslationAssistant.AutomationToolkit.TranslationPlugins\TranslationAssistant.AutomationToolkit.TranslationPlugins.csproj">
       <Project>{5cbc6852-6f8f-4bd1-85a8-7d4629674aba}</Project>
       <Name>TranslationAssistant.AutomationToolkit.TranslationPlugins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TranslationAssistant.DocumentTranslationInterface\DocumentTranslator.csproj">
+      <Project>{4007b1e0-9e4f-449a-ae61-c38f771001f6}</Project>
+      <Name>DocumentTranslator</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +100,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DocumentTranslator_48.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

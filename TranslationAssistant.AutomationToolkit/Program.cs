@@ -166,7 +166,7 @@ namespace TranslationAssistant.AutomationToolkit
 
             if (args.Length <= 0)
             {
-                Logger.WriteLine(LogLevel.Error, "ERROR: you need at least 1 argument.");
+                Logger.WriteLine(LogLevel.Error, "ERROR: At least 1 argument is required.");
                 Usage();
             }
             else if (args.Length == 1
@@ -236,7 +236,7 @@ namespace TranslationAssistant.AutomationToolkit
             Logger.WriteLine(LogLevel.Msg, string.Empty);
             Logger.WriteLine(LogLevel.Msg, "  InvokeCommand.exe [plugin name] [plugin parameters]");
             Logger.WriteLine(LogLevel.Msg, string.Empty);
-            Logger.WriteLine(LogLevel.Msg, "  Avaliable plugin are:");
+            Logger.WriteLine(LogLevel.Msg, "  Available plugin are:");
             Logger.WriteLine(LogLevel.Msg, string.Empty);
             foreach (string name in pluginMappings.Keys)
             {
