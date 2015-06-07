@@ -79,10 +79,6 @@
       <Project>{5cbc6852-6f8f-4bd1-85a8-7d4629674aba}</Project>
       <Name>TranslationAssistant.AutomationToolkit.TranslationPlugins</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TranslationAssistant.DocumentTranslationInterface\DocumentTranslator.csproj">
-      <Project>{4007b1e0-9e4f-449a-ae61-c38f771001f6}</Project>
-      <Name>DocumentTranslator</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

@@ -286,6 +286,10 @@ namespace TranslationAssistant.Business
                 {
                     ProcessPowerPointDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
                 }
+                else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".txt"))
+                {
+                    ProcessTextDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+                }
 //                else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".html") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".htm"))
 //                {
 //                    ProcessHTMLDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
@@ -315,7 +319,7 @@ namespace TranslationAssistant.Business
         /// </summary>
         /// <param name="documentPath">The document path.</param>
         /// <param name="targetLanguage">The target langauge.</param>
-        /// <returns></returns>
+        /// <returns>All documents to process.</returns>
         private static List<string> GetAllDocumentsToProcess(string documentPath, string targetLangauge)
         {
             List<string> allFiles = new List<string>();
@@ -352,6 +356,12 @@ namespace TranslationAssistant.Business
                 File.Copy(documentPath, outputDocumentName);
                 allFiles.Add(outputDocumentName);
             }
+            else if (documentPath.ToLowerInvariant().EndsWith(".txt"))
+            {
+                File.Copy(documentPath, outputDocumentName);
+                allFiles.Add(outputDocumentName);
+            }
+
 //            else if (documentPath.ToLowerInvariant().EndsWith(".htm") || documentPath.ToLowerInvariant().EndsWith(".html"))
 //            {
 //                File.Copy(documentPath, outputDocumentName);
@@ -383,13 +393,39 @@ namespace TranslationAssistant.Business
                 return outputDocumentNameWithoutExtension + ".pptx";
             }
 
-            return outputDocumentNameWithoutExtension + ".docx";
+            if (documentFullName.ToLowerInvariant().EndsWith(".txt"))
+            {
+                return outputDocumentNameWithoutExtension + ".txt";
+            }
+
+            if (documentFullName.ToLowerInvariant().EndsWith(".doc") || documentFullName.ToLowerInvariant().EndsWith(".docx") || documentFullName.ToLowerInvariant().EndsWith(".pdf"))
+            {
+                return outputDocumentNameWithoutExtension + ".docx";
+            }
+
+            return outputDocumentNameWithoutExtension + documentFullName.Substring(documentFullName.LastIndexOf(".", StringComparison.Ordinal));
         }
 
 
-        private static void ProcessHTMLDocument(string fullNameForDocumentToProcess, string sourceLanguage, string targetLangauge)
+        private static void ProcessHTMLDocument(string fullNameForDocumentToProcess, string sourceLanguage, string targetLanguage)
         {
             throw new NotImplementedException();
+        }
+
+        private static void ProcessTextDocument(string fullNameForDocumentToProcess, string sourceLanguage, string targetLanguage)
+        {
+            var document = File.ReadAllLines(fullNameForDocumentToProcess, Encoding.UTF8);
+            List<string> lstTexts = new List<string>(document);
+            var batches = SplitList(lstTexts, 99, 9000);
+            File.Delete(fullNameForDocumentToProcess);
+
+            foreach (var batch in batches)
+            {
+                string[] translated = TranslationServiceFacade.TranslateArray(batch.ToArray(), sourceLanguage, targetLanguage);
+                File.AppendAllLines(fullNameForDocumentToProcess, translated, Encoding.UTF8);
+            }
+
+            return;
         }
 
 
@@ -765,14 +801,14 @@ namespace TranslationAssistant.Business
                 int elementCount = (startIndex + groupSize > count) ? count - startIndex : groupSize;
                 while (true)
                 {
-                    var agreegatedSize =
+                    var aggregatedSize =
                         valueList.GetRange(startIndex, elementCount)
                             .Aggregate(
                                 new StringBuilder(),
                                 (s, i) => s.Length < maxSize ? s.Append(i) : s,
                                 s => s.ToString())
                             .Length;
-                    if (agreegatedSize >= maxSize)
+                    if (aggregatedSize >= maxSize)
                     {
                         elementCount = elementCount - 1;
                     }
