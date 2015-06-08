@@ -428,6 +428,14 @@ namespace TranslationAssistant.Business
             return;
         }
 
+        private static void ProcessXliffDocument(string fullNameForDocumentToProcess, string sourceLanguage, string targetLanguage)
+        {
+            TranslateXliff.Translate(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+            return;
+        }
+
+
+
 
         private static void ProcessExcelDocument(
             string outputDocumentFullName,
