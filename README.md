@@ -1,6 +1,7 @@
 # Microsoft Document Translator
 The Microsoft Document Translator translates Microsoft Office, plain text, and PDF files, from any of the 50 languages supported by the Microsoft Translator web service, to any other of these 50 languages.
-Document Translator uses the customer's own credentials and subscription to perform the service, and will make use of any translation stored in CTF, as well as making use of customer's customized MT system.
+Document Translator uses the customer's own credentials and subscription to perform the service, and will make use of any translation stored in the collaborative translations framework,
+as well as making use of customer's customized MT system.
 
 ## Overview
 Translate one or more Office documents, plain text or PDF files to another language, in one go. 
@@ -12,7 +13,7 @@ Translate an Office document and receive a translated Office document in full fi
 - Enter account credentials
 - Define a Hub-customized system to use (optional)
 - Select the files to translate
-- Choose from and to langauges. From is optional, in that case the system auto-detects the langauge.
+- Choose from and to langauges. From is optional, in that case the system auto-detects the language.
 - Document Translator creates translated files in the same folder as the original, with a name like originalname.language.docx
 
 ## Usage
@@ -29,6 +30,7 @@ The Release is an MSI package, install directly in Windows.
 
 ## How to build Document Translator
 Microsoft Document Translator is written in C#, using Visual Studio 2013.
+
 It depends on
 - Firstfloor.ModernUI for the UI
 - Microsoft.Practices.Prism for the messaging and interfaces
