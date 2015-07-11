@@ -49,18 +49,18 @@
 
                 <StackPanel>
                     <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="Translation of Microsoft Office documents: Word | Excel | Powerpoint." />
+                        <TextBlock Text="Translate Microsoft Office documents: Word | Excel | Powerpoint." />
                     </BulletDecorator>
 
                     <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="PDF Translation. Requires Office 2013 installed on this PC. PDFs will be saved as Word documents." />
+                        <TextBlock Text="Translate PDF. Requires Office 2013 installed on this PC. PDFs will be saved as Word documents." />
                     </BulletDecorator>
 
                     <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="Translates plain text (.txt file) in UTF-8 character encoding." />
+                        <TextBlock Text="Translate plain text (.txt file) in UTF-8 character encoding." />
                     </BulletDecorator>
                     <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="Auto-detects source language. " Width="3148" />
+                        <TextBlock Text="Auto-detect source language. " Width="3148" />
                     </BulletDecorator>
 
                     <BulletDecorator Height="22" VerticalAlignment="Top">
