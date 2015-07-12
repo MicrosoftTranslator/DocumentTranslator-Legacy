@@ -234,9 +234,9 @@ namespace TranslationAssistant.AutomationToolkit
         {
             Logger.WriteLine(LogLevel.Msg, "General Usage:");
             Logger.WriteLine(LogLevel.Msg, string.Empty);
-            Logger.WriteLine(LogLevel.Msg, "  InvokeCommand.exe [plugin name] [plugin parameters]");
+            Logger.WriteLine(LogLevel.Msg, "  DocumentTranslatorCmd.exe [plugin name] [plugin parameters]");
             Logger.WriteLine(LogLevel.Msg, string.Empty);
-            Logger.WriteLine(LogLevel.Msg, "  Available plugin are:");
+            Logger.WriteLine(LogLevel.Msg, "  Available plugins are:");
             Logger.WriteLine(LogLevel.Msg, string.Empty);
             foreach (string name in pluginMappings.Keys)
             {
@@ -246,7 +246,7 @@ namespace TranslationAssistant.AutomationToolkit
             Logger.WriteLine(LogLevel.Msg, string.Empty);
             Logger.WriteLine(
                 LogLevel.Msg,
-                "  Type \"InvokeCommand.exe [plugin name] /?\" for detail help for that plugin.");
+                "  Type \"DocumentTranslatorCmd.exe [plugin name] /?\" for detail help for that plugin.");
         }
 
         #endregion

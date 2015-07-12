@@ -50,9 +50,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         {
             TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.Upgrade();
             TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.Reload();
-            TranslationServices.Core.TranslationServiceFacade.ClientID = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.ClientID;
-            TranslationServices.Core.TranslationServiceFacade.ClientSecret = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.ClientSecret;
-            TranslationServices.Core.TranslationServiceFacade.CategoryID = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.CategoryID;
             this.StatusText = string.Empty;
             ShowStatus();
         }

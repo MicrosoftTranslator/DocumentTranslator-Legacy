@@ -13,13 +13,14 @@
 
 namespace TranslationAssistant.TranslationServices.Core
 {
-    #region
+    #region Usings
 
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
+    using System.Configuration;
 
     using TranslationAssistant.TranslationServices.Core.TranslatorService;
 
@@ -78,6 +79,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         public static void Initialize()
         {
+            LoadCredentials();
             if (!IsTranslationServiceReady()) return;
             var bind = new BasicHttpBinding { Name = "BasicHttpBinding_LanguageService" };
             var epa = new EndpointAddress("http://api.microsofttranslator.com/V2/soap.svc");
@@ -96,6 +98,27 @@ namespace TranslationAssistant.TranslationServices.Core
             client.Close();
         }
 
+        /// <summary>
+        /// Loads credentials from settings file.
+        /// Doesn't need to be public, because it is called during Initialize();
+        /// </summary>
+        private static void LoadCredentials()
+        {
+            _ClientID = Properties.Settings.Default.ClientID;
+            _ClientSecret = Properties.Settings.Default.ClientSecret;
+            _CategoryID = Properties.Settings.Default.CategoryID;
+        }
+
+        /// <summary>
+        /// Saves credentials ClientID, clientSecret and categoryID to the personalized settings file.
+        /// </summary>
+        public static void SaveCredentials()
+        {
+            Properties.Settings.Default.ClientID = _ClientID;
+            Properties.Settings.Default.ClientSecret = _ClientSecret;
+            Properties.Settings.Default.CategoryID = _CategoryID;
+            Properties.Settings.Default.Save();
+        }
 
         /// <summary>
         /// Takes a single language name and returns the matching language code. OK to pass a language code.
@@ -115,6 +138,22 @@ namespace TranslationAssistant.TranslationServices.Core
             else
             {
                 throw new ArgumentException(String.Format("LanguageNameToLanguageCode: Language name {0} not found.", languagename));
+            }
+        }
+
+        public static string LanguageCodeToLanguageName(string languagecode)
+        {
+            if (AvailableLanguages.ContainsValue(languagecode))
+            {
+                return languagecode;
+            }
+            else if (AvailableLanguages.ContainsKey(languagecode))
+            {
+                return AvailableLanguages.First(t => t.Key == languagecode).Value;
+            }
+            else
+            {
+                throw new ArgumentException(String.Format("LanguageCodeToLanguageName: Language code {0} not found.", languagecode));
             }
         }
 

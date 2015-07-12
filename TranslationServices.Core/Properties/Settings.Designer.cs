@@ -8,16 +8,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TranslationAssistant.DocumentTranslationInterface.Properties {
+namespace TranslationAssistant.TranslationServices.Core.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
-    public sealed partial class DocumentTranslator : global::System.Configuration.ApplicationSettingsBase {
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
-        private static DocumentTranslator defaultInstance = ((DocumentTranslator)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new DocumentTranslator())));
+        private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
-        public static DocumentTranslator Default {
+        public static Settings Default {
             get {
                 return defaultInstance;
             }
@@ -26,24 +26,36 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DefaultSourceLanguage {
+        public string ClientID {
             get {
-                return ((string)(this["DefaultSourceLanguage"]));
+                return ((string)(this["ClientID"]));
             }
             set {
-                this["DefaultSourceLanguage"] = value;
+                this["ClientID"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DefaultTargetLanguage {
+        public string ClientSecret {
             get {
-                return ((string)(this["DefaultTargetLanguage"]));
+                return ((string)(this["ClientSecret"]));
             }
             set {
-                this["DefaultTargetLanguage"] = value;
+                this["ClientSecret"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CategoryID {
+            get {
+                return ((string)(this["CategoryID"]));
+            }
+            set {
+                this["CategoryID"] = value;
             }
         }
     }

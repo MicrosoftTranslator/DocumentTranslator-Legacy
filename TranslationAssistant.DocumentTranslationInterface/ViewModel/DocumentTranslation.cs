@@ -20,7 +20,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
-    using System;
     using System.IO;
     using System.Linq;
     using System.Windows.Input;

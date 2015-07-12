@@ -58,17 +58,22 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             : base(Logger)
         {
             TranslationServiceFacade.Initialize();
+            if (!TranslationServiceFacade.IsTranslationServiceReady())
+            {
+                this.Logger.WriteLine(LogLevel.Error, "Invalid translation service credentials. Use \"DocumentTranslatorCmd setcredentials\", or use the Document Translator Settings option.");
+            }
+
             this.sourceDocuments = new SimpleStringArgument(
                 "SourceDocuments",
                 true,
                 new[] { ',' },
-                "Full path to the list of documents to translate, or list of documents seperated by comma.");
+                "Full path to the list of documents to translate, or list of documents separated by comma.");
 
             this.sourceLanguage = new Argument(
                 "SourceLanguage",
                 false,
                 new[] { "Auto-Detect" },
-                TranslationServiceFacade.AvailableLanguages.Values.ToArray(),
+                TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),
                 true,
                 "The source language. Auto-detect if no language specified.");
 
@@ -76,7 +81,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 "TargetLanguages",
                 true,
                 new string[] { },
-                TranslationServiceFacade.AvailableLanguages.Values.ToArray(),
+                TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),
                 new[] { ',' },
                 "The target language code, or comma-separated list of codes.");
 
@@ -123,7 +128,21 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         /// </returns>
         public override bool Execute()
         {
-            if (this.sourceDocuments.Values.ToArray().Any(file => !File.Exists(file.ToString())))
+            int documentcount = 0;
+            String[] filelist = null;
+
+            //Expand wildcard, if name specification contains *
+            if (this.sourceDocuments.Values.ToArray().Any(file => file.ToString().Contains("*"))) { 
+                foreach (string filename in this.sourceDocuments.Values.ToArray())
+                {
+                    int lastBackslashPosition = filename.LastIndexOf('\\') + 1;
+                    string path = filename.Substring(0, lastBackslashPosition);
+                    string filenameOnly = filename.Substring(lastBackslashPosition);
+                    filelist = Directory.GetFiles(path, filenameOnly, SearchOption.AllDirectories);
+                }
+            }
+
+            if (this.sourceDocuments.Values.ToArray().Any(file => !File.Exists(file.ToString()))) 
             {
                 this.Logger.WriteLine(LogLevel.Error, "Source path does not exist.");
                 return false;
@@ -147,31 +166,33 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                             this.Logger.WriteLine(
                                 LogLevel.Msg,
                                 string.Format(
-                                    "Trying to translate document with name {0} to language {1}.",
+                                    "Translating document {0} to language {1}.",
                                     file,
                                     language));
                             model.TargetPath = file;
                             this.Logger.WriteLine(
                                 LogLevel.Msg,
-                                string.Format("Processing file:  {0}.", Path.GetFileName(model.TargetPath)));
+                                string.Format("Processing file: {0}.", Path.GetFileName(model.TargetPath)));
 
                             var sourceLanguageExpanded = String.IsNullOrEmpty(this.sourceLanguage.ValueString)
                                                          || this.sourceLanguage.ValueString.Equals("Auto-Detect")
                                                              ? "Auto-Detect"
                                                              : TranslationServiceFacade.AvailableLanguages[
                                                                  this.sourceLanguage.ValueString];
+                            string languagename = TranslationServiceFacade.LanguageCodeToLanguageName(language.ToString());
+
                             DocumentTranslationManager.DoTranslation(
                                 file,
                                 false,
                                 sourceLanguageExpanded,
-                                //TranslationServiceFacade.AvailableLanguages[language.ToString()]);
-                                language.ToString());
+                                languagename);
                             this.Logger.WriteLine(
                                 LogLevel.Msg,
                                 string.Format(
-                                    "******Translated document name {0} to language {1}.*********",
+                                    "-- Translated document name {0} to language {1}.",
                                     file,
                                     language));
+                            documentcount++;
                         }
                         catch (Exception ex)
                         {
@@ -194,7 +215,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 return false;
             }
 
-            this.Logger.WriteLine(LogLevel.Msg, string.Format("All documents translated successfully."));
+            this.Logger.WriteLine(LogLevel.Msg, string.Format("Documents translated successfully: {0}.", documentcount));
             return true;
         }
 

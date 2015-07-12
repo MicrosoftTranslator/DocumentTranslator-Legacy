@@ -18,7 +18,7 @@ Translate an Office document and receive a translated Office document in full fi
 
 ## Usage
 Runs on Windows 7 and above.
-Requires .Net Framework 3.5.
+Requires .Net Framework 4.5.
 The Release is an MSI package, install directly in Windows. 
 
 - Start Microsoft Document Translator from the Start Menu.

@@ -149,9 +149,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// </summary>
         public AccountViewModel()
         {
-            this.clientID = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.ClientID;
-            this.clientSecret = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.ClientSecret;
-            this.categoryID = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.CategoryID;
+            //Initialize in order to load the credentials.
+            TranslationServices.Core.TranslationServiceFacade.Initialize();
+            this.clientID = TranslationServices.Core.TranslationServiceFacade.ClientID;
+            this.clientSecret = TranslationServices.Core.TranslationServiceFacade.ClientSecret;
+            this.categoryID = TranslationServices.Core.TranslationServiceFacade.CategoryID;
         }
 
         /// <summary>
@@ -160,15 +162,10 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private void SaveAccountClick()
         {
             //Set the Account values and save.
-            TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.ClientID = this.clientID;
-            TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.ClientSecret = this.clientSecret;
-            TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.CategoryID = this.categoryID;
-            TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.Save();
-
-            //Set the public properties for the translation service.
             TranslationServices.Core.TranslationServiceFacade.ClientID = this.clientID;
             TranslationServices.Core.TranslationServiceFacade.ClientSecret = this.clientSecret;
             TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID;
+            TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
 
             if (TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReady()) { 
                 this.StatusText = "Settings saved. Ready to translate.";
