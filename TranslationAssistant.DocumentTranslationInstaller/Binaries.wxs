@@ -7,6 +7,7 @@
       <Component Id="Binaries" Guid="{FA17B933-76C4-4E7D-AA08-5C4E7B003842}">
 
         <File Id="TranslationAssistant.AutomationToolkit" Source="$(var.TranslationAssistant.AutomationToolkit.TargetPath)" DiskId="1" KeyPath="no" />
+        <File Id="TranslationAssistant.AutomationToolkit.config" Source="$(var.TranslationAssistant.AutomationToolkit.TargetPath).config" DiskId="1" KeyPath="no" />
         <File Id="TranslationAssistant.AutomationToolkit.BasePlugin" Source="$(var.TranslationAssistant.AutomationToolkit.BasePlugin.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="TranslationAssistant.AutomationToolkit.TranslationPlugins" Source="$(var.TranslationAssistant.AutomationToolkit.TranslationPlugins.TargetPath)" DiskId="1" KeyPath="no" />
         

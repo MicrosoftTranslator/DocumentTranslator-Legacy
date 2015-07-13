@@ -3,7 +3,7 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   xmlns:viewModel="clr-namespace:TranslationAssistant.DocumentTranslationInterface.ViewModel"
-                  Title="MainWindow"
+                  Title="Document Translator"
                   ContentSource="/Pages/Home.xaml" Background="Black" ResizeMode="NoResize"
                   >
 

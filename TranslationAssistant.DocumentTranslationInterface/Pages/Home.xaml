@@ -26,7 +26,7 @@
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">            
                         <Hyperlink NavigateUri="http://www.microsoft.com/translator" RequestNavigate="Hyperlink_OnRequestNavigate">
-                         http://www.microsoft.com/translator
+                         microsoft.com/translator
                         </Hyperlink>             
                     </TextBlock>
                     

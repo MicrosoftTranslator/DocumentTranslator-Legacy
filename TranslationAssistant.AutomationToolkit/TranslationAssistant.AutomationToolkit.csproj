@@ -68,7 +68,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TranslationAssistant.AutomationToolkit.BasePlugin\TranslationAssistant.AutomationToolkit.BasePlugin.csproj">
