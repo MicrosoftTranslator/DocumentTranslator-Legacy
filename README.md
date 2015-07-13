@@ -32,12 +32,12 @@ The Release is an MSI package, install directly in Windows.
 Document Translator can be run from the command line:
 
 Translate documents:
-  DocumentTranslatorCmd translatedocuments /sourcedocuments:d:\testdocuments\*.docx /targetlanguages:de,el
-When a wirldcard is give, Document Translator recurses through subdirectories.
+`DocumentTranslatorCmd translatedocuments /sourcedocuments:d:\testdocuments\*.docx /targetlanguages:de,el`
+*When a wildcard is given, Document Translator recurses through subdirectories.
 
 
 Set credentials:
-DocumentTranslatorCmd setcredentials /clientid:ClientId /clientsecret:ClientSecret
+`DocumentTranslatorCmd setcredentials /clientid:ClientId /clientsecret:ClientSecret`
 
 
 
@@ -48,8 +48,10 @@ It depends on
 - Firstfloor.ModernUI for the UI
 - Microsoft.Practices.Prism for the messaging and interfaces
 - OpenXml for the Office document handling
+- Wix Toolkit for the installer
+*You need to install these separately if you want to build.
 
-The software is open to accepting new file types for translation. 
+The software is open to accepting new file types for translation, or any other changes you'd like to see.
 
 ##Questions and Support
 For questions and support please turn to the Microsoft Translator developer forum: https://social.msdn.microsoft.com/Forums/en-US/home?category=translation
