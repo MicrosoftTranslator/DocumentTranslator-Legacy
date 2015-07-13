@@ -32,11 +32,14 @@ The Release is an MSI package, install directly in Windows.
 Document Translator can be run from the command line:
 
 Translate documents:
+
 `DocumentTranslatorCmd translatedocuments /sourcedocuments:d:\testdocuments\*.docx /targetlanguages:de,el`
+
 *When a wildcard is given, Document Translator recurses through subdirectories.
 
 
 Set credentials:
+
 `DocumentTranslatorCmd setcredentials /clientid:ClientId /clientsecret:ClientSecret`
 
 
