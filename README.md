@@ -28,6 +28,19 @@ The Release is an MSI package, install directly in Windows.
 - Select the from and to languages.
 - Hit Go.
 
+### Command line operation
+Document Translator can be run from the command line:
+
+Translate documents:
+  DocumentTranslatorCmd translatedocuments /sourcedocuments:d:\testdocuments\*.docx /targetlanguages:de,el
+When a wirldcard is give, Document Translator recurses through subdirectories.
+
+
+Set credentials:
+DocumentTranslatorCmd setcredentials /clientid:ClientId /clientsecret:ClientSecret
+
+
+
 ## How to build Document Translator
 Microsoft Document Translator is written in C#, using Visual Studio 2013.
 

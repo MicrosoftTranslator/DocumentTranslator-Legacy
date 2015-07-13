@@ -68,7 +68,7 @@
                     </BulletDecorator>
 
                     <BulletDecorator Height="44" VerticalAlignment="Top">
-                        <TextBlock Text="Uses your Microsoft API account, data stored in CTF, and MT systems that have been customized using the Hub." TextWrapping="Wrap"/>
+                        <TextBlock Text="Uses your Microsoft API account, data stored in CTF, and MT systems that have been customized using the Hub. Command line operation, wildcards and multiple languages at one using DocumenTranslatorCmd.exe. " TextWrapping="Wrap"/>
                     </BulletDecorator>
 
                     <BulletDecorator Height="22" VerticalAlignment="Bottom">

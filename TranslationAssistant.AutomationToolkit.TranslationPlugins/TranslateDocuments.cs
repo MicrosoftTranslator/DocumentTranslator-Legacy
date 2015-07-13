@@ -16,6 +16,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
     using System;
     using System.IO;
     using System.Linq;
+    using System.Collections.Generic;
 
     using TranslationAssistant.AutomationToolkit.BasePlugin;
     using TranslationAssistant.Business;
@@ -67,7 +68,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 "SourceDocuments",
                 true,
                 new[] { ',' },
-                "Full path to the list of documents to translate, or list of documents separated by comma.");
+                "Document to translate, or list of documents separated by comma, or a wildcard. Wildcard recurses through subfolders.");
 
             this.sourceLanguage = new Argument(
                 "SourceLanguage",
@@ -83,7 +84,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 new string[] { },
                 TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),
                 new[] { ',' },
-                "The target language code, or comma-separated list of codes.");
+                "The target language code, or comma-separated list of language codes.");
 
             this.Arguments = new ArgumentList(
                 new[] { this.sourceDocuments, this.sourceLanguage, this.targetLanguages },
@@ -101,7 +102,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         {
             get
             {
-                return "Allows to translate the document(s) from source to target language(s).";
+                return "Allows to translate a list of documents from a source language to a list of target languages.";
             }
         }
 
@@ -129,7 +130,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         public override bool Execute()
         {
             int documentcount = 0;
-            String[] filelist = null;
+            List<String> listoffiles = new List<string>();
 
             //Expand wildcard, if name specification contains *
             if (this.sourceDocuments.Values.ToArray().Any(file => file.ToString().Contains("*"))) { 
@@ -138,14 +139,16 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                     int lastBackslashPosition = filename.LastIndexOf('\\') + 1;
                     string path = filename.Substring(0, lastBackslashPosition);
                     string filenameOnly = filename.Substring(lastBackslashPosition);
-                    filelist = Directory.GetFiles(path, filenameOnly, SearchOption.AllDirectories);
+                    String[] filelist= Directory.GetFiles(path, filenameOnly, SearchOption.AllDirectories);
+                    listoffiles.AddRange(filelist);
                 }
             }
-
-            if (this.sourceDocuments.Values.ToArray().Any(file => !File.Exists(file.ToString()))) 
+            else  //no * in the file name
             {
-                this.Logger.WriteLine(LogLevel.Error, "Source path does not exist.");
-                return false;
+                foreach (var file in this.sourceDocuments.ValueString.Split(','))
+                {
+                    listoffiles.Add(file);
+                }
             }
 
             try
@@ -157,8 +160,9 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                                     TargetLanguage = this.targetLanguages.ValueString
                                 };
 
-                foreach (var file in this.sourceDocuments.ValueString.Split(','))
+                foreach (var file in listoffiles)
                 {
+                    if (!File.Exists(file)) Logger.WriteLine(LogLevel.Error, String.Format("Specified document {0} does not exist. ", file));
                     foreach (var language in this.targetLanguages.Values)
                     {
                         try
@@ -170,10 +174,6 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                                     file,
                                     language));
                             model.TargetPath = file;
-                            this.Logger.WriteLine(
-                                LogLevel.Msg,
-                                string.Format("Processing file: {0}.", Path.GetFileName(model.TargetPath)));
-
                             var sourceLanguageExpanded = String.IsNullOrEmpty(this.sourceLanguage.ValueString)
                                                          || this.sourceLanguage.ValueString.Equals("Auto-Detect")
                                                              ? "Auto-Detect"
