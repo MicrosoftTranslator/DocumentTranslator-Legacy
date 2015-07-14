@@ -52,6 +52,7 @@ It depends on
 - Microsoft.Practices.Prism for the messaging and interfaces
 - OpenXml for the Office document handling
 - Wix Toolkit for the installer
+
 *You need to install these separately if you want to build.
 
 The software is open to accepting new file types for translation, or any other changes you'd like to see.
