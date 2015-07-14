@@ -19,10 +19,10 @@ Translate an Office document and receive a translated Office document in full fi
 ## Usage
 Runs on Windows 7 and above.
 Requires .Net Framework 4.5.
-The Release is an MSI package, install directly in Windows. 
+The Release is an MSI package, install directly in Windows.
 
 - Start Microsoft Document Translator from the Start Menu.
-- Visit the settings page and follow the links to subscribe to Microsoft Translator. Free for up to 2 millionn characters per month.
+- Visit the settings page and follow the links to subscribe to Microsoft Translator. Free for up to 2 million characters per month.
 - On the settigs page, follow the link to defining your client ID and secret, and copy them to the settings page.
 - Go to the document translation page and select the documents to translate.
 - Select the from and to languages.
@@ -60,4 +60,4 @@ The software is open to accepting new file types for translation, or any other c
 For questions and support please turn to the Microsoft Translator developer forum: https://social.msdn.microsoft.com/Forums/en-US/home?category=translation
 
 ##Enhancements
-Please feel encouraged to fork and controbute back your enhancements, specifically for new file formats.
+Please branch and contribute back your enhancements. Especially interested in additional file formats.
