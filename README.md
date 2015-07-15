@@ -48,14 +48,27 @@ Set credentials:
 Microsoft Document Translator is written in C#, using Visual Studio 2013.
 
 It depends on
-- Firstfloor.ModernUI for the UI
+
 - Microsoft.Practices.Prism for the messaging and interfaces
 - OpenXml for the Office document handling
 - Wix Toolkit for the installer
 
+
+This project also uses:
+First Floor MUI
+(c) First Floor Software
+Under the Ms-PL: https://github.com/firstfloorsoftware/mui/blob/master/LICENSE.md
+Available from: https://github.com/firstfloorsoftware/mui
+
+
 *You need to install these separately if you want to build.
 
 The software is open to accepting new file types for translation, or any other changes you'd like to see.
+
+##Security
+All requests to the Translator service are SSL encrypted, using the certificate of the Microsoft Translator service.
+Document Translator stores the service access credentials (client ID and client secret) unencypted in the
+user profile on the machine. For enterprise use we recommend to implement a more secure storage mechanism.
 
 ##Questions and Support
 For questions and support please turn to the Microsoft Translator developer forum: https://social.msdn.microsoft.com/Forums/en-US/home?category=translation
