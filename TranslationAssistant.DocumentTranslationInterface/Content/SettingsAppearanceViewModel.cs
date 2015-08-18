@@ -39,7 +39,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
 
         #endregion
 
-        // 9 accent colors from metro design principles
+        // 9 accent colors from modern design principles
         /*private Color[] accentColors = new Color[]{
             Color.FromRgb(0x33, 0x99, 0xff),   // blue
             Color.FromRgb(0x00, 0xab, 0xa9),   // teal
