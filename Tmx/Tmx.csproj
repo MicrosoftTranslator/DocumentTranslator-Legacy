@@ -4,17 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5CBC6852-6F8F-4BD1-85A8-7D4629674ABA}</ProjectGuid>
+    <ProjectGuid>{1E89FBEE-7C28-41F8-8894-1B11D4855A26}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TranslationAssistant.AutomationToolkit.TranslationPlugins</RootNamespace>
-    <AssemblyName>TranslationAssistant.AutomationToolkit.TranslationPlugins</AssemblyName>
+    <RootNamespace>Tmx</RootNamespace>
+    <AssemblyName>Tmx</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -36,7 +32,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,28 +39,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SetCredentials.cs" />
-    <Compile Include="TmxToCtf.cs" />
-    <Compile Include="TranslateDocuments.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Tmx\Tmx.csproj">
-      <Project>{1e89fbee-7c28-41f8-8894-1b11d4855a26}</Project>
-      <Name>Tmx</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TranslationAssistant.AutomationToolkit.BasePlugin\TranslationAssistant.AutomationToolkit.BasePlugin.csproj">
-      <Project>{443be96f-82e7-4952-a078-debcff6b2311}</Project>
-      <Name>TranslationAssistant.AutomationToolkit.BasePlugin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TranslationAssistant.Business\TranslationAssistant.Business.csproj">
-      <Project>{6bf8556d-3875-4c4a-86b4-a9aa5b1f8696}</Project>
-      <Name>TranslationAssistant.Business</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TranslationServices.Core\TranslationServices.Core.csproj">
-      <Project>{9f027538-f794-4543-a510-155043a40cc6}</Project>
-      <Name>TranslationServices.Core</Name>
-    </ProjectReference>
+    <Compile Include="SntReader.cs" />
+    <Compile Include="SntWriter.cs" />
+    <Compile Include="SntWriterContainer.cs" />
+    <Compile Include="TmxFile.cs" />
+    <Compile Include="TmxParser\ParseStatus.cs" />
+    <Compile Include="TmxParser\RegEx.cs" />
+    <Compile Include="TmxParser\StringHelper.cs" />
+    <Compile Include="TmxParser\TmxAttribute.cs" />
+    <Compile Include="TmxParser\TmxAttributeCollection.cs" />
+    <Compile Include="TmxParser\TmxDocument.cs" />
+    <Compile Include="TmxParser\TmxElement.cs" />
+    <Compile Include="TmxParser\TmxEncoder.cs" />
+    <Compile Include="TmxParser\TmxNode.cs" />
+    <Compile Include="TmxParser\TmxNodeCollection.cs" />
+    <Compile Include="TmxParser\TmxParser.cs" />
+    <Compile Include="TmxParser\TmxText.cs" />
+    <Compile Include="TmxParser\Token.cs" />
+    <Compile Include="TmxReader.cs" />
+    <Compile Include="TmxTag.cs" />
+    <Compile Include="TmxTagType.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
