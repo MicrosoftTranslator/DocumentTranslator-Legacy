@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
 {
+    using Mts.Common.Tmx;
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Collections.Generic;
-
     using TranslationAssistant.AutomationToolkit.BasePlugin;
     using TranslationAssistant.Business;
     using TranslationAssistant.Business.Model;
     using TranslationAssistant.TranslationServices.Core;
-    using Mts.Common.Tmx;
 
     internal class TmxToCtf : BasePlugIn
     {
@@ -46,6 +46,11 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         /// </summary>
         private readonly Argument rating;
 
+        /// <summary>
+        /// Write to CTF or just list the records that would be written.
+        /// </summary>
+        private readonly BooleanArgument boolWrite;
+
         #endregion
 
         #region Constructors and Destructors
@@ -66,25 +71,25 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             }
 
             this.TmxDocument = new SimpleStringArgument(
-                "TmxDocument",
+                "Tmx",
                 true,
                 new[] { ',' },
                 "TMX Document to upload to CTF.");
 
             this.sourceLanguage = new Argument(
-                "SourceLanguage",
+                "From",
                 true,
                 new[] { "Auto-Detect" },
                 TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),
                 true,
                 "The source language code. Must match the language specification in the TMX file AND be a valid Microsoft Translator language code.");
 
-            this.targetLanguage = new SimpleStringArgument(
-                "TargetLanguage",
+            this.targetLanguage = new Argument(
+                "To",
                 true,
-                new string[] { },
+                new string[] { "de" },
                 TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),
-                new[] { ',' },
+                true,
                 "The target language code. Must match the language specification in the TMX file AND be a valid Microsoft Translator language code.");
             
             this.user = new Argument(
@@ -92,14 +97,19 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 false,
                 "The user ID recorded in CTF. Default: TmxUpload.");
 
-            this.rating = new SimpleStringArgument(
+            this.rating = new Argument(
                 "Rating",
                 false,
-                new[] { ',' },
                 "The rating with which the entries are created. Must be an integer 1..10. 5 or higher overrides MT. Default: 6.");
 
+            this.boolWrite = new BooleanArgument(
+                "Write",
+                false,
+                false,
+                "Write to CTF.");
+
             this.Arguments = new ArgumentList(
-                new[] { this.TmxDocument, this.sourceLanguage, this.targetLanguage },
+                new[] { this.TmxDocument, this.sourceLanguage, this.targetLanguage, this.user, this.rating, this.boolWrite },
                 Logger);
         }
 
@@ -142,6 +152,11 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         public override bool Execute()
         {
             string SntFileName = Path.GetTempPath() + "_TmxUpload.snt";
+            string uservalue = user.ValueString;
+            if (uservalue == string.Empty) uservalue = "TmxUpload";
+            string ratingvalue = rating.ValueString;
+            if (ratingvalue == string.Empty) ratingvalue = "6";
+
             TmxFile TmxIn = new TmxFile(this.TmxDocument.ValueString);
             string[] sntFilenames = TmxIn.WriteToSNTFiles(SntFileName);
             if (sntFilenames.Length != 2) {
@@ -151,8 +166,29 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             }
 
             TranslationMemory TM = new TranslationMemory();
-            TM.sourceLangID = this.sourceLanguage.ValueString;
-            TM.targetLangID = this.targetLanguage.ValueString;
+            TM.sourceLangID = this.sourceLanguage.ValueString.ToLowerInvariant();
+            TM.targetLangID = this.targetLanguage.ValueString.ToLowerInvariant();
+
+            // Read langauge names from Tmx
+            string TmxSourceLanguage = Path.GetFileNameWithoutExtension(sntFilenames[0]);
+            TmxSourceLanguage = TmxSourceLanguage.Substring(TmxSourceLanguage.LastIndexOf('_') + 1).ToLowerInvariant();
+            string TmxTargetLanguage = Path.GetFileNameWithoutExtension(sntFilenames[1]);
+            TmxTargetLanguage = TmxTargetLanguage.Substring(TmxTargetLanguage.LastIndexOf('_') + 1).ToLowerInvariant();
+
+            if (TmxSourceLanguage.Substring(0, 2) != TM.sourceLangID)
+            {
+                Logger.WriteLine(LogLevel.Error, "Source language mismatch between command line {0} and TMX language {1}. Aborting.", TM.sourceLangID, TmxSourceLanguage);
+                deleteSNTfiles(sntFilenames);
+                return false;
+            }
+
+            if (TmxTargetLanguage.Substring(0, 2) != TM.targetLangID)
+            {
+                Logger.WriteLine(LogLevel.Error, "Target language mismatch between command line {0} and TMX language {1}. Aborting.", TM.targetLangID, TmxTargetLanguage);
+                deleteSNTfiles(sntFilenames);
+                return false;
+            }
+
 
             string[] sntSource = File.ReadAllLines(sntFilenames[0]);
             string[] sntTarget = File.ReadAllLines(sntFilenames[1]);
@@ -166,14 +202,14 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             //Load into TM and perform error check on each line.
             int ratioViolationCount = 0; //counts number of ratio violations
             int sntCountViolationCount = 0; //counts number of unequal sentence count violation.
-            for (int i = 0; i < sntSource.Length; i++)
+            for (int sntLineIndex = 0; sntLineIndex < sntSource.Length; sntLineIndex++)
             {
 
                 //Length discrepancy check
-                float ratio = Math.Abs(sntSource[i].Length / sntTarget.Length);
+                float ratio = Math.Abs(sntSource[sntLineIndex].Length / sntTarget[sntLineIndex].Length);
                 if (ratio > 3) //skip the segment
                 {
-                    Logger.WriteLine(LogLevel.Msg, "Length ratio exceeded. Segment skipped {0}", sntSource[i].Substring(0, 60));
+                    Logger.WriteLine(LogLevel.Msg, "Length ratio exceeded. Segment skipped: {0}", sntSource[sntLineIndex].Substring(0, (60<sntSource[sntLineIndex].Length)?60:sntSource[sntLineIndex].Length));
                     ratioViolationCount++;
                     if ((ratioViolationCount / sntSource.Length) > 0.10)
                     {
@@ -184,14 +220,14 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                     continue;
                 }
 
-                int[] sourceSentLengths = TranslationServiceFacade.BreakSentences(sntSource[i], TM.sourceLangID);
-                int[] targetSentLengths = TranslationServiceFacade.BreakSentences(sntTarget[i], TM.targetLangID);
+                int[] sourceSentLengths = TranslationServiceFacade.BreakSentences(sntSource[sntLineIndex], TM.sourceLangID);
+                int[] targetSentLengths = TranslationServiceFacade.BreakSentences(sntTarget[sntLineIndex], TM.targetLangID);
 
                 //unequal sentence count violation check
                 if (sourceSentLengths.Length != targetSentLengths.Length)
                 {
                     sntCountViolationCount++;
-                    Logger.WriteLine(LogLevel.Msg, "Unequal number of sentences in segment. Segment skipped {0}", sntSource[i].Substring(0, 60));
+                    Logger.WriteLine(LogLevel.Msg, "Unequal number of sentences in segment. Segment skipped: {0}", sntSource[sntLineIndex].Substring(0, (60<sntSource[sntLineIndex].Length)?60:sntSource[sntLineIndex].Length));
                     if ((sntCountViolationCount / sntSource.Length) > 0.10)
                     {
                         Logger.WriteLine(LogLevel.Error, "Unequal sentence count exceeded for 10% of segments. Probably not a translation. Aborting.");
@@ -201,17 +237,63 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                     continue;
                 }
 
-                //Split multiple sentences
-                if (sourceSentLengths.Length > 1)
-                {
-                    
-                }
+                //normalize tags - turn each tag into <A0> or </A0> or <A0/>
+                //TODO: special handling of bpt/ept 
+                sntSource[sntLineIndex] = System.Net.WebUtility.HtmlDecode(sntSource[sntLineIndex]);
+                sntTarget[sntLineIndex] = System.Net.WebUtility.HtmlDecode(sntTarget[sntLineIndex]);
+                sntSource[sntLineIndex] = NormalizeTags(sntSource[sntLineIndex]);
+                sntTarget[sntLineIndex] = NormalizeTags(sntTarget[sntLineIndex]);
 
-                //normalize tags
+
+                //Split multiple sentences
+                int startIndexSrc = 0;
+                int startIndexTgt = 0;
+                for (int j = 0; j < sourceSentLengths.Length; j++ )
+                {
+                    TranslationUnit TU = new TranslationUnit();
+                    TU.strSource = sntSource[sntLineIndex].Substring(startIndexSrc, sourceSentLengths[j]);
+                    TU.strTarget = sntTarget[sntLineIndex].Substring(startIndexTgt, targetSentLengths[j]);
+                    startIndexSrc = sourceSentLengths[j];
+                    startIndexTgt = targetSentLengths[j];
+                    TU.rating = int.Parse(ratingvalue);
+                    TU.user = uservalue.ToUpperInvariant();
+                    TM.Add(TU);
+                }
 
             }
 
+            
+            //Add the whole TM list to CTF, if a CTF write was requested.
+
+            if (boolWrite.ValueString.ToLowerInvariant() == "true")
+            {
+                int SentenceCount = 0;
+                foreach (TranslationUnit TU in TM){
+                    TranslationServiceFacade.AddTranslation(TU.strSource, TU.strTarget, TM.sourceLangID, TM.targetLangID, TU.rating, TU.user);
+                    if ((sntSource.Length/10 > SentenceCount)) Logger.WriteLine(LogLevel.Msg, "{0} sentences written. Continuing...", SentenceCount);
+                    Thread.Sleep(1000);
+                    SentenceCount++;
+                }
+                Logger.WriteLine(LogLevel.Msg, "{0} sentences written to CTF. Write complete. ", SentenceCount);
+            }
+            else
+            {
+                //Just list the entire TM on screen.
+                foreach (TranslationUnit TU in TM)
+                {
+                    Logger.WriteLine(LogLevel.Msg, "{0} || {1}", TU.strSource, TU.strTarget);
+                }
+            }
+
+
             return true;
+        }
+
+        private string NormalizeTags(string s)
+        {
+            //currently does nothing. If we need to, reuse the original TMX reader class
+            string newstring = s;
+            return newstring;
         }
 
         private void deleteSNTfiles(string[] sntFilenames)
