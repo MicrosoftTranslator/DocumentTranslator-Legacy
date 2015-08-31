@@ -10,7 +10,8 @@
         <File Id="TranslationAssistant.AutomationToolkit.config" Source="$(var.TranslationAssistant.AutomationToolkit.TargetPath).config" DiskId="1" KeyPath="no" />
         <File Id="TranslationAssistant.AutomationToolkit.BasePlugin" Source="$(var.TranslationAssistant.AutomationToolkit.BasePlugin.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="TranslationAssistant.AutomationToolkit.TranslationPlugins" Source="$(var.TranslationAssistant.AutomationToolkit.TranslationPlugins.TargetPath)" DiskId="1" KeyPath="no" />
-        
+        <File Id="Tmx" Source="$(var.Tmx.TargetPath)" DiskId="1" KeyPath="no" />
+
         <File Id="TranslationAssistant.Business" Source="$(var.TranslationAssistant.Business.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="TranslationAssistant.DocumentTranslationInterface" Source="$(var.DocumentTranslator.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="TranslationServices.Core" Source="$(var.TranslationServices.Core.TargetPath)" DiskId="1" KeyPath="no" />
@@ -22,16 +23,16 @@
         
         <File Id="FirstFloor.ModernUI" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\FirstFloor.ModernUI.dll" DiskId="1" KeyPath="no" />
         <File Id="Microsoft.Windows.Shell" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Windows.Shell.dll" DiskId="1" KeyPath="no" />
-        <File Id="MSTicon_200_wbg.ico" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\DocumentTranslator_48.ico" DiskId="1" KeyPath="no"/>
+        <File Id="MSTicon_200_wbg.ico" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\DocTranslator_48.ico" DiskId="1" KeyPath="no"/>
         
       </Component>
     </DirectoryRef>
 
-    <Icon Id="DocumentTranslator_48.ico" SourceFile="DocumentTranslator_48.ico" />
+    <Icon Id="DocTranslator_48.ico" SourceFile="DocTranslator_48.ico" />
     
     <DirectoryRef Id="ApplicationProgramsFolder">
       <Component Id="ApplicationShortcut" Guid="{42850908-AF5D-43EC-A8FA-2038E139C762}">
-        <Shortcut Id="ApplicationStartMenuShortcut" Icon="DocumentTranslator_48.ico"
+        <Shortcut Id="ApplicationStartMenuShortcut" Icon="DocTranslator_48.ico"
                   Name="Document Translator" Description="Microsoft Translator Document Translator" Target="[APPLICATIONROOTDIRECTORY]DocumentTranslator.exe"
                   WorkingDirectory="APPLICATIONROOTDIRECTORY" />
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />

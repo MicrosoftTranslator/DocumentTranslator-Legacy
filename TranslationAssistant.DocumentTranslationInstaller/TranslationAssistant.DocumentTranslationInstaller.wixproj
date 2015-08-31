@@ -42,7 +42,7 @@
     <Content Include="Dlls\Microsoft.Practices.Prism.dll" />
     <Content Include="Dlls\Microsoft.Windows.Shell.dll" />
     <Content Include="Dlls\System.Windows.Interactivity.dll" />
-    <Content Include="DocumentTranslator_48.ico" />
+    <Content Include="DocTranslator_48.ico" />
     <Content Include="LICENSE.rtf" />
     <Content Include="MSTicon_200x200_wbackg.png" />
   </ItemGroup>
@@ -57,6 +57,14 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Tmx\Tmx.csproj">
+      <Name>Tmx</Name>
+      <Project>{1e89fbee-7c28-41f8-8894-1b11d4855a26}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\TranslationAssistant.AutomationToolkit.BasePlugin\TranslationAssistant.AutomationToolkit.BasePlugin.csproj">
       <Name>TranslationAssistant.AutomationToolkit.BasePlugin</Name>
       <Project>{443be96f-82e7-4952-a078-debcff6b2311}</Project>
