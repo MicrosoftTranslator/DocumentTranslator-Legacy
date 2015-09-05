@@ -10,7 +10,7 @@
         <File Id="TranslationAssistant.AutomationToolkit.config" Source="$(var.TranslationAssistant.AutomationToolkit.TargetPath).config" DiskId="1" KeyPath="no" />
         <File Id="TranslationAssistant.AutomationToolkit.BasePlugin" Source="$(var.TranslationAssistant.AutomationToolkit.BasePlugin.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="TranslationAssistant.AutomationToolkit.TranslationPlugins" Source="$(var.TranslationAssistant.AutomationToolkit.TranslationPlugins.TargetPath)" DiskId="1" KeyPath="no" />
-        <File Id="Tmx" Source="$(var.Tmx.TargetPath)" DiskId="1" KeyPath="no" />
+        <File Id="DocumentTranslator.Tmx" Source="$(var.DocumentTranslator.Tmx.TargetPath)" DiskId="1" KeyPath="no" />
 
         <File Id="TranslationAssistant.Business" Source="$(var.TranslationAssistant.Business.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="TranslationAssistant.DocumentTranslationInterface" Source="$(var.DocumentTranslator.TargetPath)" DiskId="1" KeyPath="no" />

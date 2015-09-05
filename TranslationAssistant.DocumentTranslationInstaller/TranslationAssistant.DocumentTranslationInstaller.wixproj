@@ -57,8 +57,8 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Tmx\Tmx.csproj">
-      <Name>Tmx</Name>
+    <ProjectReference Include="..\DocumentTranslator.Tmx\DocumentTranslator.Tmx.csproj">
+      <Name>DocumentTranslator.Tmx</Name>
       <Project>{1e89fbee-7c28-41f8-8894-1b11d4855a26}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
