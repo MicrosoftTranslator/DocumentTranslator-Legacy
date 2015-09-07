@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿//Command line plugin for importain ga TMX into Microsoft Translator CTF.
+//Creates a TMX and CSV file (same content) of the errors.
+//System rejects all segments that have an unequal number of sentences, have tags, or a large delta in lengths
+//CTF is tightly integrated with the MT system, which works sentence based.
+
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
 {
     using Mts.Common.Tmx;
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using TranslationAssistant.AutomationToolkit.BasePlugin;
-    using TranslationAssistant.Business;
-    using TranslationAssistant.Business.Model;
     using TranslationAssistant.TranslationServices.Core;
 
     internal class TmxToCtf : BasePlugIn
@@ -207,8 +204,8 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             int sntCountViolationCount = 0; //counts number of unequal sentence count violation.
             for (int sntLineIndex = 0; sntLineIndex < sntSource.Length; sntLineIndex++)
             {
-
-                if ((sntLineIndex % ((int) (sntSource.Length/10))) == 0) Logger.WriteLine(LogLevel.Msg, "{0} sentences aligned and error checked.", sntLineIndex);
+                //show a progress message. 
+                if ((sntLineIndex % (int) ((sntSource.Length + 10 )/ 10)) == 0) Logger.WriteLine(LogLevel.Msg, "{0} sentences aligned and error checked.", sntLineIndex);
 
                 //Length discrepancy check
                 float ratio = Math.Abs(sntSource[sntLineIndex].Length / sntTarget[sntLineIndex].Length);
