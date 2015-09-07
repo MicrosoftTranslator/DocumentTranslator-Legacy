@@ -159,7 +159,7 @@ namespace Mts.Common.Tmx
                 TmxAttribute langAttr = element.Attributes["lang"] ?? element.Attributes["xml:lang"];
                 if (langAttr != null)
                 {
-                    tuvNodeList.Add(new KeyValuePair<string, TmxNodeCollection>(langAttr.Value.ToLowerInvariant(), element.Nodes));
+                    tuvNodeList.Add(new KeyValuePair<string, TmxNodeCollection>( LanguageMapper.MapLanguage(langAttr.Value.ToLowerInvariant()), element.Nodes));
                 }
             }
 

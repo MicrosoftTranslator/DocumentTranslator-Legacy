@@ -177,14 +177,14 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
 
             if (TmxSourceLanguage.Substring(0, 2) != TM.sourceLangID)
             {
-                Logger.WriteLine(LogLevel.Error, "Source language mismatch between command line {0} and TMX language {1}. Aborting.", TM.sourceLangID, TmxSourceLanguage);
+                Logger.WriteLine(LogLevel.Error, "Source language mismatch between command line {0} and TMX language {1}. Please edit TmxLangMap.csv to fix. Aborting.", TM.sourceLangID, TmxSourceLanguage);
                 deleteSNTfiles(sntFilenames);
                 return false;
             }
 
             if (TmxTargetLanguage.Substring(0, 2) != TM.targetLangID)
             {
-                Logger.WriteLine(LogLevel.Error, "Target language mismatch between command line {0} and TMX language {1}. Aborting.", TM.targetLangID, TmxTargetLanguage);
+                Logger.WriteLine(LogLevel.Error, "Target language mismatch between command line {0} and TMX language {1}. Please edit TmxLangMap.csv to fix. Aborting.", TM.targetLangID, TmxTargetLanguage);
                 deleteSNTfiles(sntFilenames);
                 return false;
             }
@@ -198,6 +198,9 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 return false;
             }
 
+            Logger.WriteLine(LogLevel.None, "{0} translation units read.", sntSource.Length);
+
+            TmxWriter ErrorTmx = new TmxWriter(Path.GetFileNameWithoutExtension(this.TmxDocument.ValueString) + ".errors." + TmxSourceLanguage + "_" + TmxTargetLanguage + "." + DateTime.Now.ToString("yyyyMMddThhmmssZ") + ".tmx", TmxSourceLanguage, TmxTargetLanguage);
 
             //Load into TM and perform error check on each line.
             int ratioViolationCount = 0; //counts number of ratio violations
@@ -205,12 +208,16 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             for (int sntLineIndex = 0; sntLineIndex < sntSource.Length; sntLineIndex++)
             {
 
+                if ((sntLineIndex % ((int) (sntSource.Length/10))) == 0) Logger.WriteLine(LogLevel.Msg, "{0} sentences aligned and error checked.", sntLineIndex);
+
                 //Length discrepancy check
                 float ratio = Math.Abs(sntSource[sntLineIndex].Length / sntTarget[sntLineIndex].Length);
-                if (ratio > 3) //skip the segment
+                if ((ratio > 3) && ((sntSource.Length > 15) || (sntTarget.Length > 15))) //skip the segment, and add to error.tmx
                 {
-                    Logger.WriteLine(LogLevel.Msg, "Length ratio exceeded. Segment skipped: {0}", sntSource[sntLineIndex].Substring(0, (60<sntSource[sntLineIndex].Length)?60:sntSource[sntLineIndex].Length));
+                    Logger.WriteLine(LogLevel.Debug, "Length ratio exceeded. Segment skipped: {0}", sntSource[sntLineIndex].Substring(0, (60<sntSource[sntLineIndex].Length)?60:sntSource[sntLineIndex].Length));
                     ratioViolationCount++;
+                    ErrorTmx.TmxWriteSegment(sntSource[sntLineIndex], sntTarget[sntLineIndex], TmxSourceLanguage, TmxTargetLanguage, TmxWriter.TUError.lengthratio);
+
                     if ((ratioViolationCount / sntSource.Length) > 0.10)
                     {
                         Logger.WriteLine(LogLevel.Error, "Length ratio exceeded for 10% of segments. Probably not a translation. Aborting.");
@@ -220,6 +227,24 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                     continue;
                 }
 
+                //TODO: special handling of bpt/ept 
+                sntSource[sntLineIndex] = System.Net.WebUtility.HtmlDecode(sntSource[sntLineIndex]);
+                sntTarget[sntLineIndex] = System.Net.WebUtility.HtmlDecode(sntTarget[sntLineIndex]);
+
+                //throw away segments with tags
+                if ((sntSource[sntLineIndex].Contains("<") && sntSource[sntLineIndex].Contains(">")) && (sntTarget[sntLineIndex].Contains("<") && sntTarget[sntLineIndex].Contains(">")))
+                {
+                    Logger.WriteLine(LogLevel.Debug, "Tagged segment. Segment skipped: {0}", sntSource[sntLineIndex].Substring(0, (60 < sntSource[sntLineIndex].Length) ? 60 : sntSource[sntLineIndex].Length));
+                    ErrorTmx.TmxWriteSegment(sntSource[sntLineIndex], sntTarget[sntLineIndex], TmxSourceLanguage, TmxTargetLanguage, TmxWriter.TUError.tagging);
+                    continue;
+                }
+
+                //Encode the remaining <>&
+                sntSource[sntLineIndex] = System.Net.WebUtility.HtmlEncode(sntSource[sntLineIndex]);
+                sntTarget[sntLineIndex] = System.Net.WebUtility.HtmlEncode(sntTarget[sntLineIndex]);
+
+
+
                 int[] sourceSentLengths = TranslationServiceFacade.BreakSentences(sntSource[sntLineIndex], TM.sourceLangID);
                 int[] targetSentLengths = TranslationServiceFacade.BreakSentences(sntTarget[sntLineIndex], TM.targetLangID);
 
@@ -227,7 +252,9 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 if (sourceSentLengths.Length != targetSentLengths.Length)
                 {
                     sntCountViolationCount++;
-                    Logger.WriteLine(LogLevel.Msg, "Unequal number of sentences in segment. Segment skipped: {0}", sntSource[sntLineIndex].Substring(0, (60<sntSource[sntLineIndex].Length)?60:sntSource[sntLineIndex].Length));
+                    Logger.WriteLine(LogLevel.Debug, "Unequal number of sentences in segment. Segment skipped: {0}", sntSource[sntLineIndex].Substring(0, (60<sntSource[sntLineIndex].Length)?60:sntSource[sntLineIndex].Length));
+                    ErrorTmx.TmxWriteSegment(sntSource[sntLineIndex], sntTarget[sntLineIndex], TmxSourceLanguage, TmxTargetLanguage, TmxWriter.TUError.sentencecountmismatch);
+
                     if ((sntCountViolationCount / sntSource.Length) > 0.10)
                     {
                         Logger.WriteLine(LogLevel.Error, "Unequal sentence count exceeded for 10% of segments. Probably not a translation. Aborting.");
@@ -236,13 +263,6 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                     }
                     continue;
                 }
-
-                //normalize tags - turn each tag into <A0> or </A0> or <A0/>
-                //TODO: special handling of bpt/ept 
-                sntSource[sntLineIndex] = System.Net.WebUtility.HtmlDecode(sntSource[sntLineIndex]);
-                sntTarget[sntLineIndex] = System.Net.WebUtility.HtmlDecode(sntTarget[sntLineIndex]);
-                sntSource[sntLineIndex] = NormalizeTags(sntSource[sntLineIndex]);
-                sntTarget[sntLineIndex] = NormalizeTags(sntTarget[sntLineIndex]);
 
 
                 //Split multiple sentences
@@ -261,6 +281,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 }
 
             }
+            ErrorTmx.Dispose();
 
             
             //Add the whole TM list to CTF, if a CTF write was requested.
@@ -274,14 +295,14 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                     Thread.Sleep(1000);
                     SentenceCount++;
                 }
-                Logger.WriteLine(LogLevel.Msg, "{0} sentences written to CTF. Write complete. ", SentenceCount);
+                Logger.WriteLine(LogLevel.None, "{0} sentences written to CTF. Write complete. ", SentenceCount);
             }
             else
             {
                 //Just list the entire TM on screen.
                 foreach (TranslationUnit TU in TM)
                 {
-                    Logger.WriteLine(LogLevel.Msg, "{0} || {1}", TU.strSource, TU.strTarget);
+                    Logger.WriteLine(LogLevel.None, "{0} || {1}", TU.strSource, TU.strTarget);
                 }
             }
 
