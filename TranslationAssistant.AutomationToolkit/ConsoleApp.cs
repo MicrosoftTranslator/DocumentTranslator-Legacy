@@ -98,7 +98,8 @@ namespace TranslationAssistant.AutomationToolkit
                     var path = (string)pluginMappings[name.ToLower(CultureInfo.InvariantCulture).Trim()];
                     try
                     {
-                        Assembly assembly = Assembly.LoadFrom(path);
+                        //Assembly assembly = Assembly.LoadFrom(path);
+                        Assembly assembly = Assembly.UnsafeLoadFrom(path);
                         Type pluginType =
                             assembly.GetType(
                                 "TranslationAssistant.AutomationToolkit.TranslationPlugins." + name,
