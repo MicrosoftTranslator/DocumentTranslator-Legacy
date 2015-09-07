@@ -24,7 +24,8 @@
         <File Id="FirstFloor.ModernUI" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\FirstFloor.ModernUI.dll" DiskId="1" KeyPath="no" />
         <File Id="Microsoft.Windows.Shell" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Windows.Shell.dll" DiskId="1" KeyPath="no" />
         <File Id="MSTicon_200_wbg.ico" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\DocTranslator_48.ico" DiskId="1" KeyPath="no"/>
-        
+        <File Id="TmxLangMap.csv" Source="$(var.SolutionDir)\DocumentTranslator.Tmx\TmxLangMap.csv" DiskId="1" KeyPath="no"/>
+
       </Component>
     </DirectoryRef>
 
