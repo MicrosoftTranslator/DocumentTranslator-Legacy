@@ -45,10 +45,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SetCredentials.cs" />
+    <Compile Include="TmxToCtf.cs" />
     <Compile Include="TranslateDocuments.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DocumentTranslator.Tmx\DocumentTranslator.Tmx.csproj">
+      <Project>{1e89fbee-7c28-41f8-8894-1b11d4855a26}</Project>
+      <Name>DocumentTranslator.Tmx</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TranslationAssistant.AutomationToolkit.BasePlugin\TranslationAssistant.AutomationToolkit.BasePlugin.csproj">
       <Project>{443be96f-82e7-4952-a078-debcff6b2311}</Project>
       <Name>TranslationAssistant.AutomationToolkit.BasePlugin</Name>

@@ -62,6 +62,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             if (!TranslationServiceFacade.IsTranslationServiceReady())
             {
                 this.Logger.WriteLine(LogLevel.Error, "Invalid translation service credentials. Use \"DocumentTranslatorCmd setcredentials\", or use the Document Translator Settings option.");
+                return;
             }
 
             this.sourceDocuments = new SimpleStringArgument(

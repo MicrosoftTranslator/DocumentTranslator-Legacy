@@ -231,6 +231,68 @@ namespace TranslationAssistant.TranslationServices.Core
             }
         }
 
+        /// <summary>
+        /// Breaks a piece of text into sentences and returns an array containing the lengths in each sentence. 
+        /// </summary>
+        /// <param name="text">The text to analyze and break.</param>
+        /// <param name="languageID">The language identifier to use.</param>
+        /// <returns>An array of integers representing the lengths of the sentences. The length of the array is the number of sentences, and the values are the length of each sentence.</returns>
+        public static int[] BreakSentences(string text, string languageID)
+        {
+            var bind = new BasicHttpBinding
+                           {
+                               Name = "BasicHttpBinding_LanguageService",
+                               OpenTimeout = TimeSpan.FromMinutes(5),
+                               CloseTimeout = TimeSpan.FromMinutes(5),
+                               ReceiveTimeout = TimeSpan.FromMinutes(5),
+                               MaxReceivedMessageSize = int.MaxValue,
+                               MaxBufferPoolSize = int.MaxValue,
+                               MaxBufferSize = int.MaxValue,
+                               Security =
+                                   new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
+                           };
+
+            var epa = new EndpointAddress("https://api.microsofttranslator.com/V2/soap.svc");
+            TranslatorService.LanguageServiceClient client = new LanguageServiceClient(bind, epa);
+            Utils.ClientID = _ClientID;
+            Utils.ClientSecret = _ClientSecret;
+            string headerValue = "Bearer " + Utils.GetAccesToken();
+            return client.BreakSentences(headerValue, text, languageID);
+        }
+
+        /// <summary>
+        /// Adds a translation to Microsoft Translator's translation memory.
+        /// </summary>
+        /// <param name="originalText">Required. A string containing the text to translate from. The string has a maximum length of 1000 characters.</param>
+        /// <param name="translatedText">Required. A string containing translated text in the target language. The string has a maximum length of 2000 characters. </param>
+        /// <param name="from">Required. A string containing the language code of the source language. Must be a valid culture name. </param>
+        /// <param name="to">Required. A string containing the language code of the target language. Must be a valid culture name. </param>
+        /// <param name="rating">Optional. An int representing the quality rating for this string. Value between -10 and 10. Defaults to 1. </param>
+        /// <param name="user">Required. A string used to track the originator of the submission. </param>
+        public static void AddTranslation(string originalText, string translatedText, string from, string to, int rating, string user)
+        {
+            var bind = new BasicHttpBinding
+            {
+                Name = "BasicHttpBinding_LanguageService",
+                OpenTimeout = TimeSpan.FromMinutes(5),
+                CloseTimeout = TimeSpan.FromMinutes(5),
+                ReceiveTimeout = TimeSpan.FromMinutes(5),
+                MaxReceivedMessageSize = int.MaxValue,
+                MaxBufferPoolSize = int.MaxValue,
+                MaxBufferSize = int.MaxValue,
+                Security =
+                    new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
+            };
+
+            var epa = new EndpointAddress("https://api.microsofttranslator.com/V2/soap.svc");
+            TranslatorService.LanguageServiceClient client = new LanguageServiceClient(bind, epa);
+            Utils.ClientID = _ClientID;
+            Utils.ClientSecret = _ClientSecret;
+            string headerValue = "Bearer " + Utils.GetAccesToken();
+            client.AddTranslation(headerValue, originalText, translatedText, from, to, rating, "text/plain", _CategoryID, user, string.Empty);
+            return;
+        }
+
         #endregion
     }
 }

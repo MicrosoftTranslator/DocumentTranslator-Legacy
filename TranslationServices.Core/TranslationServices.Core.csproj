@@ -57,7 +57,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="TranslationMemory.cs" />
     <Compile Include="TranslationServiceFacade.cs" />
+    <Compile Include="TranslationUnit.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
