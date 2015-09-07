@@ -80,7 +80,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 new[] { "Auto-Detect" },
                 TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),
                 true,
-                "The source language code. Must match the language specification in the TMX file AND be a valid Microsoft Translator language code.");
+                "The source language code. Must be a valid Microsoft Translator language code, and the same as language code used in the TMX, or mapped via TmxLangMap.csv (from, to).");
 
             this.targetLanguage = new Argument(
                 "To",
@@ -88,7 +88,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 new string[] { "de" },
                 TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),
                 true,
-                "The target language code. Must match the language specification in the TMX file AND be a valid Microsoft Translator language code.");
+                "The target language code. Must be a valid Microsoft Translator language code, and the same as language code used in the TMX, or mapped via TmxLangMap.csv (from, to).");
             
             this.user = new Argument(
                 "User",
@@ -206,7 +206,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             for (int sntLineIndex = 0; sntLineIndex < sntSource.Length; sntLineIndex++)
             {
                 //show a progress message. 
-                if ((sntLineIndex % (int) ((sntSource.Length + 10 )/ 10)) == 0) Logger.WriteLine(LogLevel.Msg, "{0} sentences aligned and error checked.", sntLineIndex);
+                if ((sntLineIndex % 10) == 0) Logger.WriteLine(LogLevel.Debug, "{0} of {1} sentences aligned and error checked.", sntLineIndex, sntSource.Length);
 
                 //Length discrepancy check
                 float ratio = Math.Abs(sntSource[sntLineIndex].Length / sntTarget[sntLineIndex].Length);
@@ -289,11 +289,12 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 int SentenceCount = 0;
                 foreach (TranslationUnit TU in TM){
                     TranslationServiceFacade.AddTranslation(TU.strSource, TU.strTarget, TM.sourceLangID, TM.targetLangID, TU.rating, TU.user);
-                    if ((sntSource.Length/10 > SentenceCount)) Logger.WriteLine(LogLevel.Msg, "{0} sentences written. Continuing...", SentenceCount);
-                    Thread.Sleep(1000);
+                    if ((SentenceCount % 10) == 0) Logger.WriteLine(LogLevel.Debug, "{0} of {1} sentences written. Continuing...", SentenceCount, sntSource.Length);
+                    //Do not change the sleep time. This is slow and needs to be slow - the AddTranslation method is designed for interactive use.
+                    Thread.Sleep(500);
                     SentenceCount++;
                 }
-                Logger.WriteLine(LogLevel.None, "{0} sentences written to CTF. Write complete. ", SentenceCount);
+                Logger.WriteLine(LogLevel.Msg, "{0} sentences written to CTF. Write complete. ", SentenceCount);
             }
             else
             {
