@@ -177,7 +177,8 @@ namespace TranslationAssistant.TranslationServices.Core
             }
             else
             {
-                fromCode = AvailableLanguages.First(t => t.Value == from).Key;
+                try { fromCode = AvailableLanguages.First(t => t.Value == from).Key; }
+                catch { fromCode = from; }
             }
 
             toCode = LanguageNameToLanguageCode(to);
