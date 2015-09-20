@@ -21,6 +21,7 @@ namespace TranslationAssistant.TranslationServices.Core
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.Configuration;
+    using System.Threading.Tasks;
 
     using TranslationAssistant.TranslationServices.Core.TranslatorService;
 
@@ -201,34 +202,22 @@ namespace TranslationAssistant.TranslationServices.Core
             var epa = new EndpointAddress("https://api.microsofttranslator.com/V2/soap.svc");
             LanguageServiceClient client = new LanguageServiceClient(bind, epa);
 
-            // Set Authorization header before sending the request
-            HttpRequestMessageProperty httpRequestProperty = new HttpRequestMessageProperty { Method = "POST" };
-
-            httpRequestProperty.Headers.Add("Authorization", headerValue);
-
-            // Creates a block within which an OperationContext object is in scope.
-            using (OperationContextScope scope = new OperationContextScope(client.InnerChannel))
+            if (String.IsNullOrEmpty(toCode))
             {
-                OperationContext.Current.OutgoingMessageProperties[HttpRequestMessageProperty.Name] =
-                    httpRequestProperty;
-
-                if (String.IsNullOrEmpty(toCode))
-                {
-                    toCode = "en";
-                }
-
-                TranslateOptions options = new TranslateOptions();
-                options.Category = _CategoryID;
-
-                var translatedTexts = client.TranslateArray(
-                    string.Empty,
-                    texts,
-                    fromCode,
-                    toCode,
-                    options);
-                string[] res = translatedTexts.Select(t => t.TranslatedText).ToArray();
-                return res;
+                toCode = "en";
             }
+
+            TranslateOptions options = new TranslateOptions();
+            options.Category = _CategoryID;
+
+            var translatedTexts = client.TranslateArray(
+                headerValue,
+                texts,
+                fromCode,
+                toCode,
+                options);
+            string[] res = translatedTexts.Select(t => t.TranslatedText).ToArray();
+            return res;
         }
 
         /// <summary>
@@ -259,6 +248,39 @@ namespace TranslationAssistant.TranslationServices.Core
             string headerValue = "Bearer " + Utils.GetAccesToken();
             return client.BreakSentences(headerValue, text, languageID);
         }
+
+        /// <summary>
+        /// Breaks a piece of text into sentences and returns an array containing the lengths in each sentence. 
+        /// </summary>
+        /// <param name="text">The text to analyze and break.</param>
+        /// <param name="languageID">The language identifier to use.</param>
+        /// <returns>An array of integers representing the lengths of the sentences. The length of the array is the number of sentences, and the values are the length of each sentence.</returns>
+        async public static Task<int[]> BreakSentencesAsync(string text, string languageID)
+        {
+            var bind = new BasicHttpBinding
+            {
+                Name = "BasicHttpBinding_LanguageService",
+                OpenTimeout = TimeSpan.FromMinutes(5),
+                CloseTimeout = TimeSpan.FromMinutes(5),
+                ReceiveTimeout = TimeSpan.FromMinutes(5),
+                MaxReceivedMessageSize = int.MaxValue,
+                MaxBufferPoolSize = int.MaxValue,
+                MaxBufferSize = int.MaxValue,
+                Security =
+                    new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
+            };
+
+            var epa = new EndpointAddress("https://api.microsofttranslator.com/V2/soap.svc");
+            TranslatorService.LanguageServiceClient client = new LanguageServiceClient(bind, epa);
+            Utils.ClientID = _ClientID;
+            Utils.ClientSecret = _ClientSecret;
+            string headerValue = "Bearer " + Utils.GetAccesToken();
+            Task<int[]> BSTask = client.BreakSentencesAsync(headerValue, text, languageID);
+            int[] result = await BSTask;
+            return result;
+        }
+
+
 
         /// <summary>
         /// Adds a translation to Microsoft Translator's translation memory.
