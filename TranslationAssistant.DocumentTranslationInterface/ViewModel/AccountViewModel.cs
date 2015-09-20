@@ -179,7 +179,12 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                 this.StatusText = "Client ID or client secret are invalid.\r\nPlease visit the Azure Marketplace to obtain a subscription.";
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
             }
-            
+            if (!TranslationServices.Core.TranslationServiceFacade.IsCategoryValid(this.categoryID))
+            {
+                this.StatusText = "Category is invalid.\r\nPlease visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories.";
+                SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
+            }
+          
         }
 
         #endregion

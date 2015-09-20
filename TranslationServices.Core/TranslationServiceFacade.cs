@@ -21,6 +21,7 @@ namespace TranslationAssistant.TranslationServices.Core
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.Configuration;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using TranslationAssistant.TranslationServices.Core.TranslatorService;
@@ -73,6 +74,43 @@ namespace TranslationAssistant.TranslationServices.Core
             catch { return false; }
             return true;
         }
+
+        /// <summary>
+        /// Test if a given category value is a valid category in the system
+        /// </summary>
+        /// <param name="category">Category ID</param>
+        /// <returns>True if the category is valid</returns>
+        public static bool IsCategoryValid(string category)
+        {
+            if (category == string.Empty) return true;
+            if (category == "") return true;
+
+            Utils.ClientID = _ClientID;
+            Utils.ClientSecret = _ClientSecret;
+
+            bool returnvalue = true;
+            //it may take a while until the category is loaded on server
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    string headerValue = "Bearer " + Utils.GetAccesToken();
+                    var bind = new BasicHttpBinding { Name = "BasicHttpBinding_LanguageService" };
+                    var epa = new EndpointAddress("http://api.microsofttranslator.com/V2/soap.svc");
+                    LanguageServiceClient client = new LanguageServiceClient(bind, epa);
+                    client.Translate(headerValue, "Test", "en", "fr", "text/plain", category);
+                    returnvalue = true;
+                    break;
+                }
+                catch {
+                    returnvalue = false;
+                    Thread.Sleep(1000);
+                    continue;
+                }
+            }
+            return returnvalue;
+        }
+
 
 
         /// <summary>
