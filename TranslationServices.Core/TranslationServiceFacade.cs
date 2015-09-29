@@ -157,7 +157,6 @@ namespace TranslationAssistant.TranslationServices.Core
             }
         }
 
-
         /// <summary>
         /// Translates an array of strings from the from langauge code to the to language code.
         /// From langauge code can stay empty, in that case the source language is auto-detected, across all elements of the array together.
@@ -167,6 +166,36 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="to">To language code. Must be a valid language</param>
         /// <returns></returns>
         public static string[] TranslateArray(string[] texts, string from, string to)
+        {
+            return TranslateArray(texts, from, to, "text/plain");
+        }
+        /// <summary>
+        /// Translates a string
+        /// </summary>
+        /// <param name="text">String to translate</param>
+        /// <param name="from">From language</param>
+        /// <param name="to">To language</param>
+        /// <param name="contentType">Content Type</param>
+        /// <returns></returns>
+        public static string TranslateString(string text, string from, string to, string contentType)
+        {
+            string[] texts = new string[1];
+            texts[0] = text;
+            string[] results = TranslateArray(texts, from, to, contentType);
+            return results[0];
+        }
+
+
+        /// <summary>
+        /// Translates an array of strings from the from langauge code to the to language code.
+        /// From langauge code can stay empty, in that case the source language is auto-detected, across all elements of the array together.
+        /// </summary>
+        /// <param name="texts">Array of strings to translate</param>
+        /// <param name="from">From language code. May be empty</param>
+        /// <param name="to">To language code. Must be a valid language</param>
+        /// <param name="contentType">Whether this is plain text or HTML</param>
+        /// <returns></returns>
+        public static string[] TranslateArray(string[] texts, string from, string to, string contentType)
         {
             string fromCode = string.Empty;
             string toCode = string.Empty;
@@ -220,6 +249,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
                 TranslateOptions options = new TranslateOptions();
                 options.Category = _CategoryID;
+                options.ContentType = contentType;
 
                 var translatedTexts = client.TranslateArray(
                     string.Empty,

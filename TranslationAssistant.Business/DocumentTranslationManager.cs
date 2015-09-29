@@ -290,10 +290,10 @@ namespace TranslationAssistant.Business
                 {
                     ProcessTextDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
                 }
-//                else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".html") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".htm"))
-//                {
-//                    ProcessHTMLDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
-//                }
+                else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".html") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".htm"))
+                {
+                    ProcessHTMLDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+                }
             }
             catch (AggregateException ae)
             {
@@ -318,27 +318,27 @@ namespace TranslationAssistant.Business
         ///     Gets all documents to process.
         /// </summary>
         /// <param name="documentPath">The document path.</param>
-        /// <param name="targetLanguage">The target langauge.</param>
+        /// <param name="targetLanguage">The target language.</param>
         /// <returns>All documents to process.</returns>
-        private static List<string> GetAllDocumentsToProcess(string documentPath, string targetLangauge)
+        private static List<string> GetAllDocumentsToProcess(string documentPath, string targetLanguage)
         {
             List<string> allFiles = new List<string>();
-            File.Delete(GetOutputDocumentFullName(documentPath, targetLangauge));
-            var outputDocumentName = GetOutputDocumentFullName(documentPath, targetLangauge);
+            File.Delete(GetOutputDocumentFullName(documentPath, targetLanguage));
+            var outputDocumentName = GetOutputDocumentFullName(documentPath, targetLanguage);
 
             if (documentPath.ToLowerInvariant().EndsWith(".doc") || documentPath.ToLowerInvariant().EndsWith(".pdf"))
             {
-                var convertedDocumentPath = ConvertToDocx(documentPath, targetLangauge);
+                var convertedDocumentPath = ConvertToDocx(documentPath, targetLanguage);
                 allFiles.Add(convertedDocumentPath);
             }
             else if (documentPath.ToLowerInvariant().EndsWith(".ppt"))
             {
-                var convertedDocumentPath = ConvertToPptx(documentPath, targetLangauge);
+                var convertedDocumentPath = ConvertToPptx(documentPath, targetLanguage);
                 allFiles.Add(convertedDocumentPath);
             }
             else if (documentPath.ToLowerInvariant().EndsWith(".xls"))
             {
-                var convertedDocumentPath = ConvertToXlsx(documentPath, targetLangauge);
+                var convertedDocumentPath = ConvertToXlsx(documentPath, targetLanguage);
                 allFiles.Add(convertedDocumentPath);
             }
             else if (documentPath.ToLowerInvariant().EndsWith(".docx"))
@@ -362,11 +362,11 @@ namespace TranslationAssistant.Business
                 allFiles.Add(outputDocumentName);
             }
 
-//            else if (documentPath.ToLowerInvariant().EndsWith(".htm") || documentPath.ToLowerInvariant().EndsWith(".html"))
-//            {
-//                File.Copy(documentPath, outputDocumentName);
-//                allFiles.Add(outputDocumentName);
-//            }
+            else if (documentPath.ToLowerInvariant().EndsWith(".htm") || documentPath.ToLowerInvariant().EndsWith(".html"))
+            {
+                File.Copy(documentPath, outputDocumentName);
+                allFiles.Add(outputDocumentName);
+            }
 
             return allFiles;
         }
@@ -409,7 +409,7 @@ namespace TranslationAssistant.Business
 
         private static void ProcessHTMLDocument(string fullNameForDocumentToProcess, string sourceLanguage, string targetLanguage)
         {
-            throw new NotImplementedException();
+            HTMLTranslationManager.DoTranslation(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
         }
 
         private static void ProcessTextDocument(string fullNameForDocumentToProcess, string sourceLanguage, string targetLanguage)
