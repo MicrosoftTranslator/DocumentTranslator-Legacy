@@ -28,7 +28,6 @@ namespace TranslationAssistant.Business
             if (body.InnerHtml.Length < 10000)
             {
                 body.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(body.InnerHtml, fromlanguage, tolanguage, "text/html");
-                htmlDoc.Save(htmlfilename, Encoding.UTF8);
             }
             else
             {
@@ -40,11 +39,10 @@ namespace TranslationAssistant.Business
                     if (node.InnerHtml.Length > 10000){
                         throw new Exception("Child node with a length of more than 10000 characters encountered."); 
                     }
-                    //node.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(node.InnerHtml, fromlanguage, tolanguage, "text/html");
-                    File.AppendAllText(htmlfilename + ".txt", node.OuterHtml);
-                    File.AppendAllText(htmlfilename + ".txt", "\r\n===================================\r\n");
+                    node.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(node.InnerHtml, fromlanguage, tolanguage, "text/html");
                 }
             }
+            htmlDoc.Save(htmlfilename, Encoding.UTF8);
             return 1;
         }
 
@@ -54,16 +52,18 @@ namespace TranslationAssistant.Business
             HtmlNode child = rootnode;
             while (child != rootnode.LastChild)
             {
-                if (child.InnerHtml.Length > 10000) AddNodes(child.FirstChild, ref nodes);
-                if (!DNTList.Contains(child.Name.ToLowerInvariant()))
-                {
-                    if (child.InnerHtml.Trim().Length == 0)
-                        nodes.Add(child);
+                if (!DNTList.Contains(child.Name.ToLowerInvariant())) {
+                    if (child.InnerHtml.Length > 10000)
+                    {
+                        AddNodes(child.FirstChild, ref nodes);
+                    }
+                    else
+                    {
+                        if (child.InnerHtml.Trim().Length != 0) nodes.Add(child);
+                    }
                 }
                 child = child.NextSibling;
             }
-
         }
-
     }
 }
