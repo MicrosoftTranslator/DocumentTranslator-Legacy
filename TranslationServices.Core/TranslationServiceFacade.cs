@@ -21,6 +21,8 @@ namespace TranslationAssistant.TranslationServices.Core
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.Configuration;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     using TranslationAssistant.TranslationServices.Core.TranslatorService;
 
@@ -72,6 +74,43 @@ namespace TranslationAssistant.TranslationServices.Core
             catch { return false; }
             return true;
         }
+
+        /// <summary>
+        /// Test if a given category value is a valid category in the system
+        /// </summary>
+        /// <param name="category">Category ID</param>
+        /// <returns>True if the category is valid</returns>
+        public static bool IsCategoryValid(string category)
+        {
+            if (category == string.Empty) return true;
+            if (category == "") return true;
+
+            Utils.ClientID = _ClientID;
+            Utils.ClientSecret = _ClientSecret;
+
+            bool returnvalue = true;
+            //it may take a while until the category is loaded on server
+            for (int i = 0; i < 3; i++)
+            {
+                try
+                {
+                    string headerValue = "Bearer " + Utils.GetAccesToken();
+                    var bind = new BasicHttpBinding { Name = "BasicHttpBinding_LanguageService" };
+                    var epa = new EndpointAddress("http://api.microsofttranslator.com/V2/soap.svc");
+                    LanguageServiceClient client = new LanguageServiceClient(bind, epa);
+                    client.Translate(headerValue, "Test", "en", "fr", "text/plain", category);
+                    returnvalue = true;
+                    break;
+                }
+                catch {
+                    returnvalue = false;
+                    Thread.Sleep(1000);
+                    continue;
+                }
+            }
+            return returnvalue;
+        }
+
 
 
         /// <summary>
@@ -231,17 +270,6 @@ namespace TranslationAssistant.TranslationServices.Core
             var epa = new EndpointAddress("https://api.microsofttranslator.com/V2/soap.svc");
             LanguageServiceClient client = new LanguageServiceClient(bind, epa);
 
-            // Set Authorization header before sending the request
-            HttpRequestMessageProperty httpRequestProperty = new HttpRequestMessageProperty { Method = "POST" };
-
-            httpRequestProperty.Headers.Add("Authorization", headerValue);
-
-            // Creates a block within which an OperationContext object is in scope.
-            using (OperationContextScope scope = new OperationContextScope(client.InnerChannel))
-            {
-                OperationContext.Current.OutgoingMessageProperties[HttpRequestMessageProperty.Name] =
-                    httpRequestProperty;
-
                 if (String.IsNullOrEmpty(toCode))
                 {
                     toCode = "en";
@@ -252,7 +280,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 options.ContentType = contentType;
 
                 var translatedTexts = client.TranslateArray(
-                    string.Empty,
+                headerValue,
                     texts,
                     fromCode,
                     toCode,
@@ -260,7 +288,6 @@ namespace TranslationAssistant.TranslationServices.Core
                 string[] res = translatedTexts.Select(t => t.TranslatedText).ToArray();
                 return res;
             }
-        }
 
         /// <summary>
         /// Breaks a piece of text into sentences and returns an array containing the lengths in each sentence. 
@@ -290,6 +317,39 @@ namespace TranslationAssistant.TranslationServices.Core
             string headerValue = "Bearer " + Utils.GetAccesToken();
             return client.BreakSentences(headerValue, text, languageID);
         }
+
+        /// <summary>
+        /// Breaks a piece of text into sentences and returns an array containing the lengths in each sentence. 
+        /// </summary>
+        /// <param name="text">The text to analyze and break.</param>
+        /// <param name="languageID">The language identifier to use.</param>
+        /// <returns>An array of integers representing the lengths of the sentences. The length of the array is the number of sentences, and the values are the length of each sentence.</returns>
+        async public static Task<int[]> BreakSentencesAsync(string text, string languageID)
+        {
+            var bind = new BasicHttpBinding
+            {
+                Name = "BasicHttpBinding_LanguageService",
+                OpenTimeout = TimeSpan.FromMinutes(5),
+                CloseTimeout = TimeSpan.FromMinutes(5),
+                ReceiveTimeout = TimeSpan.FromMinutes(5),
+                MaxReceivedMessageSize = int.MaxValue,
+                MaxBufferPoolSize = int.MaxValue,
+                MaxBufferSize = int.MaxValue,
+                Security =
+                    new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
+            };
+
+            var epa = new EndpointAddress("https://api.microsofttranslator.com/V2/soap.svc");
+            TranslatorService.LanguageServiceClient client = new LanguageServiceClient(bind, epa);
+            Utils.ClientID = _ClientID;
+            Utils.ClientSecret = _ClientSecret;
+            string headerValue = "Bearer " + Utils.GetAccesToken();
+            Task<int[]> BSTask = client.BreakSentencesAsync(headerValue, text, languageID);
+            int[] result = await BSTask;
+            return result;
+        }
+
+
 
         /// <summary>
         /// Adds a translation to Microsoft Translator's translation memory.
