@@ -47,9 +47,14 @@ namespace TranslationAssistant.Business
             return 1;
         }
 
+        /// <summary>
+        /// Add nodes of size smaller than 10000 characters to the list, and recurse into the bigger ones.
+        /// </summary>
+        /// <param name="rootnode">The node to start from</param>
+        /// <param name="nodes">Reference to the node list</param>
         private static void AddNodes(HtmlNode rootnode, ref List<HtmlNode> nodes)
         {
-            string[] DNTList = { "script", "#text", "a", "bdo", "br", "code", "col", "colgroup", "embed", "em", "#comment"};
+            string[] DNTList = { "script", "#text", "code", "col", "colgroup", "embed", "em", "#comment", "image", "map", "media", "meta", "source", "xml"};  //DNT - Do Not Translate - these nodes are skipped.
             HtmlNode child = rootnode;
             while (child != rootnode.LastChild)
             {
@@ -66,5 +71,6 @@ namespace TranslationAssistant.Business
                 child = child.NextSibling;
             }
         }
+
     }
 }
