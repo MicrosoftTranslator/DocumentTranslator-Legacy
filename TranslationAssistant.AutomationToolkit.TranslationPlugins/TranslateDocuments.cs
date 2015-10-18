@@ -66,13 +66,13 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             }
 
             this.sourceDocuments = new SimpleStringArgument(
-                "SourceDocuments",
+                "Documents",
                 true,
                 new[] { ',' },
                 "Document to translate, or list of documents separated by comma, or a wildcard. Wildcard recurses through subfolders.");
 
             this.sourceLanguage = new Argument(
-                "SourceLanguage",
+                "from",
                 false,
                 new[] { "Auto-Detect" },
                 TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),
@@ -80,7 +80,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 "The source language. Auto-detect if no language specified.");
 
             this.targetLanguages = new SimpleStringArgument(
-                "TargetLanguages",
+                "to",
                 true,
                 new string[] { },
                 TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),

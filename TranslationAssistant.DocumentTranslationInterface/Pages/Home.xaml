@@ -57,7 +57,7 @@
                     </BulletDecorator>
 
                     <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="Translate plain text (.txt file) in UTF-8 character encoding." />
+                        <TextBlock Text="Translate HTML and plain text (.txt file) in UTF-8 character encoding." />
                     </BulletDecorator>
                     <BulletDecorator Height="22" VerticalAlignment="Top">
                         <TextBlock Text="Auto-detect source language. " Width="3148" />
