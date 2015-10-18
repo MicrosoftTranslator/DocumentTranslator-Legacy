@@ -67,7 +67,8 @@ It depends on
 ##Third party notices
 
 This project uses:
-First Floor MUI
+
+###First Floor MUI
 
 (c) First Floor Software
 
@@ -75,7 +76,11 @@ Under the Ms-PL: https://github.com/firstfloorsoftware/mui/blob/master/LICENSE.m
 
 Available from: https://github.com/firstfloorsoftware/mui
 
+###Html Agility Pack
 
+Under the Ms-PL: http://htmlagilitypack.codeplex.com/license
+
+Available from: http://htmlagilitypack.codeplex.com/
 
 
 ##Security
