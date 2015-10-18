@@ -39,6 +39,8 @@
   <ItemGroup>
     <Content Include="Dlls\DocumentFormat.OpenXml.dll" />
     <Content Include="Dlls\FirstFloor.ModernUI.dll" />
+    <Content Include="Dlls\HtmlAgilityPack.dll" />
+    <Content Include="Dlls\HtmlAgilityPack.xml" />
     <Content Include="Dlls\Microsoft.Practices.Prism.dll" />
     <Content Include="Dlls\Microsoft.Windows.Shell.dll" />
     <Content Include="Dlls\System.Windows.Interactivity.dll" />

@@ -270,17 +270,19 @@ namespace TranslationAssistant.TranslationServices.Core
             var epa = new EndpointAddress("https://api.microsofttranslator.com/V2/soap.svc");
             LanguageServiceClient client = new LanguageServiceClient(bind, epa);
 
-                if (String.IsNullOrEmpty(toCode))
-                {
-                    toCode = "en";
-                }
+            if (String.IsNullOrEmpty(toCode))
+            {
+                toCode = "en";
+            }
 
-                TranslateOptions options = new TranslateOptions();
-                options.Category = _CategoryID;
-                options.ContentType = contentType;
+            TranslateOptions options = new TranslateOptions();
+            options.Category = _CategoryID;
+            options.ContentType = contentType;
 
+            try
+            {
                 var translatedTexts = client.TranslateArray(
-                headerValue,
+                    headerValue,
                     texts,
                     fromCode,
                     toCode,
@@ -288,6 +290,18 @@ namespace TranslationAssistant.TranslationServices.Core
                 string[] res = translatedTexts.Select(t => t.TranslatedText).ToArray();
                 return res;
             }
+            catch   //try again forcing English as source language
+            {
+                var translatedTexts = client.TranslateArray(
+                    headerValue,
+                    texts,
+                    "en",
+                    toCode,
+                    options);
+                string[] res = translatedTexts.Select(t => t.TranslatedText).ToArray();
+                return res;
+            }
+        }
 
         /// <summary>
         /// Breaks a piece of text into sentences and returns an array containing the lengths in each sentence. 

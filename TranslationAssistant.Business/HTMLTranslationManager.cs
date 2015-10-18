@@ -34,13 +34,14 @@ namespace TranslationAssistant.Business
                 List<HtmlNode> nodes = new List<HtmlNode>();
                 AddNodes(body.FirstChild, ref nodes);
 
-                foreach (var node in nodes)
-                {
-                    if (node.InnerHtml.Length > 10000){
-                        throw new Exception("Child node with a length of more than 10000 characters encountered."); 
-                    }
-                    node.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(node.InnerHtml, fromlanguage, tolanguage, "text/html");
-                }
+                Parallel.ForEach(nodes, (node) =>
+                    {
+                        if (node.InnerHtml.Length > 10000)
+                        {
+                            throw new Exception("Child node with a length of more than 10000 characters encountered.");
+                        }
+                        node.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(node.InnerHtml, fromlanguage, tolanguage, "text/html");
+                    });
             }
             htmlDoc.Save(htmlfilename, Encoding.UTF8);
             return 1;
