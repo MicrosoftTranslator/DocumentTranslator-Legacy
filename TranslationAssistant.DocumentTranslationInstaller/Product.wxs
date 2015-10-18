@@ -3,7 +3,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 
-  <?define ProductVersion="1.0.2" ?>
+  <?define ProductVersion="1.1.0" ?>
   <!--<?define ProductInstallationDirVersion="1.0.0" ?>-->
   <?define ProductInstallationDir="Microsoft Document Translator"?>
   <?define UpgradeCode="{69CB62B3-53BB-4BF5-9E53-B5677940AB8E}"?>
