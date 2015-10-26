@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SetCredentials.cs" />
+    <Compile Include="CtfToTmx.cs" />
     <Compile Include="TmxToCtf.cs" />
     <Compile Include="TranslateDocuments.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

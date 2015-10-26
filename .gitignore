@@ -3,3 +3,4 @@ TranslationAssistant.DocumentTranslationInterface/obj/Release/FileTranslator_Con
 TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vshost.exe
 TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vshost.exe.manifest
 *.suo
+*.suo

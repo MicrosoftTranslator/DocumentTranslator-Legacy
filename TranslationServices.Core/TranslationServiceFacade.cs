@@ -398,6 +398,60 @@ namespace TranslationAssistant.TranslationServices.Core
             return;
         }
 
+        public struct UserTranslation
+        {
+            public DateTime CreatedDateUtc;
+            public string From;
+            public string OriginalText;
+            public int Rating;
+            public string To;
+            public string TranslatedText;
+            public string Uri;
+            public string User;
+        }
+
+        public static UserTranslation[] GetUserTranslations(string fromlanguage, string tolanguage, int skip, int count)
+        {
+            var bind = new BasicHttpBinding
+            {
+                Name = "BasicHttpBinding_LanguageService",
+                OpenTimeout = TimeSpan.FromMinutes(5),
+                CloseTimeout = TimeSpan.FromMinutes(5),
+                ReceiveTimeout = TimeSpan.FromMinutes(5),
+                MaxReceivedMessageSize = int.MaxValue,
+                MaxBufferPoolSize = int.MaxValue,
+                MaxBufferSize = int.MaxValue,
+                Security =
+                    new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
+            };
+
+            var epa = new EndpointAddress("https://api.microsofttranslator.com/v2/beta/ctfreporting.svc");
+            CtfReportingService.CtfReportingServiceClient client = new CtfReportingService.CtfReportingServiceClient(bind, epa);
+            Utils.ClientID = _ClientID;
+            Utils.ClientSecret = _ClientSecret;
+            string headerValue = "Bearer " + Utils.GetAccesToken();
+            CtfReportingService.UserTranslation[] usertranslations = new CtfReportingService.UserTranslation[count];
+
+            usertranslations = client.GetUserTranslations(headerValue, string.Empty, fromlanguage, tolanguage, 0, 10, string.Empty, string.Empty, DateTime.MinValue, DateTime.MaxValue, skip, count, true);
+
+            UserTranslation[] usertranslationsreturn = new UserTranslation[count];
+            usertranslationsreturn.Initialize();
+
+            for (int i = 0; i < usertranslations.Length; i++)
+            {
+                usertranslationsreturn[i].CreatedDateUtc = usertranslations[i].CreatedDateUtc;
+                usertranslationsreturn[i].From = usertranslations[i].From;
+                usertranslationsreturn[i].OriginalText = usertranslations[i].OriginalText;
+                usertranslationsreturn[i].To = usertranslations[i].To;
+                usertranslationsreturn[i].TranslatedText = usertranslations[i].TranslatedText;
+                usertranslationsreturn[i].Rating = usertranslations[i].Rating;
+                usertranslationsreturn[i].Uri = usertranslations[i].Uri;
+                usertranslationsreturn[i].User = usertranslations[i].User;
+            }
+
+            return usertranslationsreturn;
+        }
+
         #endregion
     }
 }
