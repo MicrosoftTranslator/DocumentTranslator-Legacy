@@ -1,4 +1,4 @@
-﻿//Command line plugin for importain ga TMX into Microsoft Translator CTF.
+﻿//Command line plugin for importing a TMX into Microsoft Translator CTF.
 //Creates a TMX and CSV file (same content) of the errors.
 //System rejects all segments that have an unequal number of sentences, have tags, or a large delta in lengths
 //CTF is tightly integrated with the MT system, which works sentence based.
