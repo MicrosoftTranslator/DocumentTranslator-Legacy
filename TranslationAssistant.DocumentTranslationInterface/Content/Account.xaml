@@ -13,7 +13,7 @@
     </UserControl.DataContext>
 
     <Grid>
-        <ScrollViewer Margin="0,-17,0,-113">
+        <ScrollViewer Margin="0,0,0,0">
             <StackPanel x:Name="Panel" MinWidth="200">
                 <TextBlock Text="Account" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
 
