@@ -13,7 +13,7 @@
     </UserControl.DataContext>
 
     <Grid>
-        <ScrollViewer Margin="0,0,0,0">
+        <ScrollViewer Margin="0,0,0,-32">
             <StackPanel x:Name="Panel" MinWidth="200">
                 <TextBlock Text="Account" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
 
@@ -33,7 +33,7 @@
                 </TextBlock>
 
                 <TextBlock Height="20" />
-                <TextBlock TextWrapping="Wrap" Text="Optionally you may enter a category identifier to use a customized machine translation system. Copy the category ID from the projects page on " />
+                <TextBlock TextWrapping="Wrap" Text="Optionally you may enter a category identifier to use a customized machine translation system. The standard categories you can use are &quot;general&quot;(same as blank), &quot;tech&quot; for computer-related technical content, &quot;speech&quot; for translation of conversational speech, or the category ID of a custom system you have built on " />
                 <TextBlock>
                     <Hyperlink NavigateUri="https://hub.microsofttranslator.com" ToolTip="Build a customized machine translation system here." RequestNavigate="Hyperlink_OnRequestNavigate">
                     <Run Text="https://hub.microsofttranslator.com."/>
