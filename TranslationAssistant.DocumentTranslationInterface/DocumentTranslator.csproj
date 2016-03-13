@@ -111,6 +111,9 @@
     <Compile Include="Content\Account.xaml.cs">
       <DependentUpon>Account.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Content\CustomLanguages.xaml.cs">
+      <DependentUpon>CustomLanguages.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\DocumentTranslator.Designer.cs">
       <DependentUpon>DocumentTranslator.settings</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -125,6 +128,10 @@
     <Page Include="Content\Account.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Content\CustomLanguages.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
