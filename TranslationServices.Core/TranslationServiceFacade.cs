@@ -208,6 +208,9 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             return TranslateArray(texts, from, to, "text/plain");
         }
+
+
+
         /// <summary>
         /// Translates a string
         /// </summary>
@@ -223,6 +226,88 @@ namespace TranslationAssistant.TranslationServices.Core
             string[] results = TranslateArray(texts, from, to, contentType);
             return results[0];
         }
+
+        /// <summary>
+        /// Retrieve word alignments during translation
+        /// </summary>
+        /// <param name="texts">Array of text strings to translate</param>
+        /// <param name="from">From language</param>
+        /// <param name="to">To language</param>
+        /// <param name="alignments">Call by reference: array of alignment strings in the form [[SourceTextStartIndex]:[SourceTextEndIndex]–[TgtTextStartIndex]:[TgtTextEndIndex]]</param>
+        /// <returns>Translated array elements</returns>
+        public static string[] GetAlignments(string[] texts, string from, string to, ref string[] alignments)
+        {
+            string fromCode = string.Empty;
+            string toCode = string.Empty;
+
+            if (from.ToLower() == "Auto-Detect".ToLower() || from == string.Empty)
+            {
+                fromCode = string.Empty;
+            }
+            else
+            {
+                try { fromCode = AvailableLanguages.First(t => t.Value == from).Key; }
+                catch { fromCode = from; }
+            }
+
+            toCode = LanguageNameToLanguageCode(to);
+
+            Utils.ClientID = _ClientID;
+            Utils.ClientSecret = _ClientSecret;
+            string headerValue = "Bearer " + Utils.GetAccesToken();
+            var bind = new BasicHttpBinding
+            {
+                Name = "BasicHttpBinding_LanguageService",
+                OpenTimeout = TimeSpan.FromMinutes(5),
+                CloseTimeout = TimeSpan.FromMinutes(5),
+                ReceiveTimeout = TimeSpan.FromMinutes(5),
+                MaxReceivedMessageSize = int.MaxValue,
+                MaxBufferPoolSize = int.MaxValue,
+                MaxBufferSize = int.MaxValue,
+                Security =
+                                   new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
+            };
+
+            var epa = new EndpointAddress("https://api.microsofttranslator.com/V2/soap.svc");
+            LanguageServiceClient client = new LanguageServiceClient(bind, epa);
+
+            if (String.IsNullOrEmpty(toCode))
+            {
+                toCode = "en";
+            }
+
+            TranslateOptions options = new TranslateOptions();
+            options.Category = _CategoryID;
+
+            try
+            {
+                var translatedTexts2 = client.TranslateArray2(
+                    headerValue,
+                    texts,
+                    fromCode,
+                    toCode,
+                    options);
+                string[] res = translatedTexts2.Select(t => t.TranslatedText).ToArray();
+                alignments = translatedTexts2.Select(t => t.Alignment).ToArray();
+                return res;
+            }
+            catch   //try again forcing English as source language
+            {
+                var translatedTexts2 = client.TranslateArray2(
+                    headerValue,
+                    texts,
+                    "en",
+                    toCode,
+                    options);
+                string[] res = translatedTexts2.Select(t => t.TranslatedText).ToArray();
+                alignments = translatedTexts2.Select(t => t.Alignment).ToArray();
+                return res;
+            }
+        }
+
+
+
+
 
 
         /// <summary>
