@@ -44,14 +44,14 @@ Set credentials:
 
 Upload a TMX to the Collaborative Translation Framework for use in subsequent translations:
 
-`DocumentTranslatorCmd tmxtoctf /tmx:TmxFileName.tmx /from:FromLanguage /to:ToLanguage /user:UserName /rating:Rating /write:true
+`DocumentTranslatorCmd tmxtoctf /tmx:TmxFileName.tmx /from:FromLanguage /to:ToLanguage /user:UserName /rating:Rating /write:true`
 
 *When write is not set to true, the results of the TMX parse are rendered to the screen. It is advisable to perform the
 test without write set to true in order to debug the TMX content. 
 
 Get Word Alignments
 
-`DocumentTranslatorCmd getalignments /documents:test.txt /from:en /to:fr
+`DocumentTranslatorCmd getalignments /documents:test.txt /from:en /to:fr`
 
 Builds a CSV file containing 3 columns: source, target, and word alignment information in the format 
 
