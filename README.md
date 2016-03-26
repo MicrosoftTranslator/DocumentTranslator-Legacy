@@ -66,7 +66,7 @@ When no alignment information is available, the Alignment element will be empty.
 
 
 ## How to build Document Translator
-Microsoft Document Translator is written in C#, compiled in Visual Studio 2013.
+Microsoft Document Translator is written in C#, compiled in Visual Studio 2015.
 
 It depends on
 
