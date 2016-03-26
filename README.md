@@ -7,7 +7,10 @@ as well as making use of a custom MT system, trained via the Microsoft Translato
 Translate one or more Office documents, plain textm HTML or PDF documents to another language, in one go. 
 
 ## Purpose
-Translate an Office document and receive a translated Office document in full fidelity, as an Office document. The translated Office document is fully editable like any normal Office document. 
+Translate an Office document and receive a translated Office document in full fidelity, as an Office document. The translated Office document is fully editable like any normal Office document.
+Translate a text-based PDF document and receive a translated document in Microsoft Word.
+Translate HTML or plain text files and receive translated HTML or plain text.
+Upload an existing TMX file to Microsoft Translator's CTF store, to be used in subsequent translations. 
 
 ## Key Features
 - Enter account credentials
