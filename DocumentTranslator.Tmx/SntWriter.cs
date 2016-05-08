@@ -5,9 +5,9 @@
 // -
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Web;
 
 namespace Mts.Common.Tmx
 {
@@ -66,9 +66,14 @@ namespace Mts.Common.Tmx
         /// <returns>Line number at which the text is written.</returns>
         public int Write(string text)
         {
-            this.sntStreamWriter.WriteLine(text);
+            this.sntStreamWriter.WriteLine(Unescape(text));
             this.LineCount++;
             return this.LineCount;
+        }
+
+        private string Unescape(string segment)
+        {
+            return HttpUtility.HtmlDecode(segment);
         }
     }
 }

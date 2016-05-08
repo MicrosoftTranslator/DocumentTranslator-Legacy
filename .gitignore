@@ -4,3 +4,17 @@ TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vsh
 TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vshost.exe.manifest
 *.suo
 *.suo
+/DocumentTranslator.Tmx/bin/Debug
+/DocumentTranslator.Tmx/obj/Debug
+/TranslationAssistant.AutomationToolkit/bin/Debug
+/TranslationAssistant.AutomationToolkit/obj/Debug
+/TranslationAssistant.AutomationToolkit/obj/Release
+/packages
+/TranslationAssistant.AutomationToolkit.BasePlugin/obj/Debug
+/TranslationAssistant.AutomationToolkit.TranslationPlugins/obj/Debug
+/TranslationAssistant.Business/obj
+/TranslationAssistant.DocumentTranslationInterface/bin
+/TranslationAssistant.DocumentTranslationInterface/obj/Debug
+/TranslationAssistant.DocumentTranslationInstaller/bin/Debug
+/TranslationAssistant.DocumentTranslationInterface/obj/Release
+/TranslationServices.Core/obj/Debug

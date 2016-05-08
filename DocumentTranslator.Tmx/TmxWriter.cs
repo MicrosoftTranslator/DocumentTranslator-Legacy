@@ -3,6 +3,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Web;
 
 namespace Mts.Common.Tmx
 {
@@ -11,7 +12,7 @@ namespace Mts.Common.Tmx
         private const bool WriteToCSV = true;
         private CsvWriter csvwriter;
         private const string creationtool = "Microsoft Document Translator";
-        private const string creationtoolversion = "2015.10.25";
+        private const string creationtoolversion = "2016.05.08";
 
 
         private StreamWriter TmxStream;
@@ -37,14 +38,19 @@ namespace Mts.Common.Tmx
             this.TmxStream.WriteLine("<tu>");
             this.TmxStream.WriteLine("<prop type=\"error\">{0}</prop>", statusmessage(tustatus));
             this.TmxStream.WriteLine("<tuv xml:lang=\"{0}\">", sourcelang);
-            this.TmxStream.WriteLine("<seg>{0}</seg>\n</tuv>", sourcesegment);
+            this.TmxStream.WriteLine("<seg>{0}</seg>\n</tuv>", Unescape(sourcesegment));
             this.TmxStream.WriteLine("<tuv xml:lang=\"{0}\">", targetlang);
-            this.TmxStream.WriteLine("<seg>{0}</seg>\n</tuv>", targetsegment);
+            this.TmxStream.WriteLine("<seg>{0}</seg>\n</tuv>", Unescape(targetsegment));
             this.TmxStream.WriteLine("</tu>");
             if (WriteToCSV)
             {
                 csvwriter.WriteSegment(sourcesegment, targetsegment, tustatus);
             }
+        }
+
+        private string Unescape(string segment)
+        {
+            return HttpUtility.HtmlDecode(segment);
         }
 
         private string statusmessage(TUError tustatus)
