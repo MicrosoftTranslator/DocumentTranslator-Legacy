@@ -12,7 +12,7 @@ namespace Mts.Common.Tmx
         private const bool WriteToCSV = true;
         private CsvWriter csvwriter;
         private const string creationtool = "Microsoft Document Translator";
-        private const string creationtoolversion = "2016.05.08";
+        private const string creationtoolversion = "2016.05.14";
 
 
         private StreamWriter TmxStream;
@@ -21,11 +21,25 @@ namespace Mts.Common.Tmx
         /// <summary>
         /// Creates and initializes a TMX file for writing
         /// </summary>
-        /// <param name="TmxFilename">TMX file name</param>
-        public TmxWriter(string filename, string sourcelanguage, string targetlanguage)
+        /// <param name="filename">TMX file name</param>
+        /// <param name="sourcelanguage">Source language</param>
+        /// <param name="targetlanguage">Target language</param>
+        /// <param name="append">Append to existing TMX or delete</param>
+        public TmxWriter(string filename, string sourcelanguage, string targetlanguage, bool append)
         {
-            this.TmxStream = new StreamWriter(filename, false, Encoding.UTF8);
-            TmxWriteHeader(sourcelanguage);
+            if (!append) File.Delete(filename);
+            if (File.Exists(filename))
+            {
+                string tmxfile = File.ReadAllText(filename, Encoding.UTF8);
+                tmxfile.Replace("</body>", "");
+                tmxfile.Replace("</tmx>", "");
+                File.WriteAllText(filename, tmxfile, Encoding.UTF8);
+            }
+            else
+            {
+                this.TmxStream = new StreamWriter(filename, false, Encoding.UTF8);
+                TmxWriteHeader(sourcelanguage);
+            }
             if (WriteToCSV) {
                 this.csvwriter = new CsvWriter(Path.GetFileNameWithoutExtension(filename) + ".csv", sourcelanguage, targetlanguage);
             }

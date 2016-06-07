@@ -198,7 +198,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
 
             Logger.WriteLine(LogLevel.None, "{0} translation units read.", sntSource.Length);
 
-            TmxWriter ErrorTmx = new TmxWriter(Path.GetFileNameWithoutExtension(this.TmxDocument.ValueString) + ".errors." + TmxSourceLanguage + "_" + TmxTargetLanguage + "." + DateTime.Now.ToString("yyyyMMddThhmmssZ") + ".tmx", TmxSourceLanguage, TmxTargetLanguage);
+            TmxWriter ErrorTmx = new TmxWriter(Path.GetFileNameWithoutExtension(this.TmxDocument.ValueString) + ".errors." + TmxSourceLanguage + "_" + TmxTargetLanguage + "." + DateTime.Now.ToString("yyyyMMddThhmmssZ") + ".tmx", TmxSourceLanguage, TmxTargetLanguage, false);
 
             //Load into TM and perform error check on each line.
             int ratioViolationCount = 0; //counts number of ratio violations

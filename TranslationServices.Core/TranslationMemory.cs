@@ -41,6 +41,26 @@ namespace TranslationAssistant.TranslationServices.Core
 
         #region Public Methods
 
+        /// <summary>
+        /// Write Translation memory into a TMX file of the name filename
+        /// </summary>
+        /// <param name="filename"></param>
+        public void WriteToTmx(string filename)
+        {
+            using (Mts.Common.Tmx.TmxWriter Tmx = new Mts.Common.Tmx.TmxWriter(filename, sourceLangID, targetLangID, true))
+            {
+                foreach (TranslationUnit TU in this._TranslationUnits)
+                {
+                    Tmx.TmxWriteSegment(TU.strSource, TU.strTarget, sourceLangID, targetLangID, Mts.Common.Tmx.TmxWriter.TUError.good);
+                }
+            }
+            return;
+        }
+
+        /// <summary>
+        /// Add this Translation Unit TU to the Translation Memory
+        /// </summary>
+        /// <param name="TU"></param>
         public void Add(TranslationUnit TU)
         {
             this._TranslationUnits.Add(TU);

@@ -139,7 +139,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             TranslationServiceFacade.UserTranslation[] usertranslations = new TranslationServiceFacade.UserTranslation[100];
             usertranslations.Initialize();
 
-            using (TmxWriter TmxDocument = new TmxWriter(this.TmxDocument.ValueString, this.sourceLanguage.ValueString, this.targetLanguage.ValueString))
+            using (TmxWriter TmxDocument = new TmxWriter(this.TmxDocument.ValueString, this.sourceLanguage.ValueString, this.targetLanguage.ValueString, false))
             {
                 do
                 {

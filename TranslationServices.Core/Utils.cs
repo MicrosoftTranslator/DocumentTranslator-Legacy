@@ -13,7 +13,7 @@
 
 namespace TranslationAssistant.TranslationServices.Core
 {
-    #region
+    #region Usings
 
     using System;
     using System.IO;

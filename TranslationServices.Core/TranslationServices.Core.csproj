@@ -148,6 +148,12 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DocumentTranslator.Tmx\DocumentTranslator.Tmx.csproj">
+      <Project>{1e89fbee-7c28-41f8-8894-1b11d4855a26}</Project>
+      <Name>DocumentTranslator.Tmx</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -19,12 +19,9 @@ namespace TranslationAssistant.TranslationServices.Core
     using System.Collections.Generic;
     using System.Linq;
     using System.ServiceModel;
-    using System.ServiceModel.Channels;
-    using System.Configuration;
     using System.Threading;
     using System.Threading.Tasks;
-
-    using TranslationAssistant.TranslationServices.Core.TranslatorService;
+    using TranslatorService;
 
     #endregion
 
@@ -53,6 +50,14 @@ namespace TranslationAssistant.TranslationServices.Core
             get { return _ClientSecret; }
             set { _ClientSecret = value; }
         }
+
+        private static bool _CreateTMXOnTranslate = false;
+        public static bool CreateTMXOnTranslate
+        {
+            get { return _CreateTMXOnTranslate; }
+            set { _CreateTMXOnTranslate = value; }
+        }
+
 
 
         #endregion
@@ -196,20 +201,6 @@ namespace TranslationAssistant.TranslationServices.Core
             }
         }
 
-        /// <summary>
-        /// Translates an array of strings from the from langauge code to the to language code.
-        /// From langauge code can stay empty, in that case the source language is auto-detected, across all elements of the array together.
-        /// </summary>
-        /// <param name="texts">Array of strings to translate</param>
-        /// <param name="from">From language code. May be empty</param>
-        /// <param name="to">To language code. Must be a valid language</param>
-        /// <returns></returns>
-        public static string[] TranslateArray(string[] texts, string from, string to)
-        {
-            return TranslateArray(texts, from, to, "text/plain");
-        }
-
-
 
         /// <summary>
         /// Translates a string
@@ -306,6 +297,18 @@ namespace TranslationAssistant.TranslationServices.Core
         }
 
 
+        /// <summary>
+        /// Translates an array of strings from the from langauge code to the to language code.
+        /// From langauge code can stay empty, in that case the source language is auto-detected, across all elements of the array together.
+        /// </summary>
+        /// <param name="texts">Array of strings to translate</param>
+        /// <param name="from">From language code. May be empty</param>
+        /// <param name="to">To language code. Must be a valid language</param>
+        /// <returns></returns>
+        public static string[] TranslateArray(string[] texts, string from, string to)
+        {
+            return TranslateArray(texts, from, to, "text/plain");
+        }
 
 
 
@@ -363,7 +366,7 @@ namespace TranslationAssistant.TranslationServices.Core
             TranslateOptions options = new TranslateOptions();
             options.Category = _CategoryID;
             options.ContentType = contentType;
-
+            
             try
             {
                 var translatedTexts = client.TranslateArray(
@@ -373,6 +376,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     toCode,
                     options);
                 string[] res = translatedTexts.Select(t => t.TranslatedText).ToArray();
+                if (_CreateTMXOnTranslate) WriteToTmx(texts, res, from, to);
                 return res;
             }
             catch   //try again forcing English as source language
@@ -384,8 +388,27 @@ namespace TranslationAssistant.TranslationServices.Core
                     toCode,
                     options);
                 string[] res = translatedTexts.Select(t => t.TranslatedText).ToArray();
+                if (_CreateTMXOnTranslate) WriteToTmx(texts, res, from, to);
                 return res;
             }
+        }
+
+        private static void WriteToTmx(string[] texts, string[] res, string from, string to)
+        {
+            TranslationMemory TM = new TranslationMemory();
+            TranslationUnit TU = new TranslationUnit();
+            TM.sourceLangID = from;
+            TM.targetLangID = to;
+            for (int i=0; i<texts.Length; i++)
+            {
+                TU.strSource = texts[i];
+                TU.strTarget = res[i];
+                TU.user = "DocumentTranslator";
+                TU.status = TUStatus.good;
+                TM.Add(TU);
+            }
+            TM.WriteToTmx("DocumentTranslator.TMX");
+            return;
         }
 
         /// <summary>
