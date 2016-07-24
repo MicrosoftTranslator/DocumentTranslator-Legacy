@@ -286,13 +286,17 @@ namespace TranslationAssistant.Business
                 {
                     ProcessPowerPointDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
                 }
-                else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".txt"))
+                else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".txt") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".text"))
                 {
                     ProcessTextDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
                 }
                 else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".html") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".htm"))
                 {
                     ProcessHTMLDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+                }
+                else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".srt"))
+                {
+                    ProcessSRTDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
                 }
             }
             catch (AggregateException ae)
@@ -341,28 +345,7 @@ namespace TranslationAssistant.Business
                 var convertedDocumentPath = ConvertToXlsx(documentPath, targetLanguage);
                 allFiles.Add(convertedDocumentPath);
             }
-            else if (documentPath.ToLowerInvariant().EndsWith(".docx"))
-            {
-                File.Copy(documentPath, outputDocumentName);
-                allFiles.Add(outputDocumentName);
-            }
-            else if (documentPath.ToLowerInvariant().EndsWith(".xlsx"))
-            {
-                File.Copy(documentPath, outputDocumentName);
-                allFiles.Add(outputDocumentName);
-            }
-            else if (documentPath.ToLowerInvariant().EndsWith(".pptx"))
-            {
-                File.Copy(documentPath, outputDocumentName);
-                allFiles.Add(outputDocumentName);
-            }
-            else if (documentPath.ToLowerInvariant().EndsWith(".txt"))
-            {
-                File.Copy(documentPath, outputDocumentName);
-                allFiles.Add(outputDocumentName);
-            }
-
-            else if (documentPath.ToLowerInvariant().EndsWith(".htm") || documentPath.ToLowerInvariant().EndsWith(".html"))
+            else
             {
                 File.Copy(documentPath, outputDocumentName);
                 allFiles.Add(outputDocumentName);
@@ -411,6 +394,12 @@ namespace TranslationAssistant.Business
         {
             HTMLTranslationManager.DoTranslation(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
         }
+
+        private static void ProcessSRTDocument(string fullNameForDocumentToProcess, string sourceLanguage, string targetLanguage)
+        {
+            SRTTranslationManager.DoTranslation(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+        }
+
 
         /// <summary>
         /// Translates a plain text document in UTF8 encoding to the target language.

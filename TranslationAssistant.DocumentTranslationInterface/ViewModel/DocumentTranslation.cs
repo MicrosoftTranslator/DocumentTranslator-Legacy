@@ -419,7 +419,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             var openfileDlg = new OpenFileDialog
                                   {
                                       Filter =
-                                          "Supported Files|*.doc; *.docx; *.pdf; *.xls; *.xlsx; *.ppt; *.pptx; *.txt; *.htm; *.html",      //Add HTML and XLF file types here
+                                          "Supported Files|*.doc; *.docx; *.pdf; *.xls; *.xlsx; *.ppt; *.pptx; *.txt; *.text; *.htm; *.html; *.srt",      //Add XLF file types here
                                       Multiselect = true
                                   };
             if (openfileDlg.ShowDialog().Value)

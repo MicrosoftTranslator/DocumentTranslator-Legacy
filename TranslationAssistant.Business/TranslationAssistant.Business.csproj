@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="CsvWriter.cs" />
     <Compile Include="DocumentTranslationManager.cs" />
+    <Compile Include="SRTTranslationManager.cs" />
     <Compile Include="HTMLTranslationManager.cs" />
     <Compile Include="LoggingManager.cs" />
     <Compile Include="Common\Constants.cs" />
