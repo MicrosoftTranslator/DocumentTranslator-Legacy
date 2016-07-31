@@ -33,6 +33,11 @@ namespace TranslationAssistant.TranslationServices.Core
             set { _targetLangID = value; }
         }
 
+        public int Count
+        {
+            get { return _TranslationUnits.Count; }
+        }
+
 
         public TranslationMemory()
         {

@@ -62,6 +62,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="TMFunctions.cs" />
     <Compile Include="TranslationMemory.cs" />
     <Compile Include="TranslationServiceFacade.cs" />
     <Compile Include="TranslationUnit.cs" />

@@ -18,6 +18,7 @@ namespace TranslationAssistant.TranslationServices.Core
         private int _rating;
         private string _user;
         private TUStatus _status;
+        private string _errortext;
 
         public string strSource {
             get { return this._strSource;}
@@ -44,13 +45,18 @@ namespace TranslationAssistant.TranslationServices.Core
             get { return this._status; }
             set { this._status = value; }
         }
+        public string errortext
+        {
+            get { return this._errortext; }
+            set { this._errortext = value; }
+        }
 
 
         public TranslationUnit()
         {
 
         }
-        public TranslationUnit(string strSource, string strTarget, int rating, string user, string comment, TUStatus status)
+        public TranslationUnit(string strSource, string strTarget, int rating, string user, string comment, TUStatus status, string errortext)
         {
             this._strSource = strSource;
             this._strTarget = strTarget;
