@@ -1,18 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace TranslationAssistant.TranslationServices.Core
 {
     class TMFunctions
     {
+        /// <summary>
+        /// Return structure for the AddTranslationSegments method
+        /// </summary>
         struct AddTranslationSegmentsResponse { public int segmentsprocessed; public int sentencesadded; public int errorsegments;};
 
+        /// <summary>
+        /// Break Sentences of arbitrary length segments and add to CTF
+        /// </summary>
+        /// <param name="TM">Input Translation Memory</param>
+        /// <param name="TMErrors">Failed segments, with errors, in TM format</param>
+        /// <param name="fromlanguage">From language code</param>
+        /// <param name="tolanguage">To langauge code</param>
+        /// <param name="Rating">Rating you want to apply to all added segments. Higher than 6 will override MT. Max is 10.</param>
+        /// <param name="User">Arbitrary string representing the user. Only one entry per user allowed.</param>
+        /// <returns></returns>
         private static AddTranslationSegmentsResponse AddTranslationSegments(
-            TranslationAssistant.TranslationServices.Core.TranslationMemory TM,
-            TranslationAssistant.TranslationServices.Core.TranslationMemory TMErrors,
+            TranslationMemory TM,
+            TranslationMemory TMErrors,
             string fromlanguage,
             string tolanguage,
             int Rating,
@@ -23,16 +32,16 @@ namespace TranslationAssistant.TranslationServices.Core
             response.sentencesadded = 0;
             Parallel.ForEach(TM, async (segment) =>
             {
-                Task<int[]> BSTaskFrom = TranslationAssistant.TranslationServices.Core.TranslationServiceFacade.BreakSentencesAsync(segment.strSource, fromlanguage);
-                Task<int[]> BSTaskTo = TranslationAssistant.TranslationServices.Core.TranslationServiceFacade.BreakSentencesAsync(segment.strTarget, tolanguage);
+                Task<int[]> BSTaskFrom = TranslationServiceFacade.BreakSentencesAsync(segment.strSource, fromlanguage);
+                Task<int[]> BSTaskTo = TranslationServiceFacade.BreakSentencesAsync(segment.strTarget, tolanguage);
                 int[] fromoffsets = await BSTaskFrom;
                 int[] tooffsets = await BSTaskTo;
                 if (fromoffsets.Length != tooffsets.Length)
                 {
-                    TranslationAssistant.TranslationServices.Core.TranslationUnit ErrorSegment = new TranslationAssistant.TranslationServices.Core.TranslationUnit();
+                    TranslationUnit ErrorSegment = new TranslationUnit();
                     ErrorSegment = segment;
                     ErrorSegment.errortext = "Error 100: Different number of sentences in segment. Not added.";
-                    ErrorSegment.status = TranslationAssistant.TranslationServices.Core.TUStatus.countmismatch;
+                    ErrorSegment.status = TUStatus.countmismatch;
                     TMErrors.Add(ErrorSegment);
                 }
                 else
@@ -41,7 +50,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     int tostartindex = 0;
                     for (int i = 0; i < fromoffsets.Length; i++)
                     {
-                        TranslationAssistant.TranslationServices.Core.TranslationServiceFacade.AddTranslation(
+                        TranslationServiceFacade.AddTranslation(
                             segment.strSource.Substring(fromstartindex, fromoffsets[i]),
                             segment.strTarget.Substring(tostartindex, tooffsets[i]),
                             fromlanguage,
