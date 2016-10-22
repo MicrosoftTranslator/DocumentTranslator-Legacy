@@ -157,17 +157,26 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
 
             TmxFile TmxIn = new TmxFile(this.TmxDocument.ValueString);
             string[] sntFilenames = TmxIn.WriteToSNTFiles(SntFileName);
-            if (sntFilenames.Length != 2) {
-                Logger.WriteLine(LogLevel.Error, "More than 2 languages in the TMX file. Must have exactly 2.");
-                deleteSNTfiles(sntFilenames);
+            if (sntFilenames != null)
+            {
+                if (sntFilenames.Length != 2)
+                {
+                    Logger.WriteLine(LogLevel.Error, "More than 2 languages in the TMX file. Must have exactly 2.");
+                    deleteSNTfiles(sntFilenames);
+                    return false;
+                }
+            }
+            else
+            {
+                Logger.WriteLine(LogLevel.Error, "Not a TMX file. Aborting.");
                 return false;
             }
-
             TranslationMemory TM = new TranslationMemory();
             TM.sourceLangID = this.sourceLanguage.ValueString.ToLowerInvariant();
             TM.targetLangID = this.targetLanguage.ValueString.ToLowerInvariant();
 
-            // Read langauge names from Tmx
+
+            // Read language names from Tmx
             string TmxSourceLanguage = Path.GetFileNameWithoutExtension(sntFilenames[0]);
             TmxSourceLanguage = TmxSourceLanguage.Substring(TmxSourceLanguage.LastIndexOf('_') + 1).ToLowerInvariant();
             string TmxTargetLanguage = Path.GetFileNameWithoutExtension(sntFilenames[1]);
@@ -187,6 +196,10 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 return false;
             }
 
+            TranslationMemory TMErrors = new TranslationMemory();
+            TMErrors.sourceLangID = this.sourceLanguage.ValueString.ToLowerInvariant();
+            TMErrors.targetLangID = this.targetLanguage.ValueString.ToLowerInvariant();
+
 
             string[] sntSource = File.ReadAllLines(sntFilenames[0]);
             string[] sntTarget = File.ReadAllLines(sntFilenames[1]);
@@ -198,122 +211,37 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
 
             Logger.WriteLine(LogLevel.None, "{0} translation units read.", sntSource.Length);
 
+
+
             TmxWriter ErrorTmx = new TmxWriter(Path.GetFileNameWithoutExtension(this.TmxDocument.ValueString) + ".errors." + TmxSourceLanguage + "_" + TmxTargetLanguage + "." + DateTime.Now.ToString("yyyyMMddThhmmssZ") + ".tmx", TmxSourceLanguage, TmxTargetLanguage, false);
 
-            //Load into TM and perform error check on each line.
-            int ratioViolationCount = 0; //counts number of ratio violations
-            int sntCountViolationCount = 0; //counts number of unequal sentence count violation.
+            //Load into TM without error checks. The AddTranslationSegments method performs error checks. 
             for (int sntLineIndex = 0; sntLineIndex < sntSource.Length; sntLineIndex++)
             {
-                //show a progress message. 
-                if ((sntLineIndex % 10) == 0) Logger.WriteLine(LogLevel.Debug, "{0} of {1} sentences aligned and error checked.", sntLineIndex, sntSource.Length);
-
-                //Length discrepancy check
-                float ratio = Math.Abs(sntSource[sntLineIndex].Length / sntTarget[sntLineIndex].Length);
-                if ((ratio > 3) && ((sntSource.Length > 15) || (sntTarget.Length > 15))) //skip the segment, and add to error.tmx
-                {
-                    Logger.WriteLine(LogLevel.Debug, "Length ratio exceeded. Segment skipped: {0}", sntSource[sntLineIndex].Substring(0, (60<sntSource[sntLineIndex].Length)?60:sntSource[sntLineIndex].Length));
-                    ratioViolationCount++;
-                    ErrorTmx.TmxWriteSegment(sntSource[sntLineIndex], sntTarget[sntLineIndex], TmxSourceLanguage, TmxTargetLanguage, TmxWriter.TUError.lengthratio);
-
-                    if ((ratioViolationCount / sntSource.Length) > 0.10)
-                    {
-                        Logger.WriteLine(LogLevel.Error, "Length ratio exceeded for 10% of segments. Probably not a translation. Aborting.");
-                        deleteSNTfiles(sntFilenames);
-                        return false;
-                    }
-                    continue;
-                }
-
-                //TODO: special handling of bpt/ept 
-                sntSource[sntLineIndex] = System.Net.WebUtility.HtmlDecode(sntSource[sntLineIndex]);
-                sntTarget[sntLineIndex] = System.Net.WebUtility.HtmlDecode(sntTarget[sntLineIndex]);
-
-                //throw away segments with tags
-                if ((sntSource[sntLineIndex].Contains("<") && sntSource[sntLineIndex].Contains(">")) && (sntTarget[sntLineIndex].Contains("<") && sntTarget[sntLineIndex].Contains(">")))
-                {
-                    Logger.WriteLine(LogLevel.Debug, "Tagged segment. Segment skipped: {0}", sntSource[sntLineIndex].Substring(0, (60 < sntSource[sntLineIndex].Length) ? 60 : sntSource[sntLineIndex].Length));
-                    ErrorTmx.TmxWriteSegment(sntSource[sntLineIndex], sntTarget[sntLineIndex], TmxSourceLanguage, TmxTargetLanguage, TmxWriter.TUError.tagging);
-                    continue;
-                }
-
-                //Encode the remaining <>&
-                sntSource[sntLineIndex] = System.Net.WebUtility.HtmlEncode(sntSource[sntLineIndex]);
-                sntTarget[sntLineIndex] = System.Net.WebUtility.HtmlEncode(sntTarget[sntLineIndex]);
-
-
-
-                int[] sourceSentLengths = TranslationServiceFacade.BreakSentences(sntSource[sntLineIndex], TM.sourceLangID);
-                int[] targetSentLengths = TranslationServiceFacade.BreakSentences(sntTarget[sntLineIndex], TM.targetLangID);
-
-                //unequal sentence count violation check
-                if (sourceSentLengths.Length != targetSentLengths.Length)
-                {
-                    sntCountViolationCount++;
-                    Logger.WriteLine(LogLevel.Debug, "Unequal number of sentences in segment. Segment skipped: {0}", sntSource[sntLineIndex].Substring(0, (60<sntSource[sntLineIndex].Length)?60:sntSource[sntLineIndex].Length));
-                    ErrorTmx.TmxWriteSegment(sntSource[sntLineIndex], sntTarget[sntLineIndex], TmxSourceLanguage, TmxTargetLanguage, TmxWriter.TUError.sentencecountmismatch);
-
-                    if ((sntCountViolationCount / sntSource.Length) > 0.10)
-                    {
-                        Logger.WriteLine(LogLevel.Error, "Unequal sentence count exceeded for 10% of segments. Probably not a translation. Aborting.");
-                        deleteSNTfiles(sntFilenames);
-                        return false;
-                    }
-                    continue;
-                }
-
-
-                //Split multiple sentences
-                int startIndexSrc = 0;
-                int startIndexTgt = 0;
-                for (int j = 0; j < sourceSentLengths.Length; j++ )
-                {
-                    TranslationUnit TU = new TranslationUnit();
-                    TU.strSource = sntSource[sntLineIndex].Substring(startIndexSrc, sourceSentLengths[j]);
-                    TU.strTarget = sntTarget[sntLineIndex].Substring(startIndexTgt, targetSentLengths[j]);
-                    startIndexSrc = sourceSentLengths[j];
-                    startIndexTgt = targetSentLengths[j];
-                    TU.rating = int.Parse(ratingvalue);
-                    TU.user = uservalue.ToUpperInvariant();
-                    TM.Add(TU);
-                }
-
+                TranslationUnit TU = new TranslationUnit(sntSource[sntLineIndex], sntTarget[sntLineIndex], Convert.ToInt16(ratingvalue), uservalue, "", TUStatus.good, "");
+                TM.Add(TU);
             }
-            ErrorTmx.Dispose();
+
+            Logger.WriteLine(LogLevel.None, "{0} translation units read.", sntSource.Length);
 
             
-            //Add the whole TM list to CTF, if a CTF write was requested.
+            bool AddToCTF = false;
+            if (boolWrite.ValueString.ToLowerInvariant() == "true") AddToCTF = true;
+            TMFunctions.AddTranslationSegmentsResponse ATSResponse = TMFunctions.AddTranslationSegments(TM, TMErrors, TM.sourceLangID, TM.targetLangID, Convert.ToInt16(ratingvalue), uservalue, AddToCTF);
 
-            if (boolWrite.ValueString.ToLowerInvariant() == "true")
+            Logger.WriteLine(LogLevel.Msg, "Error segments: {0}", ATSResponse.errorsegments);
+           
+            if (AddToCTF)
             {
-                int SentenceCount = 0;
-                foreach (TranslationUnit TU in TM){
-                    TranslationServiceFacade.AddTranslation(TU.strSource, TU.strTarget, TM.sourceLangID, TM.targetLangID, TU.rating, TU.user);
-                    if ((SentenceCount % 10) == 0) Logger.WriteLine(LogLevel.Debug, "{0} of {1} sentences written. Continuing...", SentenceCount, sntSource.Length);
-                    //Do not change the sleep time. This is slow and needs to be slow - the AddTranslation method is designed for interactive use.
-                    Thread.Sleep(500);
-                    SentenceCount++;
-                }
-                Logger.WriteLine(LogLevel.Msg, "{0} sentences written to CTF. Write complete. ", SentenceCount);
+                Logger.WriteLine(LogLevel.Msg, "{0} sentences written to CTF. Write complete. ", ATSResponse.sentencesadded);
             }
             else
             {
-                //Just list the entire TM on screen.
-                foreach (TranslationUnit TU in TM)
-                {
-                    Logger.WriteLine(LogLevel.None, "{0} || {1}", TU.strSource, TU.strTarget);
-                }
+                Logger.WriteLine(LogLevel.None, "Nothing written to CTF.");
             }
 
 
             return true;
-        }
-
-        private string NormalizeTags(string s)
-        {
-            //currently does nothing. If we need to, reuse the original TMX reader class
-            string newstring = s;
-            return newstring;
         }
 
         private void deleteSNTfiles(string[] sntFilenames)

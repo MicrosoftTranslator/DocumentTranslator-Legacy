@@ -466,8 +466,21 @@ namespace TranslationAssistant.TranslationServices.Core
             Utils.ClientID = _ClientID;
             Utils.ClientSecret = _ClientSecret;
             string headerValue = "Bearer " + Utils.GetAccesToken();
-            Task<int[]> BSTask = client.BreakSentencesAsync(headerValue, text, languageID);
-            int[] result = await BSTask;
+            int[] result = { 0 };
+            try
+            {
+                Task<int[]> BSTask = client.BreakSentencesAsync(headerValue, text, languageID);
+                result = await BSTask;
+            }
+            catch
+            {
+                for (int i = 1; i <= 10; i++)
+                {
+                    Thread.Sleep(5000 * i);
+                    Task<int[]> BSTask = client.BreakSentencesAsync(headerValue, text, languageID);
+                    result = await BSTask;
+                }
+            }
             return result;
         }
 
@@ -502,7 +515,18 @@ namespace TranslationAssistant.TranslationServices.Core
             Utils.ClientID = _ClientID;
             Utils.ClientSecret = _ClientSecret;
             string headerValue = "Bearer " + Utils.GetAccesToken();
-            client.AddTranslation(headerValue, originalText, translatedText, from, to, rating, "text/plain", _CategoryID, user, string.Empty);
+            try
+            {
+                client.AddTranslation(headerValue, originalText, translatedText, from, to, rating, "text/plain", _CategoryID, user, string.Empty);
+            }
+            catch
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    Thread.Sleep(500);
+                    client.AddTranslation(headerValue, originalText, translatedText, from, to, rating, "text/plain", _CategoryID, user, string.Empty);
+                }
+            }
             return;
         }
 

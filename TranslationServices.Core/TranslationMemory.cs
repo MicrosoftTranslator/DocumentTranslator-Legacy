@@ -78,7 +78,15 @@ namespace TranslationAssistant.TranslationServices.Core
                 yield return TU;
             }
         }
+        
+        public TranslationMemory Take(int fromindex, int toindex)
+        {
+            TranslationMemory TM = new TranslationMemory();
 
+            //TODO: Take implementation goes here.
+            return TM;
+        }
+        
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
