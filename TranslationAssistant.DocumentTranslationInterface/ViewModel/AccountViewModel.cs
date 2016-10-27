@@ -152,7 +152,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             //Initialize in order to load the credentials.
             TranslationServices.Core.TranslationServiceFacade.Initialize();
             this.clientID = TranslationServices.Core.TranslationServiceFacade.ClientID;
-            this.clientSecret = TranslationServices.Core.TranslationServiceFacade.ClientSecret;
             this.categoryID = TranslationServices.Core.TranslationServiceFacade.CategoryID;
         }
 
@@ -163,7 +162,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         {
             //Set the Account values and save.
             TranslationServices.Core.TranslationServiceFacade.ClientID = this.clientID;
-            TranslationServices.Core.TranslationServiceFacade.ClientSecret = this.clientSecret;
             TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID;
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
 

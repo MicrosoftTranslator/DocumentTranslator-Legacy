@@ -4,13 +4,13 @@ Document Translator uses the customer's own credentials and subscription to perf
 as well as making use of a custom MT system, trained via the Microsoft Translator Hub (https://hub.microsofttranslator.com).
 
 ## Overview
-Translate one or more Office documents, plain textm HTML or PDF documents to another language, in one go. 
+Translate one or more Office documents, plain text HTML or PDF documents to another language, in one go. 
 
 ## Purpose
-Translate an Office document and receive a translated Office document in full fidelity, as an Office document. The translated Office document is fully editable like any normal Office document.
-Translate a text-based PDF document and receive a translated document in Microsoft Word.
-Translate HTML or plain text files and receive translated HTML or plain text.
-Upload an existing TMX file to Microsoft Translator's CTF store, to be used in subsequent translations. 
+- Translate an Office document and receive a translated Office document in full fidelity, as an Office document. The translated Office document is fully editable like any normal Office document.
+- Translate a text-based PDF document and receive a translated document in Microsoft Word.
+- Translate HTML or plain text files and receive translated HTML or plain text.
+- Upload an existing TMX file to Microsoft Translator's CTF store, to be used in subsequent translations. 
 
 ## Key Features
 - Enter account credentials
@@ -58,7 +58,7 @@ Get Word Alignments
 
 Builds a CSV file containing 3 columns: source, target, and word alignment information in the format 
 
-[[SourceTextStartIndex]:[SourceTextEndIndex]–[TgtTextStartIndex]:[TgtTextEndIndex]] *
+[[SourceTextStartIndex]:[SourceTextEndIndex]â€“[TgtTextStartIndex]:[TgtTextEndIndex]] *
 
 for every word of the source. The information for each word is separated by a space, including for non-space-separated languages (scripts) like Chinese. 
 Example alignment string: "0:0-7:10 1:2-11:20 3:4-0:3 3:4-4:6 5:5-21:21".

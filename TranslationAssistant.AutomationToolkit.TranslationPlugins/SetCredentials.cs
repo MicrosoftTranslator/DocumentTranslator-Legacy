@@ -118,7 +118,6 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             try
             {
                 TranslationServiceFacade.ClientID = this.clientID.ValueString;
-                TranslationServiceFacade.ClientSecret = this.clientSecret.ValueString;
                 TranslationServiceFacade.CategoryID = this.categoryID.ValueString;
                 TranslationServiceFacade.SaveCredentials();
             }
