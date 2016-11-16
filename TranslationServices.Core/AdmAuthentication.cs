@@ -1,5 +1,5 @@
-// // ----------------------------------------------------------------------
-// // <copyright file="AdmAuthentication.cs" company="Microsoft Corporation">
+﻿// // ----------------------------------------------------------------------
+// // <copyright file="DatamarketAdmAuthentication.cs" company="Microsoft Corporation">
 // // Copyright (c) Microsoft Corporation.
 // // All rights reserved.
 // // THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -8,8 +8,9 @@
 // // PARTICULAR PURPOSE.
 // // </copyright>
 // // ----------------------------------------------------------------------
-// // <summary>AdmAuthentication.cs</summary>
+// // <summary>DatamarketAdmAuthentication.cs</summary>
 // // ----------------------------------------------------------------------
+
 
 namespace TranslationAssistant.TranslationServices.Core
 {
@@ -23,59 +24,11 @@ namespace TranslationAssistant.TranslationServices.Core
 
     #endregion
 
-    public class AdmAuthentication
+    public abstract class AdmAuthentication
     {
-        #region Fields
-
-        private readonly string request;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        public AdmAuthentication(string clientId, string clientSecret)
-        {
-            this.request =
-                string.Format(
-                    "grant_type=client_credentials&client_id={0}&client_secret={1}&scope=http://api.microsofttranslator.com",
-                    HttpUtility.UrlEncode(clientId),
-                    HttpUtility.UrlEncode(clientSecret));
-        }
-
-        #endregion
-
         #region Public Methods and Operators
 
-        public AdmAccessToken GetAccessToken()
-        {
-            return this.HttpPost(Constants.DatamarketAccessUri, this.request);
-        }
-
-        #endregion
-
-        #region Methods
-
-        private AdmAccessToken HttpPost(string datamarketAccessUri, string requestDetails)
-        {
-            WebRequest webRequest = WebRequest.Create(datamarketAccessUri);
-            webRequest.ContentType = "application/x-www-form-urlencoded";
-            webRequest.Method = "POST";
-            byte[] bytes = Encoding.ASCII.GetBytes(requestDetails);
-            webRequest.ContentLength = bytes.Length;
-            using (Stream outputStream = webRequest.GetRequestStream())
-            {
-                outputStream.Write(bytes, 0, bytes.Length);
-            }
-
-            using (WebResponse webResponse = webRequest.GetResponse())
-            {
-                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(AdmAccessToken));
-
-                // Get deserialized object from JSON stream
-                AdmAccessToken token = (AdmAccessToken)serializer.ReadObject(webResponse.GetResponseStream());
-                return token;
-            }
-        }
+        public abstract AdmAccessToken GetAccessToken();
 
         #endregion
     }

@@ -51,6 +51,13 @@ namespace TranslationAssistant.TranslationServices.Core
             set { _ClientSecret = value; }
         }
 
+        private static string _SubscriptionKey;
+        public static string SubscriptionKey
+        {
+            get { return _SubscriptionKey; }
+            set { _SubscriptionKey = value; }
+        }
+
         private static bool _CreateTMXOnTranslate = false;
         public static bool CreateTMXOnTranslate
         {
@@ -72,6 +79,7 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             Utils.ClientID = _ClientID;
             Utils.ClientSecret = _ClientSecret;
+            Utils.SubscriptionKey = _SubscriptionKey;
             try
             {
                 string headerValue = "Bearer " + Utils.GetAccesToken();
@@ -92,6 +100,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
             Utils.ClientID = _ClientID;
             Utils.ClientSecret = _ClientSecret;
+            Utils.SubscriptionKey = _SubscriptionKey;
 
             bool returnvalue = true;
             //it may take a while until the category is loaded on server
@@ -150,6 +159,7 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             _ClientID = Properties.Settings.Default.ClientID;
             _ClientSecret = Properties.Settings.Default.ClientSecret;
+            _SubscriptionKey = Properties.Settings.Default.SubscriptionKey;
             _CategoryID = Properties.Settings.Default.CategoryID;
         }
 
@@ -160,6 +170,7 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             Properties.Settings.Default.ClientID = _ClientID;
             Properties.Settings.Default.ClientSecret = _ClientSecret;
+            Properties.Settings.Default.SubscriptionKey = _SubscriptionKey;
             Properties.Settings.Default.CategoryID = _CategoryID;
             Properties.Settings.Default.Save();
         }
@@ -245,6 +256,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
             Utils.ClientID = _ClientID;
             Utils.ClientSecret = _ClientSecret;
+            Utils.SubscriptionKey = _SubscriptionKey;
             string headerValue = "Bearer " + Utils.GetAccesToken();
             var bind = new BasicHttpBinding
             {
@@ -341,6 +353,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
             Utils.ClientID = _ClientID;
             Utils.ClientSecret = _ClientSecret;
+            Utils.SubscriptionKey = _SubscriptionKey;
             string headerValue = "Bearer " + Utils.GetAccesToken();
             var bind = new BasicHttpBinding
                            {
@@ -436,6 +449,7 @@ namespace TranslationAssistant.TranslationServices.Core
             TranslatorService.LanguageServiceClient client = new LanguageServiceClient(bind, epa);
             Utils.ClientID = _ClientID;
             Utils.ClientSecret = _ClientSecret;
+            Utils.SubscriptionKey = _SubscriptionKey;
             string headerValue = "Bearer " + Utils.GetAccesToken();
             return client.BreakSentences(headerValue, text, languageID);
         }
@@ -465,6 +479,7 @@ namespace TranslationAssistant.TranslationServices.Core
             TranslatorService.LanguageServiceClient client = new LanguageServiceClient(bind, epa);
             Utils.ClientID = _ClientID;
             Utils.ClientSecret = _ClientSecret;
+            Utils.SubscriptionKey = _SubscriptionKey;
             string headerValue = "Bearer " + Utils.GetAccesToken();
             int[] result = { 0 };
             try

@@ -60,6 +60,9 @@
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Client Secret:" VerticalAlignment="Center" Margin="0,3,16,0"  />
                     <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" Text="{Binding ClientSecret, UpdateSourceTrigger=PropertyChanged}"/>
 
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Subscription Key:" VerticalAlignment="Center" Margin="0,3,16,0"  />
+                    <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" Text="{Binding SubscriptionKey, UpdateSourceTrigger=PropertyChanged}"/>
+                    
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Category:" VerticalAlignment="Center" Margin="0,3,16,0"  />
                     <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0"  Text="{Binding CategoryID, UpdateSourceTrigger=PropertyChanged}"/>
 

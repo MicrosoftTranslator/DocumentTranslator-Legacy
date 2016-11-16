@@ -50,6 +50,18 @@ namespace TranslationAssistant.TranslationServices.Core.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SubscriptionKey {
+            get {
+                return ((string)(this["SubscriptionKey"]));
+            }
+            set {
+                this["SubscriptionKey"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string CategoryID {
             get {
                 return ((string)(this["CategoryID"]));
