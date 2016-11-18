@@ -1,5 +1,5 @@
 ﻿// // ----------------------------------------------------------------------
-// // <copyright file="DatamarketAdmAuthentication.cs" company="Microsoft Corporation">
+// // <copyright file="AdmAuthentication.cs" company="Microsoft Corporation">
 // // Copyright (c) Microsoft Corporation.
 // // All rights reserved.
 // // THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -8,7 +8,7 @@
 // // PARTICULAR PURPOSE.
 // // </copyright>
 // // ----------------------------------------------------------------------
-// // <summary>DatamarketAdmAuthentication.cs</summary>
+// // <summary>AdmAuthentication.cs</summary>
 // // ----------------------------------------------------------------------
 
 
