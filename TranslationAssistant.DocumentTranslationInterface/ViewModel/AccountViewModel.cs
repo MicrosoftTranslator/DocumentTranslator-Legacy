@@ -39,6 +39,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         ///     The client secret.
         /// </summary>
         private string clientSecret;
+        
+        /// <summary>
+        ///     The subscription key.
+        /// </summary>
+        private string subscriptionKey;
 
         /// <summary>
         ///     The category identifier.
@@ -97,6 +102,23 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                 this.NotifyPropertyChanged("ClientSecret");
             }
         }
+        
+        /// <summary>
+        ///     Gets or sets the subscription key
+        /// </summary>
+        public string SubscriptionKey
+        {
+            get
+            {
+                return this.subscriptionKey;
+            }
+
+            set
+            {
+                this.subscriptionKey = value;
+                this.NotifyPropertyChanged("SubscriptionKey");
+            }
+        }
 
         public string CategoryID
         {
@@ -153,6 +175,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             TranslationServices.Core.TranslationServiceFacade.Initialize();
             this.clientID = TranslationServices.Core.TranslationServiceFacade.ClientID;
             this.clientSecret = TranslationServices.Core.TranslationServiceFacade.ClientSecret;
+            this.subscriptionKey = TranslationServices.Core.TranslationServiceFacade.SubscriptionKey;
             this.categoryID = TranslationServices.Core.TranslationServiceFacade.CategoryID;
         }
 
@@ -164,6 +187,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             //Set the Account values and save.
             TranslationServices.Core.TranslationServiceFacade.ClientID = this.clientID;
             TranslationServices.Core.TranslationServiceFacade.ClientSecret = this.clientSecret;
+            TranslationServices.Core.TranslationServiceFacade.SubscriptionKey = this.subscriptionKey;
             TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID;
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
 

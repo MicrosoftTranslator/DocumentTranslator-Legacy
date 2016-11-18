@@ -19,6 +19,8 @@ namespace TranslationAssistant.TranslationServices.Core
 
         public static readonly string DatamarketAccessUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
 
+        public static readonly string AzureAccessUri = "https://api.cognitive.microsoft.com/sts/v1.0/issueToken";
+
         #endregion
     }
 }

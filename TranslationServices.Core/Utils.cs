@@ -19,39 +19,59 @@ namespace TranslationAssistant.TranslationServices.Core
     using System.IO;
     using System.Net;
 
-    #endregion
+    #endregion Usings
 
-    
     public class Utils
     {
         #region Public Methods and Operators
 
         private static string _ClientID;
-        public static string ClientID {
-            get {return _ClientID;}
+
+        public static string ClientID
+        {
+            get { return _ClientID; }
             set { _ClientID = value; }
         }
 
         private static string _ClientSecret;
+
         public static string ClientSecret
         {
             get { return _ClientSecret; }
             set { _ClientSecret = value; }
         }
 
+        private static string _SubscriptionKey;
+
+        public static string SubscriptionKey
+        {
+            get { return _SubscriptionKey; }
+            set { _SubscriptionKey = value; }
+        }
 
         public static string GetAccesToken()
         {
-            // Get Client Id and Client Secret from https://datamarket.azure.com/developer/applications/
-            // Refer obtaining AccessToken (http://msdn.microsoft.com/en-us/library/hh454950.aspx) 
-
-            if (string.IsNullOrEmpty(_ClientSecret) || string.IsNullOrEmpty(_ClientID))
+            AdmAuthentication admAuth;
+            if (string.IsNullOrEmpty(_SubscriptionKey))
             {
-                throw new ArgumentException(
-                    "Client ID and Client Secret are required. Please obtain your credentials from https://datamarket.azure.com/developer/applications/ and update in Settings.");
-            }
+                // Get Client Id and Client Secret from https://datamarket.azure.com/developer/applications/
+                // Refer obtaining AccessToken (http://msdn.microsoft.com/en-us/library/hh454950.aspx)
 
-            AdmAuthentication admAuth = new AdmAuthentication(_ClientID, _ClientSecret);
+                if (string.IsNullOrEmpty(_ClientSecret) || string.IsNullOrEmpty(_ClientID))
+                {
+                    throw new ArgumentException(
+                        "Client ID and Client Secret are required. Please obtain your credentials from https://datamarket.azure.com/developer/applications/ and update in Settings.");
+                }
+
+                admAuth = new DatamarketAdmAuthentication(_ClientID, _ClientSecret);
+            }
+            else
+            {
+                // Get Subscription keys from https://portal.azure.com/ => All resources => (Your Cognitive Services account) => Resource Management => Keys
+                // Refer obtaining AccessToken (http://docs.microsofttranslator.com/oauth-token.html)
+
+                admAuth = new AzureAdmAuthentication(_SubscriptionKey);
+            }
             try
             {
                 AdmAccessToken admToken = admAuth.GetAccessToken();
@@ -83,6 +103,6 @@ namespace TranslationAssistant.TranslationServices.Core
             }
         }
 
-        #endregion
+        #endregion Public Methods and Operators
     }
 }
