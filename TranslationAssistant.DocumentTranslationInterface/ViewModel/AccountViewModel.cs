@@ -174,7 +174,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             }
             else
             {
-                this.StatusText = "Client ID or client secret are invalid.\r\nPlease visit the Azure Marketplace to obtain a subscription.";
+                this.StatusText = "Key is invalid.\r\nPlease visit the Azure Portal to obtain a subscription key.";
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
             }
             if (!TranslationServices.Core.TranslationServiceFacade.IsCategoryValid(this.categoryID))

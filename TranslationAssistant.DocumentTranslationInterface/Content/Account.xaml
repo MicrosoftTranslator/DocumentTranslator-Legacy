@@ -18,19 +18,14 @@
                 <TextBlock Text="Account" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
 
                 <TextBlock Height="20"/>
-                <TextBlock TextWrapping="Wrap" Text="Please subscribe to Microsoft Translator at" />
+                <TextBlock TextWrapping="Wrap" Text="Please subscribe to Microsoft Translator Text API at" />
                 <TextBlock TextWrapping="Wrap">
-                    <Hyperlink NavigateUri="https://datamarket.azure.com/dataset/bing/microsofttranslator" ToolTip="Subscribe to Microsoft Translator"  RequestNavigate="Hyperlink_OnRequestNavigate">
-                    <Run Text="https://datamarket.azure.com/dataset/bing/microsofttranslator," />
+                    <Hyperlink NavigateUri="https://www.microsoft.com/en-us/translator/getstarted.aspx" ToolTip="Subscribe to Microsoft Translator"  RequestNavigate="Hyperlink_OnRequestNavigate">
+                    <Run Text="https://www.microsoft.com/en-us/translator/getstarted.aspx," />
                     </Hyperlink>
                 </TextBlock>
                 
-                <TextBlock TextWrapping="Wrap" Text="register an application and obtain a client ID and client secret from" />
-                <TextBlock TextWrapping="Wrap">
-                    <Hyperlink NavigateUri="https://datamarket.azure.com/developer/applications/" ToolTip="Define client ID and secret here."  RequestNavigate="Hyperlink_OnRequestNavigate">
-                    <Run Text="https://datamarket.azure.com/developer/applications/." />
-                    </Hyperlink>
-                </TextBlock>
+                <TextBlock TextWrapping="Wrap" Text="and copy the Key for your Translator Text API resource into the field below." />
 
                 <TextBlock Height="20" />
                 <TextBlock TextWrapping="Wrap" Text="Optionally you may enter a category identifier to use a customized machine translation system. The standard categories you can use are &quot;general&quot;(same as blank), &quot;tech&quot; for computer-related technical content, &quot;speech&quot; for translation of conversational speech, or the category ID of a custom system you have built on " />
@@ -51,19 +46,15 @@
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
-                        <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Client ID:" VerticalAlignment="Center" Margin="0,3,16,0" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Key:" VerticalAlignment="Center" Margin="0,3,16,0" />
                     <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" Text="{Binding ClientID, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Client Secret:" VerticalAlignment="Center" Margin="0,3,16,0"  />
-                    <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" Text="{Binding ClientSecret, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Category:" VerticalAlignment="Center" Margin="0,3,16,0"  />
+                    <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0"  Text="{Binding CategoryID, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Category:" VerticalAlignment="Center" Margin="0,3,16,0"  />
-                    <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0"  Text="{Binding CategoryID, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <Button Grid.Row="6" Grid.Column="1" Content="Save" Width="80" HorizontalAlignment="Left" Margin="0,20,0,0">
+                    <Button Grid.Row="4" Grid.Column="1" Content="Save" Width="80" HorizontalAlignment="Left" Margin="0,20,0,0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseUp">
                                 <i:InvokeCommandAction

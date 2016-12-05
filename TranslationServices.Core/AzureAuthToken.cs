@@ -73,8 +73,7 @@ namespace Microsoft.Translator.API
                 request.RequestUri = ServiceUrl;
                 request.Content = new StringContent(string.Empty);
                 request.Headers.TryAddWithoutValidation(OcpApimSubscriptionKeyHeader, this.SubscriptionKey);
-                TimeSpan timeoutvalue = new TimeSpan(0, 0, 2); //set timeout to two seconds
-                client.Timeout = timeoutvalue;
+                client.Timeout = TimeSpan.FromSeconds(2);
                 var response = await client.SendAsync(request);
                 this.RequestStatusCode = response.StatusCode;
                 response.EnsureSuccessStatusCode();
@@ -83,18 +82,6 @@ namespace Microsoft.Translator.API
                 storedTokenValue = "Bearer " + token;
                 return storedTokenValue;
             }
-        }
-
-        private void GetAccessToken(ref string AccessToken)
-        {
-            // Re-use the cached token if there is one.
-            if ((DateTime.Now - storedTokenTime) < TokenCacheDuration)
-            {
-                AccessToken = storedTokenValue;
-                return;
-            }
-            GetAccessTokenAsync().Wait();
-            AccessToken = storedTokenValue;
         }
 
         /// <summary>
@@ -110,9 +97,31 @@ namespace Microsoft.Translator.API
         /// </remarks>
         public string GetAccessToken()
         {
-            string AccessToken = string.Empty;
-            GetAccessToken(ref AccessToken);
-            return AccessToken;
+            // Re-use the cached token if there is one.
+            if ((DateTime.Now - storedTokenTime) < TokenCacheDuration)
+            {
+                return storedTokenValue;
+            }
+
+            string accessToken = null;
+            var task = Task.Run(async () =>
+            {
+                accessToken = await GetAccessTokenAsync();
+            });
+
+            while (!task.IsCompleted)
+            {
+                System.Threading.Thread.Yield();
+            }
+            if (task.IsFaulted)
+            {
+                throw task.Exception;
+            }
+            else if (task.IsCanceled)
+            {
+                throw new Exception("Timeout obtaining access token.");
+            }
+            return accessToken;
         }
 
     }
