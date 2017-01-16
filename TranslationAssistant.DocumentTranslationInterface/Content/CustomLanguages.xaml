@@ -5,10 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TranslationAssistant.DocumentTranslationInterface.Content"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="423" d:DesignWidth="444">
     <Grid>
         <TextBlock Text="Custom Languages" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
-        <DataGrid x:Name="CustomLanguageGrid" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="177" Height="100" AlternatingRowBackground="DimGray" Binding.TargetUpdated="CustomLanguageGrid_TargetUpdated" Binding.SourceUpdated="CustomLanguageGrid_SourceUpdated"/>
+        <DataGrid x:Name="CustomLanguageGrid" BorderThickness="1" BorderBrush="Gray"  ItemsSource="{Binding Source=CustomLanguages}" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Width="424" Height="358" AlternatingRowBackground="DimGray" Binding.TargetUpdated="CustomLanguageGrid_TargetUpdated" Binding.SourceUpdated="CustomLanguageGrid_SourceUpdated" ToolTip="List of custom languages" IsEnabled="False" HeadersVisibility="Column">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Language Code" CanUserSort="True" IsReadOnly="False" SortDirection="Ascending"/>
+                <DataGridTextColumn Header="Language Name" CanUserSort="True" IsReadOnly="False"/>
+            </DataGrid.Columns>
+            <DataGrid.BindingGroup>
+                <BindingGroup/>
+            </DataGrid.BindingGroup>
+        </DataGrid>
 
 
     </Grid>

@@ -58,14 +58,9 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             : base(Logger)
         {
             this.clientID = new Argument(
-                "clientID",
+                "APIkey",
                 true,
-                "Client ID to use for the calls to the Translator service.");
-
-            this.clientSecret = new Argument( 
-                "clientSecret",
-                true,
-                "Client secret to use for the calls to the Translator service.");
+                "API key to use for the calls to the Translator service.");
 
             this.categoryID = new Argument(
                 "categoryID",
@@ -73,7 +68,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 "Translator Hub category ID to use for calls to the translator service.");
 
             this.Arguments = new ArgumentList(
-                new[] { this.clientID, this.clientSecret, this.categoryID },
+                new[] { this.clientID, this.categoryID },
                 Logger);
         }
 
@@ -118,7 +113,6 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             try
             {
                 TranslationServiceFacade.ClientID = this.clientID.ValueString;
-                TranslationServiceFacade.ClientSecret = this.clientSecret.ValueString;
                 TranslationServiceFacade.CategoryID = this.categoryID.ValueString;
                 TranslationServiceFacade.SaveCredentials();
             }

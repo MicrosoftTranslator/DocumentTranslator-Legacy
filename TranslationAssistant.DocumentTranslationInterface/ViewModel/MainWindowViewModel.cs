@@ -93,7 +93,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             }
             else
             {
-                this.StatusText = "Please subscribe to Microsoft Translator and enter your client ID and client secret in the Settings page.";
+                this.StatusText = "Please subscribe to Microsoft Translator text API and enter your subscription key in the Settings page.";
             }
         }
 
