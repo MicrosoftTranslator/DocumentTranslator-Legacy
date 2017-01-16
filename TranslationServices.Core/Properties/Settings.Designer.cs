@@ -58,5 +58,16 @@ namespace TranslationAssistant.TranslationServices.Core.Properties {
                 this["CategoryID"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Collections.Specialized.StringDictionary CustomLanguages {
+            get {
+                return ((global::System.Collections.Specialized.StringDictionary)(this["CustomLanguages"]));
+            }
+            set {
+                this["CustomLanguages"] = value;
+            }
+        }
     }
 }
