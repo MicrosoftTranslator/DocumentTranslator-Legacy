@@ -1,7 +1,7 @@
 # Microsoft Document Translator
-The Microsoft Document Translator translates Microsoft Office, plain text, HTML, PDF files and SRT caption files, from any of the 50 languages supported by the Microsoft Translator web service, to any other of these 50 languages.
-Document Translator uses the customer's own credentials and subscription to perform the service, and will make use of any translation stored in the Collaborative Translations Framework,
-as well as making use of a custom MT system, trained via the Microsoft Translator Hub (https://hub.microsofttranslator.com).
+The Microsoft Document Translator translates Microsoft Office, plain text, HTML, PDF files and SRT caption files, from and to any of the 60+ languages supported by the Microsoft Translator web service.
+Document Translator uses the customer's own credentials and subscription to perform the Translation. Document Translator uses the translations stored in the Collaborative Translations Framework,
+and makes use of a custom MT system, trained via the Microsoft Translator Hub (https://microsoft.com/translator/hub.aspx).
 
 ## Overview
 Translate one or more Office documents, plain text HTML or PDF documents to another language, in one go. 
