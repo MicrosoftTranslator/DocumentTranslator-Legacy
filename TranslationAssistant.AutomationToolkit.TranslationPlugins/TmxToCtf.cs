@@ -154,6 +154,11 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             if (uservalue == string.Empty) uservalue = "TmxUpload";
             string ratingvalue = rating.ValueString;
             if (ratingvalue == string.Empty) ratingvalue = "6";
+            if (!File.Exists(TmxDocument.ValueString))
+            {
+                Logger.WriteLine(LogLevel.Error, "File {0} does not exist.", TmxDocument.ValueString);
+                return false;
+            }
 
             TmxFile TmxIn = new TmxFile(this.TmxDocument.ValueString);
             string[] sntFilenames = TmxIn.WriteToSNTFiles(SntFileName);
@@ -208,10 +213,6 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 deleteSNTfiles(sntFilenames);
                 return false;
             }
-
-            Logger.WriteLine(LogLevel.None, "{0} translation units read.", sntSource.Length);
-
-
 
             TmxWriter ErrorTmx = new TmxWriter(Path.GetFileNameWithoutExtension(this.TmxDocument.ValueString) + ".errors." + TmxSourceLanguage + "_" + TmxTargetLanguage + "." + DateTime.Now.ToString("yyyyMMddThhmmssZ") + ".tmx", TmxSourceLanguage, TmxTargetLanguage, false);
 
