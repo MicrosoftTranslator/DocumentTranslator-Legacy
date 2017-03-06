@@ -49,7 +49,7 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="Key:" VerticalAlignment="Center" Margin="0,3,16,0" />
-                    <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" Text="{Binding ClientID, UpdateSourceTrigger=PropertyChanged}"/>
+                    <PasswordBox Name="KeyBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" PasswordChanged="PasswordBox_PasswordChanged"/>
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="Category:" VerticalAlignment="Center" Margin="0,3,16,0"  />
                     <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0"  Text="{Binding CategoryID, UpdateSourceTrigger=PropertyChanged}"/>

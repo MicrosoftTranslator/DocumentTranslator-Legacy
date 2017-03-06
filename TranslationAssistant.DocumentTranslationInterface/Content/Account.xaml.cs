@@ -42,6 +42,10 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
             e.Handled = true;
         }
 
+        private void PasswordBox_PasswordChanged(object sender, System.Windows.RoutedEventArgs e)
+        {
+            TranslationServices.Core.TranslationServiceFacade.ClientID = KeyBox.Password;
+        }
         #endregion
     }
 }
