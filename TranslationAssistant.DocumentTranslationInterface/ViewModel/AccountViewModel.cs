@@ -161,15 +161,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private void SaveAccountClick()
         {
             //Set the Account values and save.
-            TranslationServices.Core.TranslationServiceFacade.ClientID = this.clientID;
-            TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID;
+            TranslationServices.Core.TranslationServiceFacade.ClientID = this.clientID.Trim();
+            TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID.Trim();
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
-
+            TranslationServices.Core.TranslationServiceFacade.Initialize();
+            
             if (TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReady()) { 
                 this.StatusText = "Settings saved. Ready to translate.";
                 NotifyPropertyChanged("SettingsSaved");
                 //Need to initialize with new credentials in order to get the language list.
-                TranslationServices.Core.TranslationServiceFacade.Initialize();
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(true);
             }
             else

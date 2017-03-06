@@ -35,11 +35,6 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         private readonly Argument clientID;
 
         /// <summary>
-        ///     The source language.
-        /// </summary>
-        private readonly Argument clientSecret;
-
-        /// <summary>
         ///     The target language.
         /// </summary>
         private readonly Argument categoryID;
