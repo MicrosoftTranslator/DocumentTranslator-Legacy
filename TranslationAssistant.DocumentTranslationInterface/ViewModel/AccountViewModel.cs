@@ -161,7 +161,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private void SaveAccountClick()
         {
             //Set the Account values and save.
-            TranslationServices.Core.TranslationServiceFacade.ClientID = this.clientID.Trim();
+            TranslationServices.Core.TranslationServiceFacade.ClientID = TranslationServices.Core.TranslationServiceFacade.ClientID.Trim();
             TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID.Trim();
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
             TranslationServices.Core.TranslationServiceFacade.Initialize();

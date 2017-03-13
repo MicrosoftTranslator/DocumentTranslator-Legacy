@@ -34,6 +34,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
         public Account()
         {
             this.InitializeComponent();
+            KeyBox.Password = TranslationServices.Core.TranslationServiceFacade.ClientID;
         }
 
         private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
