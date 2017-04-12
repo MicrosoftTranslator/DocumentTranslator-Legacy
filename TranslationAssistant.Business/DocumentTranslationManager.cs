@@ -94,12 +94,16 @@ namespace TranslationAssistant.Business
         /// </returns>
         private static string ConvertToDocx(string fullPath, string targetLanguage)
         {
-            LoggingManager.LogMessage("Converting the document from doc or pdf to docx.");
+            LoggingManager.LogMessage("Converting the document " + fullPath + " from doc or pdf to docx.");
             object nullvalue = Type.Missing;
-            CloseProcess("WINWORD");
+
+            //Microsoft.Office.Interop.Word.Application wordApp = (Microsoft.Office.Interop.Word.Application) 
+            //Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid("000209FF-0000-0000-C000-000000000046")));
             Microsoft.Office.Interop.Word.Application wordApp =
-                (Microsoft.Office.Interop.Word.Application)
-                Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid("000209FF-0000-0000-C000-000000000046")));
+                new Microsoft.Office.Interop.Word.Application
+                {
+                    Visible = false
+                };
             object file2 = GetOutputDocumentFullName(fullPath, targetLanguage);
             try
             {
@@ -151,10 +155,9 @@ namespace TranslationAssistant.Business
             {
                 // wordApp.Documents.Close(ref nullvalue, ref nullvalue, ref nullvalue);
                 wordApp.Quit(ref nullvalue, ref nullvalue, ref nullvalue);
-                CloseProcess("WINWORD");
             }
 
-            LoggingManager.LogMessage("Converted the document from doc or pdf to docx.");
+            LoggingManager.LogMessage("Converted the document " + fullPath + " from doc or pdf to docx.");
             return file2.ToString();
         }
 
@@ -168,15 +171,17 @@ namespace TranslationAssistant.Business
         /// </returns>
         private static string ConvertToPptx(string fullPath, string targetLanguage)
         {
-            LoggingManager.LogMessage("Converting the document from ppt to pptx.");
-
-            CloseProcess("POWERPNT");
+            LoggingManager.LogMessage("Converting the document " + fullPath + " from ppt to pptx.");
+            
             object file2 = GetOutputDocumentFullName(fullPath, targetLanguage);
+            Microsoft.Office.Interop.PowerPoint.Application powerPointApp =
+                new Microsoft.Office.Interop.PowerPoint.Application
+                {
+                    Visible = MsoTriState.msoFalse
+                };
+
             try
             {
-                Microsoft.Office.Interop.PowerPoint.Application powerPointApp =
-                    new Microsoft.Office.Interop.PowerPoint.Application();
-
                 Microsoft.Office.Interop.PowerPoint.Presentation presentation =
                     powerPointApp.Presentations.Open(
                         fullPath,
@@ -192,10 +197,10 @@ namespace TranslationAssistant.Business
             }
             finally
             {
-                CloseProcess("POWERPNT");
+                powerPointApp.Quit();
             }
 
-            LoggingManager.LogMessage("Converted the document from ppt to pptx.");
+            LoggingManager.LogMessage("Converted the document " + fullPath + " from ppt to pptx.");
             return file2.ToString();
         }
 
@@ -209,15 +214,15 @@ namespace TranslationAssistant.Business
         /// </returns>
         private static string ConvertToXlsx(string fullPath, string targetLanguage)
         {
-            LoggingManager.LogMessage("Converting the document from xls to xlsx.");
-            CloseProcess("EXCEL");
+            LoggingManager.LogMessage("Converting the document " + fullPath + " from xls to xlsx.");
+            
             object file2 = GetOutputDocumentFullName(fullPath, targetLanguage);
-            try
-            {
                 Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application
                                                                           {
                                                                               Visible = false
                                                                           };
+            try
+            {
 
                 Microsoft.Office.Interop.Excel.Workbook eWorkbook = excelApp.Workbooks.Open(
                     fullPath,
@@ -254,10 +259,10 @@ namespace TranslationAssistant.Business
             }
             finally
             {
-                CloseProcess("EXCEL");
+                excelApp.Quit();
             }
 
-            LoggingManager.LogMessage("Converted the document from xls to xlsx.");
+            LoggingManager.LogMessage("Converted the document " + fullPath + " from xls to xlsx.");
             return file2.ToString();
         }
 
