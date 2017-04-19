@@ -175,10 +175,7 @@ namespace TranslationAssistant.Business
             
             object file2 = GetOutputDocumentFullName(fullPath, targetLanguage);
             Microsoft.Office.Interop.PowerPoint.Application powerPointApp =
-                new Microsoft.Office.Interop.PowerPoint.Application
-                {
-                    Visible = MsoTriState.msoFalse
-                };
+                new Microsoft.Office.Interop.PowerPoint.Application();
 
             try
             {
@@ -682,8 +679,7 @@ namespace TranslationAssistant.Business
                                         var commentPart = lstComments.Take(indexInDocument).Last();
                                         commentPart.Text = new DocumentFormat.OpenXml.Presentation.Text
                                         {
-                                            Text =
-                                                                       newValue
+                                            Text = newValue
                                         };
                                     }
                                 }
