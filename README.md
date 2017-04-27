@@ -82,11 +82,11 @@ It depends on
 *You need to install these separately if you want to build.
 
 
-##Third party notices
+## Third party notices
 
 This project uses:
 
-###First Floor MUI
+### First Floor MUI
 
 (c) First Floor Software
 
@@ -94,26 +94,26 @@ Under the Ms-PL: https://github.com/firstfloorsoftware/mui/blob/master/LICENSE.m
 
 Available from: https://github.com/firstfloorsoftware/mui
 
-###Html Agility Pack
+### Html Agility Pack
 
 Under the Ms-PL: http://htmlagilitypack.codeplex.com/license
 
 Available from: http://htmlagilitypack.codeplex.com/
 
 
-##Security
+## Security
 All requests to the Translator service are SSL encrypted, using the certificate of the Microsoft Translator service.
 Document Translator stores the service access credentials (client ID and client secret) unencypted in the
 user profile on the machine. For enterprise use we recommend to implement a more secure storage mechanism.
 
-##Questions and Support
+## Questions and Support
 For questions and support please turn to the Microsoft Translator developer forum: 
 
 https://social.msdn.microsoft.com/Forums/en-US/home?category=translation
 
-##Enhancements
+## Enhancements
 Please branch and contribute back your enhancements. Especially interested in additional file formats.
 
-##Code of Conduct
+## Code of Conduct
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
