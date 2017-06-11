@@ -123,7 +123,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     var bind = new BasicHttpBinding { Name = "BasicHttpBinding_LanguageService" };
                     var epa = new EndpointAddress(_EndPointAddress.Replace("https", "http") + "/V2/soap.svc");
                     LanguageServiceClient client = new LanguageServiceClient(bind, epa);
-                    client.Translate(headerValue, "Test", "en", "fr", "text/plain", category, string.Empty);
+                    client.Translate(headerValue, "Test", "en", "fr", "text/plain", category);
                     returnvalue = true;
                     break;
                 }

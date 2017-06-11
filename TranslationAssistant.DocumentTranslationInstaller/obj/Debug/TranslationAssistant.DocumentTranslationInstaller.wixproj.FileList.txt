@@ -1,7 +1,0 @@
-C:\Users\wendt\Documents\GitHub\DocumentTranslator\TranslationAssistant.DocumentTranslationInstaller\bin\Debug\MicrosoftDocumentTranslator.msi
-C:\Users\wendt\Documents\GitHub\DocumentTranslator\TranslationAssistant.DocumentTranslationInstaller\bin\Debug\MicrosoftDocumentTranslator.wixpdb
-obj\Debug\Binaries.wixobj
-obj\Debug\Product.wixobj
-obj\Debug\TranslationAssistant.DocumentTranslationInstaller.wixproj.BindContentsFileListnull.txt
-obj\Debug\TranslationAssistant.DocumentTranslationInstaller.wixproj.BindOutputsFileListnull.txt
-obj\Debug\TranslationAssistant.DocumentTranslationInstaller.wixproj.BindBuiltOutputsFileListnull.txt

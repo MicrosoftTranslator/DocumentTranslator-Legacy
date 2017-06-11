@@ -13,7 +13,7 @@
 
 namespace TranslationAssistant.Business
 {
-    #region Usings
+    #region
 
     using System;
     using System.IO;
@@ -24,8 +24,6 @@ namespace TranslationAssistant.Business
 
     public static class LoggingManager
     {
-        private const string logfilename = "Log.txt";
-
         #region Public Methods and Operators
 
         public static void LogError(string message)

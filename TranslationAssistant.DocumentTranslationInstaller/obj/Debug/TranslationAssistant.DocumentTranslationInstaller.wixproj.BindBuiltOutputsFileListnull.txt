@@ -1,2 +1,0 @@
-C:\Users\wendt\Documents\GitHub\DocumentTranslator\TranslationAssistant.DocumentTranslationInstaller\bin\Debug\MicrosoftDocumentTranslator.msi
-C:\Users\wendt\Documents\GitHub\DocumentTranslator\TranslationAssistant.DocumentTranslationInstaller\bin\Debug\MicrosoftDocumentTranslator.wixpdb
