@@ -176,12 +176,14 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             {
                 this.StatusText = "Key is invalid.\r\nPlease visit the Azure Portal to obtain a subscription key.";
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
+                return;
             }
             if (!TranslationServices.Core.TranslationServiceFacade.IsCategoryValid(this.categoryID))
             {
                 this.StatusText = "Category is invalid.\r\nPlease visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories.";
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
             }
+            return;
           
         }
 

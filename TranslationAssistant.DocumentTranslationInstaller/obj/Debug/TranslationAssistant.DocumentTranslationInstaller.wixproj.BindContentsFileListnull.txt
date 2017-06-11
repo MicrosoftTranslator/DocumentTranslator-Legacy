@@ -1,0 +1,17 @@
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\\TranslationAssistant.DocumentTranslationInstaller\Dlls\DocumentFormat.OpenXml.dll
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\DocumentTranslator.Tmx\bin\Debug\DocumentTranslator.Tmx.dll
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\\TranslationAssistant.DocumentTranslationInstaller\Dlls\FirstFloor.ModernUI.dll
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\\TranslationAssistant.DocumentTranslationInstaller\Dlls\HtmlAgilityPack.dll
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\\TranslationAssistant.DocumentTranslationInstaller\Dlls\HtmlAgilityPack.xml
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Practices.Prism.dll
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Windows.Shell.dll
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\\TranslationAssistant.DocumentTranslationInstaller\DocTranslator_48.ico
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\\TranslationAssistant.DocumentTranslationInstaller\Dlls\System.Windows.Interactivity.dll
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\\DocumentTranslator.Tmx\TmxLangMap.csv
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\TranslationAssistant.AutomationToolkit\bin\Debug\DocumentTranslatorCmd.exe
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\TranslationAssistant.AutomationToolkit.BasePlugin\bin\Debug\TranslationAssistant.AutomationToolkit.BasePlugin.dll
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\TranslationAssistant.AutomationToolkit\bin\Debug\DocumentTranslatorCmd.exe.config
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\TranslationAssistant.AutomationToolkit.TranslationPlugins\bin\Debug\TranslationAssistant.AutomationToolkit.TranslationPlugins.dll
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\TranslationAssistant.Business\bin\Debug\TranslationAssistant.Business.dll
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\TranslationAssistant.DocumentTranslationInterface\bin\Debug\DocumentTranslator.exe
+C:\Users\wendt\Documents\GitHub\DocumentTranslator\TranslationServices.Core\bin\Debug\Tools.TranslationAssistant.TranslationServices.Core.dll
