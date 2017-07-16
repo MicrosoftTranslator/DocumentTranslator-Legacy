@@ -36,9 +36,14 @@ namespace TranslationAssistant.AutomationToolkit.BasePlugin
         Msg = 2,
 
         /// <summary>
+        ///     The warning.
+        /// </summary>
+        Warning = 3,
+
+        /// <summary>
         ///     The error.
         /// </summary>
-        Error = 3
+        Error = 4
     }
 
     /// <summary>
@@ -146,9 +151,12 @@ namespace TranslationAssistant.AutomationToolkit.BasePlugin
             switch (level)
             {
                 case LogLevel.Debug:
-                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.DarkGreen;
                     break;
                 case LogLevel.Msg:
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case LogLevel.Warning:
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     break;
                 case LogLevel.Error:

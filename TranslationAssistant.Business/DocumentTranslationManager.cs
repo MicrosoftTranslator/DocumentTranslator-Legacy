@@ -94,12 +94,16 @@ namespace TranslationAssistant.Business
         /// </returns>
         private static string ConvertToDocx(string fullPath, string targetLanguage)
         {
-            LoggingManager.LogMessage("Converting the document from doc or pdf to docx.");
+            LoggingManager.LogMessage("Converting the document " + fullPath + " from doc or pdf to docx.");
             object nullvalue = Type.Missing;
-            CloseProcess("WINWORD");
+
+            //Microsoft.Office.Interop.Word.Application wordApp = (Microsoft.Office.Interop.Word.Application) 
+            //Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid("000209FF-0000-0000-C000-000000000046")));
             Microsoft.Office.Interop.Word.Application wordApp =
-                (Microsoft.Office.Interop.Word.Application)
-                Activator.CreateInstance(Type.GetTypeFromCLSID(new Guid("000209FF-0000-0000-C000-000000000046")));
+                new Microsoft.Office.Interop.Word.Application
+                {
+                    Visible = false
+                };
             object file2 = GetOutputDocumentFullName(fullPath, targetLanguage);
             try
             {
@@ -151,10 +155,9 @@ namespace TranslationAssistant.Business
             {
                 // wordApp.Documents.Close(ref nullvalue, ref nullvalue, ref nullvalue);
                 wordApp.Quit(ref nullvalue, ref nullvalue, ref nullvalue);
-                CloseProcess("WINWORD");
             }
 
-            LoggingManager.LogMessage("Converted the document from doc or pdf to docx.");
+            LoggingManager.LogMessage("Converted the document " + fullPath + " from doc or pdf to docx.");
             return file2.ToString();
         }
 
@@ -168,15 +171,14 @@ namespace TranslationAssistant.Business
         /// </returns>
         private static string ConvertToPptx(string fullPath, string targetLanguage)
         {
-            LoggingManager.LogMessage("Converting the document from ppt to pptx.");
-
-            CloseProcess("POWERPNT");
+            LoggingManager.LogMessage("Converting the document " + fullPath + " from ppt to pptx.");
+            
             object file2 = GetOutputDocumentFullName(fullPath, targetLanguage);
+            Microsoft.Office.Interop.PowerPoint.Application powerPointApp =
+                new Microsoft.Office.Interop.PowerPoint.Application();
+
             try
             {
-                Microsoft.Office.Interop.PowerPoint.Application powerPointApp =
-                    new Microsoft.Office.Interop.PowerPoint.Application();
-
                 Microsoft.Office.Interop.PowerPoint.Presentation presentation =
                     powerPointApp.Presentations.Open(
                         fullPath,
@@ -192,10 +194,10 @@ namespace TranslationAssistant.Business
             }
             finally
             {
-                CloseProcess("POWERPNT");
+                powerPointApp.Quit();
             }
 
-            LoggingManager.LogMessage("Converted the document from ppt to pptx.");
+            LoggingManager.LogMessage("Converted the document " + fullPath + " from ppt to pptx.");
             return file2.ToString();
         }
 
@@ -209,15 +211,15 @@ namespace TranslationAssistant.Business
         /// </returns>
         private static string ConvertToXlsx(string fullPath, string targetLanguage)
         {
-            LoggingManager.LogMessage("Converting the document from xls to xlsx.");
-            CloseProcess("EXCEL");
+            LoggingManager.LogMessage("Converting the document " + fullPath + " from xls to xlsx.");
+            
             object file2 = GetOutputDocumentFullName(fullPath, targetLanguage);
-            try
-            {
                 Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application
                                                                           {
                                                                               Visible = false
                                                                           };
+            try
+            {
 
                 Microsoft.Office.Interop.Excel.Workbook eWorkbook = excelApp.Workbooks.Open(
                     fullPath,
@@ -254,10 +256,10 @@ namespace TranslationAssistant.Business
             }
             finally
             {
-                CloseProcess("EXCEL");
+                excelApp.Quit();
             }
 
-            LoggingManager.LogMessage("Converted the document from xls to xlsx.");
+            LoggingManager.LogMessage("Converted the document " + fullPath + " from xls to xlsx.");
             return file2.ToString();
         }
 
@@ -608,8 +610,9 @@ namespace TranslationAssistant.Business
                 //doc.PresentationPart.PutXDocument();
 
                 List<DocumentFormat.OpenXml.Drawing.Text> texts = new List<DocumentFormat.OpenXml.Drawing.Text>();
+                List<DocumentFormat.OpenXml.Drawing.Text> notes = new List<DocumentFormat.OpenXml.Drawing.Text>();
                 List<DocumentFormat.OpenXml.Presentation.Comment> lstComments = new List<DocumentFormat.OpenXml.Presentation.Comment>();
-
+           
                 var slideParts = doc.PresentationPart.SlideParts;
                 if (slideParts != null)
                 {
@@ -617,66 +620,25 @@ namespace TranslationAssistant.Business
                     {
                         if (slidePart.Slide != null)
                         {
-                            foreach (DocumentFormat.OpenXml.Drawing.Paragraph para in slidePart.Slide.Descendants<DocumentFormat.OpenXml.Drawing.Paragraph>())
-                            {
-                                texts.AddRange(para.Elements<DocumentFormat.OpenXml.Drawing.Run>().Where(item => (item != null && item.Text != null && !String.IsNullOrEmpty(item.Text.Text))).Select(item => item.Text));
-                            }
+                            var slide = slidePart.Slide;
+                            ExtractTextContent(texts, slide);
 
                             var commentsPart = slidePart.SlideCommentsPart;
                             if (commentsPart != null)
                             {
                                 lstComments.AddRange(commentsPart.CommentList.Cast<DocumentFormat.OpenXml.Presentation.Comment>());
                             }
-                        }
-                    }
 
-                    if (texts.Count() > 0)
-                    {
-                        // Extract Text for Translation
-                        var batch = texts.Select(text => text.Text);
-
-                        // Do Translation
-                        var batches = SplitList(batch, 99, 9000);
-
-                        // Use ConcurrentQueue to enable safe enqueueing from multiple threads. 
-                        var exceptions = new ConcurrentQueue<Exception>();
-
-                        Parallel.For(
-                            0,
-                            batches.Count(),
-                            new ParallelOptions { MaxDegreeOfParallelism = 1 },
-                            l =>
+                            var notesPart = slidePart.NotesSlidePart;
+                            if (notesPart != null)
                             {
-                                try
-                                {
-                                    var translationOutput = TranslationServiceFacade.TranslateArray(batches[l].ToArray(), sourceLanguage, targetLanguage);
-                                    int batchStartIndexInDocument = 0;
-                                    for (int i = 0; i < l; i++)
-                                    {
-                                        batchStartIndexInDocument = batchStartIndexInDocument
-                                                                    + batches[i].Count();
-                                    }
-
-                                    // Apply translated batch to document
-                                    for (int j = 0; j < translationOutput.Length; j++)
-                                    {
-                                        int indexInDocument = j + batchStartIndexInDocument + 1;
-                                        var newValue = translationOutput[j];
-                                        texts.Take(indexInDocument).Last().Text = newValue;
-                                    }
-                                }
-                                catch (Exception ex)
-                                {
-                                    exceptions.Enqueue(ex);
-                                }
-                            });
-
-                        // Throw the exceptions here after the loop completes. 
-                        if (exceptions.Count > 0)
-                        {
-                            throw new AggregateException(exceptions);
+                                ExtractTextContent(notes, notesPart.NotesSlide);
+                            }
                         }
                     }
+
+                    ReplaceTextsWithTranslation(texts, sourceLanguage, targetLanguage);
+                    ReplaceTextsWithTranslation(notes, sourceLanguage, targetLanguage);
 
                     if (lstComments.Count() > 0)
                     {
@@ -694,39 +656,38 @@ namespace TranslationAssistant.Business
                             batchesComments.Count(),
                             new ParallelOptions { MaxDegreeOfParallelism = 1 },
                             l =>
+                            {
+                                try
                                 {
-                                    try
+                                    var translationOutput =
+                                        TranslationServiceFacade.TranslateArray(
+                                            batchesComments[l].ToArray(),
+                                            sourceLanguage,
+                                            targetLanguage);
+                                    int batchStartIndexInDocument = 0;
+                                    for (int i = 0; i < l; i++)
                                     {
-                                        var translationOutput =
-                                            TranslationServiceFacade.TranslateArray(
-                                                batchesComments[l].ToArray(),
-                                                sourceLanguage,
-                                                targetLanguage);
-                                        int batchStartIndexInDocument = 0;
-                                        for (int i = 0; i < l; i++)
-                                        {
-                                            batchStartIndexInDocument = batchStartIndexInDocument
-                                                                        + batchesComments[i].Count();
-                                        }
+                                        batchStartIndexInDocument = batchStartIndexInDocument
+                                                                    + batchesComments[i].Count();
+                                    }
 
-                                        // Apply translated batch to document
-                                        for (int j = 0; j < translationOutput.Length; j++)
-                                        {
-                                            int indexInDocument = j + batchStartIndexInDocument + 1;
-                                            var newValue = translationOutput[j];
-                                            var commentPart = lstComments.Take(indexInDocument).Last();
-                                            commentPart.Text = new DocumentFormat.OpenXml.Presentation.Text
-                                                                   {
-                                                                       Text =
-                                                                           newValue
-                                                                   };
-                                        }
-                                    }
-                                    catch (Exception ex)
+                                    // Apply translated batch to document
+                                    for (int j = 0; j < translationOutput.Length; j++)
                                     {
-                                        exceptions.Enqueue(ex);
+                                        int indexInDocument = j + batchStartIndexInDocument + 1;
+                                        var newValue = translationOutput[j];
+                                        var commentPart = lstComments.Take(indexInDocument).Last();
+                                        commentPart.Text = new DocumentFormat.OpenXml.Presentation.Text
+                                        {
+                                            Text = newValue
+                                        };
                                     }
-                                });
+                                }
+                                catch (Exception ex)
+                                {
+                                    exceptions.Enqueue(ex);
+                                }
+                            });
 
                         // Throw the exceptions here after the loop completes. 
                         if (exceptions.Count > 0)
@@ -737,6 +698,65 @@ namespace TranslationAssistant.Business
                 }
 
                 //doc.PresentationPart.PutXDocument();
+            }
+        }
+
+        private static void ReplaceTextsWithTranslation(List<DocumentFormat.OpenXml.Drawing.Text> texts, string sourceLanguage, string targetLanguage)
+        {
+            if (texts.Count() > 0)
+            {
+                // Extract Text for Translation
+                var batch = texts.Select(text => text.Text);
+
+                // Do Translation
+                var batches = SplitList(batch, 99, 9000);
+
+                // Use ConcurrentQueue to enable safe enqueueing from multiple threads. 
+                var exceptions = new ConcurrentQueue<Exception>();
+
+                Parallel.For(
+                    0,
+                    batches.Count(),
+                    new ParallelOptions { MaxDegreeOfParallelism = 1 },
+                    l =>
+                    {
+                        try
+                        {
+                            var translationOutput = TranslationServiceFacade.TranslateArray(batches[l].ToArray(), sourceLanguage, targetLanguage);
+                            int batchStartIndexInDocument = 0;
+                            for (int i = 0; i < l; i++)
+                            {
+                                batchStartIndexInDocument = batchStartIndexInDocument
+                                                            + batches[i].Count();
+                            }
+
+                            // Apply translated batch to document
+                            for (int j = 0; j < translationOutput.Length; j++)
+                            {
+                                int indexInDocument = j + batchStartIndexInDocument + 1;
+                                var newValue = translationOutput[j];
+                                texts.Take(indexInDocument).Last().Text = newValue;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            exceptions.Enqueue(ex);
+                        }
+                    });
+
+                // Throw the exceptions here after the loop completes. 
+                if (exceptions.Count > 0)
+                {
+                    throw new AggregateException(exceptions);
+                }
+            }
+        }
+
+        private static void ExtractTextContent(List<DocumentFormat.OpenXml.Drawing.Text> textList, DocumentFormat.OpenXml.OpenXmlElement element)
+        {
+            foreach (DocumentFormat.OpenXml.Drawing.Paragraph para in element.Descendants<DocumentFormat.OpenXml.Drawing.Paragraph>())
+            {
+                textList.AddRange(para.Elements<DocumentFormat.OpenXml.Drawing.Run>().Where(item => (item != null && item.Text != null && !String.IsNullOrEmpty(item.Text.Text))).Select(item => item.Text));
             }
         }
 

@@ -28,18 +28,27 @@ namespace TranslationAssistant.Business
 
         public static void LogError(string message)
         {
-            var timestamp = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + " : ";
-            var messageToLog = timestamp + message;
-            File.AppendAllText("Log.txt", messageToLog + Environment.NewLine);
-            new ConsoleLogger().WriteLine(LogLevel.Error, messageToLog);
+            WriteMessage(LogLevel.Error, message);
         }
 
         public static void LogMessage(string message)
         {
+            WriteMessage(LogLevel.Msg, message);
+        }
+
+        private static void WriteMessage(LogLevel logLevel, string message)
+        {
             var timestamp = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + " : ";
             var messageToLog = timestamp + message;
-            File.AppendAllText("Log.txt", timestamp + messageToLog + Environment.NewLine);
-            new ConsoleLogger().WriteLine(LogLevel.Msg, messageToLog);
+            new ConsoleLogger().WriteLine(logLevel, messageToLog);
+            try
+            {
+                File.AppendAllText("Log.txt", messageToLog + Environment.NewLine);
+            }
+            catch (IOException e)
+            {
+                new ConsoleLogger().WriteLine(LogLevel.Warning, "Warning: The process cannot access the log file because it is being used by another process.");
+            }
         }
 
         #endregion
