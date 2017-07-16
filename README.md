@@ -26,7 +26,7 @@ The Release is an MSI package, install directly in Windows.
 
 - Start Microsoft Document Translator from the Start Menu.
 - Visit the settings page and follow the links to subscribe to Microsoft Translator. Free for up to 2 million characters per month.
-- On the settigs page, follow the link to defining your client ID and secret, and copy them to the settings page.
+- On the settings page, follow the link to obtain your API key, and copy the key to the settings page.
 - Go to the document translation page and select the documents to translate.
 - Select the from and to languages.
 - Hit Go.
@@ -105,6 +105,7 @@ Available from: http://htmlagilitypack.codeplex.com/
 All requests to the Translator service are SSL encrypted, using the certificate of the Microsoft Translator service.
 Document Translator stores the service access credentials (client ID and client secret) unencypted in the
 user profile on the machine. For enterprise use we recommend to implement a more secure storage mechanism.
+
 
 ## Questions and Support
 For questions and support please turn to the Microsoft Translator developer forum: 

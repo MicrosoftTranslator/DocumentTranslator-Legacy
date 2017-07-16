@@ -29,7 +29,16 @@ namespace TranslationAssistant.TranslationServices.Core.TranslatorService {
         private string ContentTypeField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GenderFromField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string GenderToField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private bool IncludeMultipleMTAlternativesField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string ProfanityActionField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ReservedFlagsField;
@@ -80,6 +89,32 @@ namespace TranslationAssistant.TranslationServices.Core.TranslatorService {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public string GenderFrom {
+            get {
+                return this.GenderFromField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GenderFromField, value) != true)) {
+                    this.GenderFromField = value;
+                    this.RaisePropertyChanged("GenderFrom");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public string GenderTo {
+            get {
+                return this.GenderToField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.GenderToField, value) != true)) {
+                    this.GenderToField = value;
+                    this.RaisePropertyChanged("GenderTo");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
         public bool IncludeMultipleMTAlternatives {
             get {
                 return this.IncludeMultipleMTAlternativesField;
@@ -88,6 +123,19 @@ namespace TranslationAssistant.TranslationServices.Core.TranslatorService {
                 if ((this.IncludeMultipleMTAlternativesField.Equals(value) != true)) {
                     this.IncludeMultipleMTAlternativesField = value;
                     this.RaisePropertyChanged("IncludeMultipleMTAlternatives");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false)]
+        public string ProfanityAction {
+            get {
+                return this.ProfanityActionField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.ProfanityActionField, value) != true)) {
+                    this.ProfanityActionField = value;
+                    this.RaisePropertyChanged("ProfanityAction");
                 }
             }
         }
@@ -772,10 +820,10 @@ namespace TranslationAssistant.TranslationServices.Core.TranslatorService {
         System.Threading.Tasks.Task<TranslationAssistant.TranslationServices.Core.TranslatorService.GetTranslationsResponse> GetTranslationsAsync(string appId, string text, string from, string to, int maxTranslations, TranslationAssistant.TranslationServices.Core.TranslatorService.TranslateOptions options);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://api.microsofttranslator.com/V2/LanguageService/Translate", ReplyAction="http://api.microsofttranslator.com/V2/LanguageService/TranslateResponse")]
-        string Translate(string appId, string text, string from, string to, string contentType, string category);
+        string Translate(string appId, string text, string from, string to, string contentType, string category, string reservedFlags);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://api.microsofttranslator.com/V2/LanguageService/Translate", ReplyAction="http://api.microsofttranslator.com/V2/LanguageService/TranslateResponse")]
-        System.Threading.Tasks.Task<string> TranslateAsync(string appId, string text, string from, string to, string contentType, string category);
+        System.Threading.Tasks.Task<string> TranslateAsync(string appId, string text, string from, string to, string contentType, string category, string reservedFlags);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://api.microsofttranslator.com/V2/LanguageService/AddTranslationArray", ReplyAction="http://api.microsofttranslator.com/V2/LanguageService/AddTranslationArrayResponse" +
             "")]
@@ -911,12 +959,12 @@ namespace TranslationAssistant.TranslationServices.Core.TranslatorService {
             return base.Channel.GetTranslationsAsync(appId, text, from, to, maxTranslations, options);
         }
         
-        public string Translate(string appId, string text, string from, string to, string contentType, string category) {
-            return base.Channel.Translate(appId, text, from, to, contentType, category);
+        public string Translate(string appId, string text, string from, string to, string contentType, string category, string reservedFlags) {
+            return base.Channel.Translate(appId, text, from, to, contentType, category, reservedFlags);
         }
         
-        public System.Threading.Tasks.Task<string> TranslateAsync(string appId, string text, string from, string to, string contentType, string category) {
-            return base.Channel.TranslateAsync(appId, text, from, to, contentType, category);
+        public System.Threading.Tasks.Task<string> TranslateAsync(string appId, string text, string from, string to, string contentType, string category, string reservedFlags) {
+            return base.Channel.TranslateAsync(appId, text, from, to, contentType, category, reservedFlags);
         }
         
         public void AddTranslationArray(string appId, TranslationAssistant.TranslationServices.Core.TranslatorService.Translation[] translations, string from, string to, TranslationAssistant.TranslationServices.Core.TranslatorService.TranslateOptions options) {
