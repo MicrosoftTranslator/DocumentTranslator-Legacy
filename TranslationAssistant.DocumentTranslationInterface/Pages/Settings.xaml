@@ -10,9 +10,10 @@
         <mui:ModernTab Layout="List" SelectedSource="/Content/Account.xaml">
             <mui:ModernTab.Links>
                 <mui:Link DisplayName="Account" Source="/Content/Account.xaml" />
-                <mui:Link DisplayName="Custom Languages" Source="/Content/CustomLanguages.xaml" />
+                <!-- <mui:Link DisplayName="Custom Languages" Source="/Content/CustomLanguages.xaml" /> -->
                 <mui:Link DisplayName="Appearance" Source="/Content/SettingsAppearance.xaml" />
                 <mui:Link DisplayName="About" Source="/Content/About.xaml" />
+                <!-- <mui:Link DisplayName="Advanced Settings" Source="/Content/AdvancedSettings.xaml" /> -->
             </mui:ModernTab.Links>
         </mui:ModernTab>
     </Grid>

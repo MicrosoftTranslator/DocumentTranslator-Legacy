@@ -14,5 +14,17 @@
     <Setting Name="CustomLanguages" Type="System.Collections.Specialized.StringDictionary" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="EndPointAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">https://api.microsofttranslator.com</Value>
+    </Setting>
+    <Setting Name="AppId" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="UseAdvancedSettings" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Adv_CategoryID" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

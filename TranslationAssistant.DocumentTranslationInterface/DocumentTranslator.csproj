@@ -113,6 +113,9 @@
     <Compile Include="Content\Account.xaml.cs">
       <DependentUpon>Account.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Content\AdvancedSettings.xaml.cs">
+      <DependentUpon>AdvancedSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Content\CustomLanguages.xaml.cs">
       <DependentUpon>CustomLanguages.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModel\AccountValidationEvent.cs" />
+    <Compile Include="ViewModel\AdvancedViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\AccountViewModel.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
@@ -130,6 +134,10 @@
     <Page Include="Content\Account.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Content\AdvancedSettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Content\CustomLanguages.xaml">
       <SubType>Designer</SubType>

@@ -50,6 +50,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         {
             TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.Upgrade();
             TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.Reload();
+            TranslationAssistant.TranslationServices.Core.TranslationServiceFacade.Initialize();
             this.StatusText = string.Empty;
             ShowStatus();
         }

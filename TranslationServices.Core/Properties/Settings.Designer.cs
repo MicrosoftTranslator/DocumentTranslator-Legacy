@@ -69,5 +69,53 @@ namespace TranslationAssistant.TranslationServices.Core.Properties {
                 this["CustomLanguages"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://api.microsofttranslator.com")]
+        public string EndPointAddress {
+            get {
+                return ((string)(this["EndPointAddress"]));
+            }
+            set {
+                this["EndPointAddress"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AppId {
+            get {
+                return ((string)(this["AppId"]));
+            }
+            set {
+                this["AppId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseAdvancedSettings {
+            get {
+                return ((bool)(this["UseAdvancedSettings"]));
+            }
+            set {
+                this["UseAdvancedSettings"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Adv_CategoryID {
+            get {
+                return ((string)(this["Adv_CategoryID"]));
+            }
+            set {
+                this["Adv_CategoryID"] = value;
+            }
+        }
     }
 }

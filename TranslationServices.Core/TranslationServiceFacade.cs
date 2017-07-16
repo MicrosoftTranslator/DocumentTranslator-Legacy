@@ -38,6 +38,37 @@ namespace TranslationAssistant.TranslationServices.Core
             set { _CategoryID = value; }
         }
 
+        /// <summary>
+        /// Used only for on-prem installs
+        /// </summary>
+        private static string _AppId;
+        public static string AppId
+        {
+            get { return _AppId; }
+            set { _AppId = value; }
+        }
+
+        /// <summary>
+        /// Used only for on-prem installs
+        /// </summary>
+        private static string _Adv_CategoryId;
+        public static string Adv_CategoryId
+        {
+            get { return _Adv_CategoryId; }
+            set { _Adv_CategoryId = value; }
+        }
+
+        /// <summary>
+        /// Used only for on-prem installs
+        /// </summary>
+        private static bool _UseAdvancedSettings;
+        public static bool UseAdvancedSettings
+        {
+            get { return _UseAdvancedSettings; }
+            set { _UseAdvancedSettings = value; }
+        }
+
+
         private static string _ClientID;
         public static string ClientID
         {
@@ -197,6 +228,10 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             _ClientID = Properties.Settings.Default.ClientID;
             _CategoryID = Properties.Settings.Default.CategoryID;
+            _AppId = Properties.Settings.Default.AppId;
+            _EndPointAddress = Properties.Settings.Default.EndPointAddress;
+            _UseAdvancedSettings = Properties.Settings.Default.UseAdvancedSettings;
+            _Adv_CategoryId = Properties.Settings.Default.Adv_CategoryID;
         }
 
         /// <summary>
@@ -206,6 +241,10 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             Properties.Settings.Default.ClientID = _ClientID;
             Properties.Settings.Default.CategoryID = _CategoryID;
+            Properties.Settings.Default.AppId = _AppId;
+            Properties.Settings.Default.EndPointAddress = _EndPointAddress;
+            Properties.Settings.Default.UseAdvancedSettings = _UseAdvancedSettings;
+            Properties.Settings.Default.Adv_CategoryID = _Adv_CategoryId;
             Properties.Settings.Default.Save();
         }
 
