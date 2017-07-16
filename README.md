@@ -105,7 +105,8 @@ Available from: http://htmlagilitypack.codeplex.com/
 All requests to the Translator service are SSL encrypted, using the certificate of the Microsoft Translator service.
 Document Translator stores the service access credentials (client ID and client secret) unencypted in the
 user profile on the machine. For enterprise use we recommend to implement a more secure storage mechanism.
- 
+
+
 ## Questions and Support
 For questions and support please turn to the Microsoft Translator developer forum: 
 
