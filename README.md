@@ -96,9 +96,9 @@ Available from: https://github.com/firstfloorsoftware/mui
 
 ### Html Agility Pack
 
-Under the Ms-PL: http://htmlagilitypack.codeplex.com/license
+Under the Ms-PL: https://github.com/zzzprojects/html-agility-pack/blob/master/LICENSE
 
-Available from: http://htmlagilitypack.codeplex.com/
+Available from: https://github.com/zzzprojects/html-agility-pack
 
 
 ## Security
