@@ -47,7 +47,7 @@ namespace TranslationAssistant.Business
             }
             catch (IOException e)
             {
-                new ConsoleLogger().WriteLine(LogLevel.Warning, "Warning: The process cannot access the log file because it is being used by another process.");
+                new ConsoleLogger().WriteLine(LogLevel.Warning, "Warning: The process cannot access the log file because it is being used by another process. {0}", e);
             }
         }
 
