@@ -18,3 +18,11 @@ TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vsh
 /TranslationAssistant.DocumentTranslationInstaller/bin/Debug
 /TranslationAssistant.DocumentTranslationInterface/obj/Release
 /TranslationServices.Core/obj/Debug
+*.lock
+*.ide
+*.ide-shm
+*.ide
+.vs/Microsoft.DocumentTranslator/v15/sqlite3/storage.ide
+*.ide-wal
+.vs/Microsoft.DocumentTranslator/v15/sqlite3/storage.ide
+*.ide

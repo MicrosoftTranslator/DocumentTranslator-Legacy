@@ -71,6 +71,14 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
+    <ProjectReference Include="..\OpenXmlPowerTools\OpenXmlPowerTools\OpenXmlPowerTools.csproj">
+      <Name>OpenXmlPowerTools</Name>
+      <Project>{6f957ff3-afcc-4d69-8fbc-71ae21bc45c9}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\TranslationAssistant.AutomationToolkit.BasePlugin\TranslationAssistant.AutomationToolkit.BasePlugin.csproj">
       <Name>TranslationAssistant.AutomationToolkit.BasePlugin</Name>
       <Project>{443be96f-82e7-4952-a078-debcff6b2311}</Project>

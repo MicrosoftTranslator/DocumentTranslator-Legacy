@@ -37,10 +37,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\DocumentFormat.OpenXml.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.7.2\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.5.1.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\packages\HtmlAgilityPack.1.5.1\lib\Net45\HtmlAgilityPack.dll</HintPath>
@@ -57,6 +55,12 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.0.1\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.0.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -77,6 +81,10 @@
     <Compile Include="XMLTranslationManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenXmlPowerTools\OpenXmlPowerTools\OpenXmlPowerTools.csproj">
+      <Project>{6f957ff3-afcc-4d69-8fbc-71ae21bc45c9}</Project>
+      <Name>OpenXmlPowerTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TranslationAssistant.AutomationToolkit.BasePlugin\TranslationAssistant.AutomationToolkit.BasePlugin.csproj">
       <Project>{443be96f-82e7-4952-a078-debcff6b2311}</Project>
       <Name>TranslationAssistant.AutomationToolkit.BasePlugin</Name>
@@ -98,7 +106,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
