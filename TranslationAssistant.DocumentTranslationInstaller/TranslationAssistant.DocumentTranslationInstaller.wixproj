@@ -40,13 +40,6 @@
     <Folder Include="Dlls\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Dlls\DocumentFormat.OpenXml.dll" />
-    <Content Include="Dlls\FirstFloor.ModernUI.dll" />
-    <Content Include="Dlls\HtmlAgilityPack.dll" />
-    <Content Include="Dlls\HtmlAgilityPack.xml" />
-    <Content Include="Dlls\Microsoft.Practices.Prism.dll" />
-    <Content Include="Dlls\Microsoft.Windows.Shell.dll" />
-    <Content Include="Dlls\System.Windows.Interactivity.dll" />
     <Content Include="DocTranslator_48.ico" />
     <Content Include="LICENSE.rtf" />
     <Content Include="MSTicon_200x200_wbackg.png" />
@@ -66,6 +59,14 @@
     <ProjectReference Include="..\DocumentTranslator.Tmx\DocumentTranslator.Tmx.csproj">
       <Name>DocumentTranslator.Tmx</Name>
       <Project>{1e89fbee-7c28-41f8-8894-1b11d4855a26}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenXmlPowerTools\OpenXmlPowerTools\OpenXmlPowerTools.csproj">
+      <Name>OpenXmlPowerTools</Name>
+      <Project>{6f957ff3-afcc-4d69-8fbc-71ae21bc45c9}</Project>
       <Private>True</Private>
       <DoNotHarvest>True</DoNotHarvest>
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>

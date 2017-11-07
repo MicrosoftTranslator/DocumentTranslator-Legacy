@@ -27,7 +27,7 @@ namespace TranslationAssistant.Business
 
     using DocumentFormat.OpenXml.Packaging;
     using DocumentFormat.OpenXml.Spreadsheet;
-
+    using DocumentFormat.OpenXml.Wordprocessing;
     using Microsoft.Office.Core;
     using Microsoft.Office.Interop.Word;
 
@@ -109,7 +109,7 @@ namespace TranslationAssistant.Business
             {
                 wordApp.Visible = false;
                 object filee = fullPath;
-                Document wordDoc = wordApp.Documents.Open(
+                Microsoft.Office.Interop.Word.Document wordDoc = wordApp.Documents.Open(
                     ref filee,
                     nullvalue,
                     Missing.Value,
@@ -476,7 +476,7 @@ namespace TranslationAssistant.Business
                     }
                     else if (si != null)
                     {
-                        lstTexts.AddRange(si.Elements<Run>().Where(item => (item != null && item.Text != null && !String.IsNullOrEmpty(item.Text.Text))).Select(item => item.Text));
+                        lstTexts.AddRange(si.Elements<DocumentFormat.OpenXml.Spreadsheet.Run>().Where(item => (item != null && item.Text != null && !String.IsNullOrEmpty(item.Text.Text))).Select(item => item.Text));
                     }
                 }
 
@@ -766,11 +766,33 @@ namespace TranslationAssistant.Business
             string targetLanguage)
         {
 
+            using (WordprocessingDocument doc = WordprocessingDocument.Open(outputDocumentFullName, true))
+            {
+
+                OpenXmlPowerTools.SimplifyMarkupSettings settings = new OpenXmlPowerTools.SimplifyMarkupSettings
+                {
+                    AcceptRevisions = true,
+                    NormalizeXml = true,
+                    RemoveComments = true,
+                    RemoveBookmarks = true,
+                    RemoveEndAndFootNotes = true,
+                    RemoveFieldCodes = true,
+                    RemoveGoBackBookmark = true,
+                    RemoveMarkupForDocumentComparison = true,
+                    RemoveProof = true,
+                    RemoveRsidInfo = true,
+                    RemoveSmartTags = true,
+                    RemoveSoftHyphens = true
+                };
+                OpenXmlPowerTools.MarkupSimplifier.SimplifyMarkup(doc, settings);
+            }
+
             List<DocumentFormat.OpenXml.Wordprocessing.Text> texts = new List<DocumentFormat.OpenXml.Wordprocessing.Text>();
             using (WordprocessingDocument doc = WordprocessingDocument.Open(outputDocumentFullName, true))
             {
                 var body = doc.MainDocumentPart.Document.Body;
-                texts.AddRange(body.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !String.IsNullOrEmpty(text.Text) && text.Text.Length > 1));
+                texts.AddRange(body.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !String.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
+
                 var exceptions = new ConcurrentQueue<Exception>();
 
                 // Extract Text for Translation
@@ -819,6 +841,7 @@ namespace TranslationAssistant.Business
                 //doc.MainDocumentPart.PutXDocument();
             }
         }
+
 
         /// <summary>
         /// Splits the list.
