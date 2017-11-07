@@ -17,15 +17,15 @@
         <File Id="TranslationAssistant.DocumentTranslationInterface" Source="$(var.DocumentTranslator.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="TranslationServices.Core" Source="$(var.TranslationServices.Core.TargetPath)" DiskId="1" KeyPath="no" />
         
-        <File Id="System.Windows.Interactivity" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\System.Windows.Interactivity.dll" DiskId="1" KeyPath="no" />
-        <File Id="Microsoft.Practices.Prism" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Practices.Prism.dll" DiskId="1" KeyPath="no" />
+        <File Id="System.Windows.Interactivity" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInterface\bin\Debug\System.Windows.Interactivity.dll" DiskId="1" KeyPath="no" />
+        <File Id="Microsoft.Practices.Prism" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInterface\bin\Debug\Microsoft.Practices.Prism.dll" DiskId="1" KeyPath="no" />
         
-        <File Id="DocumentFormat.OpenXml" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\DocumentFormat.OpenXml.dll" DiskId="1" KeyPath="no" />
-        <File Id="HtmlAgilityPack" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\HtmlAgilityPack.dll" DiskId="1" KeyPath="no" />
-        <File Id="HtmlAgilityPack.Xml" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\HtmlAgilityPack.xml" DiskId="1" KeyPath="no" />
+        <File Id="DocumentFormat.OpenXml" Source="$(var.SolutionDir)\TranslationAssistant.Business\bin\Debug\DocumentFormat.OpenXml.dll" DiskId="1" KeyPath="no" />
+        <File Id="HtmlAgilityPack" Source="$(var.SolutionDir)\TranslationAssistant.Business\bin\Debug\HtmlAgilityPack.dll" DiskId="1" KeyPath="no" />
+        <File Id="HtmlAgilityPack.Xml" Source="$(var.SolutionDir)\TranslationAssistant.Business\bin\Debug\HtmlAgilityPack.xml" DiskId="1" KeyPath="no" />
 
-        <File Id="FirstFloor.ModernUI" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\FirstFloor.ModernUI.dll" DiskId="1" KeyPath="no" />
-        <File Id="Microsoft.Windows.Shell" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\Dlls\Microsoft.Windows.Shell.dll" DiskId="1" KeyPath="no" />
+        <File Id="FirstFloor.ModernUI" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInterface\bin\Debug\FirstFloor.ModernUI.dll" DiskId="1" KeyPath="no" />
+        <File Id="Microsoft.Windows.Shell" Source="$(var.SolutionDir)\packages\ModernUI.WPF.1.0.9\lib\net40\Microsoft.Windows.Shell.dll" DiskId="1" KeyPath="no" />
         <File Id="MSTicon_200_wbg.ico" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\DocTranslator_48.ico" DiskId="1" KeyPath="no"/>
         <File Id="TmxLangMap.csv" Source="$(var.SolutionDir)\DocumentTranslator.Tmx\TmxLangMap.csv" DiskId="1" KeyPath="no"/>
 
