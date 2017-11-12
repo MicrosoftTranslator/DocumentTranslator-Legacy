@@ -32,7 +32,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         /// <summary>
         ///     The source document.
         /// </summary>
-        private readonly Argument clientID;
+        private readonly Argument AzureKey;
 
         /// <summary>
         ///     The target language.
@@ -52,7 +52,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         public SetCredentials(ConsoleLogger Logger)
             : base(Logger)
         {
-            this.clientID = new Argument(
+            this.AzureKey = new Argument(
                 "APIkey",
                 true,
                 "API key to use for the calls to the Translator service.");
@@ -63,7 +63,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 "Translator Hub category ID to use for calls to the translator service.");
 
             this.Arguments = new ArgumentList(
-                new[] { this.clientID, this.categoryID },
+                new[] { this.AzureKey, this.categoryID },
                 Logger);
         }
 
@@ -107,7 +107,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         {
             try
             {
-                TranslationServiceFacade.ClientID = this.clientID.ValueString;
+                TranslationServiceFacade.AzureKey = this.AzureKey.ValueString;
                 TranslationServiceFacade.CategoryID = this.categoryID.ValueString;
                 TranslationServiceFacade.SaveCredentials();
             }

@@ -69,11 +69,11 @@ namespace TranslationAssistant.TranslationServices.Core
         }
 
 
-        private static string _ClientID;
-        public static string ClientID
+        private static string _AzureKey;
+        public static string AzureKey
         {
-            get { return _ClientID; }
-            set { _ClientID = value; }
+            get { return _AzureKey; }
+            set { _AzureKey = value; }
         }
 
         private static bool _CreateTMXOnTranslate = false;
@@ -111,7 +111,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 case AuthMode.Azure:
                     try
                     {
-                        AzureAuthToken authTokenSource = new AzureAuthToken(_ClientID);
+                        AzureAuthToken authTokenSource = new AzureAuthToken(_AzureKey);
                         string headerValue = authTokenSource.GetAccessToken();
                     }
                     catch { return false; }
@@ -177,8 +177,8 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             LoadCredentials();
 
-            //Inspect the ClientID to see if this is host with appid auth
-            string[] AuthComponents = _ClientID.Split('?');
+            //Inspect the given Azure Key to see if this is host with appid auth
+            string[] AuthComponents = _AzureKey.Split('?');
             if (AuthComponents.Length > 1)
             {
                 _EndPointAddress = AuthComponents[0];
@@ -213,7 +213,7 @@ namespace TranslationAssistant.TranslationServices.Core
             string headerValue = null;
             if (authMode == AuthMode.Azure)
             {
-                AzureAuthToken authTokenSource = new AzureAuthToken(_ClientID);
+                AzureAuthToken authTokenSource = new AzureAuthToken(_AzureKey);
                 headerValue = authTokenSource.GetAccessToken();
             }
             else headerValue = appid;
@@ -226,7 +226,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         private static void LoadCredentials()
         {
-            _ClientID = Properties.Settings.Default.ClientID;
+            _AzureKey = Properties.Settings.Default.AzureKey;
             _CategoryID = Properties.Settings.Default.CategoryID;
             _AppId = Properties.Settings.Default.AppId;
             _EndPointAddress = Properties.Settings.Default.EndPointAddress;
@@ -235,11 +235,11 @@ namespace TranslationAssistant.TranslationServices.Core
         }
 
         /// <summary>
-        /// Saves credentials ClientID, clientSecret and categoryID to the personalized settings file.
+        /// Saves credentials Azure Key and categoryID to the personalized settings file.
         /// </summary>
         public static void SaveCredentials()
         {
-            Properties.Settings.Default.ClientID = _ClientID;
+            Properties.Settings.Default.AzureKey = _AzureKey;
             Properties.Settings.Default.CategoryID = _CategoryID;
             Properties.Settings.Default.AppId = _AppId;
             Properties.Settings.Default.EndPointAddress = _EndPointAddress;

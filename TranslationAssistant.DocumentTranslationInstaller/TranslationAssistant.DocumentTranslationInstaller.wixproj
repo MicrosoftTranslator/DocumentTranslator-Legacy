@@ -37,9 +37,6 @@
     <Compile Include="Product.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Dlls\" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="DocTranslator_48.ico" />
     <Content Include="LICENSE.rtf" />
     <Content Include="MSTicon_200x200_wbackg.png" />

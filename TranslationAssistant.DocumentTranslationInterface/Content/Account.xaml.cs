@@ -34,7 +34,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
         public Account()
         {
             this.InitializeComponent();
-            KeyBox.Password = TranslationServices.Core.TranslationServiceFacade.ClientID;
+            KeyBox.Password = TranslationServices.Core.TranslationServiceFacade.AzureKey;
         }
 
         private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -45,7 +45,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
 
         private void PasswordBox_PasswordChanged(object sender, System.Windows.RoutedEventArgs e)
         {
-            TranslationServices.Core.TranslationServiceFacade.ClientID = KeyBox.Password;
+            TranslationServices.Core.TranslationServiceFacade.AzureKey = KeyBox.Password;
         }
         #endregion
     }

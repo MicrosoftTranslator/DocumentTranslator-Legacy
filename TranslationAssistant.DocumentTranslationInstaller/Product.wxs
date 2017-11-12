@@ -3,7 +3,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 
-  <?define ProductVersion="1.4.0" ?>
+  <?define ProductVersion="1.4.1" ?>
   <!--<?define ProductInstallationDirVersion="1.0.0" ?>-->
   <?define ProductInstallationDir="Microsoft Document Translator"?>
   <?define UpgradeCode="{69CB62B3-53BB-4BF5-9E53-B5677940AB8E}"?>
@@ -23,8 +23,8 @@
      
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
-    <!--<Property Id="REINSTALLMODE" Value="amus" />-->
-    <MajorUpgrade Schedule="afterInstallInitialize" AllowDowngrades="yes" />
+    <!--<Property Id="REINSTALLMODE" Value="amus" /> -->
+    <MajorUpgrade Schedule="afterInstallInitialize" AllowDowngrades="no" DowngradeErrorMessage="Newer version is already installed." />
 
     <Media Id="1" Cabinet="DocumentTranslator.cab" EmbedCab="yes" />
     <Property Id="ARPPRODUCTICON" Value="DocumentTranslator_48.ico" />
@@ -45,6 +45,19 @@
       <ComponentRef Id="Binaries" />
     </Feature>
 
+    <UI>
+      <UIRef Id="WixUI_Minimal" />
+      <Publish Dialog="ExitDialog"
+          Control="Finish"
+          Event="DoAction"
+          Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed
+      </Publish>
+    </UI>
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Run Document Translator" />
+    <Property Id="WixShellExecTarget" Value="[#TranslationAssistant.DocumentTranslationInterface]" />
+    <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes"/>
+        
+    
     <Feature Id="Addins" Title="Addins" Level="1">
       <!--<ComponentRef Id="AssistantAddin" />-->
       <ComponentRef Id="ApplicationShortcut" />

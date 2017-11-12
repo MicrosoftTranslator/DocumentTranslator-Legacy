@@ -43,14 +43,7 @@ Translate documents:
 
 Set credentials:
 
-`DocumentTranslatorCmd setcredentials /clientid:ClientId /clientsecret:ClientSecret`
-
-Upload a TMX to the Collaborative Translation Framework for use in subsequent translations:
-
-`DocumentTranslatorCmd tmxtoctf /tmx:TmxFileName.tmx /from:FromLanguage /to:ToLanguage /user:UserName /rating:Rating /write:true`
-
-*When write is not set to true, the results of the TMX parse are rendered to the screen. It is advisable to perform the
-test without write set to true in order to debug the TMX content. WARNING: Use only bilingual TMX. Document Translator performs no validation of the TMX content languages.*
+`DocumentTranslatorCmd setcredentials /azurekey:AzureKey`
 
 Get Word Alignments
 
@@ -103,7 +96,7 @@ Available from: https://github.com/zzzprojects/html-agility-pack
 
 ## Security
 All requests to the Translator service are SSL encrypted, using the certificate of the Microsoft Translator service.
-Document Translator stores the service access credentials (client ID and client secret) unencypted in the
+Document Translator stores the Azure4 Key unencypted in the
 user profile on the machine. For enterprise use we recommend to implement a more secure storage mechanism.
 
 

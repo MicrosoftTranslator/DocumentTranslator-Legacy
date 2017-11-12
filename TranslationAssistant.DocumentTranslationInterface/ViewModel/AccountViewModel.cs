@@ -33,13 +33,9 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// <summary>
         ///     The application id.
         /// </summary>
-        private string clientID;
+        private string _AzureKey;
 
-        /// <summary>
-        ///     The client secret.
-        /// </summary>
-        private string clientSecret;
-
+        
         /// <summary>
         ///     The category identifier.
         /// </summary>
@@ -67,37 +63,21 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// <summary>
         ///     Gets or sets the application id.
         /// </summary>
-        public string ClientID
+        public string AzureKey
         {
             get
             {
-                return this.clientID;
+                return this._AzureKey;
             }
 
             set
             {
-                this.clientID = value;
-                this.NotifyPropertyChanged("ClientID");
+                this._AzureKey= value;
+                this.NotifyPropertyChanged("AzureKey");
             }
         }
 
-        /// <summary>
-        ///     Gets or sets the client secret.
-        /// </summary>
-        public string ClientSecret
-        {
-            get
-            {
-                return this.clientSecret;
-            }
-
-            set
-            {
-                this.clientSecret = value;
-                this.NotifyPropertyChanged("ClientSecret");
-            }
-        }
-
+        
         public string CategoryID
         {
             get
@@ -151,7 +131,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         {
             //Initialize in order to load the credentials.
             TranslationServices.Core.TranslationServiceFacade.Initialize();
-            this.clientID = TranslationServices.Core.TranslationServiceFacade.ClientID;
+            this.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey;
             this.categoryID = TranslationServices.Core.TranslationServiceFacade.CategoryID;
         }
 
@@ -161,7 +141,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private void SaveAccountClick()
         {
             //Set the Account values and save.
-            TranslationServices.Core.TranslationServiceFacade.ClientID = TranslationServices.Core.TranslationServiceFacade.ClientID.Trim();
+            TranslationServices.Core.TranslationServiceFacade.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey.Trim();
             TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID.Trim();
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
             TranslationServices.Core.TranslationServiceFacade.Initialize();
