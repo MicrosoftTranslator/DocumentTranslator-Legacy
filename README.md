@@ -43,7 +43,7 @@ Translate documents:
 
 Set credentials:
 
-`DocumentTranslatorCmd setcredentials /clientid:ClientId /clientsecret:ClientSecret`
+`DocumentTranslatorCmd setcredentials /azurekey:AzureKey`
 
 Get Word Alignments
 
@@ -96,7 +96,7 @@ Available from: https://github.com/zzzprojects/html-agility-pack
 
 ## Security
 All requests to the Translator service are SSL encrypted, using the certificate of the Microsoft Translator service.
-Document Translator stores the service access credentials (client ID and client secret) unencypted in the
+Document Translator stores the Azure4 Key unencypted in the
 user profile on the machine. For enterprise use we recommend to implement a more secure storage mechanism.
 
 

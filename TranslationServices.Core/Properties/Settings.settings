@@ -2,10 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TranslationAssistant.TranslationServices.Core.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="ClientID" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="ClientSecret" Type="System.String" Scope="User">
+    <Setting Name="AzureKey" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="CategoryID" Type="System.String" Scope="User">
