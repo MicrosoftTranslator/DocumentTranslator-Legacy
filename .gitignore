@@ -26,3 +26,5 @@ TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vsh
 *.ide-wal
 .vs/Microsoft.DocumentTranslator/v15/sqlite3/storage.ide
 *.ide
+*.txt
+/TranslationAssistant.DocumentTranslationInstaller/obj/Debug
