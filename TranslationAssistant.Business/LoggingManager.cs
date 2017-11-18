@@ -16,7 +16,7 @@ namespace TranslationAssistant.Business
     #region
 
     using System;
-    using System.IO;
+    using System.Diagnostics;
 
     using global::TranslationAssistant.AutomationToolkit.BasePlugin;
 
@@ -40,15 +40,11 @@ namespace TranslationAssistant.Business
         {
             var timestamp = DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + " : ";
             var messageToLog = timestamp + message;
-            new ConsoleLogger().WriteLine(logLevel, messageToLog);
-            try
-            {
-                File.AppendAllText("Log.txt", messageToLog + Environment.NewLine);
-            }
-            catch (IOException e)
-            {
-                new ConsoleLogger().WriteLine(LogLevel.Warning, "Warning: The process cannot access the log file because it is being used by another process. {0}", e);
-            }
+            Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
+            Debug.AutoFlush = true;
+            Debug.Indent();
+            Debug.WriteLine(messageToLog, logLevel);
+            Debug.Unindent();
         }
 
         #endregion
