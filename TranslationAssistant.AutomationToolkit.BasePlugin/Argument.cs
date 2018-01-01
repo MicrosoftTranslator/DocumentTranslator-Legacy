@@ -47,7 +47,7 @@ namespace TranslationAssistant.AutomationToolkit.BasePlugin
         ///     The description.
         /// </param>
         public Argument(string name, bool required, string description)
-            : this(name, required, null, new string[] { }, false, description)
+            : this(name, required, null, new string[] { }, true, description)
         {
         }
 
