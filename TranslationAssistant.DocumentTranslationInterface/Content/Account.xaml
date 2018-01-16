@@ -28,7 +28,7 @@
                 <TextBlock TextWrapping="Wrap" Text="and copy the Key for your Translator Text API resource into the field below." />
 
                 <TextBlock Height="20" />
-                <TextBlock TextWrapping="Wrap" Text="Optionally you may enter a category identifier to use a customized machine translation system. The standard categories you can use are &quot;general&quot;(same as blank), &quot;tech&quot; for computer-related technical content, &quot;speech&quot; for translation of conversational speech, or the category ID of a custom system you have built on " />
+                <TextBlock TextWrapping="Wrap" Text="Optionally you may enter a category identifier to use a customized machine translation system. The standard categories you can use are &quot;general&quot;(same as blank), &quot;tech&quot; for computer-related technical content, &quot;generalnn&quot; for neural network translation systems, or the category ID of a custom system you have built on " />
                 <TextBlock>
                     <Hyperlink NavigateUri="https://hub.microsofttranslator.com" ToolTip="Build a customized machine translation system here." RequestNavigate="Hyperlink_OnRequestNavigate">
                     <Run Text="https://hub.microsofttranslator.com."/>
