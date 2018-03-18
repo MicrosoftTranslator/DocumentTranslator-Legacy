@@ -36,6 +36,28 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
             this.InitializeComponent();
             SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Unsubscribe(RefreshLanguageComboBoxes);
             SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Subscribe(RefreshLanguageComboBoxes);
+            this.KeyDown += DocumentTranslationPage_KeyDown;
+        }
+
+        private void DocumentTranslationPage_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            try
+            {
+                switch (e.Key)
+                {
+                    case System.Windows.Input.Key.F11:
+                        if (TranslationServices.Core.TranslationServiceFacade.CreateTMXOnTranslate)
+                        {
+                            TranslationServices.Core.TranslationServiceFacade.CreateTMXOnTranslate = false;
+                        }
+                        else
+                        {
+                            TranslationServices.Core.TranslationServiceFacade.CreateTMXOnTranslate = true;
+                        }
+                        break;
+                }
+            }
+            catch (System.Exception ex) { };
         }
 
         private void RefreshLanguageComboBoxes(bool successful)
@@ -45,5 +67,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         }
 
         #endregion
+
     }
 }

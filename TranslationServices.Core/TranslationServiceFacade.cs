@@ -76,7 +76,22 @@ namespace TranslationAssistant.TranslationServices.Core
             set { _AzureKey = value; }
         }
 
+        private static string _TmxFileName = "_DocumentTranslator.TMX";
+        /// <summary>
+        /// Allows to set the file name to save the TMX under.
+        /// No effect if CreateTMXOnTranslate is not set.
+        /// </summary>
+        public static string TmxFileName
+        {
+            get { return _TmxFileName; }
+            set { _TmxFileName = value; }
+        }
+
+
         private static bool _CreateTMXOnTranslate = false;
+        /// <summary>
+        /// Create a TMX file containing source and target while translating. 
+        /// </summary>
         public static bool CreateTMXOnTranslate
         {
             get { return _CreateTMXOnTranslate; }
@@ -456,7 +471,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     toCode,
                     options);
                 string[] res = translatedTexts.Select(t => t.TranslatedText).ToArray();
-                if (_CreateTMXOnTranslate) WriteToTmx(texts, res, from, to);
+                if (_CreateTMXOnTranslate) WriteToTmx(texts, res, from, to, options.Category);
                 return res;
             }
             catch   //try again forcing English as source language
@@ -468,12 +483,12 @@ namespace TranslationAssistant.TranslationServices.Core
                     toCode,
                     options);
                 string[] res = translatedTexts.Select(t => t.TranslatedText).ToArray();
-                if (_CreateTMXOnTranslate) WriteToTmx(texts, res, from, to);
+                if (_CreateTMXOnTranslate) WriteToTmx(texts, res, from, to, options.Category);
                 return res;
             }
         }
 
-        private static void WriteToTmx(string[] texts, string[] res, string from, string to)
+        private static void WriteToTmx(string[] texts, string[] res, string from, string to, string comment)
         {
             TranslationMemory TM = new TranslationMemory();
             TranslationUnit TU = new TranslationUnit();
@@ -485,9 +500,10 @@ namespace TranslationAssistant.TranslationServices.Core
                 TU.strTarget = res[i];
                 TU.user = "DocumentTranslator";
                 TU.status = TUStatus.good;
+                TU.comment = comment;
                 TM.Add(TU);
             }
-            TM.WriteToTmx("DocumentTranslator.TMX");
+            TM.WriteToTmx(_TmxFileName);
             return;
         }
 
