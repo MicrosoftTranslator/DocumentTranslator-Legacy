@@ -128,6 +128,12 @@ namespace TranslationAssistant.TranslationServices.Core
                     {
                         AzureAuthToken authTokenSource = new AzureAuthToken(_AzureKey);
                         string headerValue = authTokenSource.GetAccessToken();
+                        var bind = new BasicHttpBinding { Name = "BasicHttpBinding_LanguageService" };
+                        var epa = new EndpointAddress(_EndPointAddress.Replace("https:", "http:") + "/V2/soap.svc");
+                        LanguageServiceClient client = new LanguageServiceClient(bind, epa);
+                        string[] languages = new string[1];
+                        languages[0] = "en";
+                        client.GetLanguageNames(GetHeaderValue(), "en", languages, false);
                     }
                     catch { return false; }
                     break;
@@ -205,8 +211,8 @@ namespace TranslationAssistant.TranslationServices.Core
                 }
                 else return;
             }
-
-            if (!IsTranslationServiceReady()) return;
+            try { if (!IsTranslationServiceReady()) return; }
+            catch { return; }
             var bind = new BasicHttpBinding { Name = "BasicHttpBinding_LanguageService" };
             var epa = new EndpointAddress(_EndPointAddress.Replace("https:", "http:") + "/V2/soap.svc");   //for some reason GetLanguagesForTranslate doesn't work with the SSL end point.
             LanguageServiceClient client = new LanguageServiceClient(bind, epa);

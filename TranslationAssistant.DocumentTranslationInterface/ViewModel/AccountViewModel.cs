@@ -145,8 +145,13 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID.Trim();
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
             TranslationServices.Core.TranslationServiceFacade.Initialize();
-            
-            if (TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReady()) { 
+
+            bool isready = false;
+
+            try { isready = TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReady(); }
+            catch { isready = false; }
+
+            if (isready) { 
                 this.StatusText = "Settings saved. Ready to translate.";
                 NotifyPropertyChanged("SettingsSaved");
                 //Need to initialize with new credentials in order to get the language list.
@@ -154,7 +159,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             }
             else
             {
-                this.StatusText = "Key is invalid.\r\nPlease visit the Azure Portal to obtain a subscription key.";
+                this.StatusText = "Key is invalid.\r\nPlease visit the Azure Portal to obtain a subscription key for the Translator Text API.";
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
                 return;
             }
