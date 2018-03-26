@@ -133,7 +133,7 @@ namespace TranslationAssistant.TranslationServices.Core
                         LanguageServiceClient client = new LanguageServiceClient(bind, epa);
                         string[] languages = new string[1];
                         languages[0] = "en";
-                        client.GetLanguageNames(GetHeaderValue(), "en", languages, false);
+                        client.GetLanguageNames(GetHeaderValue(), Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName, languages, false);
                     }
                     catch { return false; }
                     break;
@@ -145,7 +145,7 @@ namespace TranslationAssistant.TranslationServices.Core
                         LanguageServiceClient client = new LanguageServiceClient(bind, epa);
                         string[] languages = new string[1];
                         languages[0] = "en";
-                        client.GetLanguageNames(GetHeaderValue(), "en", languages, false);
+                        client.GetLanguageNames(GetHeaderValue(), Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName, languages, false);
                     }
                     catch { return false; }
                     break;
@@ -218,7 +218,7 @@ namespace TranslationAssistant.TranslationServices.Core
             LanguageServiceClient client = new LanguageServiceClient(bind, epa);
             string headerValue = GetHeaderValue();
             string[] languages = client.GetLanguagesForTranslate(headerValue);
-            string[] languagenames = client.GetLanguageNames(headerValue, "en", languages, false);
+            string[] languagenames = client.GetLanguageNames(headerValue, Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName, languages, false);
             for (int i = 0; i < languages.Length; i++)
             {
                 if (!AvailableLanguages.ContainsKey(languages[i]))
