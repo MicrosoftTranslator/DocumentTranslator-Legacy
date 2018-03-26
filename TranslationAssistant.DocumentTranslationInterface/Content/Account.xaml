@@ -6,6 +6,7 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:viewModel="clr-namespace:TranslationAssistant.DocumentTranslationInterface.ViewModel"
+             xmlns:p="clr-namespace:TranslationAssistant.DocumentTranslationInterface.Properties"
              mc:Ignorable="d"
              d:DesignHeight="356" d:DesignWidth="475">
     <UserControl.DataContext>
@@ -15,20 +16,20 @@
     <Grid>
         <ScrollViewer Margin="0,0,0,-32">
             <StackPanel x:Name="Panel" MinWidth="200">
-                <TextBlock Text="Account" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
+                <TextBlock Text="{x:Static p:Resources.Account_title}" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
 
                 <TextBlock Height="20"/>
-                <TextBlock TextWrapping="Wrap" Text="Please subscribe to Microsoft Translator Text API at" />
+                <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.Account_string1}" />
                 <TextBlock TextWrapping="Wrap">
-                    <Hyperlink NavigateUri="https://www.microsoft.com/en-us/translator/getstarted.aspx" ToolTip="Subscribe to Microsoft Translator"  RequestNavigate="Hyperlink_OnRequestNavigate">
+                    <Hyperlink NavigateUri="https://www.microsoft.com/en-us/translator/getstarted.aspx" ToolTip="{x:Static p:Resources.Account_string3}"  RequestNavigate="Hyperlink_OnRequestNavigate">
                     <Run Text="https://www.microsoft.com/en-us/translator/getstarted.aspx," />
                     </Hyperlink>
                 </TextBlock>
                 
-                <TextBlock TextWrapping="Wrap" Text="and copy the Key for your Translator Text API resource into the field below." />
+                <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.Account_string2}" />
 
                 <TextBlock Height="20" />
-                <TextBlock TextWrapping="Wrap" Text="Optionally you may enter a category identifier to use a customized machine translation system. The standard categories you can use are &quot;general&quot;(same as blank), &quot;tech&quot; for computer-related technical content, &quot;generalnn&quot; for neural network translation systems, or the category ID of a custom system you have built on " />
+                <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.Account_string10}" />
                 <TextBlock>
                     <Hyperlink NavigateUri="https://hub.microsofttranslator.com" ToolTip="Build a customized machine translation system here." RequestNavigate="Hyperlink_OnRequestNavigate">
                     <Run Text="https://hub.microsofttranslator.com."/>
@@ -48,13 +49,13 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Key:" VerticalAlignment="Center" Margin="0,3,16,0" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static p:Resources.Account_key}" VerticalAlignment="Center" Margin="0,3,16,0" />
                     <PasswordBox Name="KeyBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" PasswordChanged="PasswordBox_PasswordChanged"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Category:" VerticalAlignment="Center" Margin="0,3,16,0"  />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static p:Resources.Account_category}" VerticalAlignment="Center" Margin="0,3,16,0"  />
                     <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0"  Text="{Binding CategoryID, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <Button Grid.Row="4" Grid.Column="1" Content="Save" Width="80" HorizontalAlignment="Left" Margin="0,20,0,0">
+                    <Button Grid.Row="4" Grid.Column="1" Content="{x:Static p:Resources.Account_save}" Width="80" HorizontalAlignment="Left" Margin="0,20,0,0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseUp">
                                 <i:InvokeCommandAction

@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="fr" original="DOCUMENTTRANSLATOR/PROPERTIES/RESOURCES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6900.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="DOCUMENTTRANSLATOR/PROPERTIES/RESOURCES.RESX" datatype="resx">
+        <trans-unit id="DocumentTranslator_name" translate="yes" xml:space="preserve">
+          <source>Document Translator</source>
+          <target state="translated">Traducteur des documents</target>
+        </trans-unit>
+        <trans-unit id="Account_title" translate="yes" xml:space="preserve">
+          <source>Account</source>
+          <target state="translated" state-qualifier="tm-suggestion">Compte</target>
+        </trans-unit>
+        <trans-unit id="Account_string1" translate="yes" xml:space="preserve">
+          <source>Please subscribe to Microsoft Translator Text API at</source>
+          <target state="translated">Veuillez vous abonner au API Microsoft Translator Text au</target>
+        </trans-unit>
+        <trans-unit id="Account_string2" translate="yes" xml:space="preserve">
+          <source>and copy the Key for your Translator Text API resource into the field below.</source>
+          <target state="translated">et copiez la clé de votre ressource API pour la traduction de textes dans le champ ci-dessous.</target>
+        </trans-unit>
+        <trans-unit id="Account_string10" translate="yes" xml:space="preserve">
+          <source>Optionally you may enter a category identifier to use a customized machine translation system. The standard categories you can use are "general"(same as blank), "tech" for computer-related technical content, "generalnn" for neural network translation systems, or the category ID of a custom system you have built on</source>
+          <target state="translated">Vous pouvez également indiquer un identifiant de catégorie pour utiliser un système de traduction automatique personnalisé. Les catégories par défaut que vous pouvez utiliser sont « general » (s’applique si vous laissez le champ vide), « tech » pour le contenu technique lié à l’informatique, « generalnn » pour la réseau neural, ou la catégorie personnalisée que vous avez construite sur </target>
+        </trans-unit>
+        <trans-unit id="Account_string11" translate="yes" xml:space="preserve">
+          <source>Build a customized machine translation system here.</source>
+          <target state="translated" state-qualifier="mt-suggestion">Construire un système de traduction par machine sur mesure ici.</target>
+        </trans-unit>
+        <trans-unit id="Account_string3" translate="yes" xml:space="preserve">
+          <source>Subscribe to Microsoft Translator</source>
+          <target state="translated" state-qualifier="mt-suggestion">S’abonner au Microsoft Translator</target>
+        </trans-unit>
+        <trans-unit id="Account_category" translate="yes" xml:space="preserve">
+          <source>Category:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Catégorie :</target>
+        </trans-unit>
+        <trans-unit id="Account_key" translate="yes" xml:space="preserve">
+          <source>Key:</source>
+          <target state="translated">Clé :</target>
+        </trans-unit>
+        <trans-unit id="Account_save" translate="yes" xml:space="preserve">
+          <source>Save</source>
+          <target state="translated" state-qualifier="tm-suggestion">Enregistrer</target>
+        </trans-unit>
+        <trans-unit id="Advanced_string10" translate="yes" xml:space="preserve">
+          <source>Please obtain the Server Address and the Appid to enter from the translation service administrator for your organization.</source>
+          <target state="translated" state-qualifier="mt-suggestion">Vous pouvez vous procurer l’adresse du serveur et l’Appid pour entrer de l’administrateur de service de traduction pour votre organisation.</target>
+        </trans-unit>
+        <trans-unit id="Advanced_string11" translate="yes" xml:space="preserve">
+          <source>Any settings made here will override entries that are present in the "Account" page.</source>
+          <target state="translated" state-qualifier="mt-suggestion">Tous paramètres appliqués ici remplaceront des entrées qui sont présentes dans la page « Compte ».</target>
+        </trans-unit>
+        <trans-unit id="Advanced_string20" translate="yes" xml:space="preserve">
+          <source>Server Address:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Adresse du serveur :</target>
+        </trans-unit>
+        <trans-unit id="Advanced_title" translate="yes" xml:space="preserve">
+          <source>Advanced Settings</source>
+          <target state="translated" state-qualifier="tm-suggestion">Paramètres avancés</target>
+        </trans-unit>
+        <trans-unit id="Advanced_appid" translate="yes" xml:space="preserve">
+          <source>Appid:</source>
+          <target state="translated" state-qualifier="mt-suggestion">ID d’application :</target>
+        </trans-unit>
+        <trans-unit id="Advanced_string21" translate="yes" xml:space="preserve">
+          <source>Use these Advanced Settings instead of "Account".</source>
+          <target state="translated" state-qualifier="mt-suggestion">Utilisez ces paramètres avancés au lieu de « Compte ».</target>
+        </trans-unit>
+        <trans-unit id="Account_clear" translate="yes" xml:space="preserve">
+          <source>Clear</source>
+          <target state="translated" state-qualifier="tm-suggestion">Effacer</target>
+        </trans-unit>
+        <trans-unit id="Appearance_colortheme" translate="yes" xml:space="preserve">
+          <source>Color theme:</source>
+          <target state="translated" state-qualifier="tm-suggestion">Thème de couleur :</target>
+        </trans-unit>
+        <trans-unit id="Appearance_fontsize" translate="yes" xml:space="preserve">
+          <source>Font size:</source>
+          <target state="translated" state-qualifier="tm-suggestion">Taille de police :</target>
+        </trans-unit>
+        <trans-unit id="Appearance_title" translate="yes" xml:space="preserve">
+          <source>Appearance</source>
+          <target state="translated" state-qualifier="tm-suggestion">Apparence</target>
+        </trans-unit>
+        <trans-unit id="Translate_title" translate="yes" xml:space="preserve">
+          <source>Translate Documents</source>
+          <target state="translated">Traduire des Documents</target>
+        </trans-unit>
+        <trans-unit id="Translate_invalidcredentials" translate="yes" xml:space="preserve">
+          <source>Invalid credentials.
+Please visit the Settings page first to enter your Microsoft Translator credentials.</source>
+          <target state="translated" state-qualifier="mt-suggestion">Informations d’identification non valides. 
+S’il vous plaît visitez la page de paramètres tout d’abord à entrer vos informations d’identification Microsoft Translator.</target>
+        </trans-unit>
+        <trans-unit id="Translate_Documents" translate="yes" xml:space="preserve">
+          <source>Documents</source>
+          <target state="translated" state-qualifier="tm-suggestion">Documents</target>
+        </trans-unit>
+        <trans-unit id="Translate_Browse" translate="yes" xml:space="preserve">
+          <source>Browse</source>
+          <target state="translated" state-qualifier="mt-suggestion">Parcourir</target>
+        </trans-unit>
+        <trans-unit id="Translate_FromLanguage" translate="yes" xml:space="preserve">
+          <source>From Language</source>
+          <target state="translated">Langue de départ</target>
+        </trans-unit>
+        <trans-unit id="Translate_ToLanguage" translate="yes" xml:space="preserve">
+          <source>To Language</source>
+          <target state="translated">Langue d’arrivée</target>
+        </trans-unit>
+        <trans-unit id="Translate_Go" translate="yes" xml:space="preserve">
+          <source>Go</source>
+          <target state="translated" state-qualifier="tm-suggestion">OK</target>
+        </trans-unit>
+        <trans-unit id="Common_AutoDetect" translate="yes" xml:space="preserve">
+          <source>Auto-Detect</source>
+          <target state="translated" state-qualifier="mt-suggestion">Détection automatique</target>
+        </trans-unit>
+        <trans-unit id="Common_Statustext1" translate="yes" xml:space="preserve">
+          <source>Translation completed successfully.
+The translated documents contain the language identifier</source>
+          <target state="translated" state-qualifier="mt-suggestion">Traduction terminée avec succès. 
+La traduction documents contiennent l’identificateur de langue</target>
+        </trans-unit>
+        <trans-unit id="Common_Statustext2" translate="yes" xml:space="preserve">
+          <source>in the file name.</source>
+          <target state="translated" state-qualifier="mt-suggestion">dans le nom du fichier.</target>
+        </trans-unit>
+        <trans-unit id="Common_SupportedFiles" translate="yes" xml:space="preserve">
+          <source>Supported Files</source>
+          <target state="translated" state-qualifier="tm-suggestion">Fichiers pris en charge</target>
+        </trans-unit>
+        <trans-unit id="Common_TranslatingDocument" translate="yes" xml:space="preserve">
+          <source>Translating document:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Traduire un document :</target>
+        </trans-unit>
+        <trans-unit id="Error_LanguageList" translate="yes" xml:space="preserve">
+          <source>Unable to retrieve language list from Translator service.</source>
+          <target state="translated" state-qualifier="mt-suggestion">Impossible de récupérer la liste des langues de service de traducteur.</target>
+        </trans-unit>
+        <trans-unit id="Error_ProcessingDocument" translate="yes" xml:space="preserve">
+          <source>Error while processing document:</source>
+          <target state="translated" state-qualifier="mt-suggestion">Erreur lors du traitement de document :</target>
+        </trans-unit>
+        <trans-unit id="Home_attribution" translate="yes" xml:space="preserve">
+          <source>Translations by Microsoft® Translator</source>
+          <target state="translated">Traductions par Microsoft® Translator</target>
+        </trans-unit>
+        <trans-unit id="Home_string10" translate="yes" xml:space="preserve">
+          <source>Translate Microsoft Office documents: Word | Excel | Powerpoint.</source>
+          <target state="translated">Traduit des documents de la suite Microsoft Office : Word | Excel | PowerPoint.</target>
+        </trans-unit>
+        <trans-unit id="Home_string11" translate="yes" xml:space="preserve">
+          <source>Translate PDF. Requires Office 2013 or later installed on this PC. PDFs will be saved as Word documents.</source>
+          <target state="translated">Traduit des documents PDF : Office 2013 ou une version plus récente doit être installé sur ce PC. Les documents PDF seront enregistrés comme documents Word.</target>
+        </trans-unit>
+        <trans-unit id="Home_string12" translate="yes" xml:space="preserve">
+          <source>Translate HTML, SRT caption files, and plain text (.txt file) in UTF-8 character encoding.</source>
+          <target state="translated">Traduit des fichiers HTML, SRT et texte brut (fichier .txt) en encodage de caractères UTF-8.</target>
+        </trans-unit>
+        <trans-unit id="Home_string13" translate="yes" xml:space="preserve">
+          <source>Translate from any Microsoft Translator source language to any target language.</source>
+          <target state="translated">Traduit de toutes les langues source à toutes les langues cible de Microsoft Translator.</target>
+        </trans-unit>
+        <trans-unit id="Home_string14" translate="yes" xml:space="preserve">
+          <source>Uses your Translator Text API account, and any MT systems that have been customized using the Hub.</source>
+          <target state="translated">Utilise votre compte Microsoft API, les données stockées dans le CTF et les systèmes de mémoire personnalisés à l’aide du Hub.</target>
+        </trans-unit>
+        <trans-unit id="Home_string15" translate="yes" xml:space="preserve">
+          <source>Command line operation, wildcards and multiple languages at once using DocumentTranslatorCmd.exe.</source>
+          <target state="translated">Les opérations de lignes de commandes, les caractères génériques et les traductions en plusieurs langues sont possibles à l’aide de DocumensTranslatorCmd.exe.</target>
+        </trans-unit>
+        <trans-unit id="Settings_About" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="translated" state-qualifier="tm-suggestion">À propos de</target>
+        </trans-unit>
+        <trans-unit id="Common_Ready" translate="yes" xml:space="preserve">
+          <source>Ready to translate.</source>
+          <target state="translated" state-qualifier="mt-suggestion">Prêt à traduire.</target>
+        </trans-unit>
+        <trans-unit id="Common_SettingsSaved" translate="yes" xml:space="preserve">
+          <source>Settings saved. Ready to translate.</source>
+          <target state="translated" state-qualifier="mt-suggestion">Paramètres enregistrés. Prêt à traduire.</target>
+        </trans-unit>
+        <trans-unit id="Error_CategoryInvalid" translate="yes" xml:space="preserve">
+          <source>Category is invalid.
+Please visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories.</source>
+          <target state="translated" state-qualifier="mt-suggestion">Catégorie n’est pas valide. 
+S’il vous plaît visitez https://hub.microsofttranslator.com afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</target>
+        </trans-unit>
+        <trans-unit id="Error_KeyInvalid" translate="yes" xml:space="preserve">
+          <source>Key is invalid.
+Please visit the Azure Portal to obtain a subscription key for the Translator Text API.</source>
+          <target state="translated" state-qualifier="mt-suggestion">Key n’est pas valide. 
+S’il vous plaît visitez le portail Azure pour obtenir une clé d’abonnement pour l’API de texte traducteur.</target>
+        </trans-unit>
+        <trans-unit id="Error_PleaseSubscribe" translate="yes" xml:space="preserve">
+          <source>Please subscribe to Microsoft Translator text API and enter your subscription key in the Settings page.</source>
+          <target state="translated" state-qualifier="mt-suggestion">S’il vous plaît vous abonner à texte Microsoft Translator API et entrez votre clé d’abonnement dans la page Paramètres.</target>
+        </trans-unit>
+        <trans-unit id="Main_Home" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="translated" state-qualifier="tm-suggestion">Accueil</target>
+        </trans-unit>
+        <trans-unit id="Main_Settings" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="translated" state-qualifier="tm-suggestion">Paramètres</target>
+        </trans-unit>
+        <trans-unit id="Common_SelectDocuments" translate="yes" xml:space="preserve">
+          <source>Please select the documents and languages to translate.</source>
+          <target state="translated">Veuillez sélectionner les documents à traduire et les langues de départ et d’arrivée.</target>
+        </trans-unit>
+        <trans-unit id="Common_Started" translate="yes" xml:space="preserve">
+          <source>Started</source>
+          <target state="translated">Started</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DocumentTranslator_name" xml:space="preserve">
+    <value>Traducteur des documents</value>
+  </data>
+  <data name="Account_title" xml:space="preserve">
+    <value>Compte</value>
+  </data>
+  <data name="Account_string1" xml:space="preserve">
+    <value>Veuillez vous abonner au API Microsoft Translator Text au</value>
+  </data>
+  <data name="Account_string2" xml:space="preserve">
+    <value>et copiez la clé de votre ressource API pour la traduction de textes dans le champ ci-dessous.</value>
+  </data>
+  <data name="Account_string10" xml:space="preserve">
+    <value>Vous pouvez également indiquer un identifiant de catégorie pour utiliser un système de traduction automatique personnalisé. Les catégories par défaut que vous pouvez utiliser sont « general » (s’applique si vous laissez le champ vide), « tech » pour le contenu technique lié à l’informatique, « generalnn » pour la réseau neural, ou la catégorie personnalisée que vous avez construite sur </value>
+  </data>
+  <data name="Account_string11" xml:space="preserve">
+    <value>Construire un système de traduction par machine sur mesure ici.</value>
+  </data>
+  <data name="Account_string3" xml:space="preserve">
+    <value>S’abonner au Microsoft Translator</value>
+  </data>
+  <data name="Account_category" xml:space="preserve">
+    <value>Catégorie :</value>
+  </data>
+  <data name="Account_key" xml:space="preserve">
+    <value>Clé :</value>
+  </data>
+  <data name="Account_save" xml:space="preserve">
+    <value>Enregistrer</value>
+  </data>
+  <data name="Advanced_string10" xml:space="preserve">
+    <value>Vous pouvez vous procurer l’adresse du serveur et l’Appid pour entrer de l’administrateur de service de traduction pour votre organisation.</value>
+  </data>
+  <data name="Advanced_string11" xml:space="preserve">
+    <value>Tous paramètres appliqués ici remplaceront des entrées qui sont présentes dans la page « Compte ».</value>
+  </data>
+  <data name="Advanced_string20" xml:space="preserve">
+    <value>Adresse du serveur :</value>
+  </data>
+  <data name="Advanced_title" xml:space="preserve">
+    <value>Paramètres avancés</value>
+  </data>
+  <data name="Advanced_appid" xml:space="preserve">
+    <value>ID d’application :</value>
+  </data>
+  <data name="Advanced_string21" xml:space="preserve">
+    <value>Utilisez ces paramètres avancés au lieu de « Compte ».</value>
+  </data>
+  <data name="Account_clear" xml:space="preserve">
+    <value>Effacer</value>
+  </data>
+  <data name="Appearance_colortheme" xml:space="preserve">
+    <value>Thème de couleur :</value>
+  </data>
+  <data name="Appearance_fontsize" xml:space="preserve">
+    <value>Taille de police :</value>
+  </data>
+  <data name="Appearance_title" xml:space="preserve">
+    <value>Apparence</value>
+  </data>
+  <data name="Translate_title" xml:space="preserve">
+    <value>Traduire des Documents</value>
+  </data>
+  <data name="Translate_invalidcredentials" xml:space="preserve">
+    <value>Informations d’identification non valides. 
+S’il vous plaît visitez la page de paramètres tout d’abord à entrer vos informations d’identification Microsoft Translator.</value>
+  </data>
+  <data name="Translate_Documents" xml:space="preserve">
+    <value>Documents</value>
+  </data>
+  <data name="Translate_Browse" xml:space="preserve">
+    <value>Parcourir</value>
+  </data>
+  <data name="Translate_FromLanguage" xml:space="preserve">
+    <value>Langue de départ</value>
+  </data>
+  <data name="Translate_ToLanguage" xml:space="preserve">
+    <value>Langue d’arrivée</value>
+  </data>
+  <data name="Translate_Go" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Common_AutoDetect" xml:space="preserve">
+    <value>Détection automatique</value>
+  </data>
+  <data name="Common_Statustext1" xml:space="preserve">
+    <value>Traduction terminée avec succès. 
+La traduction documents contiennent l’identificateur de langue</value>
+  </data>
+  <data name="Common_Statustext2" xml:space="preserve">
+    <value>dans le nom du fichier.</value>
+  </data>
+  <data name="Common_SupportedFiles" xml:space="preserve">
+    <value>Fichiers pris en charge</value>
+  </data>
+  <data name="Common_TranslatingDocument" xml:space="preserve">
+    <value>Traduire un document :</value>
+  </data>
+  <data name="Error_LanguageList" xml:space="preserve">
+    <value>Impossible de récupérer la liste des langues de service de traducteur.</value>
+  </data>
+  <data name="Error_ProcessingDocument" xml:space="preserve">
+    <value>Erreur lors du traitement de document :</value>
+  </data>
+  <data name="Home_attribution" xml:space="preserve">
+    <value>Traductions par Microsoft® Translator</value>
+  </data>
+  <data name="Home_string10" xml:space="preserve">
+    <value>Traduit des documents de la suite Microsoft Office : Word | Excel | PowerPoint.</value>
+  </data>
+  <data name="Home_string11" xml:space="preserve">
+    <value>Traduit des documents PDF : Office 2013 ou une version plus récente doit être installé sur ce PC. Les documents PDF seront enregistrés comme documents Word.</value>
+  </data>
+  <data name="Home_string12" xml:space="preserve">
+    <value>Traduit des fichiers HTML, SRT et texte brut (fichier .txt) en encodage de caractères UTF-8.</value>
+  </data>
+  <data name="Home_string13" xml:space="preserve">
+    <value>Traduit de toutes les langues source à toutes les langues cible de Microsoft Translator.</value>
+  </data>
+  <data name="Home_string14" xml:space="preserve">
+    <value>Utilise votre compte Microsoft API, les données stockées dans le CTF et les systèmes de mémoire personnalisés à l’aide du Hub.</value>
+  </data>
+  <data name="Home_string15" xml:space="preserve">
+    <value>Les opérations de lignes de commandes, les caractères génériques et les traductions en plusieurs langues sont possibles à l’aide de DocumensTranslatorCmd.exe.</value>
+  </data>
+  <data name="Settings_About" xml:space="preserve">
+    <value>À propos de</value>
+  </data>
+  <data name="Common_Ready" xml:space="preserve">
+    <value>Prêt à traduire.</value>
+  </data>
+  <data name="Common_SettingsSaved" xml:space="preserve">
+    <value>Paramètres enregistrés. Prêt à traduire.</value>
+  </data>
+  <data name="Error_CategoryInvalid" xml:space="preserve">
+    <value>Catégorie n’est pas valide. 
+S’il vous plaît visitez https://hub.microsofttranslator.com afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</value>
+  </data>
+  <data name="Error_KeyInvalid" xml:space="preserve">
+    <value>Key n’est pas valide. 
+S’il vous plaît visitez le portail Azure pour obtenir une clé d’abonnement pour l’API de texte traducteur.</value>
+  </data>
+  <data name="Error_PleaseSubscribe" xml:space="preserve">
+    <value>S’il vous plaît vous abonner à texte Microsoft Translator API et entrez votre clé d’abonnement dans la page Paramètres.</value>
+  </data>
+  <data name="Main_Home" xml:space="preserve">
+    <value>Accueil</value>
+  </data>
+  <data name="Main_Settings" xml:space="preserve">
+    <value>Paramètres</value>
+  </data>
+  <data name="Common_SelectDocuments" xml:space="preserve">
+    <value>Veuillez sélectionner les documents à traduire et les langues de départ et d’arrivée.</value>
+  </data>
+  <data name="Common_Started" xml:space="preserve">
+    <value>Started</value>
+  </data>
+</root>

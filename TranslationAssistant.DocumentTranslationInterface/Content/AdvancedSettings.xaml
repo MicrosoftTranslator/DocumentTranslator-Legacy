@@ -7,16 +7,17 @@
              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              xmlns:viewModel="clr-namespace:TranslationAssistant.DocumentTranslationInterface.ViewModel"
+             xmlns:p="clr-namespace:TranslationAssistant.DocumentTranslationInterface.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="356" d:DesignWidth="475">
     <Grid>
         <ScrollViewer Margin="0,0,0,-32">
             <StackPanel x:Name="Panel" MinWidth="200">
-                <TextBlock Text="Advanced Settings" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
+                <TextBlock Text="{x:Static p:Resources.Advanced_title}" Style="{StaticResource Heading2}" Margin="0,0,0,8" />
 
                 <TextBlock Height="20"/>
-                <TextBlock TextWrapping="Wrap" Text="Please obtain the Server Address and the Appid to enter from the translation service administrator for your organization." />
-                <TextBlock TextWrapping="Wrap" Text="Any settings made here will override entries that are present in the &quot;Account&quot; page."/>
+                <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.Advanced_string10}" />
+                <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.Advanced_string11}"/>
                 <TextBlock Height="40"/>
 
                 <Grid HorizontalAlignment="Left" Margin="0,10,0,0">
@@ -33,18 +34,18 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Server Address:" VerticalAlignment="Center" Margin="0,3,16,0" />
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static p:Resources.Advanced_string20}" VerticalAlignment="Center" Margin="0,3,16,0" />
                     <TextBox Name="ServerAddressBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0"/>
 
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Appid:" VerticalAlignment="Center" Margin="0,3,16,0" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static p:Resources.Advanced_appid}" VerticalAlignment="Center" Margin="0,3,16,0" />
                     <TextBox Name="AppidBox" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" />
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Category:" VerticalAlignment="Center" Margin="0,3,16,0"  />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static p:Resources.Account_category}" VerticalAlignment="Center" Margin="0,3,16,0"  />
                     <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0"  Text="{Binding Adv_CategoryID, UpdateSourceTrigger=PropertyChanged}"/>
 
-                    <CheckBox Grid.Row="4" Grid.Column="1" Content="Use these Advanced Settings instead of &quot;Account&quot;." Checked="CheckBox_Checked" Name="UseAdvanced"/>
+                    <CheckBox Grid.Row="4" Grid.Column="1" Content="{x:Static p:Resources.Advanced_string21}" Checked="CheckBox_Checked" Name="UseAdvanced"/>
                     
-                    <Button Grid.Row="6" Grid.Column="1" Content="Save" Width="80" HorizontalAlignment="Left" Margin="0,20,0,0">
+                    <Button Grid.Row="6" Grid.Column="1" Content="{x:Static p:Resources.Account_save}" Width="80" HorizontalAlignment="Left" Margin="0,20,0,0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseUp">
                                 <i:InvokeCommandAction
@@ -53,7 +54,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <Button Grid.Row="6" Grid.Column="1" Content="Clear" HorizontalAlignment="Right" Width="80" Margin="0,20,0,0">
+                    <Button Grid.Row="6" Grid.Column="1" Content="{x:Static p:Resources.Account_clear}" HorizontalAlignment="Right" Width="80" Margin="0,20,0,0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseUp">
                                 <i:InvokeCommandAction

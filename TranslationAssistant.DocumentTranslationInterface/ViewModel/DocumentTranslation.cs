@@ -115,7 +115,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             this.StatusText = string.Empty;
             if (TranslationServiceFacade.IsTranslationServiceReady())
             {
-                this.StatusText = "Please select the documents and languages to translate.";
+                this.StatusText = Properties.Resources.Common_SelectDocuments;
             }
             this.PopulateReadyToTranslateMessage(TranslationServiceFacade.IsTranslationServiceReady());
 
@@ -139,7 +139,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                         {
                             this.ShowProgressBar = true;
                             this.IsGoButtonEnabled = false;
-                            this.StatusText = "Started";
+                            this.StatusText = Properties.Resources.Common_Started;
 
 
                             var worker = new BackgroundWorker();
@@ -158,7 +158,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                                         this.TargetFolder = Path.GetDirectoryName(file);
                                         this.IsNavigateToTargetFolderEnabled = true;
                                         model.TargetPath = file;
-                                        this.StatusText = "Translating document: " + Path.GetFileName(model.TargetPath);
+                                        this.StatusText = Properties.Resources.Common_TranslatingDocument + " " + Path.GetFileName(model.TargetPath);
                                         DocumentTranslationManager.DoTranslation(
                                             file,
                                             false,
@@ -171,12 +171,12 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                                 {
                                     if (e.Error != null)
                                     {
-                                        this.StatusText = "Error while processing document: " + model.TargetPath + " "
+                                        StatusText = Properties.Resources.Error_ProcessingDocument + " " + model.TargetPath + " "
                                                           + e.Error.Message;
                                     }
                                     else
                                     {
-                                        this.StatusText = "Translation completed successfully.\r\nThe translated documents contain the language identifier \"."+TranslationServiceFacade.LanguageNameToLanguageCode(this.SelectedTargetLanguage)+".\" in the file name.";
+                                        StatusText = Properties.Resources.Common_Statustext1 + "\"."+TranslationServiceFacade.LanguageNameToLanguageCode(this.SelectedTargetLanguage)+".\"" + Properties.Resources.Common_Statustext2;
                                     }
 
                                     this.IsStarted = false;
@@ -418,8 +418,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         {
             var openfileDlg = new OpenFileDialog
                                   {
-                                      Filter =
-                                          "Supported Files|*.doc; *.docx; *.pdf; *.xls; *.xlsx; *.ppt; *.pptx; *.txt; *.text; *.htm; *.html; *.srt",      //Add XLF file types here
+                                      Filter = $"{Properties.Resources.Common_SupportedFiles}|*.doc; *.docx; *.pdf; *.xls; *.xlsx; *.ppt; *.pptx; *.txt; *.text; *.htm; *.html; *.srt",      //Add XLF file types here
                                       Multiselect = true
                                   };
             if (openfileDlg.ShowDialog().Value)
@@ -444,13 +443,13 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         {
             this.SourceLanguageList.Clear();
             this.TargetLanguageList.Clear();
-            this.SourceLanguageList.Add("Auto-Detect");
+            this.SourceLanguageList.Add(Properties.Resources.Common_AutoDetect);
             try
             {
                 this.TargetLanguageList.AddRange(TranslationServiceFacade.AvailableLanguages.Values);
             }
             catch {
-                this.StatusText = "Unable to retrieve language list from Translator service.";
+                this.StatusText = Properties.Resources.Error_LanguageList;
                 this.NotifyPropertyChanged("StatusText");
                 return;
             };
@@ -469,12 +468,12 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             //if (TranslationServiceFacade.IsTranslationServiceReady())
             if (successful)
             {
-                this.ReadyToTranslateMessage = "";
+                ReadyToTranslateMessage = "";
                 PopulateAvailableLanguages();
             }
             else
             {
-                this.ReadyToTranslateMessage = "Invalid credentials.\r\nPlease visit the Settings page first to enter your Microsoft Translator credentials.";
+                ReadyToTranslateMessage =  Properties.Resources.Translate_invalidcredentials;
             }
         }
 

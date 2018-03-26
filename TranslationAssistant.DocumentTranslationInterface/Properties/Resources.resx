@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Account_category" xml:space="preserve">
+    <value>Category:</value>
+  </data>
+  <data name="Account_clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Account_key" xml:space="preserve">
+    <value>Key:</value>
+  </data>
+  <data name="Account_save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Account_string1" xml:space="preserve">
+    <value>Please subscribe to Microsoft Translator Text API at</value>
+  </data>
+  <data name="Account_string10" xml:space="preserve">
+    <value>Optionally you may enter a category identifier to use a customized machine translation system. The standard categories you can use are "general"(same as blank), "tech" for computer-related technical content, "generalnn" for neural network translation systems, or the category ID of a custom system you have built on</value>
+  </data>
+  <data name="Account_string11" xml:space="preserve">
+    <value>Build a customized machine translation system here.</value>
+  </data>
+  <data name="Account_string2" xml:space="preserve">
+    <value>and copy the Key for your Translator Text API resource into the field below.</value>
+  </data>
+  <data name="Account_string3" xml:space="preserve">
+    <value>Subscribe to Microsoft Translator</value>
+  </data>
+  <data name="Account_title" xml:space="preserve">
+    <value>Account</value>
+  </data>
+  <data name="Advanced_appid" xml:space="preserve">
+    <value>Appid:</value>
+  </data>
+  <data name="Advanced_string10" xml:space="preserve">
+    <value>Please obtain the Server Address and the Appid to enter from the translation service administrator for your organization.</value>
+  </data>
+  <data name="Advanced_string11" xml:space="preserve">
+    <value>Any settings made here will override entries that are present in the "Account" page.</value>
+  </data>
+  <data name="Advanced_string20" xml:space="preserve">
+    <value>Server Address:</value>
+  </data>
+  <data name="Advanced_string21" xml:space="preserve">
+    <value>Use these Advanced Settings instead of "Account".</value>
+  </data>
+  <data name="Advanced_title" xml:space="preserve">
+    <value>Advanced Settings</value>
+  </data>
+  <data name="Appearance_colortheme" xml:space="preserve">
+    <value>Color theme:</value>
+  </data>
+  <data name="Appearance_fontsize" xml:space="preserve">
+    <value>Font size:</value>
+  </data>
+  <data name="Appearance_title" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="Common_AutoDetect" xml:space="preserve">
+    <value>Auto-Detect</value>
+  </data>
+  <data name="Common_Ready" xml:space="preserve">
+    <value>Ready to translate.</value>
+  </data>
+  <data name="Common_SettingsSaved" xml:space="preserve">
+    <value>Settings saved. Ready to translate.</value>
+  </data>
+  <data name="Common_Statustext1" xml:space="preserve">
+    <value>Translation completed successfully.
+The translated documents contain the language identifier</value>
+  </data>
+  <data name="Common_Statustext2" xml:space="preserve">
+    <value>in the file name.</value>
+  </data>
+  <data name="Common_SupportedFiles" xml:space="preserve">
+    <value>Supported Files</value>
+  </data>
+  <data name="Common_TranslatingDocument" xml:space="preserve">
+    <value>Translating document:</value>
+  </data>
+  <data name="DocumentTranslator_name" xml:space="preserve">
+    <value>Document Translator</value>
+  </data>
+  <data name="Error_CategoryInvalid" xml:space="preserve">
+    <value>Category is invalid.
+Please visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories.</value>
+  </data>
+  <data name="Error_KeyInvalid" xml:space="preserve">
+    <value>Key is invalid.
+Please visit the Azure Portal to obtain a subscription key for the Translator Text API.</value>
+  </data>
+  <data name="Error_LanguageList" xml:space="preserve">
+    <value>Unable to retrieve language list from Translator service.</value>
+  </data>
+  <data name="Error_PleaseSubscribe" xml:space="preserve">
+    <value>Please subscribe to Microsoft Translator text API and enter your subscription key in the Settings page.</value>
+  </data>
+  <data name="Error_ProcessingDocument" xml:space="preserve">
+    <value>Error while processing document:</value>
+  </data>
+  <data name="Home_attribution" xml:space="preserve">
+    <value>Translations by Microsoft® Translator</value>
+  </data>
+  <data name="Home_string10" xml:space="preserve">
+    <value>Translate Microsoft Office documents: Word | Excel | Powerpoint.</value>
+  </data>
+  <data name="Home_string11" xml:space="preserve">
+    <value>Translate PDF. Requires Office 2013 or later installed on this PC. PDFs will be saved as Word documents.</value>
+  </data>
+  <data name="Home_string12" xml:space="preserve">
+    <value>Translate HTML, SRT caption files, and plain text (.txt file) in UTF-8 character encoding.</value>
+  </data>
+  <data name="Home_string13" xml:space="preserve">
+    <value>Translate from any Microsoft Translator source language to any target language.</value>
+  </data>
+  <data name="Home_string14" xml:space="preserve">
+    <value>Uses your Translator Text API account, and any MT systems that have been customized using the Hub.</value>
+  </data>
+  <data name="Home_string15" xml:space="preserve">
+    <value>Command line operation, wildcards and multiple languages at once using DocumentTranslatorCmd.exe.</value>
+  </data>
+  <data name="Main_Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Main_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="Settings_About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="Translate_Browse" xml:space="preserve">
+    <value>Browse</value>
+  </data>
+  <data name="Translate_Documents" xml:space="preserve">
+    <value>Documents</value>
+  </data>
+  <data name="Translate_FromLanguage" xml:space="preserve">
+    <value>From Language</value>
+  </data>
+  <data name="Translate_Go" xml:space="preserve">
+    <value>Go</value>
+  </data>
+  <data name="Translate_invalidcredentials" xml:space="preserve">
+    <value>Invalid credentials.
+Please visit the Settings page first to enter your Microsoft Translator credentials.</value>
+  </data>
+  <data name="Translate_title" xml:space="preserve">
+    <value>Translate Documents</value>
+  </data>
+  <data name="Translate_ToLanguage" xml:space="preserve">
+    <value>To Language</value>
+  </data>
+  <data name="Common_SelectDocuments" xml:space="preserve">
+    <value>Please select the documents and languages to translate.</value>
+  </data>
+  <data name="Common_Started" xml:space="preserve">
+    <value>Started</value>
+  </data>
+</root>

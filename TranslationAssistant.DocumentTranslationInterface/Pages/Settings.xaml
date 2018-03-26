@@ -4,15 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             xmlns:p="clr-namespace:TranslationAssistant.DocumentTranslationInterface.Properties"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Style="{StaticResource ContentRoot}">
         <mui:ModernTab Layout="List" SelectedSource="/Content/Account.xaml">
             <mui:ModernTab.Links>
-                <mui:Link DisplayName="Account" Source="/Content/Account.xaml" />
+                <mui:Link DisplayName="{x:Static p:Resources.Account_title}" Source="/Content/Account.xaml" />
                 <!-- <mui:Link DisplayName="Custom Languages" Source="/Content/CustomLanguages.xaml" /> -->
-                <mui:Link DisplayName="Appearance" Source="/Content/SettingsAppearance.xaml" />
-                <mui:Link DisplayName="About" Source="/Content/About.xaml" />
+                <mui:Link DisplayName="{x:Static p:Resources.Appearance_title}" Source="/Content/SettingsAppearance.xaml" />
+                <mui:Link DisplayName="{x:Static p:Resources.Settings_About}" Source="/Content/About.xaml" />
                 <!-- <mui:Link DisplayName="Advanced Settings" Source="/Content/AdvancedSettings.xaml" /> -->
             </mui:ModernTab.Links>
         </mui:ModernTab>

@@ -90,11 +90,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
 
             if (TranslationAssistant.TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReady())
             {
-                this.StatusText = "Ready to translate.";
+                this.StatusText = Properties.Resources.Common_Ready;
             }
             else
             {
-                this.StatusText = "Please subscribe to Microsoft Translator text API and enter your subscription key in the Settings page.";
+                this.StatusText = Properties.Resources.Error_PleaseSubscribe;
             }
         }
 

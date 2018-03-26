@@ -3,14 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:p="clr-namespace:TranslationAssistant.DocumentTranslationInterface.Properties"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             xml:lang="en-US">
     <Grid>
         <ScrollViewer>
             <StackPanel MinWidth="200">
-                <TextBlock Text="Document Translator" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading1}" />
+                <TextBlock Text="{x:Static p:Resources.DocumentTranslator_name}" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading1}" />
                 <TextBlock Text="" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading2}" />
-                <TextBlock Text="Version 1.4.2" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading2}" />
+                <TextBlock Text="Version 1.5.0" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading2}" />
                 <TextBlock Text="Microsoft Corporation" Style="{StaticResource Heading2}" />
 
                 <TextBlock Style="{StaticResource Heading2}" >            

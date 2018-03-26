@@ -3,7 +3,8 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:mui="http://firstfloorsoftware.com/ModernUI"
                   xmlns:viewModel="clr-namespace:TranslationAssistant.DocumentTranslationInterface.ViewModel"
-                  Title="Document Translator"
+                  xmlns:p="clr-namespace:TranslationAssistant.DocumentTranslationInterface.Properties"
+                  Title="{x:Static p:Resources.DocumentTranslator_name}"
                   ContentSource="/Pages/Home.xaml" Background="Black" ResizeMode="NoResize"
                   >
 
@@ -13,11 +14,11 @@
     </mui:ModernWindow.DataContext>
 
     <mui:ModernWindow.MenuLinkGroups>
-        <mui:LinkGroup DisplayName="Document Translator">
+        <mui:LinkGroup DisplayName="{x:Static p:Resources.DocumentTranslator_name}">
             <mui:LinkGroup.Links>
-                <mui:Link DisplayName="Home" Source="/Pages/Home.xaml" />
-                <mui:Link DisplayName="Translate Documents" Source="/Pages/DocumentTranslationPage.xaml" />
-                <mui:Link DisplayName="Settings" Source="/Pages/Settings.xaml" />
+                <mui:Link DisplayName="{x:Static p:Resources.Main_Home}" Source="/Pages/Home.xaml" />
+                <mui:Link DisplayName="{x:Static p:Resources.Translate_title}" Source="/Pages/DocumentTranslationPage.xaml" />
+                <mui:Link DisplayName="{x:Static p:Resources.Main_Settings}" Source="/Pages/Settings.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
     </mui:ModernWindow.MenuLinkGroups>

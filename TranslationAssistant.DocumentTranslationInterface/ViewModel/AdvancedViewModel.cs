@@ -154,20 +154,20 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             TranslationServices.Core.TranslationServiceFacade.Initialize();
             
             if (TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReady()) { 
-                this.StatusText = "Settings saved. Ready to translate.";
+                this.StatusText = Properties.Resources.Common_SettingsSaved;
                 NotifyPropertyChanged("SettingsSaved");
                 //Need to initialize with new credentials in order to get the language list.
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(true);
             }
             else
             {
-                this.StatusText = "Key is invalid.\r\nPlease visit the Azure Portal to obtain a subscription key.";
+                this.StatusText = Properties.Resources.Error_KeyInvalid;
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
                 return;
             }
             if (!TranslationServices.Core.TranslationServiceFacade.IsCategoryValid(this.adv_categoryID))
             {
-                this.StatusText = "Category is invalid.\r\nPlease visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories.";
+                this.StatusText = Properties.Resources.Error_CategoryInvalid;
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
             }
             return;
