@@ -41,7 +41,7 @@ Translate documents:
 
 Set credentials:
 
-`DocumentTranslatorCmd setcredentials /azurekey:AzureKey`
+`DocumentTranslatorCmd setcredentials /APIkey:AzureKey`
 
 Get Word Alignments
 
