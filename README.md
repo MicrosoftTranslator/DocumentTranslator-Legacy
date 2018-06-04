@@ -1,6 +1,8 @@
 # Microsoft Document Translator
 The Microsoft Document Translator translates Microsoft Office, plain text, HTML, PDF files and SRT caption files, from and to any of the 60+ languages supported by the Microsoft Translator web service.
-Document Translator uses the customer's own credentials and subscription to perform the Translation. Document Translator can also use custom MT systems trained via the Microsoft Translator Hub (https://microsoft.com/translator/hub.aspx).
+Document Translator uses the customer's own credentials and subscription to perform the Translation. Document Translator can also use custom MT systems trained via Custom Translator (https://portal.customtranslator.azure.ai)
+or the Translator Hub (https://microsoft.com/translator/hub.aspx). It will determine automatically whether the provided custom category is a Custom Translator or a Translator Hub category.
+Document Translator uses Version 3 of the Translator API, unless the used category points to a Translator Hub custom system. 
 
 ## Overview
 Translate one or more Office documents, plain text HTML or PDF documents to another language, in one go. 
@@ -13,6 +15,7 @@ Translate one or more Office documents, plain text HTML or PDF documents to anot
 ## Key Features
 - Enter account credentials
 - Define a Hub-customized system to use (optional)
+- Define a CUstom Translator-customized system to use (optional)
 - Select the files to translate
 - Choose from and to languages. Specifying a "From"-language is optional, in that case the system auto-detects the language.
 - Document Translator creates translated files in the same folder as the original, with a name like originalname.language.docx
@@ -60,7 +63,7 @@ When no alignment information is available, the Alignment element will be empty.
 
 
 ## How to build Document Translator
-Microsoft Document Translator is written in C#, compiled in Visual Studio 2015.
+Microsoft Document Translator is written in C#, compiled in Visual Studio 2017.
 
 It depends on
 
@@ -69,6 +72,7 @@ It depends on
 - OpenXml for the Office document handling
 - Wix Toolkit for the installer
 - HTML Agility Pack
+- Newtonsoft JSON
 
 *You need to install these separately if you want to build.
 
@@ -94,7 +98,7 @@ Available from: https://github.com/zzzprojects/html-agility-pack
 
 ## Security
 All requests to the Translator service are SSL encrypted, using the certificate of the Microsoft Translator service.
-Document Translator stores the Azure4 Key unencypted in the
+Document Translator stores the Azure Key unencypted in the
 user profile on the machine. For enterprise use we recommend to implement a more secure storage mechanism.
 
 

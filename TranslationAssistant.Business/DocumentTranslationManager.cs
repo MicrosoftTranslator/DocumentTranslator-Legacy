@@ -413,7 +413,7 @@ namespace TranslationAssistant.Business
         {
             var document = File.ReadAllLines(fullNameForDocumentToProcess, Encoding.UTF8);
             List<string> lstTexts = new List<string>(document);
-            var batches = SplitList(lstTexts, 99, 9000);
+            var batches = SplitList(lstTexts, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
             File.Delete(fullNameForDocumentToProcess);
 
             foreach (var batch in batches)
@@ -436,7 +436,7 @@ namespace TranslationAssistant.Business
         {
             var document = File.ReadAllLines(fullNameForDocumentToProcess, Encoding.UTF8);
             List<string> lstTexts = new List<string>(document);
-            var batches = SplitList(lstTexts, 99, 9000);
+            var batches = SplitList(lstTexts, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
             var textfile = File.CreateText(fullNameForDocumentToProcess + "." + TranslationServiceFacade.LanguageNameToLanguageCode(targetLanguage) + ".csv");
             textfile.WriteLine("\"{0}\",\"{1}\",\"{2}\"", TranslationServiceFacade.LanguageNameToLanguageCode(sourceLanguage).ToUpperInvariant(),
                                                           TranslationServiceFacade.LanguageNameToLanguageCode(targetLanguage).ToUpperInvariant(),
@@ -483,7 +483,7 @@ namespace TranslationAssistant.Business
                 var batch = lstTexts.Select(item => item.Text);
                 IEnumerable<string> values = batch as string[] ?? batch.ToArray();
 
-                var batches = SplitList(values, 99, 9000);
+                var batches = SplitList(values, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
                 string[] translated = new string[values.Count()];
 
                 var exceptions = new ConcurrentQueue<Exception>();
@@ -546,7 +546,7 @@ namespace TranslationAssistant.Business
                 }
 
                 var batchComments = lstComments.Select(item => item.InnerText);
-                var batchesComments = SplitList(batchComments, 99, 9000);
+                var batchesComments = SplitList(batchComments, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
                 string[] translatedComments = new string[batchesComments.Count()];
 
                 Parallel.For(
@@ -646,7 +646,7 @@ namespace TranslationAssistant.Business
                         var batch = lstComments.Select(text => text.InnerText);
 
                         // Do Translation
-                        var batchesComments = SplitList(batch, 99, 9000);
+                        var batchesComments = SplitList(batch, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
 
                         // Use ConcurrentQueue to enable safe enqueueing from multiple threads. 
                         var exceptions = new ConcurrentQueue<Exception>();
@@ -709,7 +709,7 @@ namespace TranslationAssistant.Business
                 var batch = texts.Select(text => text.Text);
 
                 // Do Translation
-                var batches = SplitList(batch, 99, 9000);
+                var batches = SplitList(batch, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
 
                 // Use ConcurrentQueue to enable safe enqueueing from multiple threads. 
                 var exceptions = new ConcurrentQueue<Exception>();
@@ -810,7 +810,7 @@ namespace TranslationAssistant.Business
                 var batch = texts.Select(text => text.Text);
 
                 // Do Translation
-                var batches = SplitList(batch, 99, 9000);
+                var batches = SplitList(batch, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
                 Parallel.For(
                     0,
                     batches.Count(),

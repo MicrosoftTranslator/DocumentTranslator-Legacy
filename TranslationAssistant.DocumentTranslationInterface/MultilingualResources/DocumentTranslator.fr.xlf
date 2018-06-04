@@ -186,12 +186,6 @@ La traduction documents contiennent l’identificateur de langue</target>
           <source>Settings saved. Ready to translate.</source>
           <target state="translated" state-qualifier="mt-suggestion">Paramètres enregistrés. Prêt à traduire.</target>
         </trans-unit>
-        <trans-unit id="Error_CategoryInvalid" translate="yes" xml:space="preserve">
-          <source>Category is invalid.
-Please visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories.</source>
-          <target state="translated" state-qualifier="mt-suggestion">Catégorie n’est pas valide. 
-S’il vous plaît visitez https://hub.microsofttranslator.com afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</target>
-        </trans-unit>
         <trans-unit id="Error_KeyInvalid" translate="yes" xml:space="preserve">
           <source>Key is invalid.
 Please visit the Azure Portal to obtain a subscription key for the Translator Text API.</source>
@@ -217,6 +211,18 @@ S’il vous plaît visitez le portail Azure pour obtenir une clé d’abonnement
         <trans-unit id="Common_Started" translate="yes" xml:space="preserve">
           <source>Started</source>
           <target state="translated">Started</target>
+        </trans-unit>
+        <trans-unit id="Error_CategoryV2Invalid" translate="yes" xml:space="preserve">
+          <source>V2: Category is invalid.
+Please visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories.</source>
+          <target state="new">V2: Category is invalid.
+Please visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories.</target>
+        </trans-unit>
+        <trans-unit id="Error_CategoryV3Invalid" translate="yes" xml:space="preserve">
+          <source>V3: Category is invalid.
+Please visit https://portal.customtranslator.azure.ai to determine a valid category ID, leave empty, or use one of the standard categories.</source>
+          <target state="new">V3: Category is invalid.
+Please visit https://portal.customtranslator.azure.ai to determine a valid category ID, leave empty, or use one of the standard categories.</target>
         </trans-unit>
       </group>
     </body>

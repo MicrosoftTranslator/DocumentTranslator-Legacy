@@ -146,10 +146,6 @@ La traduction documents contiennent l’identificateur de langue</value>
   <data name="Common_SettingsSaved" xml:space="preserve">
     <value>Paramètres enregistrés. Prêt à traduire.</value>
   </data>
-  <data name="Error_CategoryInvalid" xml:space="preserve">
-    <value>Catégorie n’est pas valide. 
-S’il vous plaît visitez https://hub.microsofttranslator.com afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</value>
-  </data>
   <data name="Error_KeyInvalid" xml:space="preserve">
     <value>Key n’est pas valide. 
 S’il vous plaît visitez le portail Azure pour obtenir une clé d’abonnement pour l’API de texte traducteur.</value>
