@@ -130,7 +130,6 @@
     <Compile Include="SRTTranslationManager.cs" />
     <Compile Include="HTMLTranslationManager.cs" />
     <Compile Include="LoggingManager.cs" />
-    <Compile Include="Common\Constants.cs" />
     <Compile Include="Model\CommentTranslationModel.cs" />
     <Compile Include="Model\SolutionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -166,6 +165,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

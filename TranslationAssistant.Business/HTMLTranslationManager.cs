@@ -14,6 +14,8 @@ namespace TranslationAssistant.Business
 {
     class HTMLTranslationManager
     {
+        private static readonly int maxRequestSize = TranslationServices.Core.TranslationServiceFacade.maxrequestsize;
+
         public static int DoTranslation(string htmlfilename, string fromlanguage, string tolanguage)
         {
             string htmldocument = File.ReadAllText(htmlfilename);
@@ -27,7 +29,7 @@ namespace TranslationAssistant.Business
             var body = htmlDoc.DocumentNode.SelectSingleNode("//body");
             if (body != null)
             {
-                if (body.InnerHtml.Length < 10000)
+                if (body.InnerHtml.Length < maxRequestSize)
                 {
                     body.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(body.InnerHtml, fromlanguage, tolanguage, "text/html");
                 }
@@ -38,9 +40,9 @@ namespace TranslationAssistant.Business
 
                     Parallel.ForEach(nodes, (node) =>
                         {
-                            if (node.InnerHtml.Length > 10000)
+                            if (node.InnerHtml.Length > maxRequestSize)
                             {
-                                throw new Exception("Child node with a length of more than 10000 characters encountered.");
+                                throw new Exception("Child node with a length of more than 5000 characters encountered.");
                             }
                             node.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(node.InnerHtml, fromlanguage, tolanguage, "text/html");
                         });
@@ -51,7 +53,7 @@ namespace TranslationAssistant.Business
         }
 
         /// <summary>
-        /// Add nodes of size smaller than 10000 characters to the list, and recurse into the bigger ones.
+        /// Add nodes of size smaller than maxRequestSize characters to the list, and recurse into the bigger ones.
         /// </summary>
         /// <param name="rootnode">The node to start from</param>
         /// <param name="nodes">Reference to the node list</param>
@@ -62,7 +64,7 @@ namespace TranslationAssistant.Business
             while (child != rootnode.LastChild)
             {
                 if (!DNTList.Contains(child.Name.ToLowerInvariant())) {
-                    if (child.InnerHtml.Length > 10000)
+                    if (child.InnerHtml.Length > maxRequestSize)
                     {
                         AddNodes(child.FirstChild, ref nodes);
                     }
