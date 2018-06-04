@@ -323,12 +323,22 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Category is invalid.
+        ///   Looks up a localized string similar to V2: Category is invalid.
         ///Please visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories..
         /// </summary>
-        public static string Error_CategoryInvalid {
+        public static string Error_CategoryV2Invalid {
             get {
-                return ResourceManager.GetString("Error_CategoryInvalid", resourceCulture);
+                return ResourceManager.GetString("Error_CategoryV2Invalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to V3: Category is invalid.
+        ///Please visit https://portal.customtranslator.azure.ai to determine a valid category ID, leave empty, or use one of the standard categories..
+        /// </summary>
+        public static string Error_CategoryV3Invalid {
+            get {
+                return ResourceManager.GetString("Error_CategoryV3Invalid", resourceCulture);
             }
         }
         

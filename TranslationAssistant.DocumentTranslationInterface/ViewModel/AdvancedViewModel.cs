@@ -163,15 +163,13 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             {
                 this.StatusText = Properties.Resources.Error_KeyInvalid;
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
-                return;
             }
             if (!TranslationServices.Core.TranslationServiceFacade.IsCategoryValid(this.adv_categoryID))
             {
-                this.StatusText = Properties.Resources.Error_CategoryInvalid;
+                this.StatusText = Properties.Resources.Error_CategoryV3Invalid;
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
             }
             return;
-          
         }
 
         #endregion
