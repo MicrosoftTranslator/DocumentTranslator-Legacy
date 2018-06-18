@@ -23,8 +23,9 @@
           <target state="translated">et copiez la clé de votre ressource API pour la traduction de textes dans le champ ci-dessous.</target>
         </trans-unit>
         <trans-unit id="Account_string10" translate="yes" xml:space="preserve">
-          <source>Optionally you may enter a category identifier to use a customized machine translation system. The standard categories you can use are "general"(same as blank), "tech" for computer-related technical content, "generalnn" for neural network translation systems, or the category ID of a custom system you have built on</source>
-          <target state="translated">Vous pouvez également indiquer un identifiant de catégorie pour utiliser un système de traduction automatique personnalisé. Les catégories par défaut que vous pouvez utiliser sont « general » (s’applique si vous laissez le champ vide), « tech » pour le contenu technique lié à l’informatique, « generalnn » pour la réseau neural, ou la catégorie personnalisée que vous avez construite sur </target>
+          <source>Optionally you may enter a category identifier to use a customized machine translation system. Enter the category ID of a custom system you have built on</source>
+          <target state="needs-review-translation">Vous pouvez également indiquer un identifiant de catégorie pour utiliser un système de traduction automatique personnalisé. Les catégories par défaut que vous pouvez utiliser sont « general » (s’applique si vous laissez le champ vide), « tech » pour le contenu technique lié à l’informatique, « generalnn » pour la réseau neural, ou la catégorie personnalisée que vous avez construite sur </target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Account_string11" translate="yes" xml:space="preserve">
           <source>Build a customized machine translation system here.</source>

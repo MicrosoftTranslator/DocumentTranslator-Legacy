@@ -106,7 +106,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Optionally you may enter a category identifier to use a customized machine translation system. The standard categories you can use are &quot;general&quot;(same as blank), &quot;tech&quot; for computer-related technical content, &quot;generalnn&quot; for neural network translation systems, or the category ID of a custom system you have built on.
+        ///   Looks up a localized string similar to Optionally you may enter a category identifier to use a customized machine translation system. Enter the category ID of a custom system you have built on.
         /// </summary>
         public static string Account_string10 {
             get {

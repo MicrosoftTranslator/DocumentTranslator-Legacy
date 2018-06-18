@@ -133,7 +133,7 @@
     <value>Please subscribe to Microsoft Translator Text API at</value>
   </data>
   <data name="Account_string10" xml:space="preserve">
-    <value>Optionally you may enter a category identifier to use a customized machine translation system. The standard categories you can use are "general"(same as blank), "tech" for computer-related technical content, "generalnn" for neural network translation systems, or the category ID of a custom system you have built on</value>
+    <value>Optionally you may enter a category identifier to use a customized machine translation system. Enter the category ID of a custom system you have built on</value>
   </data>
   <data name="Account_string11" xml:space="preserve">
     <value>Build a customized machine translation system here.</value>
