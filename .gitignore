@@ -28,3 +28,4 @@ TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vsh
 *.ide
 *.txt
 /TranslationAssistant.DocumentTranslationInstaller/obj/Debug
+*.dtbcache

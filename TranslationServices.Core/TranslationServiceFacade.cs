@@ -15,26 +15,27 @@ namespace TranslationAssistant.TranslationServices.Core
 {
     #region Usings
 
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.ServiceModel;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using TranslatorService;
     using Microsoft.Translator.API;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
-    using System.Net.Http;
-    using System.Text;
+    using System;
     using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net.Http;
+    using System.ServiceModel;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using TranslatorService;
 
     #endregion
 
     public class TranslationServiceFacade
     {
+        private const int MillisecondsTimeout = 500;
         #region Static Fields
-        
+
         public static Dictionary<string, string> AvailableLanguages = new Dictionary<string, string>();
 
         public static int maxrequestsize = 5000;
@@ -198,9 +199,9 @@ namespace TranslationAssistant.TranslationServices.Core
                 try
                 {
                     string[] teststring = { "Test" };
-                    Task<string[]> translateTask = TranslateV3Async(teststring, "en", "fr", category, "text/plain");
+                    Task<string[]> translateTask = TranslateV3Async(teststring, "en", "he", category, "text/plain");
                     await translateTask.ConfigureAwait(false);
-                    if (translateTask.Result == null) return false;
+                    if (translateTask.Result == null) return false; else return true;
                 }
                 catch (Exception e)
                 {
@@ -577,12 +578,20 @@ namespace TranslationAssistant.TranslationServices.Core
 
         private static async Task<string[]> TranslateV3Async(string[] texts, string from, string to, string category, string contentType)
         {
+            int retrycount = 0;
             string path = "/translate?api-version=3.0";
             string params_ = "&from=" + from + "&to=" + to;
-            string thiscategory = category.ToLower();
-            if (thiscategory == "generalnn") thiscategory = null;
-            if (thiscategory == "general") thiscategory = null;
-            if (thiscategory != null) params_ += "&category=" + thiscategory;
+            string thiscategory = category;
+            if (String.IsNullOrEmpty(category))
+            {
+                thiscategory = null;
+            }
+            else
+            {
+                if (thiscategory == "generalnn") thiscategory = null;
+                if (thiscategory == "general") thiscategory = null;
+            }
+            if (thiscategory != null) params_ += "&category=" + System.Web.HttpUtility.UrlEncode(category);
             string uri = EndPointAddressV3 + path + params_;
 
             ArrayList requestAL = new ArrayList();
@@ -596,14 +605,31 @@ namespace TranslationAssistant.TranslationServices.Core
             using (var client = new HttpClient())
             using (var request = new HttpRequestMessage())
             {
-                client.Timeout = TimeSpan.FromSeconds(2);
+                client.Timeout = TimeSpan.FromSeconds(10);
                 request.Method = HttpMethod.Post;
                 request.RequestUri = new Uri(uri);
                 request.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
                 var response = await client.SendAsync(request).ConfigureAwait(false);
                 var responseBody = await response.Content.ReadAsStringAsync();
-                if (!response.IsSuccessStatusCode) return null;
+                if (!response.IsSuccessStatusCode)
+                {
+                    switch ((int)response.StatusCode)
+                    {
+                        case 429:
+                        case 500:
+                        case 503:
+                            System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
+                            Thread.Sleep(MillisecondsTimeout);
+                            if (retrycount++ > 20) break;
+                            else await TranslateV3Async(texts, from, to, category, null);
+                            break;
+                        default:
+                            var errorstring = "ERROR " + response.StatusCode + "\n" + JsonConvert.SerializeObject(JsonConvert.DeserializeObject(responseBody), Formatting.Indented);
+                            Exception ex = new Exception(errorstring);
+                            throw ex;
+                    }
+                }
                 JArray jaresult = JArray.Parse(responseBody);
                 foreach (JObject result in jaresult)
                 {
@@ -740,7 +766,7 @@ namespace TranslationAssistant.TranslationServices.Core
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    Thread.Sleep(500);
+                    Thread.Sleep(MillisecondsTimeout);
                     client.AddTranslation(headerValue, originalText, translatedText, from, to, rating, "text/plain", _CategoryID, user, string.Empty);
                 }
             }
