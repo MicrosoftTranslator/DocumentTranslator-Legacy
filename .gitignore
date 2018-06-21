@@ -29,3 +29,5 @@ TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vsh
 *.txt
 /TranslationAssistant.DocumentTranslationInstaller/obj/Debug
 *.dtbcache
+/TranslationAssistant.AutomationToolkit.BasePlugin/bin/Debug/TranslationAssistant.AutomationToolkit.BasePlugin.dll
+/TranslationAssistant.AutomationToolkit.BasePlugin/bin/Debug/TranslationAssistant.AutomationToolkit.BasePlugin.pdb

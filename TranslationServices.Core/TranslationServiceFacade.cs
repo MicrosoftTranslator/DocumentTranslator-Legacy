@@ -182,7 +182,11 @@ namespace TranslationAssistant.TranslationServices.Core
             //Test V2 API and V3 API both
 
             bool testV2 = IsCategoryValidV2(category);
-            if (testV2) return true;
+            if (testV2)
+            {
+                useversion = UseVersion.V2;
+                return true;
+            }
             else
             {
                 Task<bool> testV3 = IsCategoryValidV3Async(category);
