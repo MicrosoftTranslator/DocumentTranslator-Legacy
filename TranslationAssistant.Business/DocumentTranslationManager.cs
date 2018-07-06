@@ -768,6 +768,7 @@ namespace TranslationAssistant.Business
 
             using (WordprocessingDocument doc = WordprocessingDocument.Open(outputDocumentFullName, true))
             {
+
                 OpenXmlPowerTools.SimplifyMarkupSettings settings = new OpenXmlPowerTools.SimplifyMarkupSettings
                 {
                     AcceptRevisions = true,
@@ -791,18 +792,6 @@ namespace TranslationAssistant.Business
             {
                 var body = doc.MainDocumentPart.Document.Body;
                 texts.AddRange(body.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !String.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
-
-                var headers = doc.MainDocumentPart.HeaderParts.Select(p => p.Header);
-                foreach(var header in headers)
-                {
-                    texts.AddRange(header.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !String.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
-                }
-
-                var footers = doc.MainDocumentPart.FooterParts.Select(p => p.Footer);
-                foreach (var footer in footers)
-                {
-                    texts.AddRange(footer.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !String.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
-                }
 
                 var exceptions = new ConcurrentQueue<Exception>();
 

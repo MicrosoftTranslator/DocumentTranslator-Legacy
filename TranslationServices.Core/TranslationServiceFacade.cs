@@ -495,13 +495,13 @@ namespace TranslationAssistant.TranslationServices.Core
             }
             else
             {
-                Task<string[]> TranslateTask = TranslateV3Async(texts, fromCode, toCode, _CategoryID, contentType);
-                if ((TranslateTask.Result == null) && IsCustomCategory(_CategoryID))
+                string[] result = TranslateV3Async(texts, fromCode, toCode, _CategoryID, contentType).Result;
+                if ((result == null) && IsCustomCategory(_CategoryID))
                 {
                     useversion = UseVersion.V2;
                     return TranslateArrayV2(texts, fromCode, toCode, contentType);
                 }
-                return TranslateTask.Result;
+                return result;
             }
 
         }
@@ -580,9 +580,8 @@ namespace TranslationAssistant.TranslationServices.Core
             }
         }
 
-        private static async Task<string[]> TranslateV3Async(string[] texts, string from, string to, string category, string contentType)
+        private static async Task<string[]> TranslateV3Async(string[] texts, string from, string to, string category, string contentType, int retrycount=6)
         {
-            int retrycount = 0;
             string path = "/translate?api-version=3.0";
             string params_ = "&from=" + from + "&to=" + to;
             string thiscategory = category;
@@ -618,15 +617,16 @@ namespace TranslationAssistant.TranslationServices.Core
                 var responseBody = await response.Content.ReadAsStringAsync();
                 if (!response.IsSuccessStatusCode)
                 {
-                    switch ((int)response.StatusCode)
+                    int status = (int)response.StatusCode;
+                    switch (status)
                     {
                         case 429:
                         case 500:
                         case 503:
                             System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
                             Thread.Sleep(MillisecondsTimeout);
-                            if (retrycount++ > 20) break;
-                            else await TranslateV3Async(texts, from, to, category, null);
+                            if (retrycount-- <= 0) break;
+                            else await TranslateV3Async(texts, from, to, category, null, retrycount);
                             break;
                         default:
                             var errorstring = "ERROR " + response.StatusCode + "\n" + JsonConvert.SerializeObject(JsonConvert.DeserializeObject(responseBody), Formatting.Indented);
@@ -634,7 +634,16 @@ namespace TranslationAssistant.TranslationServices.Core
                             throw ex;
                     }
                 }
-                JArray jaresult = JArray.Parse(responseBody);
+                JArray jaresult;
+                try
+                {
+                    jaresult = JArray.Parse(responseBody);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(responseBody);
+                    throw ex;
+                }
                 foreach (JObject result in jaresult)
                 {
                     string txt = (string)result.SelectToken("translations[0].text");
