@@ -600,6 +600,17 @@ namespace TranslationAssistant.TranslationServices.Core
             ArrayList requestAL = new ArrayList();
             foreach (string text in texts)
             {
+                if (String.IsNullOrEmpty(text))
+                {
+                    requestAL.Add(new { Text = "#DT_empty" });   //*** remove this when bug 93890 is fixed ***
+                    continue;
+                }
+
+                if (String.IsNullOrWhiteSpace(text))
+                {
+                    requestAL.Add(new { Text = "#DT_whitespace" });   //*** remove this when bug 93890 is fixed ***
+                    continue;
+                }
                 requestAL.Add(new { Text = text } );
             }
             string requestJson = JsonConvert.SerializeObject(requestAL);
@@ -647,6 +658,8 @@ namespace TranslationAssistant.TranslationServices.Core
                 foreach (JObject result in jaresult)
                 {
                     string txt = (string)result.SelectToken("translations[0].text");
+                    if (txt.Trim().ToLowerInvariant() == "#dt_empty") txt = "";    //*** remove this when bug 93890 is fixed ***
+                    if (txt.Trim().ToLowerInvariant() == "#dt_whitespace") txt = " ";    //*** remove this when bug 93890 is fixed ***
                     resultList.Add(txt);
                 }
             }
