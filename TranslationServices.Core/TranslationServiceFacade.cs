@@ -33,7 +33,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
     public class TranslationServiceFacade
     {
-        private const int MillisecondsTimeout = 500;
+        private const int MillisecondsTimeout = 100;
         #region Static Fields
 
         public static Dictionary<string, string> AvailableLanguages = new Dictionary<string, string>();
@@ -580,7 +580,7 @@ namespace TranslationAssistant.TranslationServices.Core
             }
         }
 
-        private static async Task<string[]> TranslateV3Async(string[] texts, string from, string to, string category, string contentType, int retrycount=6)
+        private static async Task<string[]> TranslateV3Async(string[] texts, string from, string to, string category, string contentType, int retrycount=3)
         {
             string path = "/translate?api-version=3.0";
             string params_ = "&from=" + from + "&to=" + to;
@@ -611,6 +611,12 @@ namespace TranslationAssistant.TranslationServices.Core
                     requestAL.Add(new { Text = "#DT_whitespace" });   //*** remove this when bug 93890 is fixed ***
                     continue;
                 }
+                if (text == "\n")
+                {
+                    requestAL.Add(new { Text = "#DT_newline" });   //*** remove this when bug 93890 is fixed ***
+                    continue;
+                }
+
                 requestAL.Add(new { Text = text } );
             }
             string requestJson = JsonConvert.SerializeObject(requestAL);
@@ -634,11 +640,34 @@ namespace TranslationAssistant.TranslationServices.Core
                         case 429:
                         case 500:
                         case 503:
-                            System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
-                            Thread.Sleep(MillisecondsTimeout);
-                            if (retrycount-- <= 0) break;
-                            else await TranslateV3Async(texts, from, to, category, null, retrycount);
-                            break;
+                            if (texts.Length > 1)
+                            {
+                                for (int i=0; i<texts.Length; i++)
+                                {
+                                    try
+                                    {
+                                        string[] totranslate = new string[1];
+                                        totranslate[0] = texts[i];
+                                        string[] result = new string[1];
+                                        result = await TranslateV3Async(totranslate, from, to, category, contentType, 2);
+                                        resultList.Add(result[0]);
+                                    }
+                                    catch
+                                    {
+                                        System.Diagnostics.Debug.WriteLine("Failed to translate: {0}\n", texts[i]);
+                                        resultList.Add(texts[i]);
+                                    }
+                                }
+                                return resultList.ToArray();
+                            }
+                            else
+                            {
+                                System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
+                                Thread.Sleep(MillisecondsTimeout);
+                                if (retrycount-- <= 0) break;
+                                else await TranslateV3Async(texts, from, to, category, null, retrycount);
+                                break;
+                            }
                         default:
                             var errorstring = "ERROR " + response.StatusCode + "\n" + JsonConvert.SerializeObject(JsonConvert.DeserializeObject(responseBody), Formatting.Indented);
                             Exception ex = new Exception(errorstring);
@@ -660,6 +689,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     string txt = (string)result.SelectToken("translations[0].text");
                     if (txt.Trim().ToLowerInvariant() == "#dt_empty") txt = "";    //*** remove this when bug 93890 is fixed ***
                     if (txt.Trim().ToLowerInvariant() == "#dt_whitespace") txt = " ";    //*** remove this when bug 93890 is fixed ***
+                    if (txt.Trim().ToLowerInvariant() == "#dt_newline") txt = "\n";    //*** remove this when bug 93890 is fixed ***
                     resultList.Add(txt);
                 }
             }
