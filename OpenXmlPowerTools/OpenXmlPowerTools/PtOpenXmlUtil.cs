@@ -1027,6 +1027,207 @@ namespace OpenXmlPowerTools
             return runContainerWithConsolidatedRuns;
         }
 
+        private static Dictionary<XName, int> Order_settings = new Dictionary<XName, int>
+        {
+            { W.writeProtection, 10}, 
+            { W.view, 20}, 
+            { W.zoom, 30}, 
+            { W.removePersonalInformation, 40}, 
+            { W.removeDateAndTime, 50}, 
+            { W.doNotDisplayPageBoundaries, 60}, 
+            { W.displayBackgroundShape, 70}, 
+            { W.printPostScriptOverText, 80}, 
+            { W.printFractionalCharacterWidth, 90}, 
+            { W.printFormsData, 100}, 
+            { W.embedTrueTypeFonts, 110}, 
+            { W.embedSystemFonts, 120}, 
+            { W.saveSubsetFonts, 130}, 
+            { W.saveFormsData, 140}, 
+            { W.mirrorMargins, 150}, 
+            { W.alignBordersAndEdges, 160}, 
+            { W.bordersDoNotSurroundHeader, 170}, 
+            { W.bordersDoNotSurroundFooter, 180}, 
+            { W.gutterAtTop, 190}, 
+            { W.hideSpellingErrors, 200}, 
+            { W.hideGrammaticalErrors, 210}, 
+            { W.activeWritingStyle, 220}, 
+            { W.proofState, 230}, 
+            { W.formsDesign, 240}, 
+            { W.attachedTemplate, 250}, 
+            { W.linkStyles, 260}, 
+            { W.stylePaneFormatFilter, 270}, 
+            { W.stylePaneSortMethod, 280}, 
+            { W.documentType, 290}, 
+            { W.mailMerge, 300}, 
+            { W.revisionView, 310}, 
+            { W.trackRevisions, 320}, 
+            { W.doNotTrackMoves, 330}, 
+            { W.doNotTrackFormatting, 340}, 
+            { W.documentProtection, 350}, 
+            { W.autoFormatOverride, 360}, 
+            { W.styleLockTheme, 370}, 
+            { W.styleLockQFSet, 380}, 
+            { W.defaultTabStop, 390}, 
+            { W.autoHyphenation, 400}, 
+            { W.consecutiveHyphenLimit, 410}, 
+            { W.hyphenationZone, 420}, 
+            { W.doNotHyphenateCaps, 430}, 
+            { W.showEnvelope, 440}, 
+            { W.summaryLength, 450}, 
+            { W.clickAndTypeStyle, 460}, 
+            { W.defaultTableStyle, 470}, 
+            { W.evenAndOddHeaders, 480}, 
+            { W.bookFoldRevPrinting, 490}, 
+            { W.bookFoldPrinting, 500}, 
+            { W.bookFoldPrintingSheets, 510}, 
+            { W.drawingGridHorizontalSpacing, 520}, 
+            { W.drawingGridVerticalSpacing, 530}, 
+            { W.displayHorizontalDrawingGridEvery, 540}, 
+            { W.displayVerticalDrawingGridEvery, 550}, 
+            { W.doNotUseMarginsForDrawingGridOrigin, 560}, 
+            { W.drawingGridHorizontalOrigin, 570}, 
+            { W.drawingGridVerticalOrigin, 580}, 
+            { W.doNotShadeFormData, 590}, 
+            { W.noPunctuationKerning, 600}, 
+            { W.characterSpacingControl, 610}, 
+            { W.printTwoOnOne, 620}, 
+            { W.strictFirstAndLastChars, 630}, 
+            { W.noLineBreaksAfter, 640}, 
+            { W.noLineBreaksBefore, 650}, 
+            { W.savePreviewPicture, 660}, 
+            { W.doNotValidateAgainstSchema, 670}, 
+            { W.saveInvalidXml, 680}, 
+            { W.ignoreMixedContent, 690}, 
+            { W.alwaysShowPlaceholderText, 700}, 
+            { W.doNotDemarcateInvalidXml, 710}, 
+            { W.saveXmlDataOnly, 720}, 
+            { W.useXSLTWhenSaving, 730}, 
+            { W.saveThroughXslt, 740}, 
+            { W.showXMLTags, 750}, 
+            { W.alwaysMergeEmptyNamespace, 760}, 
+            { W.updateFields, 770}, 
+            { W.footnotePr, 780}, 
+            { W.endnotePr, 790}, 
+            { W.compat, 800}, 
+            { W.docVars, 810}, 
+            { W.rsids, 820}, 
+            { M.mathPr, 830}, 
+            { W.attachedSchema, 840}, 
+            { W.themeFontLang, 850}, 
+            { W.clrSchemeMapping, 860}, 
+            { W.doNotIncludeSubdocsInStats, 870}, 
+            { W.doNotAutoCompressPictures, 880}, 
+            { W.forceUpgrade, 890}, 
+            //{W.captions, 900}, 
+            { W.readModeInkLockDown, 910}, 
+            { W.smartTagType, 920}, 
+            //{W.sl:schemaLibrary, 930}, 
+            { W.doNotEmbedSmartTags, 940}, 
+            { W.decimalSymbol, 950}, 
+            { W.listSeparator, 960}, 
+        };
+
+#if false
+// from the schema in the standard
+        
+writeProtection
+view
+zoom
+removePersonalInformation
+removeDateAndTime
+doNotDisplayPageBoundaries
+displayBackgroundShape
+printPostScriptOverText
+printFractionalCharacterWidth
+printFormsData
+embedTrueTypeFonts
+embedSystemFonts
+saveSubsetFonts
+saveFormsData
+mirrorMargins
+alignBordersAndEdges
+bordersDoNotSurroundHeader
+bordersDoNotSurroundFooter
+gutterAtTop
+hideSpellingErrors
+hideGrammaticalErrors
+activeWritingStyle
+proofState
+formsDesign
+attachedTemplate
+linkStyles
+stylePaneFormatFilter
+stylePaneSortMethod
+documentType
+mailMerge
+revisionView
+trackRevisions
+doNotTrackMoves
+doNotTrackFormatting
+documentProtection
+autoFormatOverride
+styleLockTheme
+styleLockQFSet
+defaultTabStop
+autoHyphenation
+consecutiveHyphenLimit
+hyphenationZone
+doNotHyphenateCaps
+showEnvelope
+summaryLength
+clickAndTypeStyle
+defaultTableStyle
+evenAndOddHeaders
+bookFoldRevPrinting
+bookFoldPrinting
+bookFoldPrintingSheets
+drawingGridHorizontalSpacing
+drawingGridVerticalSpacing
+displayHorizontalDrawingGridEvery
+displayVerticalDrawingGridEvery
+doNotUseMarginsForDrawingGridOrigin
+drawingGridHorizontalOrigin
+drawingGridVerticalOrigin
+doNotShadeFormData
+noPunctuationKerning
+characterSpacingControl
+printTwoOnOne
+strictFirstAndLastChars
+noLineBreaksAfter
+noLineBreaksBefore
+savePreviewPicture
+doNotValidateAgainstSchema
+saveInvalidXml
+ignoreMixedContent
+alwaysShowPlaceholderText
+doNotDemarcateInvalidXml
+saveXmlDataOnly
+useXSLTWhenSaving
+saveThroughXslt
+showXMLTags
+alwaysMergeEmptyNamespace
+updateFields
+footnotePr
+endnotePr
+compat
+docVars
+rsids
+m:mathPr
+attachedSchema
+themeFontLang
+clrSchemeMapping
+doNotIncludeSubdocsInStats
+doNotAutoCompressPictures
+forceUpgrade
+captions
+readModeInkLockDown
+smartTagType
+sl:schemaLibrary
+doNotEmbedSmartTags
+decimalSymbol
+listSeparator
+#endif
+
         private static Dictionary<XName, int> Order_pPr = new Dictionary<XName, int>
         {
             { W.pStyle, 10 },
@@ -1281,6 +1482,16 @@ namespace OpenXmlPowerTools
                         element.Attributes(),
                         element.Elements(W.rPr).Select(e => (XElement)WmlOrderElementsPerStandard(e)),
                         element.Elements().Where(e => e.Name != W.rPr).Select(e => (XElement)WmlOrderElementsPerStandard(e)));
+
+                if (element.Name == W.settings)
+                    return new XElement(element.Name,
+                        element.Attributes(),
+                        element.Elements().Select(e => (XElement)WmlOrderElementsPerStandard(e)).OrderBy(e =>
+                        {
+                            if (Order_settings.ContainsKey(e.Name))
+                                return Order_settings[e.Name];
+                            return 999;
+                        }));
 
                 return new XElement(element.Name,
                     element.Attributes(),
@@ -1652,7 +1863,7 @@ namespace OpenXmlPowerTools
             if (field.Length == 0)
                 return emptyField;
             string fieldType = field.TrimStart().Split(' ').FirstOrDefault();
-            if (fieldType == null || fieldType.ToUpper() != "HYPERLINK")
+            if (fieldType == null || fieldType.ToUpper() != "HYPERLINK" || fieldType.ToUpper() != "REF")
                 return emptyField;
             string[] tokens = GetTokens(field);
             if (tokens.Length == 0)
@@ -5470,6 +5681,32 @@ namespace OpenXmlPowerTools
     public static class W16SE
     {
         public static XNamespace w16se = "http://schemas.microsoft.com/office/word/2015/wordml/symex";
+    }
+
+    public static class WE
+    {
+        public static readonly XNamespace we = "http://schemas.microsoft.com/office/webextensions/webextension/2010/11";
+        public static readonly XName alternateReferences = we + "alternateReferences";
+        public static readonly XName binding = we + "binding";
+        public static readonly XName bindings = we + "bindings";
+        public static readonly XName extLst = we + "extLst";
+        public static readonly XName properties = we + "properties";
+        public static readonly XName property = we + "property";
+        public static readonly XName reference = we + "reference";
+        public static readonly XName snapshot = we + "snapshot";
+        public static readonly XName web_extension = we + "web-extension";
+        public static readonly XName webextension = we + "webextension";
+        public static readonly XName webextensionref = we + "webextensionref";
+    }
+
+    public static class WETP
+    {
+        public static readonly XNamespace wetp = "http://schemas.microsoft.com/office/webextensions/taskpanes/2010/11";
+        public static readonly XName extLst = wetp + "extLst";
+        public static readonly XName taskpane = wetp + "taskpane";
+        public static readonly XName taskpanes = wetp + "taskpanes";
+        public static readonly XName web_extension_taskpanes = wetp + "web-extension-taskpanes";
+        public static readonly XName webextensionref = wetp + "webextensionref";
     }
 
     public static class W3DIGSIG

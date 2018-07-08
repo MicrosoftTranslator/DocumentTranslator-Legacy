@@ -771,18 +771,24 @@ namespace TranslationAssistant.Business
 
                 OpenXmlPowerTools.SimplifyMarkupSettings settings = new OpenXmlPowerTools.SimplifyMarkupSettings
                 {
-                    AcceptRevisions = true,
-                    NormalizeXml = true,
-                    RemoveComments = true,
+                    AcceptRevisions=true,
+                    NormalizeXml = false,         //setting this to false reduces translation quality, but if true some documents have XML format errors when opening
                     RemoveBookmarks = true,
+                    RemoveComments = true,
+                    RemoveContentControls = true,
                     RemoveEndAndFootNotes = true,
                     RemoveFieldCodes = true,
                     RemoveGoBackBookmark = true,
+                    RemoveHyperlinks = false,
+                    RemoveLastRenderedPageBreak = true,
                     RemoveMarkupForDocumentComparison = true,
+                    RemovePermissions = false,
                     RemoveProof = true,
                     RemoveRsidInfo = true,
                     RemoveSmartTags = true,
-                    RemoveSoftHyphens = true
+                    RemoveSoftHyphens = true,
+                    RemoveWebHidden = true,
+                    ReplaceTabsWithSpaces = false
                 };
                 OpenXmlPowerTools.MarkupSimplifier.SimplifyMarkup(doc, settings);
             }
