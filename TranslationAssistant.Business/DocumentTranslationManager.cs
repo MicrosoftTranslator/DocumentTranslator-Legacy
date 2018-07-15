@@ -779,7 +779,7 @@ namespace TranslationAssistant.Business
                     RemoveEndAndFootNotes = true,
                     RemoveFieldCodes = true,
                     RemoveGoBackBookmark = true,
-                    RemoveHyperlinks = false,
+                    //RemoveHyperlinks = false,
                     RemoveLastRenderedPageBreak = true,
                     RemoveMarkupForDocumentComparison = true,
                     RemovePermissions = false,

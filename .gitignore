@@ -31,3 +31,8 @@ TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vsh
 *.dtbcache
 /TranslationAssistant.AutomationToolkit.BasePlugin/bin/Debug/TranslationAssistant.AutomationToolkit.BasePlugin.dll
 /TranslationAssistant.AutomationToolkit.BasePlugin/bin/Debug/TranslationAssistant.AutomationToolkit.BasePlugin.pdb
+/MigrationBackup
+/OpenXmlPowerTools/obj
+/TranslationAssistant.DocumentTranslationInterface/obj
+/TranslationServices.Core/obj
+/DocumentTranslator.Tmx/obj

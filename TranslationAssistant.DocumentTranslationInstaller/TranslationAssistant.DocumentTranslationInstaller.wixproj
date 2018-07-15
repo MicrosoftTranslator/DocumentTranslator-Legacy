@@ -61,7 +61,7 @@
       <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
       <RefTargetDir>INSTALLFOLDER</RefTargetDir>
     </ProjectReference>
-    <ProjectReference Include="..\OpenXmlPowerTools\OpenXmlPowerTools\OpenXmlPowerTools.csproj">
+    <ProjectReference Include="..\OpenXmlPowerTools\OpenXmlPowerTools.csproj">
       <Name>OpenXmlPowerTools</Name>
       <Project>{6f957ff3-afcc-4d69-8fbc-71ae21bc45c9}</Project>
       <Private>True</Private>
