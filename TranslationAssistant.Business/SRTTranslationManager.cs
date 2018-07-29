@@ -1,5 +1,5 @@
 ﻿/*
- * Translate SRT files (Movie Transcript files.
+ * Translate SRT files (Movie Transcript files).
  * */
 
 using System;
@@ -22,7 +22,7 @@ namespace TranslationAssistant.Business
     class SRTDocument
     {
         /// <summary>
-        /// Hold the information which langauge this document is in.
+        /// Hold the information which language this document is in.
         /// </summary>
         private string _langcode;
         public string langcode
@@ -43,8 +43,8 @@ namespace TranslationAssistant.Business
         private struct SrtUtterance
         {
             public int uttno;          //The SRT order number;
-            public string timefromto;  //the string defining the from and to times withe the arrow in between. Do not translate.
-            public string utterance;   //the actual utterance. Concatenated form multile text lines into one, makes a better translation. 
+            public string timefromto;  //The string defining the from and to times with the arrow in between. Do not translate.
+            public string utterance;   //The actual utterance. Concatenated from multile text lines into one, makes a better translation. 
             public int spanlines;      //Telling us how many lines this utterance had in the original. So we can reproduce later.
         }
 
@@ -64,7 +64,7 @@ namespace TranslationAssistant.Business
         /// </summary>
         /// <param name="srtdocument">A string containing the SRT document</param>
         /// <param name="langcode">The language code of the document</param>
-        /// <returns></returns>
+        /// <returns>Count of utterances</returns>
         public int LoadSRT(string srtdocument, string langcode)
         {
             _langcode = langcode;
