@@ -114,7 +114,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// Hold the version of the API to use. Default to V3, fall back to V2 if category is set and is not available in V3. 
         /// </summary>
         public enum UseVersion { V2, V3, unknown };
-        public static UseVersion useversion = UseVersion.V3;
+        public static UseVersion useversion = UseVersion.unknown;
 
         private enum AuthMode { Azure, AppId };
         private static AuthMode authMode = AuthMode.Azure;
@@ -464,14 +464,9 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="texts">Array of strings to translate</param>
         /// <param name="from">From language code. May be empty</param>
         /// <param name="to">To language code. Must be a valid language</param>
+        /// <param name="contentType">text/plan or text/html depending on the type of string</param>
         /// <returns></returns>
-        public static string[] TranslateArray(string[] texts, string from, string to)
-        {
-            return TranslateArray(texts, from, to, "text/plain");
-        }
-
-
-        public static string[] TranslateArray(string[] texts, string from, string to, string contentType)
+        public static string[] TranslateArray(string[] texts, string from, string to, string contentType="text/plain")
         {
             string fromCode = string.Empty;
             string toCode = string.Empty;
@@ -488,6 +483,10 @@ namespace TranslationAssistant.TranslationServices.Core
 
             toCode = LanguageNameToLanguageCode(to);
 
+            if (useversion == UseVersion.unknown)
+            {
+                IsCategoryValid(_CategoryID);
+            }
 
             if (useversion == UseVersion.V2)
             {
@@ -786,48 +785,6 @@ namespace TranslationAssistant.TranslationServices.Core
         }
 
 
-
-        /// <summary>
-        /// Adds a translation to Microsoft Translator's translation memory.
-        /// </summary>
-        /// <param name="originalText">Required. A string containing the text to translate from. The string has a maximum length of 1000 characters.</param>
-        /// <param name="translatedText">Required. A string containing translated text in the target language. The string has a maximum length of 2000 characters. </param>
-        /// <param name="from">Required. A string containing the language code of the source language. Must be a valid culture name. </param>
-        /// <param name="to">Required. A string containing the language code of the target language. Must be a valid culture name. </param>
-        /// <param name="rating">Optional. An int representing the quality rating for this string. Value between -10 and 10. Defaults to 1. </param>
-        /// <param name="user">Required. A string used to track the originator of the submission. </param>
-        public static void AddTranslation(string originalText, string translatedText, string from, string to, int rating, string user)
-        {
-            var bind = new BasicHttpBinding
-            {
-                Name = "BasicHttpBinding_LanguageService",
-                OpenTimeout = TimeSpan.FromMinutes(5),
-                CloseTimeout = TimeSpan.FromMinutes(5),
-                ReceiveTimeout = TimeSpan.FromMinutes(5),
-                MaxReceivedMessageSize = int.MaxValue,
-                MaxBufferPoolSize = int.MaxValue,
-                MaxBufferSize = int.MaxValue,
-                Security =
-                    new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
-            };
-
-            var epa = new EndpointAddress(EndPointAddress + "/V2/soap.svc");
-            TranslatorService.LanguageServiceClient client = new LanguageServiceClient(bind, epa);
-            string headerValue = GetHeaderValue();
-            try
-            {
-                client.AddTranslation(headerValue, originalText, translatedText, from, to, rating, "text/plain", _CategoryID, user, string.Empty);
-            }
-            catch
-            {
-                for (int i = 0; i < 3; i++)
-                {
-                    Thread.Sleep(MillisecondsTimeout);
-                    client.AddTranslation(headerValue, originalText, translatedText, from, to, rating, "text/plain", _CategoryID, user, string.Empty);
-                }
-            }
-            return;
-        }
 
         public struct UserTranslation
         {
