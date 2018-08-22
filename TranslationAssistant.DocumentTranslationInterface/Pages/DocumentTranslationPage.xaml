@@ -9,7 +9,7 @@
              xmlns:converters="clr-namespace:TranslationAssistant.DocumentTranslationInterface.Converters"
              xmlns:viewModel="clr-namespace:TranslationAssistant.DocumentTranslationInterface.ViewModel"
              mc:Ignorable="d"
-             d:DesignHeight="488" Width="622">
+             d:DesignHeight="488" Width="700">
     <UserControl.DataContext>
         <viewModel:DocumentTranslation />
     </UserControl.DataContext>
@@ -193,7 +193,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid HorizontalAlignment="Left" Width="668">
+    <Grid HorizontalAlignment="Left" Width="680">
         <ScrollViewer Margin="0,0,65,0">
             <StackPanel Orientation="Vertical" Width="Auto" Height="Auto">
 
