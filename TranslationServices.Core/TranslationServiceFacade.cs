@@ -109,7 +109,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// End point address for V3 of the Translator API
         /// </summary>
         public static string EndPointAddressV3 { get; set; } = "https://api.cognitive.microsofttranslator.com";
-        
+
         /// <summary>
         /// Hold the version of the API to use. Default to V3, fall back to V2 if category is set and is not available in V3. 
         /// </summary>
@@ -120,6 +120,7 @@ namespace TranslationAssistant.TranslationServices.Core
         private static AuthMode authMode = AuthMode.Azure;
         private static string appid = null;
 
+        private static List<string> autoDetectStrings = new List<string>() { "auto-detect", "détection automatique" };
 
         #endregion
 
@@ -377,7 +378,7 @@ namespace TranslationAssistant.TranslationServices.Core
             string fromCode = string.Empty;
             string toCode = string.Empty;
 
-            if (from.ToLower() == "Auto-Detect".ToLower() || from == string.Empty)
+            if (autoDetectStrings.Contains(from.ToLower()) || from == string.Empty)
             {
                 fromCode = string.Empty;
             }
@@ -471,7 +472,7 @@ namespace TranslationAssistant.TranslationServices.Core
             string fromCode = string.Empty;
             string toCode = string.Empty;
 
-            if (from.ToLower() == "Auto-Detect".ToLower() || from == string.Empty)
+            if (autoDetectStrings.Contains(from.ToLower()) || from == string.Empty)
             {
                 fromCode = string.Empty;
             }
@@ -529,17 +530,17 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             string headerValue = GetHeaderValue();
             var bind = new BasicHttpBinding
-                           {
-                               Name = "BasicHttpBinding_LanguageService",
-                               OpenTimeout = TimeSpan.FromMinutes(5),
-                               CloseTimeout = TimeSpan.FromMinutes(5),
-                               ReceiveTimeout = TimeSpan.FromMinutes(5),
-                               MaxReceivedMessageSize = int.MaxValue,
-                               MaxBufferPoolSize = int.MaxValue,
-                               MaxBufferSize = int.MaxValue,
-                               Security =
+            {
+                Name = "BasicHttpBinding_LanguageService",
+                OpenTimeout = TimeSpan.FromMinutes(5),
+                CloseTimeout = TimeSpan.FromMinutes(5),
+                ReceiveTimeout = TimeSpan.FromMinutes(5),
+                MaxReceivedMessageSize = int.MaxValue,
+                MaxBufferPoolSize = int.MaxValue,
+                MaxBufferSize = int.MaxValue,
+                Security =
                                    new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
-                           };
+            };
 
             var epa = new EndpointAddress(EndPointAddress + "/V2/soap.svc");
             LanguageServiceClient client = new LanguageServiceClient(bind, epa);
@@ -552,7 +553,7 @@ namespace TranslationAssistant.TranslationServices.Core
             TranslateOptions options = new TranslateOptions();
             options.Category = _CategoryID;
             options.ContentType = contentType;
-            
+
             try
             {
                 var translatedTexts = client.TranslateArray(
@@ -724,17 +725,17 @@ namespace TranslationAssistant.TranslationServices.Core
         public static int[] BreakSentences(string text, string languageID)
         {
             var bind = new BasicHttpBinding
-                           {
-                               Name = "BasicHttpBinding_LanguageService",
-                               OpenTimeout = TimeSpan.FromMinutes(5),
-                               CloseTimeout = TimeSpan.FromMinutes(5),
-                               ReceiveTimeout = TimeSpan.FromMinutes(5),
-                               MaxReceivedMessageSize = int.MaxValue,
-                               MaxBufferPoolSize = int.MaxValue,
-                               MaxBufferSize = int.MaxValue,
-                               Security =
+            {
+                Name = "BasicHttpBinding_LanguageService",
+                OpenTimeout = TimeSpan.FromMinutes(5),
+                CloseTimeout = TimeSpan.FromMinutes(5),
+                ReceiveTimeout = TimeSpan.FromMinutes(5),
+                MaxReceivedMessageSize = int.MaxValue,
+                MaxBufferPoolSize = int.MaxValue,
+                MaxBufferSize = int.MaxValue,
+                Security =
                                    new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
-                           };
+            };
 
             var epa = new EndpointAddress(EndPointAddress + "/V2/soap.svc");
             TranslatorService.LanguageServiceClient client = new LanguageServiceClient(bind, epa);
