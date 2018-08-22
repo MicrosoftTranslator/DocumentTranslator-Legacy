@@ -20,7 +20,7 @@
            Language="1033"
            Version="$(var.ProductVersion)"
            Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
-     
+
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
     <!--<Property Id="REINSTALLMODE" Value="amus" /> -->
@@ -31,7 +31,9 @@
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-          <Directory Id="APPLICATIONROOTDIRECTORY" Name="$(var.ProductInstallationDir)">
+        <Directory Id="APPLICATIONROOTDIRECTORY" Name="$(var.ProductInstallationDir)">
+          <Directory Id="en" Name="en" />
+          <Directory Id="fr" Name="fr" />
         </Directory>
 
         <Directory Id="ProgramMenuFolder">
@@ -43,6 +45,8 @@
 
     <Feature Id="DocumentTranslationAssistantInstaller" Title="(var.ProductName)" Level="1">
       <ComponentRef Id="Binaries" />
+      <ComponentGroupRef Id="en_files" />
+      <ComponentGroupRef Id="fr_files" />
     </Feature>
 
     <UI>
@@ -56,8 +60,8 @@
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Run Document Translator" />
     <Property Id="WixShellExecTarget" Value="[#TranslationAssistant.DocumentTranslationInterface]" />
     <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes"/>
-        
-    
+
+
     <Feature Id="Addins" Title="Addins" Level="1">
       <!--<ComponentRef Id="AssistantAddin" />-->
       <ComponentRef Id="ApplicationShortcut" />
