@@ -19,13 +19,13 @@
     <value>Compte</value>
   </data>
   <data name="Account_string1" xml:space="preserve">
-    <value>Veuillez vous abonner au API Microsoft Translator Text au</value>
+    <value>Veuillez vous abonner à l'API Microsoft Translator Text au</value>
   </data>
   <data name="Account_string2" xml:space="preserve">
     <value>et copiez la clé de votre ressource API pour la traduction de textes dans le champ ci-dessous.</value>
   </data>
   <data name="Account_string10" xml:space="preserve">
-    <value>Vous pouvez également indiquer un identifiant de catégorie pour utiliser un système de traduction automatique personnalisé. Les catégories par défaut que vous pouvez utiliser sont « general » (s’applique si vous laissez le champ vide), « tech » pour le contenu technique lié à l’informatique, « generalnn » pour la réseau neural, ou la catégorie personnalisée que vous avez construite sur </value>
+    <value>Vous pouvez également indiquer un identifiant de catégorie pour utiliser un système de traduction automatique personnalisé. Les catégories que vous pouvez utiliser par défaut sont « general » (s’applique si vous laissez le champ vide), « tech » pour le contenu technique lié à l’informatique, « generalnn » pour les réseaux neuraux, ou la catégorie personnalisée que vous avez construite sur </value>
   </data>
   <data name="Account_string11" xml:space="preserve">
     <value>Construire un système de traduction par machine sur mesure ici.</value>
@@ -43,7 +43,7 @@
     <value>Enregistrer</value>
   </data>
   <data name="Advanced_string10" xml:space="preserve">
-    <value>Vous pouvez vous procurer l’adresse du serveur et l’Appid pour entrer de l’administrateur de service de traduction pour votre organisation.</value>
+    <value>Vous pouvez vous procurer l’adresse du serveur et l’Appid à entrer de l’administrateur de service de traduction pour votre organisation.</value>
   </data>
   <data name="Advanced_string11" xml:space="preserve">
     <value>Tous paramètres appliqués ici remplaceront des entrées qui sont présentes dans la page « Compte ».</value>
@@ -77,7 +77,7 @@
   </data>
   <data name="Translate_invalidcredentials" xml:space="preserve">
     <value>Informations d’identification non valides. 
-S’il vous plaît visitez la page de paramètres tout d’abord à entrer vos informations d’identification Microsoft Translator.</value>
+Veuillez visiter la page de paramètres pour entrer vos informations d’identification pour Microsoft Translator.</value>
   </data>
   <data name="Translate_Documents" xml:space="preserve">
     <value>Documents</value>
@@ -99,7 +99,7 @@ S’il vous plaît visitez la page de paramètres tout d’abord à entrer vos i
   </data>
   <data name="Common_Statustext1" xml:space="preserve">
     <value>Traduction terminée avec succès. 
-La traduction documents contiennent l’identificateur de langue</value>
+Les documents traduits contiennent l’identificateur de langue</value>
   </data>
   <data name="Common_Statustext2" xml:space="preserve">
     <value>dans le nom du fichier.</value>
@@ -148,10 +148,10 @@ La traduction documents contiennent l’identificateur de langue</value>
   </data>
   <data name="Error_KeyInvalid" xml:space="preserve">
     <value>Key n’est pas valide. 
-S’il vous plaît visitez le portail Azure pour obtenir une clé d’abonnement pour l’API de texte traducteur.</value>
+Veuillez visiter le portail Azure pour obtenir une clé d’abonnement pour l’API de texte traducteur.</value>
   </data>
   <data name="Error_PleaseSubscribe" xml:space="preserve">
-    <value>S’il vous plaît vous abonner à texte Microsoft Translator API et entrez votre clé d’abonnement dans la page Paramètres.</value>
+    <value>Veuillez vous abonner à l'API texte de Microsoft Translator et entrer votre clé d’abonnement dans la page Paramètres.</value>
   </data>
   <data name="Main_Home" xml:space="preserve">
     <value>Accueil</value>
