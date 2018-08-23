@@ -21,6 +21,7 @@ namespace TranslationAssistant.TranslationServices.Core
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Net.Http;
     using System.ServiceModel;
@@ -378,7 +379,7 @@ namespace TranslationAssistant.TranslationServices.Core
             string fromCode = string.Empty;
             string toCode = string.Empty;
 
-            if (autoDetectStrings.Contains(from.ToLower()) || from == string.Empty)
+            if (autoDetectStrings.Contains(from.ToLower(CultureInfo.InvariantCulture)) || from == string.Empty)
             {
                 fromCode = string.Empty;
             }
@@ -472,7 +473,7 @@ namespace TranslationAssistant.TranslationServices.Core
             string fromCode = string.Empty;
             string toCode = string.Empty;
 
-            if (autoDetectStrings.Contains(from.ToLower()) || from == string.Empty)
+            if (autoDetectStrings.Contains(from.ToLower(CultureInfo.InvariantCulture)) || from == string.Empty)
             {
                 fromCode = string.Empty;
             }
