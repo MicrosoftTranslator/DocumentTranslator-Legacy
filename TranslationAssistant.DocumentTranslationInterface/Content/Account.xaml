@@ -21,8 +21,8 @@
                 <TextBlock Height="20"/>
                 <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.Account_string1}" />
                 <TextBlock TextWrapping="Wrap">
-                    <Hyperlink NavigateUri="https://www.microsoft.com/en-us/translator/getstarted.aspx" ToolTip="{x:Static p:Resources.Account_string3}"  RequestNavigate="Hyperlink_OnRequestNavigate">
-                    <Run Text="https://www.microsoft.com/en-us/translator/getstarted.aspx," />
+                    <Hyperlink NavigateUri="http://aka.ms/TranslatorGettingStarted" ToolTip="{x:Static p:Resources.Account_string3}"  RequestNavigate="Hyperlink_OnRequestNavigate">
+                    <Run Text="http://aka.ms/TranslatorGettingStarted" />
                     </Hyperlink>
                 </TextBlock>
                 

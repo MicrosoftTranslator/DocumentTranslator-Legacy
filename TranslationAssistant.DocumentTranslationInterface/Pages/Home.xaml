@@ -28,9 +28,9 @@
                     <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">            
                         <Hyperlink NavigateUri="http://www.microsoft.com/translator" RequestNavigate="Hyperlink_OnRequestNavigate">
                          microsoft.com/translator
-                        </Hyperlink>             
+                        </Hyperlink>
                     </TextBlock>
-                    
+
                     <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Left">            
                         <Hyperlink TextDecorations="None"  NavigateUri="http://www.facebook.com/BingTranslator" RequestNavigate="Hyperlink_OnRequestNavigate">
                             <Image Width="20" Source="../Images/FB-f-Logo__blue_50.png" Margin="5"   />
@@ -49,31 +49,31 @@
                 <TextBlock Height="30" />
 
                 <StackPanel>
-                    <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="{x:Static p:Resources.Home_string10}" />
+                    <BulletDecorator MinHeight="22" VerticalAlignment="Top">
+                        <TextBlock Text="{x:Static p:Resources.Home_string10}" TextWrapping="Wrap" />
                     </BulletDecorator>
 
-                    <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="{x:Static p:Resources.Home_string11}" />
+                    <BulletDecorator MinHeight="22" VerticalAlignment="Top">
+                        <TextBlock Text="{x:Static p:Resources.Home_string11}" TextWrapping="Wrap" />
                     </BulletDecorator>
 
-                    <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="{x:Static p:Resources.Home_string12}" />
-                    </BulletDecorator>
-                    
-                    <BulletDecorator Height="22" VerticalAlignment="Top">
-                        <TextBlock Text="{x:Static p:Resources.Home_string13}" />
+                    <BulletDecorator MinHeight="22" VerticalAlignment="Top">
+                        <TextBlock Text="{x:Static p:Resources.Home_string12}" TextWrapping="Wrap" />
                     </BulletDecorator>
 
-                    <BulletDecorator Height="22" VerticalAlignment="Top">
+                    <BulletDecorator MinHeight="22" VerticalAlignment="Top">
+                        <TextBlock Text="{x:Static p:Resources.Home_string13}" TextWrapping="Wrap" />
+                    </BulletDecorator>
+
+                    <BulletDecorator MinHeight="22" VerticalAlignment="Top">
                         <TextBlock Text="{x:Static p:Resources.Home_string14}" TextWrapping="Wrap"/>
                     </BulletDecorator>
 
-                    <BulletDecorator Height="33" VerticalAlignment="Top">
+                    <BulletDecorator MinHeight="33" VerticalAlignment="Top">
                         <TextBlock Text="{x:Static p:Resources.Home_string15}" TextWrapping="Wrap"/>
                     </BulletDecorator>
 
-                    <BulletDecorator Height="22" VerticalAlignment="Bottom">
+                    <BulletDecorator MinHeight="22" VerticalAlignment="Bottom">
                         <TextBlock>
                             <Image Source="..\Images\MSTIcon32.png" Width="20" HorizontalAlignment="Left"/>
                             <Run Text="{x:Static p:Resources.Home_attribution}" />

@@ -2,6 +2,7 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <?define DocumentTranslator_TargetDir=$(var.DocumentTranslator.TargetDir)?>
   <Fragment>
     <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
       <Component Id="Binaries" Guid="{FA17B933-76C4-4E7D-AA08-5C4E7B003842}">
@@ -19,7 +20,8 @@
         
         <File Id="System.Windows.Interactivity" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInterface\bin\Debug\System.Windows.Interactivity.dll" DiskId="1" KeyPath="no" />
         <File Id="Microsoft.Practices.Prism" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInterface\bin\Debug\Microsoft.Practices.Prism.dll" DiskId="1" KeyPath="no" />
-        
+        <File Id="System.Net.Http" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInterface\bin\Debug\System.Net.Http.dll" DiskId="1" KeyPath="no" />
+
         <File Id="DocumentFormat.OpenXml" Source="$(var.SolutionDir)\TranslationAssistant.Business\bin\Debug\DocumentFormat.OpenXml.dll" DiskId="1" KeyPath="no" />
         <File Id="HtmlAgilityPack" Source="$(var.SolutionDir)\TranslationAssistant.Business\bin\Debug\HtmlAgilityPack.dll" DiskId="1" KeyPath="no" />
         <!--File Id="HtmlAgilityPack.Xml" Source="$(var.SolutionDir)\TranslationAssistant.Business\bin\Debug\HtmlAgilityPack.xml" DiskId="1" KeyPath="no" /-->
@@ -30,7 +32,7 @@
         <!--File Id="Microsoft.Windows.Shell" Source="$(var.SolutionDir)\packages\ModernUI.WPF.1.0.9\lib\net40\Microsoft.Windows.Shell.dll" DiskId="1" KeyPath="no" /-->
         <File Id="MSTicon_200_wbg.ico" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInstaller\DocTranslator_48.ico" DiskId="1" KeyPath="no"/>
         <File Id="TmxLangMap.csv" Source="$(var.SolutionDir)\DocumentTranslator.Tmx\TmxLangMap.csv" DiskId="1" KeyPath="no"/>
-
+      
       </Component>
     </DirectoryRef>
 
@@ -46,5 +48,21 @@
       </Component>
     </DirectoryRef>
 
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="en_files" Directory="en">
+      <Component Id="en_DocumentTranslator.resources.dll" Guid="2d5bd6ee-5b82-4bc9-9730-5b1f6a8adbf3">
+        <File Id="en_DocumentTranslator.resources.dll" Name="DocumentTranslator.resources.dll" Source="$(var.DocumentTranslator_TargetDir)en\DocumentTranslator.resources.dll" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="fr_files" Directory="fr">
+      <Component Id="fr_DocumentTranslator.resources.dll" Guid="4331abf7-92a7-4d44-80b7-9823d6466964">
+        <File Id="fr_DocumentTranslator.resources.dll" Name="DocumentTranslator.resources.dll" Source="$(var.DocumentTranslator_TargetDir)fr\DocumentTranslator.resources.dll" />
+      </Component>
+    </ComponentGroup>
   </Fragment>
 </Wix>

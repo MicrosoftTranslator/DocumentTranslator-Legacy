@@ -16,7 +16,7 @@
         </trans-unit>
         <trans-unit id="Account_string1" translate="yes" xml:space="preserve">
           <source>Please subscribe to Microsoft Translator Text API at</source>
-          <target state="translated">Veuillez vous abonner au API Microsoft Translator Text au</target>
+          <target state="translated">Veuillez vous abonner à l'API Microsoft Translator Text au</target>
         </trans-unit>
         <trans-unit id="Account_string2" translate="yes" xml:space="preserve">
           <source>and copy the Key for your Translator Text API resource into the field below.</source>
@@ -24,7 +24,7 @@
         </trans-unit>
         <trans-unit id="Account_string10" translate="yes" xml:space="preserve">
           <source>Optionally you may enter a category identifier to use a customized machine translation system. Enter the category ID of a custom system you have built on</source>
-          <target state="needs-review-translation">Vous pouvez également indiquer un identifiant de catégorie pour utiliser un système de traduction automatique personnalisé. Les catégories par défaut que vous pouvez utiliser sont « general » (s’applique si vous laissez le champ vide), « tech » pour le contenu technique lié à l’informatique, « generalnn » pour la réseau neural, ou la catégorie personnalisée que vous avez construite sur </target>
+          <target state="needs-review-translation">Vous pouvez également indiquer un identifiant de catégorie pour utiliser un système de traduction automatique personnalisé. Les catégories que vous pouvez utiliser par défaut sont « general » (s’applique si vous laissez le champ vide), « tech » pour le contenu technique lié à l’informatique, « generalnn » pour les réseaux neuraux, ou la catégorie personnalisée que vous avez construite sur </target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Account_string11" translate="yes" xml:space="preserve">
@@ -49,7 +49,7 @@
         </trans-unit>
         <trans-unit id="Advanced_string10" translate="yes" xml:space="preserve">
           <source>Please obtain the Server Address and the Appid to enter from the translation service administrator for your organization.</source>
-          <target state="translated" state-qualifier="mt-suggestion">Vous pouvez vous procurer l’adresse du serveur et l’Appid pour entrer de l’administrateur de service de traduction pour votre organisation.</target>
+          <target state="translated" state-qualifier="mt-suggestion">Vous pouvez vous procurer l’adresse du serveur et l’Appid à entrer de l’administrateur de service de traduction pour votre organisation.</target>
         </trans-unit>
         <trans-unit id="Advanced_string11" translate="yes" xml:space="preserve">
           <source>Any settings made here will override entries that are present in the "Account" page.</source>
@@ -95,7 +95,7 @@
           <source>Invalid credentials.
 Please visit the Settings page first to enter your Microsoft Translator credentials.</source>
           <target state="translated" state-qualifier="mt-suggestion">Informations d’identification non valides. 
-S’il vous plaît visitez la page de paramètres tout d’abord à entrer vos informations d’identification Microsoft Translator.</target>
+Veuillez visiter la page de paramètres pour entrer vos informations d’identification pour Microsoft Translator.</target>
         </trans-unit>
         <trans-unit id="Translate_Documents" translate="yes" xml:space="preserve">
           <source>Documents</source>
@@ -125,7 +125,7 @@ S’il vous plaît visitez la page de paramètres tout d’abord à entrer vos i
           <source>Translation completed successfully.
 The translated documents contain the language identifier</source>
           <target state="translated" state-qualifier="mt-suggestion">Traduction terminée avec succès. 
-La traduction documents contiennent l’identificateur de langue</target>
+Les documents traduits contiennent l’identificateur de langue</target>
         </trans-unit>
         <trans-unit id="Common_Statustext2" translate="yes" xml:space="preserve">
           <source>in the file name.</source>
@@ -191,11 +191,11 @@ La traduction documents contiennent l’identificateur de langue</target>
           <source>Key is invalid.
 Please visit the Azure Portal to obtain a subscription key for the Translator Text API.</source>
           <target state="translated" state-qualifier="mt-suggestion">Key n’est pas valide. 
-S’il vous plaît visitez le portail Azure pour obtenir une clé d’abonnement pour l’API de texte traducteur.</target>
+Veuillez visiter le portail Azure pour obtenir une clé d’abonnement pour l’API de texte traducteur.</target>
         </trans-unit>
         <trans-unit id="Error_PleaseSubscribe" translate="yes" xml:space="preserve">
           <source>Please subscribe to Microsoft Translator text API and enter your subscription key in the Settings page.</source>
-          <target state="translated" state-qualifier="mt-suggestion">S’il vous plaît vous abonner à texte Microsoft Translator API et entrez votre clé d’abonnement dans la page Paramètres.</target>
+          <target state="translated" state-qualifier="mt-suggestion">Veuillez vous abonner à l'API texte de Microsoft Translator et entrer votre clé d’abonnement dans la page Paramètres.</target>
         </trans-unit>
         <trans-unit id="Main_Home" translate="yes" xml:space="preserve">
           <source>Home</source>
