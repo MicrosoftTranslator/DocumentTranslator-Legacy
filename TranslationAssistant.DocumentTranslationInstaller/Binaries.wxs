@@ -12,7 +12,7 @@
         <File Id="TranslationAssistant.AutomationToolkit.BasePlugin" Source="$(var.TranslationAssistant.AutomationToolkit.BasePlugin.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="TranslationAssistant.AutomationToolkit.TranslationPlugins" Source="$(var.TranslationAssistant.AutomationToolkit.TranslationPlugins.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="DocumentTranslator.Tmx" Source="$(var.DocumentTranslator.Tmx.TargetPath)" DiskId="1" KeyPath="no" />
-        <File Id="OpenXmlPowerTools" Source="$(var.OpenXmlPowerTools.TargetPath)" DiskId="1" KeyPath="no" />
+        <File Id="OpenXmlPowerTools" Source="$(var.SolutionDir)Open-Xml-PowerTools\OpenXmlPowerTools\bin\Debug\net46\OpenXmlPowerTools.dll" DiskId="1" KeyPath="no" />
 
         <File Id="TranslationAssistant.Business" Source="$(var.TranslationAssistant.Business.TargetPath)" DiskId="1" KeyPath="no" />
         <File Id="TranslationAssistant.DocumentTranslationInterface" Source="$(var.DocumentTranslator.TargetPath)" DiskId="1" KeyPath="no" />

@@ -772,14 +772,15 @@ namespace TranslationAssistant.Business
                 OpenXmlPowerTools.SimplifyMarkupSettings settings = new OpenXmlPowerTools.SimplifyMarkupSettings
                 {
                     AcceptRevisions=true,
-                    NormalizeXml = false,         //setting this to false reduces translation quality, but if true some documents have XML format errors when opening
+                    NormalizeXml = true,        //setting this to false reduces translation quality, but if true some documents have XML format errors when opening
+                                                //I hope to address this by including the forked OpenXmlPowertools from https://github.com/ManoShu/Open-Xml-PowerTools/
                     RemoveBookmarks = true,
                     RemoveComments = true,
                     RemoveContentControls = true,
                     RemoveEndAndFootNotes = true,
                     RemoveFieldCodes = true,
                     RemoveGoBackBookmark = true,
-                    //RemoveHyperlinks = false,
+                    RemoveHyperlinks = false,
                     RemoveLastRenderedPageBreak = true,
                     RemoveMarkupForDocumentComparison = true,
                     RemovePermissions = false,
