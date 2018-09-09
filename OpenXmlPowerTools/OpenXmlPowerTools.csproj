@@ -12,7 +12,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-	<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects> 
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -61,15 +61,18 @@
     <Compile Include="GetListItemText_sv_SE.cs" />
     <Compile Include="GetListItemText_tr_TR.cs" />
     <Compile Include="GetListItemText_zh_CN.cs" />
+    <Compile Include="HtmlToWmlConverter.cs" />
+    <Compile Include="HtmlToWmlConverterCore.cs" />
+    <Compile Include="HtmlToWmlCssApplier.cs" />
+    <Compile Include="HtmlToWmlCssParser.cs" />
     <Compile Include="MetricsGetter.cs" />
-    <Compile Include="HtmlConverter.cs" />
     <Compile Include="ListItemRetriever.cs" />
     <Compile Include="MarkupSimplifier.cs" />
-    <Compile Include="OpenXmlCmdlet.cs" />
     <Compile Include="OpenXmlRegex.cs" />
-    <Compile Include="OutXlsxCmdlet.cs" />
     <Compile Include="OxPtHelpers.cs" />
     <Compile Include="PegBase.cs" />
+    <Compile Include="PowerToolsBlock.cs" />
+    <Compile Include="PowerToolsBlockExtensions.cs" />
     <Compile Include="PresentationBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PtOpenXmlDocument.cs" />
@@ -77,12 +80,22 @@
     <Compile Include="PtUtil.cs" />
     <Compile Include="ReferenceAdder.cs" />
     <Compile Include="RevisionAccepter.cs" />
+    <Compile Include="RevisionProcessor.cs" />
     <Compile Include="ScalarTypes.cs" />
+    <Compile Include="SmlCellFormatter.cs" />
+    <Compile Include="SmlDataRetriever.cs" />
+    <Compile Include="SmlToHtmlConverter.cs" />
     <Compile Include="SpreadsheetDocumentManager.cs" />
     <Compile Include="SpreadsheetWriter.cs" />
     <Compile Include="SSFormula.cs" />
+    <Compile Include="StronglyTypedBlock.cs" />
+    <Compile Include="TestUtil.cs" />
     <Compile Include="TextReplacer.cs" />
+    <Compile Include="UnicodeMapper.cs" />
+    <Compile Include="WmlComparer.cs" />
     <Compile Include="WmlDocument.cs" />
+    <Compile Include="WmlToHtmlConverter.cs" />
+    <Compile Include="WmlToXml.cs" />
     <Compile Include="WorksheetAccessor.cs" />
     <Compile Include="XlsxTables.cs" />
   </ItemGroup>

@@ -1,6 +1,6 @@
 ﻿/***************************************************************************
 
-Copyright (c) Microsoft Corporation 2012-2013.
+Copyright (c) Microsoft Corporation 2012-2015.
 
 This code is licensed using the Microsoft Public License (Ms-PL).  The text of the license can be found here:
 
@@ -13,8 +13,6 @@ Developer: Eric White
 Blog: http://www.ericwhite.com
 Twitter: @EricWhiteDev
 Email: eric@ericwhite.com
-
-Version: 2.6.00
 
 ***************************************************************************/
 
@@ -399,7 +397,7 @@ namespace OpenXmlPowerTools
         }
 
         // Converts the column reference string to a column number (e.g. A -> 1, B -> 2)
-        private static int GetColumnNumber(string cellReference)
+        public static int GetColumnNumber(string cellReference)
         {
             int columnNumber = 0;
             foreach (char c in cellReference)
