@@ -35,6 +35,7 @@ namespace TranslationAssistant.TranslationServices.Core
     public class TranslationServiceFacade
     {
         private const int MillisecondsTimeout = 100;
+
         #region Static Fields
 
         public static Dictionary<string, string> AvailableLanguages = new Dictionary<string, string>();
@@ -78,6 +79,12 @@ namespace TranslationAssistant.TranslationServices.Core
             set { _UseAdvancedSettings = value; }
         }
 
+        private static bool _UseAzureGovernment;
+        public static bool UseAzureGovernment
+        {
+            get { return _UseAzureGovernment; }
+            set { _UseAzureGovernment = value; }
+        }
 
         private static string _AzureKey;
         public static string AzureKey
@@ -109,7 +116,16 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <summary>
         /// End point address for V3 of the Translator API
         /// </summary>
-        public static string EndPointAddressV3 { get; set; } = "https://api.cognitive.microsofttranslator.com";
+        public static string EndPointAddressV3Public { get; set; } = "https://api.cognitive.microsofttranslator.com";
+        public static string EndPointAddressV3Gov { get; set; } = "https://api.cognitive.microsofttranslator.us";
+
+
+        /// <summary>
+        /// Authentication Service URL
+        /// </summary>
+        private static readonly Uri AuthServiceUrlPublic = new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
+        private static readonly Uri AuthServiceUrlGov = new Uri("https://virginia.api.cognitive.microsoft.us/sts/v1.0/issueToken");
+
 
         /// <summary>
         /// Hold the version of the API to use. Default to V3, fall back to V2 if category is set and is not available in V3. 
@@ -138,7 +154,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 case AuthMode.Azure:
                     try
                     {
-                        AzureAuthToken authTokenSource = new AzureAuthToken(_AzureKey);
+                        AzureAuthToken authTokenSource = new AzureAuthToken(_AzureKey, UseAzureGovernment ? AuthServiceUrlGov : AuthServiceUrlPublic);
                         string headerValue = authTokenSource.GetAccessToken();
                         var bind = new BasicHttpBinding { Name = "BasicHttpBinding_LanguageService" };
                         var epa = new EndpointAddress(EndPointAddress.Replace("https:", "http:") + "/V2/soap.svc");
@@ -293,7 +309,7 @@ namespace TranslationAssistant.TranslationServices.Core
             string headerValue = null;
             if (authMode == AuthMode.Azure)
             {
-                AzureAuthToken authTokenSource = new AzureAuthToken(_AzureKey);
+                AzureAuthToken authTokenSource = new AzureAuthToken(_AzureKey, UseAzureGovernment ? AuthServiceUrlGov : AuthServiceUrlPublic);
                 headerValue = authTokenSource.GetAccessToken();
             }
             else headerValue = appid;
@@ -312,6 +328,7 @@ namespace TranslationAssistant.TranslationServices.Core
             EndPointAddress = Properties.Settings.Default.EndPointAddress;
             _UseAdvancedSettings = Properties.Settings.Default.UseAdvancedSettings;
             _Adv_CategoryId = Properties.Settings.Default.Adv_CategoryID;
+            _UseAzureGovernment = Properties.Settings.Default.UseAzureGovernment;
         }
 
         /// <summary>
@@ -325,6 +342,7 @@ namespace TranslationAssistant.TranslationServices.Core
             Properties.Settings.Default.EndPointAddress = EndPointAddress;
             Properties.Settings.Default.UseAdvancedSettings = _UseAdvancedSettings;
             Properties.Settings.Default.Adv_CategoryID = _Adv_CategoryId;
+            Properties.Settings.Default.UseAzureGovernment = _UseAzureGovernment;
             Properties.Settings.Default.Save();
         }
 
@@ -596,7 +614,9 @@ namespace TranslationAssistant.TranslationServices.Core
                 if (thiscategory == "general") thiscategory = null;
             }
             if (thiscategory != null) params_ += "&category=" + System.Web.HttpUtility.UrlEncode(category);
-            string uri = EndPointAddressV3 + path + params_;
+            string uri = EndPointAddressV3Public + path + params_;
+            if (_UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
+            
 
             ArrayList requestAL = new ArrayList();
             foreach (string text in texts)

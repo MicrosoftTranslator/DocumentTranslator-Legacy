@@ -42,6 +42,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private string categoryID;
 
         /// <summary>
+        /// Use the Government instance of Azure (true) or not (false) 
+        /// </summary>
+        private bool useAzureGovernment;
+
+        /// <summary>
         ///     The save account settings click command.
         /// </summary>
         private ICommand saveAccountSettingsClickCommand;
@@ -92,6 +97,20 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             }
         }
 
+        public bool UseAzureGovernment
+        {
+            get
+            {
+                return this.useAzureGovernment;
+            }
+
+            set
+            {
+                this.useAzureGovernment = value;
+                this.NotifyPropertyChanged("UseAzureGovernment");
+            }
+        }
+
         /// <summary>
         ///     Gets the save account settings click command.
         /// </summary>
@@ -133,6 +152,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             TranslationServices.Core.TranslationServiceFacade.Initialize();
             this.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey;
             this.categoryID = TranslationServices.Core.TranslationServiceFacade.CategoryID;
+            this.useAzureGovernment = TranslationServices.Core.TranslationServiceFacade.UseAzureGovernment;
         }
 
         /// <summary>
@@ -143,6 +163,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             //Set the Account values and save.
             TranslationServices.Core.TranslationServiceFacade.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey.Trim();
             TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID.Trim();
+            TranslationServices.Core.TranslationServiceFacade.UseAzureGovernment = this.useAzureGovernment;
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
             TranslationServices.Core.TranslationServiceFacade.Initialize();
 

@@ -216,14 +216,19 @@ Veuillez visiter le portail Azure pour obtenir une clé d’abonnement pour l’
         <trans-unit id="Error_CategoryV2Invalid" translate="yes" xml:space="preserve">
           <source>V2: Category is invalid.
 Please visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories.</source>
-          <target state="new">V2: Category is invalid.
-Please visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories.</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">V2 : Catégorie n’est pas valide. 
+S’il vous plaît visitez https://hub.microsofttranslator.com afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</target>
         </trans-unit>
         <trans-unit id="Error_CategoryV3Invalid" translate="yes" xml:space="preserve">
           <source>V3: Category is invalid.
 Please visit https://portal.customtranslator.azure.ai to determine a valid category ID, leave empty, or use one of the standard categories.</source>
-          <target state="new">V3: Category is invalid.
-Please visit https://portal.customtranslator.azure.ai to determine a valid category ID, leave empty, or use one of the standard categories.</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">V3 : Catégorie n’est pas valide. 
+S’il vous plaît visitez https://portal.customtranslator.azure.ai afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</target>
+        </trans-unit>
+        <trans-unit id="AzureGov_text" translate="yes" xml:space="preserve">
+          <source>Use Azure Government:</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Utiliser Azure gouvernement</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
       </group>
     </body>

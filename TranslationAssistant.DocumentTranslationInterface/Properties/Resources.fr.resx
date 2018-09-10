@@ -165,4 +165,15 @@ Veuillez visiter le portail Azure pour obtenir une clé d’abonnement pour l’
   <data name="Common_Started" xml:space="preserve">
     <value>Started</value>
   </data>
+  <data name="Error_CategoryV2Invalid" xml:space="preserve">
+    <value>V2 : Catégorie n’est pas valide. 
+S’il vous plaît visitez https://hub.microsofttranslator.com afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</value>
+  </data>
+  <data name="Error_CategoryV3Invalid" xml:space="preserve">
+    <value>V3 : Catégorie n’est pas valide. 
+S’il vous plaît visitez https://portal.customtranslator.azure.ai afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</value>
+  </data>
+  <data name="AzureGov_text" xml:space="preserve">
+    <value>Utiliser Azure gouvernement</value>
+  </data>
 </root>

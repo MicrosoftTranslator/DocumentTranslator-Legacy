@@ -22,7 +22,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
     #endregion
 
     /// <summary>
-    ///     Interaction logic for SettingsAppearance.xaml
+    ///     Interaction logic for Account.xaml
     /// </summary>
     public partial class Account : UserControl
     {
