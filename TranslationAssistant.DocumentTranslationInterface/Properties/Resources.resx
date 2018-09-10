@@ -278,4 +278,7 @@ Please visit the Settings page first to enter your Microsoft Translator credenti
   <data name="Common_Started" xml:space="preserve">
     <value>Started</value>
   </data>
+  <data name="AzureGov_text" xml:space="preserve">
+    <value>Use Azure Government:</value>
+  </data>
 </root>

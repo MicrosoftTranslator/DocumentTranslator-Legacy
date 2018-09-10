@@ -232,6 +232,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use Azure Government:.
+        /// </summary>
+        public static string AzureGov_text {
+            get {
+                return ResourceManager.GetString("AzureGov_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto-Detect.
         /// </summary>
         public static string Common_AutoDetect {
