@@ -166,7 +166,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                                             file,
                                             false,
                                             this.SelectedSourceLanguage,
-                                            this.SelectedTargetLanguage);
+                                            this.SelectedTargetLanguage,
+                                            this.IgnoreHiddenContent);
                                     }
                                 };
 
