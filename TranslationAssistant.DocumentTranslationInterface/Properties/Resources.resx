@@ -286,8 +286,6 @@ Please visit the Settings page first to enter your Microsoft Translator credenti
   </data>
   <data name="Translate_HiddenTooltip" xml:space="preserve">
     <value>Check to skip the following content:
-Word documents: hidden text
-Excel documents: hidden cells and tabs
-Powerpoint documents: hidden slides</value>
+Word documents: hidden text</value>
   </data>
 </root>
