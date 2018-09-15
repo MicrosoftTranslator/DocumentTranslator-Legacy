@@ -54,10 +54,10 @@ namespace TranslationAssistant.Business
         /// <param name="isDir">The is dir.</param>
         /// <param name="sourceLanguage">The source language.</param>
         /// <param name="targetLanguage">The target langauge.</param>
-        public static void DoTranslation(string path, bool isDir, string sourceLanguage, string targetLanguage)
+        public static void DoTranslation(string path, bool isDir, string sourceLanguage, string targetLanguage, bool ignoreHidden = false)
         {
             GetAllDocumentsToProcess(path, targetLanguage)
-                .ForEach(t => DoTranslationInternal(t, sourceLanguage, targetLanguage));
+                .ForEach(t => DoTranslationInternal(t, sourceLanguage, targetLanguage, ignoreHidden));
         }
 
         #endregion
@@ -272,21 +272,22 @@ namespace TranslationAssistant.Business
         private static void DoTranslationInternal(
             string fullNameForDocumentToProcess,
             string sourceLanguage,
-            string targetLanguage)
+            string targetLanguage,
+            bool ignoreHidden = false)
         {
             try
             {
                 if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".docx"))
                 {
-                    ProcessWordDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+                    ProcessWordDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage, ignoreHidden);
                 }
                 else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".xlsx"))
                 {
-                    ProcessExcelDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+                    ProcessExcelDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage, ignoreHidden);
                 }
                 else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".pptx"))
                 {
-                    ProcessPowerPointDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+                    ProcessPowerPointDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage, ignoreHidden);
                 }
                 else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".txt") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".text"))
                 {
@@ -462,7 +463,8 @@ namespace TranslationAssistant.Business
         private static void ProcessExcelDocument(
             string outputDocumentFullName,
             string sourceLanguage,
-            string targetLanguage)
+            string targetLanguage,
+            bool ignoreHidden = false)
         {
             using (SpreadsheetDocument document = SpreadsheetDocument.Open(outputDocumentFullName, true))
             {
@@ -603,7 +605,7 @@ namespace TranslationAssistant.Business
             }
         }
 
-        private static void ProcessPowerPointDocument(string outputDocumentFullName,string sourceLanguage,string targetLanguage)
+        private static void ProcessPowerPointDocument(string outputDocumentFullName,string sourceLanguage,string targetLanguage, bool ignoreHidden = false)
         {
             using (PresentationDocument doc = PresentationDocument.Open(outputDocumentFullName, true))
             {
@@ -763,11 +765,13 @@ namespace TranslationAssistant.Business
         private static void ProcessWordDocument(
             string outputDocumentFullName,
             string sourceLanguage,
-            string targetLanguage)
+            string targetLanguage,
+            bool ignoreHidden = false)
         {
 
             using (WordprocessingDocument doc = WordprocessingDocument.Open(outputDocumentFullName, true))
             {
+
                 OpenXmlPowerTools.SimplifyMarkupSettings settings = new OpenXmlPowerTools.SimplifyMarkupSettings
                 {
                     AcceptRevisions=true,
@@ -796,10 +800,11 @@ namespace TranslationAssistant.Business
             using (WordprocessingDocument doc = WordprocessingDocument.Open(outputDocumentFullName, true))
             {
                 var body = doc.MainDocumentPart.Document.Body;
-                texts.AddRange(body.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !String.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
+                texts.AddRange(body.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>()
+                    .Where(text => !String.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
 
                 var headers = doc.MainDocumentPart.HeaderParts.Select(p => p.Header);
-                foreach(var header in headers)
+                foreach (var header in headers)
                 {
                     texts.AddRange(header.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !String.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
                 }
@@ -808,6 +813,11 @@ namespace TranslationAssistant.Business
                 foreach (var footer in footers)
                 {
                     texts.AddRange(footer.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !String.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
+                }
+
+                if (ignoreHidden)
+                {
+                    texts.RemoveAll(t => t.Parent.Descendants<Vanish>().Any());
                 }
 
                 var exceptions = new ConcurrentQueue<Exception>();

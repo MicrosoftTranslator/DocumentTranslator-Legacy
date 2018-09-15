@@ -94,6 +94,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         ///     The target language list.
         /// </summary>
         private List<string> targetLanguageList = new List<string>();
+        
+        private bool ignoreHiddenContent;
 
         #endregion
 
@@ -112,6 +114,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             this.SelectedTargetLanguage = string.Empty;
             this.SelectedSourceLanguage = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultSourceLanguage;
             this.SelectedTargetLanguage = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultTargetLanguage;
+            this.IgnoreHiddenContent = true;
             this.StatusText = string.Empty;
             if (TranslationServiceFacade.IsTranslationServiceReady())
             {
@@ -163,7 +166,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                                             file,
                                             false,
                                             this.SelectedSourceLanguage,
-                                            this.SelectedTargetLanguage);
+                                            this.SelectedTargetLanguage,
+                                            this.IgnoreHiddenContent);
                                     }
                                 };
 
@@ -404,6 +408,22 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             {
                 this.targetLanguageList = value;
                 this.NotifyPropertyChanged("TargetLanguageList");
+            }
+        }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether hidden content should be ignored.
+        /// </summary>
+        public bool IgnoreHiddenContent
+        {
+            get
+            {
+                return this.ignoreHiddenContent;
+            }
+            set
+            {
+                this.ignoreHiddenContent = value;
+                this.NotifyPropertyChanged("IgnoreHiddenContent");
             }
         }
 
