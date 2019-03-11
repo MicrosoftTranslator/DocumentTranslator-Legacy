@@ -36,8 +36,9 @@
           <target state="translated" state-qualifier="mt-suggestion">S’abonner au Microsoft Translator</target>
         </trans-unit>
         <trans-unit id="Account_category" translate="yes" xml:space="preserve">
-          <source>Category:</source>
-          <target state="translated" state-qualifier="mt-suggestion">Catégorie :</target>
+          <source>Category ID:</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Catégorie :</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Account_key" translate="yes" xml:space="preserve">
           <source>Key:</source>
@@ -239,6 +240,10 @@ S’il vous plaît visitez https://portal.customtranslator.azure.ai afin de dét
 Word documents: hidden text</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Cocher pour ignorer le contenu suivant :
 Word documents : texte masqué</target>
+        </trans-unit>
+        <trans-unit id="TestWindow_Title" translate="yes" xml:space="preserve">
+          <source>Test Window</source>
+          <target state="new">Test Window</target>
         </trans-unit>
       </group>
     </body>

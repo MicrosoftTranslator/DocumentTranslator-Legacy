@@ -723,7 +723,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="text">The text to analyze and break.</param>
         /// <param name="languageID">The language identifier to use.</param>
         /// <returns>An array of integers representing the lengths of the sentences. The length of the array is the number of sentences, and the values are the length of each sentence.</returns>
-        public static int[] BreakSentences(string text, string languageID)
+        public static int[] BreakSentencesV2(string text, string languageID)
         {
             var bind = new BasicHttpBinding
             {
@@ -750,7 +750,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="text">The text to analyze and break.</param>
         /// <param name="languageID">The language identifier to use.</param>
         /// <returns>An array of integers representing the lengths of the sentences. The length of the array is the number of sentences, and the values are the length of each sentence.</returns>
-        async public static Task<int[]> BreakSentencesAsync(string text, string languageID)
+        async public static Task<int[]> BreakSentencesAsyncV2(string text, string languageID)
         {
             var bind = new BasicHttpBinding
             {

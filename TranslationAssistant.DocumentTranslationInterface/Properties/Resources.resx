@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Account_category" xml:space="preserve">
-    <value>Category:</value>
+    <value>Category ID:</value>
   </data>
   <data name="Account_clear" xml:space="preserve">
     <value>Clear</value>
@@ -287,5 +287,8 @@ Please visit the Settings page first to enter your Microsoft Translator credenti
   <data name="Translate_HiddenTooltip" xml:space="preserve">
     <value>Check to skip the following content:
 Word documents: hidden text</value>
+  </data>
+  <data name="TestWindow_Title" xml:space="preserve">
+    <value>Test Window</value>
   </data>
 </root>
