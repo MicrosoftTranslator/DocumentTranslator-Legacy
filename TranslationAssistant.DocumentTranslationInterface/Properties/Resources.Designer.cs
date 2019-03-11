@@ -515,6 +515,27 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ignore hidden content.
+        /// </summary>
+        public static string Translate_Hidden {
+            get {
+                return ResourceManager.GetString("Translate_Hidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check to skip the following content:
+        ///Word documents: hidden text
+        ///Excel documents: hidden cells and tabs
+        ///Powerpoint documents: hidden slides.
+        /// </summary>
+        public static string Translate_HiddenTooltip {
+            get {
+                return ResourceManager.GetString("Translate_HiddenTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid credentials.
         ///Please visit the Settings page first to enter your Microsoft Translator credentials..
         /// </summary>

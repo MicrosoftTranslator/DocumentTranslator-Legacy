@@ -1,15 +1,6 @@
-﻿// // ----------------------------------------------------------------------
-// // <copyright file="DocumentTranslation.cs" company="Microsoft Corporation">
-// // Copyright (c) Microsoft Corporation.
-// // All rights reserved.
-// // THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
-// // KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-// // IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-// // PARTICULAR PURPOSE.
-// // </copyright>
-// // ----------------------------------------------------------------------
-// // <summary>DocumentTranslation.cs</summary>
-// // ----------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------
+// <summary>DocumentTranslation.cs</summary>
+// ----------------------------------------------------------------------
 
 namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
 {
@@ -91,9 +82,14 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private string _ReadyToTranslateMessage;
 
         /// <summary>
-        ///     The target language list.
+        /// The target language list.
         /// </summary>
         private List<string> targetLanguageList = new List<string>();
+
+        /// <summary>
+        /// Whether to ignore hidden content in translation, or not
+        /// </summary>
+        private bool ignoreHiddenContent = false;
 
         #endregion
 
@@ -110,8 +106,9 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             this.IsGoButtonEnabled = false;
             this.TargetFolder = string.Empty;
             this.SelectedTargetLanguage = string.Empty;
-            this.SelectedSourceLanguage = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultSourceLanguage;
-            this.SelectedTargetLanguage = TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultTargetLanguage;
+            this.SelectedSourceLanguage = Properties.DocumentTranslator.Default.DefaultSourceLanguage;
+            this.SelectedTargetLanguage = Properties.DocumentTranslator.Default.DefaultTargetLanguage;
+            this.IgnoreHiddenContent = Properties.DocumentTranslator.Default.IgnoreHiddenContent;
             this.StatusText = string.Empty;
             if (TranslationServiceFacade.IsTranslationServiceReady())
             {
@@ -163,7 +160,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                                             file,
                                             false,
                                             this.SelectedSourceLanguage,
-                                            this.SelectedTargetLanguage);
+                                            this.SelectedTargetLanguage,
+                                            this.IgnoreHiddenContent);
                                     }
                                 };
 
@@ -183,9 +181,10 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                                     this.IsGoButtonEnabled = true;
                                     this.ShowProgressBar = false;
                                     //Save the selected source and target languages for the next session;
-                                    TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultSourceLanguage = this.SelectedSourceLanguage;
-                                    TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.DefaultTargetLanguage = this.SelectedTargetLanguage;
-                                    TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.Save();
+                                    Properties.DocumentTranslator.Default.DefaultSourceLanguage = this.SelectedSourceLanguage;
+                                    Properties.DocumentTranslator.Default.DefaultTargetLanguage = this.SelectedTargetLanguage;
+                                    Properties.DocumentTranslator.Default.IgnoreHiddenContent = this.IgnoreHiddenContent;
+                                    Properties.DocumentTranslator.Default.Save();
                                 };
                             worker.WorkerReportsProgress = false;
                             worker.RunWorkerAsync();
@@ -404,6 +403,22 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             {
                 this.targetLanguageList = value;
                 this.NotifyPropertyChanged("TargetLanguageList");
+            }
+        }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether hidden content should be ignored.
+        /// </summary>
+        public bool IgnoreHiddenContent
+        {
+            get
+            {
+                return this.ignoreHiddenContent;
+            }
+            set
+            {
+                this.ignoreHiddenContent = value;
+                this.NotifyPropertyChanged("IgnoreHiddenContent");
             }
         }
 

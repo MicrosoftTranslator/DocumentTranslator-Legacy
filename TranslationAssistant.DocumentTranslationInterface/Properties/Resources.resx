@@ -281,4 +281,11 @@ Please visit the Settings page first to enter your Microsoft Translator credenti
   <data name="AzureGov_text" xml:space="preserve">
     <value>Use Azure Government:</value>
   </data>
+  <data name="Translate_Hidden" xml:space="preserve">
+    <value>Ignore hidden content</value>
+  </data>
+  <data name="Translate_HiddenTooltip" xml:space="preserve">
+    <value>Check to skip the following content:
+Word documents: hidden text</value>
+  </data>
 </root>

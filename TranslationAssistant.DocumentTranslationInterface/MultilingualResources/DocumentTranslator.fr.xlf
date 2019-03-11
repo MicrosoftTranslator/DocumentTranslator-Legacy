@@ -230,6 +230,16 @@ S’il vous plaît visitez https://portal.customtranslator.azure.ai afin de dét
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Utiliser Azure gouvernement</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
+        <trans-unit id="Translate_Hidden" translate="yes" xml:space="preserve">
+          <source>Ignore hidden content</source>
+          <target state="translated">Ignorer le contenu masqué</target>
+        </trans-unit>
+        <trans-unit id="Translate_HiddenTooltip" translate="yes" xml:space="preserve">
+          <source>Check to skip the following content:
+Word documents: hidden text</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Cocher pour ignorer le contenu suivant :
+Word documents : texte masqué</target>
+        </trans-unit>
       </group>
     </body>
   </file>
