@@ -22,6 +22,7 @@ namespace TranslationAssistant.TranslationServices.Core
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Net.Http;
     using System.ServiceModel;
@@ -144,6 +145,34 @@ namespace TranslationAssistant.TranslationServices.Core
         #region Public Methods and Operators
 
         /// <summary>
+        /// Detect the languages of the input
+        /// </summary>
+        /// <param name="input">Input string to detect the language of</param>
+        /// <returns></returns>
+        public static string Detect(string input)
+        {
+            string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/detect?api-version=3.0";
+            string result = String.Empty;
+            object[] body = new object[] { new { Text = input } };
+            using (HttpClient client = new HttpClient())
+            using (HttpRequestMessage request = new HttpRequestMessage())
+            {
+                request.Method = HttpMethod.Post;
+                request.RequestUri = new Uri(uri);
+                string requestBody = JsonConvert.SerializeObject(body);
+                request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+                request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
+                HttpResponseMessage response = client.SendAsync(request).Result;
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    return jsonResponse;
+                }
+                else return null;
+            }
+        }
+
+        /// <summary>
         /// Check if the Translation service is ready to use, with a valid client ID and secret
         /// </summary>
         /// <returns>true if ready, false if not</returns>
@@ -154,14 +183,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 case AuthMode.Azure:
                     try
                     {
-                        AzureAuthToken authTokenSource = new AzureAuthToken(_AzureKey, UseAzureGovernment ? AuthServiceUrlGov : AuthServiceUrlPublic);
-                        string headerValue = authTokenSource.GetAccessToken();
-                        var bind = new BasicHttpBinding { Name = "BasicHttpBinding_LanguageService" };
-                        var epa = new EndpointAddress(EndPointAddress.Replace("https:", "http:") + "/V2/soap.svc");
-                        LanguageServiceClient client = new LanguageServiceClient(bind, epa);
-                        string[] languages = new string[1];
-                        languages[0] = "en";
-                        client.GetLanguageNames(GetHeaderValue(), Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName, languages, false);
+                        Detect("Test");
                     }
                     catch { return false; }
                     break;
@@ -286,23 +308,37 @@ namespace TranslationAssistant.TranslationServices.Core
                 }
                 else return;
             }
-            try { if (!IsTranslationServiceReady()) return; }
-            catch { return; }
-            var bind = new BasicHttpBinding { Name = "BasicHttpBinding_LanguageService" };
-            var epa = new EndpointAddress(EndPointAddress.Replace("https:", "http:") + "/V2/soap.svc");   //for some reason GetLanguagesForTranslate doesn't work with SSL.
-            LanguageServiceClient client = new LanguageServiceClient(bind, epa);
-            string headerValue = GetHeaderValue();
-            string[] languages = client.GetLanguagesForTranslate(headerValue);
-            string[] languagenames = client.GetLanguageNames(headerValue, Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName, languages, false);
-            for (int i = 0; i < languages.Length; i++)
-            {
-                if (!AvailableLanguages.ContainsKey(languages[i]))
-                {
-                    AvailableLanguages.Add(languages[i], languagenames[i]);
-                }
-            }
-            client.Close();
+            GetLanguages();
         }
+
+
+        private static void GetLanguages()
+        {
+            string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/languages?api-version=3.0&scope=translation";
+            using (HttpClient client = new HttpClient())
+            using (HttpRequestMessage request = new HttpRequestMessage())
+            {
+                request.Method = HttpMethod.Get;
+                request.RequestUri = new Uri(uri);
+                HttpResponseMessage response = client.SendAsync(request).Result;
+                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var result = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
+                    var languages = result["translation"];
+
+                    string[] languagecodes = languages.Keys.ToArray();
+                    foreach (var kv in languages)
+                    {
+                        AvailableLanguages.Add(kv.Value["name"], kv.Key);
+                    }
+                    return;
+                }
+                else return;
+            }
+        }
+
+
 
         private static string GetHeaderValue()
         {
@@ -325,7 +361,6 @@ namespace TranslationAssistant.TranslationServices.Core
             _AzureKey = Properties.Settings.Default.AzureKey;
             _CategoryID = Properties.Settings.Default.CategoryID;
             _AppId = Properties.Settings.Default.AppId;
-            EndPointAddress = Properties.Settings.Default.EndPointAddress;
             _UseAdvancedSettings = Properties.Settings.Default.UseAdvancedSettings;
             _Adv_CategoryId = Properties.Settings.Default.Adv_CategoryID;
             _UseAzureGovernment = Properties.Settings.Default.UseAzureGovernment;
@@ -339,7 +374,6 @@ namespace TranslationAssistant.TranslationServices.Core
             Properties.Settings.Default.AzureKey = _AzureKey;
             Properties.Settings.Default.CategoryID = _CategoryID;
             Properties.Settings.Default.AppId = _AppId;
-            Properties.Settings.Default.EndPointAddress = EndPointAddress;
             Properties.Settings.Default.UseAdvancedSettings = _UseAdvancedSettings;
             Properties.Settings.Default.Adv_CategoryID = _Adv_CategoryId;
             Properties.Settings.Default.UseAzureGovernment = _UseAzureGovernment;
@@ -394,6 +428,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns>Translated array elements</returns>
         public static string[] GetAlignments(string[] texts, string from, string to, ref string[] alignments)
         {
+            if (UseAzureGovernment) throw new Exception("V2 is not available in Azure Government.");
             string fromCode = string.Empty;
             string toCode = string.Empty;
 
@@ -547,6 +582,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns></returns>
         private static string[] TranslateArrayV2(string[] texts, string from, string to, string contentType)
         {
+            if (UseAzureGovernment) throw new Exception("V2 is not available in Azure Government.");
             string headerValue = GetHeaderValue();
             var bind = new BasicHttpBinding
             {
@@ -717,128 +753,7 @@ namespace TranslationAssistant.TranslationServices.Core
             return;
         }
 
-        /// <summary>
-        /// Breaks a piece of text into sentences and returns an array containing the lengths in each sentence. 
-        /// </summary>
-        /// <param name="text">The text to analyze and break.</param>
-        /// <param name="languageID">The language identifier to use.</param>
-        /// <returns>An array of integers representing the lengths of the sentences. The length of the array is the number of sentences, and the values are the length of each sentence.</returns>
-        public static int[] BreakSentences(string text, string languageID)
-        {
-            var bind = new BasicHttpBinding
-            {
-                Name = "BasicHttpBinding_LanguageService",
-                OpenTimeout = TimeSpan.FromMinutes(5),
-                CloseTimeout = TimeSpan.FromMinutes(5),
-                ReceiveTimeout = TimeSpan.FromMinutes(5),
-                MaxReceivedMessageSize = int.MaxValue,
-                MaxBufferPoolSize = int.MaxValue,
-                MaxBufferSize = int.MaxValue,
-                Security =
-                                   new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
-            };
 
-            var epa = new EndpointAddress(EndPointAddress + "/V2/soap.svc");
-            TranslatorService.LanguageServiceClient client = new LanguageServiceClient(bind, epa);
-            string headerValue = GetHeaderValue();
-            return client.BreakSentences(headerValue, text, languageID);
-        }
-
-        /// <summary>
-        /// Breaks a piece of text into sentences and returns an array containing the lengths in each sentence. 
-        /// </summary>
-        /// <param name="text">The text to analyze and break.</param>
-        /// <param name="languageID">The language identifier to use.</param>
-        /// <returns>An array of integers representing the lengths of the sentences. The length of the array is the number of sentences, and the values are the length of each sentence.</returns>
-        async public static Task<int[]> BreakSentencesAsync(string text, string languageID)
-        {
-            var bind = new BasicHttpBinding
-            {
-                Name = "BasicHttpBinding_LanguageService",
-                OpenTimeout = TimeSpan.FromMinutes(5),
-                CloseTimeout = TimeSpan.FromMinutes(5),
-                ReceiveTimeout = TimeSpan.FromMinutes(5),
-                MaxReceivedMessageSize = int.MaxValue,
-                MaxBufferPoolSize = int.MaxValue,
-                MaxBufferSize = int.MaxValue,
-                Security =
-                    new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
-            };
-
-            var epa = new EndpointAddress(EndPointAddress + "/V2/soap.svc");
-            TranslatorService.LanguageServiceClient client = new LanguageServiceClient(bind, epa);
-            string headerValue = GetHeaderValue();
-            int[] result = { 0 };
-            try
-            {
-                Task<int[]> BSTask = client.BreakSentencesAsync(headerValue, text, languageID);
-                result = await BSTask;
-            }
-            catch
-            {
-                for (int i = 1; i <= 10; i++)
-                {
-                    Thread.Sleep(5000 * i);
-                    Task<int[]> BSTask = client.BreakSentencesAsync(headerValue, text, languageID);
-                    result = await BSTask;
-                }
-            }
-            return result;
-        }
-
-
-
-        public struct UserTranslation
-        {
-            public DateTime CreatedDateUtc;
-            public string From;
-            public string OriginalText;
-            public int Rating;
-            public string To;
-            public string TranslatedText;
-            public string Uri;
-            public string User;
-        }
-
-        public static UserTranslation[] GetUserTranslations(string fromlanguage, string tolanguage, int skip, int count)
-        {
-            var bind = new BasicHttpBinding
-            {
-                Name = "BasicHttpBinding_LanguageService",
-                OpenTimeout = TimeSpan.FromMinutes(5),
-                CloseTimeout = TimeSpan.FromMinutes(5),
-                ReceiveTimeout = TimeSpan.FromMinutes(5),
-                MaxReceivedMessageSize = int.MaxValue,
-                MaxBufferPoolSize = int.MaxValue,
-                MaxBufferSize = int.MaxValue,
-                Security =
-                    new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
-            };
-
-            var epa = new EndpointAddress(EndPointAddress + "/v2/beta/ctfreporting.svc");
-            CtfReportingService.CtfReportingServiceClient client = new CtfReportingService.CtfReportingServiceClient(bind, epa);
-            string headerValue = GetHeaderValue();
-            CtfReportingService.UserTranslation[] usertranslations = new CtfReportingService.UserTranslation[count];
-
-            usertranslations = client.GetUserTranslations(headerValue, string.Empty, fromlanguage, tolanguage, 0, 10, string.Empty, string.Empty, DateTime.MinValue, DateTime.MaxValue, skip, count, true);
-
-            UserTranslation[] usertranslationsreturn = new UserTranslation[count];
-            usertranslationsreturn.Initialize();
-
-            for (int i = 0; i < usertranslations.Length; i++)
-            {
-                usertranslationsreturn[i].CreatedDateUtc = usertranslations[i].CreatedDateUtc;
-                usertranslationsreturn[i].From = usertranslations[i].From;
-                usertranslationsreturn[i].OriginalText = usertranslations[i].OriginalText;
-                usertranslationsreturn[i].To = usertranslations[i].To;
-                usertranslationsreturn[i].TranslatedText = usertranslations[i].TranslatedText;
-                usertranslationsreturn[i].Rating = usertranslations[i].Rating;
-                usertranslationsreturn[i].Uri = usertranslations[i].Uri;
-                usertranslationsreturn[i].User = usertranslations[i].User;
-            }
-
-            return usertranslationsreturn;
-        }
 
         #endregion
     }
