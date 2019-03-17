@@ -101,10 +101,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml">
-      <Version>2.8.1</Version>
+      <Version>2.9.1</Version>
     </PackageReference>
     <PackageReference Include="System.IO.Packaging">
-      <Version>4.5.0</Version>
+      <Version>4.6.0-preview3.19128.7</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

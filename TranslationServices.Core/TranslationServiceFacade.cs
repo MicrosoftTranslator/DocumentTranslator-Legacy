@@ -332,9 +332,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     {
                         AvailableLanguages.Add(kv.Value["name"], kv.Key);
                     }
-                    return;
                 }
-                else return;
             }
         }
 
