@@ -22,7 +22,6 @@ namespace TranslationAssistant.TranslationServices.Core
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
-    using System.IO;
     using System.Linq;
     using System.Net.Http;
     using System.ServiceModel;
@@ -139,6 +138,8 @@ namespace TranslationAssistant.TranslationServices.Core
         private static string appid = null;
 
         private static List<string> autoDetectStrings = new List<string>() { "auto-detect", "détection automatique" };
+
+        private static bool IsInitialized = false;
 
         #endregion
 
@@ -291,8 +292,9 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <summary>
         /// Call once to initialize the static variables
         /// </summary>
-        public static void Initialize()
+        public static void Initialize(bool force=false)
         {
+            if (IsInitialized && !force) return;
             LoadCredentials();
 
             //Inspect the given Azure Key to see if this is host with appid auth
@@ -309,11 +311,13 @@ namespace TranslationAssistant.TranslationServices.Core
                 else return;
             }
             GetLanguages();
+            IsInitialized = true;
         }
 
 
         private static void GetLanguages()
         {
+            AvailableLanguages.Clear();
             string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/languages?api-version=3.0&scope=translation";
             using (HttpClient client = new HttpClient())
             using (HttpRequestMessage request = new HttpRequestMessage())

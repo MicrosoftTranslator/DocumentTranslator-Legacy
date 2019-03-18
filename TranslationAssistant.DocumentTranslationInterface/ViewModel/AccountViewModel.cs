@@ -165,7 +165,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID.Trim();
             TranslationServices.Core.TranslationServiceFacade.UseAzureGovernment = this.useAzureGovernment;
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
-            TranslationServices.Core.TranslationServiceFacade.Initialize();
+            TranslationServices.Core.TranslationServiceFacade.Initialize(true);
 
             bool isready = false;
 
