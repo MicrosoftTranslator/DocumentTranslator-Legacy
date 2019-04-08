@@ -177,6 +177,7 @@ namespace TranslationAssistant.TranslationServices.Core
             try
             {
                 string detectedlanguage = await DetectAsync("Test");
+                if (detectedlanguage == null) return false;
                 return true;
             }
             catch
