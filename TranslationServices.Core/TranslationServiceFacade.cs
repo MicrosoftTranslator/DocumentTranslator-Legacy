@@ -24,7 +24,6 @@ namespace TranslationAssistant.TranslationServices.Core
     using System.Globalization;
     using System.Linq;
     using System.Net.Http;
-    using System.ServiceModel;
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -40,7 +39,7 @@ namespace TranslationAssistant.TranslationServices.Core
         public static Dictionary<string, string> AvailableLanguages = new Dictionary<string, string>();
 
         public static int maxrequestsize = 5000;
-        public static int maxelements = 25;
+        public static int maxelements = 100;
 
         private static string _CategoryID;
         public static string CategoryID{
