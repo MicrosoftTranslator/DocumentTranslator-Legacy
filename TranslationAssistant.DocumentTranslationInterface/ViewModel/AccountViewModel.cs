@@ -173,10 +173,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             catch { isready = false; }
 
             if (isready) {
-                string prefix = string.Empty;
-                if (TranslationServices.Core.TranslationServiceFacade.useversion == TranslationServices.Core.TranslationServiceFacade.UseVersion.V2) prefix = "V2: ";
-                if (TranslationServices.Core.TranslationServiceFacade.useversion == TranslationServices.Core.TranslationServiceFacade.UseVersion.V3) prefix = "V3: ";
-                this.StatusText = prefix + Properties.Resources.Common_SettingsSaved;
+                this.StatusText = Properties.Resources.Common_SettingsSaved;
                 NotifyPropertyChanged("SettingsSaved");
                 //Need to initialize with new credentials in order to get the language list.
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(true);

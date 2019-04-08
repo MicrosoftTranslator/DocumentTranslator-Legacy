@@ -28,7 +28,6 @@ namespace TranslationAssistant.TranslationServices.Core
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using TranslatorService;
 
     #endregion
 
@@ -109,9 +108,9 @@ namespace TranslationAssistant.TranslationServices.Core
         public static bool CreateTMXOnTranslate { get; set; } = false;
 
         /// <summary>
-        /// End point address for V2 of the Translator API
+        /// End point address for the Translator API
         /// </summary>
-        public static string EndPointAddress { get; set; } = "https://api.microsofttranslator.com";
+        public static string EndPointAddress { get; set; } = "https://api.cognitive.microsofttranslator.com";
 
         /// <summary>
         /// End point address for V3 of the Translator API
@@ -125,13 +124,6 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         private static readonly Uri AuthServiceUrlPublic = new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
         private static readonly Uri AuthServiceUrlGov = new Uri("https://virginia.api.cognitive.microsoft.us/sts/v1.0/issueToken");
-
-
-        /// <summary>
-        /// Hold the version of the API to use. Default to V3, fall back to V2 if category is set and is not available in V3. 
-        /// </summary>
-        public enum UseVersion { V2, V3, unknown };
-        public static UseVersion useversion = UseVersion.unknown;
 
         private enum AuthMode { Azure, AppId };
         private static AuthMode authMode = AuthMode.Azure;
@@ -212,25 +204,14 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns>True if the category is valid</returns>
         public static bool IsCategoryValid(string category)
         {
-            useversion = UseVersion.V3;
             if (category == "") return true;
             if (category == string.Empty) return true;
             if (category.ToLower() == "general") return true;
             if (category.ToLower() == "generalnn") return true;
+            if (category.ToLower() == "tech") return true;
 
-            //Test V2 API and V3 API both
-
-            bool testV2 = IsCategoryValidV2(category);
-            if (testV2)
-            {
-                useversion = UseVersion.V2;
-                return true;
-            }
-            else
-            {
-                Task<bool> testV3 = IsCategoryValidV3Async(category);
-                return testV3.Result;
-            }
+            Task<bool> testV3 = IsCategoryValidV3Async(category);
+            return testV3.Result;
         }
 
         private static async Task<bool> IsCategoryValidV3Async(string category)
@@ -245,35 +226,6 @@ namespace TranslationAssistant.TranslationServices.Core
                     Task<string[]> translateTask = TranslateV3Async(teststring, "en", "he", category, "text/plain");
                     await translateTask.ConfigureAwait(false);
                     if (translateTask.Result == null) return false; else return true;
-                }
-                catch (Exception e)
-                {
-                    string error = e.Message;
-                    returnvalue = false;
-                    Thread.Sleep(1000);
-                    continue;
-                }
-            }
-            return returnvalue;
-        }
-
-
-        private static bool IsCategoryValidV2(string category)
-        {
-            //Test V2 API
-            //It may take a while until the category is loaded on server
-            bool returnvalue = true;
-            for (int i = 0; i < 3; i++)
-            {
-                try
-                {
-                    string headerValue = GetHeaderValue();
-                    var bind = new BasicHttpBinding { Name = "BasicHttpBinding_LanguageService" };
-                    var epa = new EndpointAddress(EndPointAddress.Replace("https", "http") + "/V2/soap.svc");
-                    LanguageServiceClient client = new LanguageServiceClient(bind, epa);
-                    client.Translate(headerValue, "Test", "en", "fr", "text/plain", category, string.Empty);
-                    returnvalue = true;
-                    break;
                 }
                 catch (Exception e)
                 {
@@ -419,83 +371,6 @@ namespace TranslationAssistant.TranslationServices.Core
 
 
         /// <summary>
-        /// Retrieve word alignments during translation
-        /// </summary>
-        /// <param name="texts">Array of text strings to translate</param>
-        /// <param name="from">From language</param>
-        /// <param name="to">To language</param>
-        /// <param name="alignments">Call by reference: array of alignment strings in the form [[SourceTextStartIndex]:[SourceTextEndIndex]–[TgtTextStartIndex]:[TgtTextEndIndex]]</param>
-        /// <returns>Translated array elements</returns>
-        public static string[] GetAlignments(string[] texts, string from, string to, ref string[] alignments)
-        {
-            if (UseAzureGovernment) throw new Exception("V2 is not available in Azure Government.");
-            string fromCode = string.Empty;
-            string toCode = string.Empty;
-
-            if (autoDetectStrings.Contains(from.ToLower(CultureInfo.InvariantCulture)) || from == string.Empty)
-            {
-                fromCode = string.Empty;
-            }
-            else
-            {
-                try { fromCode = AvailableLanguages.First(t => t.Value == from).Key; }
-                catch { fromCode = from; }
-            }
-
-            toCode = LanguageNameToLanguageCode(to);
-
-            string headerValue = GetHeaderValue();
-            var bind = new BasicHttpBinding
-            {
-                Name = "BasicHttpBinding_LanguageService",
-                OpenTimeout = TimeSpan.FromMinutes(5),
-                CloseTimeout = TimeSpan.FromMinutes(5),
-                ReceiveTimeout = TimeSpan.FromMinutes(5),
-                MaxReceivedMessageSize = int.MaxValue,
-                MaxBufferPoolSize = int.MaxValue,
-                MaxBufferSize = int.MaxValue,
-                Security =
-                                   new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
-            };
-
-            var epa = new EndpointAddress(EndPointAddress + "/V2/soap.svc");
-            LanguageServiceClient client = new LanguageServiceClient(bind, epa);
-
-            if (String.IsNullOrEmpty(toCode))
-            {
-                toCode = "en";
-            }
-
-            TranslateOptions options = new TranslateOptions();
-            options.Category = _CategoryID;
-
-            try
-            {
-                var translatedTexts2 = client.TranslateArray2(
-                    headerValue,
-                    texts,
-                    fromCode,
-                    toCode,
-                    options);
-                string[] res = translatedTexts2.Select(t => t.TranslatedText).ToArray();
-                alignments = translatedTexts2.Select(t => t.Alignment).ToArray();
-                return res;
-            }
-            catch   //try again forcing English as source language
-            {
-                var translatedTexts2 = client.TranslateArray2(
-                    headerValue,
-                    texts,
-                    "en",
-                    toCode,
-                    options);
-                string[] res = translatedTexts2.Select(t => t.TranslatedText).ToArray();
-                alignments = translatedTexts2.Select(t => t.Alignment).ToArray();
-                return res;
-            }
-        }
-
-        /// <summary>
         /// Translates a string
         /// </summary>
         /// <param name="text">String to translate</param>
@@ -538,25 +413,8 @@ namespace TranslationAssistant.TranslationServices.Core
 
             toCode = LanguageNameToLanguageCode(to);
 
-            if (useversion == UseVersion.unknown)
-            {
-                IsCategoryValid(_CategoryID);
-            }
-
-            if (useversion == UseVersion.V2)
-            {
-                return TranslateArrayV2(texts, fromCode, toCode, contentType);
-            }
-            else
-            {
-                string[] result = TranslateV3Async(texts, fromCode, toCode, _CategoryID, contentType).Result;
-                if ((result == null) && IsCustomCategory(_CategoryID))
-                {
-                    useversion = UseVersion.V2;
-                    return TranslateArrayV2(texts, fromCode, toCode, contentType);
-                }
-                return result;
-            }
+            string[] result = TranslateV3Async(texts, fromCode, toCode, _CategoryID, contentType).Result;
+            return result;
 
         }
 
@@ -570,70 +428,6 @@ namespace TranslationAssistant.TranslationServices.Core
             return true;
         }
 
-
-        /// <summary>
-        /// Translates an array of strings from the from langauge code to the to language code.
-        /// From langauge code can stay empty, in that case the source language is auto-detected, across all elements of the array together.
-        /// </summary>
-        /// <param name="texts">Array of strings to translate</param>
-        /// <param name="from">From language code. May be empty</param>
-        /// <param name="to">To language code. Must be a valid language</param>
-        /// <param name="contentType">Whether this is plain text or HTML</param>
-        /// <returns></returns>
-        private static string[] TranslateArrayV2(string[] texts, string from, string to, string contentType)
-        {
-            if (UseAzureGovernment) throw new Exception("V2 is not available in Azure Government.");
-            string headerValue = GetHeaderValue();
-            var bind = new BasicHttpBinding
-            {
-                Name = "BasicHttpBinding_LanguageService",
-                OpenTimeout = TimeSpan.FromMinutes(5),
-                CloseTimeout = TimeSpan.FromMinutes(5),
-                ReceiveTimeout = TimeSpan.FromMinutes(5),
-                MaxReceivedMessageSize = int.MaxValue,
-                MaxBufferPoolSize = int.MaxValue,
-                MaxBufferSize = int.MaxValue,
-                Security =
-                                   new BasicHttpSecurity { Mode = BasicHttpSecurityMode.Transport }
-            };
-
-            var epa = new EndpointAddress(EndPointAddress + "/V2/soap.svc");
-            LanguageServiceClient client = new LanguageServiceClient(bind, epa);
-
-            if (String.IsNullOrEmpty(to))
-            {
-                to = "en";
-            }
-
-            TranslateOptions options = new TranslateOptions();
-            options.Category = _CategoryID;
-            options.ContentType = contentType;
-
-            try
-            {
-                var translatedTexts = client.TranslateArray(
-                    headerValue,
-                    texts,
-                    from,
-                    to,
-                    options);
-                string[] res = translatedTexts.Select(t => t.TranslatedText).ToArray();
-                if (CreateTMXOnTranslate) WriteToTmx(texts, res, from, to, options.Category);
-                return res;
-            }
-            catch   //try again forcing English as source language
-            {
-                var translatedTexts = client.TranslateArray(
-                    headerValue,
-                    texts,
-                    "en",
-                    to,
-                    options);
-                string[] res = translatedTexts.Select(t => t.TranslatedText).ToArray();
-                if (CreateTMXOnTranslate) WriteToTmx(texts, res, from, to, options.Category);
-                return res;
-            }
-        }
 
         private static async Task<string[]> TranslateV3Async(string[] texts, string from, string to, string category, string contentType, int retrycount=3)
         {
