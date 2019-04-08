@@ -150,7 +150,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         /// <param name="input">Input string to detect the language of</param>
         /// <returns></returns>
-        public static string Detect(string input)
+        public static async Task<string> DetectAsync(string input)
         {
             string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/detect?api-version=3.0";
             string result = String.Empty;
@@ -158,52 +158,50 @@ namespace TranslationAssistant.TranslationServices.Core
             using (HttpClient client = new HttpClient())
             using (HttpRequestMessage request = new HttpRequestMessage())
             {
+                client.Timeout = System.TimeSpan.FromMilliseconds(1000);
                 request.Method = HttpMethod.Post;
                 request.RequestUri = new Uri(uri);
                 string requestBody = JsonConvert.SerializeObject(body);
                 request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                HttpResponseMessage response = client.SendAsync(request).Result;
-                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                HttpResponseMessage response = await client.SendAsync(request);
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    return jsonResponse;
+                    return await response.Content.ReadAsStringAsync();
                 }
-                else return null;
+                else
+                {
+                    return null;
+                }
             }
         }
 
         /// <summary>
-        /// Check if the Translation service is ready to use, with a valid client ID and secret
+        /// Check if the Translation service is ready to use, with a valid Azure key
         /// </summary>
         /// <returns>true if ready, false if not</returns>
+        public static async Task<bool> IsTranslationServiceReadyAsync()
+        {
+            try
+            {
+                string detectedlanguage = await DetectAsync("Test");
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Test whether the translation servoce credentials are valid by performing a simple function and checking whether it succeeds.
+        /// Synchronous version of IsTranslationServceReadyAsync().
+        /// </summary>
+        /// <returns>Whether the translation servoce is ready to translate</returns>
         public static bool IsTranslationServiceReady()
         {
-            switch (authMode)
-            {
-                case AuthMode.Azure:
-                    try
-                    {
-                        Detect("Test");
-                    }
-                    catch { return false; }
-                    break;
-                case AuthMode.AppId:
-                    try
-                    {
-                        var bind = new BasicHttpBinding { Name = "BasicHttpBinding_LanguageService" };
-                        var epa = new EndpointAddress(EndPointAddress.Replace("https:", "http:") + "/V2/soap.svc");
-                        LanguageServiceClient client = new LanguageServiceClient(bind, epa);
-                        string[] languages = new string[1];
-                        languages[0] = "en";
-                        client.GetLanguageNames(GetHeaderValue(), Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName, languages, false);
-                    }
-                    catch { return false; }
-                    break;
-                default:
-                    return false;
-            }
-            return true;
+            Task<bool> task = Task.Run<bool>(async () => await IsTranslationServiceReadyAsync());
+            return task.Result;
         }
 
         /// <summary>
@@ -334,7 +332,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     string[] languagecodes = languages.Keys.ToArray();
                     foreach (var kv in languages)
                     {
-                        AvailableLanguages.Add(kv.Value["name"], kv.Key);
+                        AvailableLanguages.Add(kv.Key, kv.Value["name"]);
                     }
                 }
             }

@@ -113,8 +113,9 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             if (TranslationServiceFacade.IsTranslationServiceReady())
             {
                 this.StatusText = Properties.Resources.Common_SelectDocuments;
+                this.PopulateReadyToTranslateMessage(true);
             }
-            this.PopulateReadyToTranslateMessage(TranslationServiceFacade.IsTranslationServiceReady());
+            
 
             SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Unsubscribe(PopulateReadyToTranslateMessage);
             SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Subscribe(PopulateReadyToTranslateMessage);
