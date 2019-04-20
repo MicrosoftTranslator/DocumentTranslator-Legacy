@@ -31,11 +31,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         #region Fields
 
         /// <summary>
-        ///     The Server Address.
-        /// </summary>
-        private string EndPointAddress;
-
-        /// <summary>
         ///     The AppId.
         /// </summary>
         private string appId;
@@ -138,7 +133,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             TranslationServices.Core.TranslationServiceFacade.Initialize();
             this.appId = TranslationServices.Core.TranslationServiceFacade.AppId;
             this.adv_categoryID = TranslationServices.Core.TranslationServiceFacade.Adv_CategoryId;
-            this.EndPointAddress= TranslationServices.Core.TranslationServiceFacade.EndPointAddress;
             this.UseAdvancedSettings = TranslationServices.Core.TranslationServiceFacade.UseAdvancedSettings;
         }
 

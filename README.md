@@ -46,22 +46,6 @@ Set credentials:
 
 `DocumentTranslatorCmd setcredentials /APIkey:AzureKey`
 
-Get Word Alignments
-
-`DocumentTranslatorCmd getalignments /documents:test.txt /from:en /to:fr`
-
-Builds a CSV file containing 3 columns: source, target, and word alignment information in the format 
-
-[[SourceTextStartIndex]:[SourceTextEndIndex]–[TgtTextStartIndex]:[TgtTextEndIndex]] *
-
-for every word of the source. The information for each word is separated by a space, including for non-space-separated languages (scripts) like Chinese. 
-Example alignment string: "0:0-7:10 1:2-11:20 3:4-0:3 3:4-4:6 5:5-21:21".
-
-In other words, the colon separates start and end index, the dash separates the languages, and space separates the words.
-One word may align with zero, one, or multiple words in the other language, and the aligned words may be non-contiguous.
-When no alignment information is available, the Alignment element will be empty. No error.
-
-
 ## How to build Document Translator
 Microsoft Document Translator is written in C#, compiled in Visual Studio 2017.
 

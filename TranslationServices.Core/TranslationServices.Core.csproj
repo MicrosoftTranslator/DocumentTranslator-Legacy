@@ -54,16 +54,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Service References\CtfReportingService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
-    <Compile Include="Service References\TranslatorService\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="TranslationMemory.cs" />
     <Compile Include="TranslationServiceFacade.cs" />
     <Compile Include="TranslationUnit.cs" />
@@ -77,77 +67,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Service References\CtfReportingService\CtfReporting.wsdl" />
-    <None Include="Service References\CtfReportingService\CtfReporting.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CtfReportingService\CtfReporting1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CtfReportingService\CtfReporting2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CtfReportingService\CtfReportingService.wsdl" />
-    <None Include="Service References\CtfReportingService\TranslationAssistant.TranslationServices.Core.CtfReportingService.UserAuthority.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CtfReportingService\TranslationAssistant.TranslationServices.Core.CtfReportingService.UserTranslation.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CtfReportingService\TranslationAssistant.TranslationServices.Core.CtfReportingService.UserTranslationCount.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TranslatorService\soap1.wsdl" />
-    <None Include="Service References\TranslatorService\soap4.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TranslatorService\soap41.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TranslatorService\soap42.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TranslatorService\soap43.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\TranslatorService\SoapService1.wsdl" />
-    <None Include="Service References\TranslatorService\TranslationAssistant.TranslationServices.Core.TranslatorService.GetTranslationsResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TranslatorService\TranslationAssistant.TranslationServices.Core.TranslatorService.TranslateArray2Response.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\TranslatorService\TranslationAssistant.TranslationServices.Core.TranslatorService.TranslateArrayResponse.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Service References\CtfReportingService\" />
-    <WCFMetadataStorage Include="Service References\TranslatorService\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\TranslatorService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\TranslatorService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\TranslatorService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CtfReportingService\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CtfReportingService\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\CtfReportingService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DocumentTranslator.Tmx\DocumentTranslator.Tmx.csproj">
@@ -160,7 +79,7 @@
       <Version>12.0.1</Version>
     </PackageReference>
     <PackageReference Include="System.Net.Http">
-      <Version>4.3.4</Version>
+      <Version>4.3.3</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -57,7 +57,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
                         break;
                 }
             }
-            catch (System.Exception ex) { };
+            catch (System.Exception) { };
         }
 
         private void RefreshLanguageComboBoxes(bool successful)

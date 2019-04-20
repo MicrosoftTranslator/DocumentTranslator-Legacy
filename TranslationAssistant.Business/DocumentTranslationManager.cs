@@ -426,39 +426,6 @@ namespace TranslationAssistant.Business
             return;
         }
 
-        /// <summary>
-        /// Create a CSV file with the aligment information as the third column. Original in 1st, translation in 2nd and alignment in 3rd column.
-        /// Source document must be UTF-8 encoded text file. 
-        /// </summary>
-        /// <param name="fullNameForDocumentToProcess">Source document name</param>
-        /// <param name="sourceLanguage">From language</param>
-        /// <param name="targetLanguage">To language</param>
-        public static void CreateAlignmentCSV(string fullNameForDocumentToProcess, string sourceLanguage, string targetLanguage)
-        {
-            var document = File.ReadAllLines(fullNameForDocumentToProcess, Encoding.UTF8);
-            List<string> lstTexts = new List<string>(document);
-            var batches = SplitList(lstTexts, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
-            var textfile = File.CreateText(fullNameForDocumentToProcess + "." + TranslationServiceFacade.LanguageNameToLanguageCode(targetLanguage) + ".csv");
-            textfile.WriteLine("\"{0}\",\"{1}\",\"{2}\"", TranslationServiceFacade.LanguageNameToLanguageCode(sourceLanguage).ToUpperInvariant(),
-                                                          TranslationServiceFacade.LanguageNameToLanguageCode(targetLanguage).ToUpperInvariant(),
-                                                          "Word Alignment");
-
-            foreach (var batch in batches)
-            {
-                string[] alignments = null;
-                string[] translated = TranslationServiceFacade.GetAlignments(batch.ToArray(), sourceLanguage, targetLanguage, ref alignments);
-
-                for (int i=0; i<batch.Count(); i++)
-                {
-                    textfile.WriteLine("\"{0}\",\"{1}\",\"{2}\"", batch[i].Replace("\"", "\"\""), translated[i].Replace("\"", "\"\""), alignments[i]);
-                }
-
-            }
-            textfile.Close();
-            return;
-        }
-
-
 
         private static void ProcessExcelDocument(
             string outputDocumentFullName,
