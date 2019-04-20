@@ -1,8 +1,7 @@
 # Microsoft Document Translator
 The Microsoft Document Translator translates Microsoft Office, plain text, HTML, PDF files and SRT caption files, from and to any of the 60+ languages supported by the Microsoft Translator web service.
-Document Translator uses the customer's own credentials and subscription to perform the Translation. Document Translator can also use custom MT systems trained via Custom Translator (https://portal.customtranslator.azure.ai)
-or the Translator Hub (https://microsoft.com/translator/hub.aspx). It will determine automatically whether the provided custom category is a Custom Translator or a Translator Hub category.
-Document Translator uses Version 3 of the Translator API, unless the used category points to a Translator Hub custom system. 
+Document Translator uses the customer's own credentials and subscription to perform the Translation. Document Translator also may use custom MT systems trained via Custom Translator (https://portal.customtranslator.azure.ai).
+Document Translator uses Version 3 of the Translator API. 
 
 ## Overview
 Translate one or more Office documents, plain text HTML or PDF documents to another language, in one go. 
@@ -12,13 +11,15 @@ Translate one or more Office documents, plain text HTML or PDF documents to anot
 - Translate a text-based PDF document and receive a translated document in Microsoft Word.
 - Translate HTML or plain text files and receive translated HTML or plain text.
 
+Document Translator does not translate images embedded in a document. It will retain them as is. 
+
 ## Key Features
 - Enter account credentials
-- Define a Hub-customized system to use (optional)
-- Define a CUstom Translator-customized system to use (optional)
-- Select the files to translate
-- Choose from and to languages. Specifying a "From"-language is optional, in that case the system auto-detects the language.
+- Define a Custom Translator-customized system to use vi its ID (optional)
+- Select the files to translate. You can select multiple files at once. 
+- Choose from and any number of to languages. Specifying a "From"-language is optional, in that case the system auto-detects the language.
 - Document Translator creates translated files in the same folder as the original, with a name like originalname.language.docx
+- Can be used via command line or graphical user interface
 
 ## Usage
 Runs on Windows 7 and above.
