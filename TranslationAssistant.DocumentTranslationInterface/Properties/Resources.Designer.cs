@@ -61,7 +61,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Category:.
+        ///   Looks up a localized string similar to Category ID:.
         /// </summary>
         public static string Account_category {
             get {
@@ -479,6 +479,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Test Window.
+        /// </summary>
+        public static string TestWindow_Title {
+            get {
+                return ResourceManager.GetString("TestWindow_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Browse.
         /// </summary>
         public static string Translate_Browse {
@@ -525,9 +534,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to Check to skip the following content:
-        ///Word documents: hidden text
-        ///Excel documents: hidden cells and tabs
-        ///Powerpoint documents: hidden slides.
+        ///Word documents: hidden text.
         /// </summary>
         public static string Translate_HiddenTooltip {
             get {
