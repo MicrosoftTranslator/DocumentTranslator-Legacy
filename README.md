@@ -3,6 +3,13 @@ The Microsoft Document Translator translates Microsoft Office, plain text, HTML,
 Document Translator uses the customer's own credentials and subscription to perform the Translation. Document Translator also may use custom MT systems trained via Custom Translator (https://portal.customtranslator.azure.ai).
 Document Translator uses Version 3 of the Translator API. 
 
+## Quickstart
+To use the Document Translator app release to translate your documents:
+1.	Download the [latest release of Document Translator on GitHub](https://github.com/MicrosoftTranslator/DocumentTranslator/releases)
+2.	[Sign up](https://www.microsoft.com/en-us/translator/business/trial/#get-started) for a subscription to the Microsoft Translator Text API
+3.	Enter your Translator Text API subscription key in the Settings menu
+4.	Translate your documents
+
 ## Overview
 Translate one or more Office documents, plain text HTML or PDF documents to another language, in one go. 
 
