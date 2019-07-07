@@ -260,7 +260,7 @@ Please visit the Azure Portal to obtain a subscription key for the Translator Te
     <value>From Language</value>
   </data>
   <data name="Translate_Go" xml:space="preserve">
-    <value>Go</value>
+    <value>Translate</value>
   </data>
   <data name="Translate_invalidcredentials" xml:space="preserve">
     <value>Invalid credentials.
@@ -290,5 +290,32 @@ Word documents: hidden text</value>
   </data>
   <data name="TestWindow_Title" xml:space="preserve">
     <value>Test Window</value>
+  </data>
+  <data name="Main_ImmediateWindow" xml:space="preserve">
+    <value>Translate</value>
+  </data>
+  <data name="Translate_Input" xml:space="preserve">
+    <value>Input:</value>
+  </data>
+  <data name="Common_HTML" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="Common_PlainText" xml:space="preserve">
+    <value>plain text</value>
+  </data>
+  <data name="Translate_BreakSentences" xml:space="preserve">
+    <value>Break Sentences</value>
+  </data>
+  <data name="Translate_Detect" xml:space="preserve">
+    <value>Detect</value>
+  </data>
+  <data name="Translate_Mode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="Translate_Result" xml:space="preserve">
+    <value>Result:</value>
+  </data>
+  <data name="Translate_SentNum" xml:space="preserve">
+    <value>Number of sentences:</value>
   </data>
 </root>

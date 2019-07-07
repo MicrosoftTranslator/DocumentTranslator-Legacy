@@ -250,6 +250,24 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to HTML.
+        /// </summary>
+        public static string Common_HTML {
+            get {
+                return ResourceManager.GetString("Common_HTML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to plain text.
+        /// </summary>
+        public static string Common_PlainText {
+            get {
+                return ResourceManager.GetString("Common_PlainText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ready to translate..
         /// </summary>
         public static string Common_Ready {
@@ -461,6 +479,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Translate.
+        /// </summary>
+        public static string Main_ImmediateWindow {
+            get {
+                return ResourceManager.GetString("Main_ImmediateWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string Main_Settings {
@@ -488,11 +515,29 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Break Sentences.
+        /// </summary>
+        public static string Translate_BreakSentences {
+            get {
+                return ResourceManager.GetString("Translate_BreakSentences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Browse.
         /// </summary>
         public static string Translate_Browse {
             get {
                 return ResourceManager.GetString("Translate_Browse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detect.
+        /// </summary>
+        public static string Translate_Detect {
+            get {
+                return ResourceManager.GetString("Translate_Detect", resourceCulture);
             }
         }
         
@@ -515,7 +560,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Go.
+        ///   Looks up a localized string similar to Translate.
         /// </summary>
         public static string Translate_Go {
             get {
@@ -543,12 +588,48 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input:.
+        /// </summary>
+        public static string Translate_Input {
+            get {
+                return ResourceManager.GetString("Translate_Input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid credentials.
         ///Please visit the Settings page first to enter your Microsoft Translator credentials..
         /// </summary>
         public static string Translate_invalidcredentials {
             get {
                 return ResourceManager.GetString("Translate_invalidcredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mode.
+        /// </summary>
+        public static string Translate_Mode {
+            get {
+                return ResourceManager.GetString("Translate_Mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result:.
+        /// </summary>
+        public static string Translate_Result {
+            get {
+                return ResourceManager.GetString("Translate_Result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of sentences:.
+        /// </summary>
+        public static string Translate_SentNum {
+            get {
+                return ResourceManager.GetString("Translate_SentNum", resourceCulture);
             }
         }
         

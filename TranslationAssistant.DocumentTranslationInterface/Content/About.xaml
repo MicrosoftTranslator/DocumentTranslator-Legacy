@@ -12,7 +12,7 @@
             <StackPanel MinWidth="200">
                 <TextBlock Text="{x:Static p:Resources.DocumentTranslator_name}" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading1}" />
                 <TextBlock Text="" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading2}" />
-                <TextBlock Text="Version 2.2.0" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading2}" />
+                <TextBlock Text="Version 2.3.0" Margin="0,0,0,8" TextWrapping="Wrap" Style="{StaticResource Heading2}" />
                 <TextBlock Text="Microsoft Corporation" Style="{StaticResource Heading2}" />
 
                 <TextBlock Style="{StaticResource Heading2}" >            

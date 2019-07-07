@@ -58,6 +58,13 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private string selectedTargetLanguage;
 
         /// <summary>
+        ///     The selected translate mode.
+        /// </summary>
+        private string selectedTranslateMode;
+
+
+
+        /// <summary>
         ///     The show progress bar.
         /// </summary>
         private bool showProgressBar;
@@ -87,6 +94,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private List<string> targetLanguageList = new List<string>();
 
         /// <summary>
+        /// The TranslateMode list.
+        /// </summary>
+        private List<string> translateModeList = new List<string>();
+
+        /// <summary>
         /// Whether to ignore hidden content in translation, or not
         /// </summary>
         private bool ignoreHiddenContent = false;
@@ -102,12 +114,14 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         {
             TranslationServiceFacade.Initialize();
             this.PopulateAvailableLanguages();
+            this.PopulateTranslateMode();
             this.ShowProgressBar = false;
             this.IsGoButtonEnabled = false;
             this.TargetFolder = string.Empty;
             this.SelectedTargetLanguage = string.Empty;
             this.SelectedSourceLanguage = Properties.DocumentTranslator.Default.DefaultSourceLanguage;
             this.SelectedTargetLanguage = Properties.DocumentTranslator.Default.DefaultTargetLanguage;
+            this.SelectedTranslateMode =  TranslateModeList[Properties.DocumentTranslator.Default.DefaultTranslateMode];  //0=plain text, 1=HTML
             this.IgnoreHiddenContent = Properties.DocumentTranslator.Default.IgnoreHiddenContent;
             this.StatusText = string.Empty;
             if (TranslationServiceFacade.IsTranslationServiceReady())
@@ -307,6 +321,25 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         }
 
         /// <summary>
+        ///     Gets or sets the selected target language.
+        /// </summary>
+        public string SelectedTranslateMode
+        {
+            get
+            {
+                return this.selectedTranslateMode;
+            }
+
+            set
+            {
+                this.selectedTranslateMode = value;
+                this.NotifyPropertyChanged("SelectedTranslateMode");
+            }
+        }
+
+
+
+        /// <summary>
         ///     Gets or sets a value indicating whether show progress bar.
         /// </summary>
         public bool ShowProgressBar
@@ -406,7 +439,28 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                 this.NotifyPropertyChanged("TargetLanguageList");
             }
         }
-        
+
+        /// <summary>
+        ///     Gets or sets the TranslateMode list.
+        /// </summary>
+        public List<string> TranslateModeList
+        {
+            get
+            {
+                return this.translateModeList;
+            }
+
+            set
+            {
+                this.translateModeList = value;
+                this.NotifyPropertyChanged("TranslateModeList");
+            }
+        }
+
+
+
+
+
         /// <summary>
         /// Gets or sets a value indicating whether hidden content should be ignored.
         /// </summary>
@@ -473,6 +527,13 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             this.SourceLanguageList.AddRange(this.TargetLanguageList);
             this.NotifyPropertyChanged("SourceLanguageList");
             this.NotifyPropertyChanged("TargetLanguageList");
+        }
+
+        private void PopulateTranslateMode()
+        {
+            this.TranslateModeList.Clear();
+            this.TranslateModeList.Add(Properties.Resources.Common_PlainText);
+            this.TranslateModeList.Add(Properties.Resources.Common_HTML);
         }
 
 

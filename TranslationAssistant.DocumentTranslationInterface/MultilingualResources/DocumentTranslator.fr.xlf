@@ -115,8 +115,9 @@ Veuillez visiter la page de paramètres pour entrer vos informations d’identif
           <target state="translated">Langue d’arrivée</target>
         </trans-unit>
         <trans-unit id="Translate_Go" translate="yes" xml:space="preserve">
-          <source>Go</source>
-          <target state="translated" state-qualifier="tm-suggestion">OK</target>
+          <source>Translate</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">OK</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Common_AutoDetect" translate="yes" xml:space="preserve">
           <source>Auto-Detect</source>
@@ -244,6 +245,42 @@ Word documents : texte masqué</target>
         <trans-unit id="TestWindow_Title" translate="yes" xml:space="preserve">
           <source>Test Window</source>
           <target state="new">Test Window</target>
+        </trans-unit>
+        <trans-unit id="Main_ImmediateWindow" translate="yes" xml:space="preserve">
+          <source>Translate</source>
+          <target state="new">Translate</target>
+        </trans-unit>
+        <trans-unit id="Translate_Input" translate="yes" xml:space="preserve">
+          <source>Input:</source>
+          <target state="new">Input:</target>
+        </trans-unit>
+        <trans-unit id="Translate_Result" translate="yes" xml:space="preserve">
+          <source>Result:</source>
+          <target state="new">Result:</target>
+        </trans-unit>
+        <trans-unit id="Translate_BreakSentences" translate="yes" xml:space="preserve">
+          <source>Break Sentences</source>
+          <target state="new">Break Sentences</target>
+        </trans-unit>
+        <trans-unit id="Translate_Detect" translate="yes" xml:space="preserve">
+          <source>Detect</source>
+          <target state="new">Detect</target>
+        </trans-unit>
+        <trans-unit id="Translate_Mode" translate="yes" xml:space="preserve">
+          <source>Mode</source>
+          <target state="new">Mode</target>
+        </trans-unit>
+        <trans-unit id="Common_HTML" translate="yes" xml:space="preserve">
+          <source>HTML</source>
+          <target state="new">HTML</target>
+        </trans-unit>
+        <trans-unit id="Common_PlainText" translate="yes" xml:space="preserve">
+          <source>plain text</source>
+          <target state="new">plain text</target>
+        </trans-unit>
+        <trans-unit id="Translate_SentNum" translate="yes" xml:space="preserve">
+          <source>Number of sentences:</source>
+          <target state="new">Number of sentences:</target>
         </trans-unit>
       </group>
     </body>

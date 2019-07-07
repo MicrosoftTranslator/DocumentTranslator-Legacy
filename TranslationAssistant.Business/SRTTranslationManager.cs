@@ -113,7 +113,7 @@ namespace TranslationAssistant.Business
             {
                 SrtUtterance toutterance = new SrtUtterance();
                 toutterance = srtutterance.Value;
-                toutterance.utterance = TranslationServices.Core.TranslationServiceFacade.TranslateString(srtutterance.Value.utterance, fromlanguage, tolanguage, "text/plain");
+                toutterance.utterance = TranslationServices.Core.TranslationServiceFacade.TranslateString(srtutterance.Value.utterance, fromlanguage, tolanguage, 0);
                 ToDict.Add(srtutterance.Key, toutterance);
             });
             _langcode = tolanguage;

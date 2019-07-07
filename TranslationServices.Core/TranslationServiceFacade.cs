@@ -22,6 +22,7 @@ namespace TranslationAssistant.TranslationServices.Core
     using System.Collections;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.IO;
     using System.Linq;
     using System.Net.Http;
     using System.Text;
@@ -141,7 +142,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         /// <param name="input">Input string to detect the language of</param>
         /// <returns></returns>
-        public static async Task<string> DetectAsync(string input)
+        public static async Task<string> DetectAsync(string input, bool pretty=false)
         {
             string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/detect?api-version=3.0";
             string result = String.Empty;
@@ -158,13 +159,42 @@ namespace TranslationAssistant.TranslationServices.Core
                 HttpResponseMessage response = await client.SendAsync(request);
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    return await response.Content.ReadAsStringAsync();
+                    string detectResult= await response.Content.ReadAsStringAsync();
+                    if (pretty)
+                    {
+                        using (var stringReader = new StringReader(detectResult))
+                        using (var stringWriter = new StringWriter())
+                        {
+                            var jsonReader = new JsonTextReader(stringReader);
+                            var jsonWriter = new JsonTextWriter(stringWriter) { Formatting = Formatting.Indented };
+                            jsonWriter.WriteToken(jsonReader);
+                            return stringWriter.ToString();
+                        }
+                    }
+                    else return detectResult;
                 }
                 else
                 {
                     return null;
                 }
             }
+        }
+
+        public static string Detect(string input, bool pretty=false)
+        {
+            Task<string> task = Task.Run(async () => await DetectAsync(input));
+            if (pretty)
+            {
+                using (var stringReader = new StringReader(task.Result))
+                using (var stringWriter = new StringWriter())
+                {
+                    var jsonReader = new JsonTextReader(stringReader);
+                    var jsonWriter = new JsonTextWriter(stringWriter) { Formatting = Formatting.Indented };
+                    jsonWriter.WriteToken(jsonReader);
+                    return stringWriter.ToString();
+                }
+            }
+            else return task.Result;
         }
 
         /// <summary>
@@ -376,9 +406,9 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="text">String to translate</param>
         /// <param name="from">From language</param>
         /// <param name="to">To language</param>
-        /// <param name="contentType">Content Type</param>
+        /// <param name="contentType">Optional: Content Type: 0=plain text (default), 1=HTML</param>
         /// <returns></returns>
-        public static string TranslateString(string text, string from, string to, string contentType)
+        public static string TranslateString(string text, string from, string to, int contentType=0)
         {
             string[] texts = new string[1];
             texts[0] = text;
@@ -388,7 +418,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
 
         /// <summary>
-        /// Translates an array of strings from the from langauge code to the to language code.
+        /// Translates an array of strings from the from language code to the to language code.
         /// From langauge code can stay empty, in that case the source language is auto-detected, across all elements of the array together.
         /// </summary>
         /// <param name="texts">Array of strings to translate</param>
@@ -396,10 +426,12 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="to">To language code. Must be a valid language</param>
         /// <param name="contentType">text/plan or text/html depending on the type of string</param>
         /// <returns></returns>
-        public static string[] TranslateArray(string[] texts, string from, string to, string contentType="text/plain")
+        public static string[] TranslateArray(string[] texts, string from, string to, int contentType=0)
         {
             string fromCode = string.Empty;
             string toCode = string.Empty;
+            string contentTypeText = "";
+            if (contentType == 1) contentTypeText = "HTML";
 
             if (autoDetectStrings.Contains(from.ToLower(CultureInfo.InvariantCulture)) || from == string.Empty)
             {
@@ -413,7 +445,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
             toCode = LanguageNameToLanguageCode(to);
 
-            string[] result = TranslateV3Async(texts, fromCode, toCode, _CategoryID, contentType).Result;
+            string[] result = TranslateV3Async(texts, fromCode, toCode, _CategoryID, contentTypeText).Result;
             return result;
 
         }
@@ -428,6 +460,79 @@ namespace TranslationAssistant.TranslationServices.Core
             return true;
         }
 
+        /// <summary>
+        /// Translates a string.
+        /// </summary>
+        /// <param name="text">Test to translate</param>
+        /// <param name="from">From languagecode</param>
+        /// <param name="to">To languagecode</param>
+        /// <param name="category">Category ID</param>
+        /// <param name="contentType">Plain text or HTML. Default is plain text.</param>
+        /// <param name="retrycount">How many times you want to retry. Default is 3.</param>
+        /// <returns></returns>
+        public static async Task<string> TranslateStringAsync(string text, string from, string to, string category, int contentType=0, int retrycount = 3)
+        {
+            string[] vs = new string[1];
+            vs[0] = text;
+            string contentTypeString = "plain";
+            if (contentType == 1) contentTypeString = "HTML";
+            Task<string[]> task = TranslateV3Async(vs, from, to, CategoryID, contentTypeString);
+            await task;
+            return task.Result[0];
+        }
+
+
+
+        // Used in the BreakSentences method.
+        private class BreakSentenceResult
+        {
+            public int[] SentLen { get; set; }
+            public DetectedLanguage DetectedLanguage { get; set; }
+        }
+
+        private class DetectedLanguage
+        {
+            public string Language { get; set; }
+            public float Score { get; set; }
+        }
+
+
+        /// <summary>
+        /// Breaks string into sentences. 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="language"></param>
+        /// <returns>List of integers denoting the offset of the sentence boundaries</returns>
+        public static async Task<List<int>> BreakSentencesAsync(string text, string language)
+        {
+            string path = "/breaksentence?api-version=3.0";
+            string params_ = "&language=" + language;
+            string uri = EndPointAddressV3Public + path + params_;
+            if (_UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
+
+            object[] body = new object[] { new { Text = text } };
+            string requestBody = JsonConvert.SerializeObject(body);
+            List<int> resultList = new List<int>();
+
+            using (HttpClient client = new HttpClient())
+            using (HttpRequestMessage request = new HttpRequestMessage())
+            {
+                request.Method = HttpMethod.Post;
+                request.RequestUri = new Uri(uri);
+                request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
+                request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
+                HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
+                string result = await response.Content.ReadAsStringAsync();
+                BreakSentenceResult[] deserializedOutput = JsonConvert.DeserializeObject<BreakSentenceResult[]>(result);
+                foreach (BreakSentenceResult o in deserializedOutput)
+                {
+                    //Console.WriteLine("The detected language is '{0}'. Confidence is: {1}.", o.DetectedLanguage.Language, o.DetectedLanguage.Score);
+                    //Console.WriteLine("The first sentence length is: {0}", o.SentLen[0]);
+                    resultList = o.SentLen.ToList();
+                }
+            }
+            return resultList;
+        }
 
         private static async Task<string[]> TranslateV3Async(string[] texts, string from, string to, string category, string contentType, int retrycount=3)
         {
