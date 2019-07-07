@@ -135,6 +135,18 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Subscribe(PopulateReadyToTranslateMessage);
         }
 
+        /// <summary>
+        /// Save the selected source and target languages for the next session;
+        /// </summary>
+        public void SaveSettings()
+        {
+            Properties.DocumentTranslator.Default.DefaultSourceLanguage = this.SelectedSourceLanguage;
+            Properties.DocumentTranslator.Default.DefaultTargetLanguage = this.SelectedTargetLanguage;
+            Properties.DocumentTranslator.Default.IgnoreHiddenContent = this.IgnoreHiddenContent;
+            Properties.DocumentTranslator.Default.DefaultTranslateMode = TranslateModeList.IndexOf(SelectedTranslateMode);  //0=plain text, 1=HTML
+            Properties.DocumentTranslator.Default.Save();
+        }
+
         #endregion
 
         #region Public Properties
@@ -195,11 +207,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                                     this.IsStarted = false;
                                     this.IsGoButtonEnabled = true;
                                     this.ShowProgressBar = false;
-                                    //Save the selected source and target languages for the next session;
-                                    Properties.DocumentTranslator.Default.DefaultSourceLanguage = this.SelectedSourceLanguage;
-                                    Properties.DocumentTranslator.Default.DefaultTargetLanguage = this.SelectedTargetLanguage;
-                                    Properties.DocumentTranslator.Default.IgnoreHiddenContent = this.IgnoreHiddenContent;
-                                    Properties.DocumentTranslator.Default.Save();
+                                    SaveSettings();
                                 };
                             worker.WorkerReportsProgress = false;
                             worker.RunWorkerAsync();

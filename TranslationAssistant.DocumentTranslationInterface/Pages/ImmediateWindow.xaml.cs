@@ -98,5 +98,10 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         {
             documentTranslation.SelectedSourceLanguage = e.AddedItems[0].ToString();
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            documentTranslation.SaveSettings();
+        }
     }
 }
