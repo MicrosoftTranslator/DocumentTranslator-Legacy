@@ -53,6 +53,5 @@
         <TextBox x:Name="InputBox" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" Height="200"  Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="680" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         <TextBlock Grid.Column="0" Grid.Row="4" Text="{x:Static p:Resources.Translate_Result}" VerticalAlignment="Center"/>
         <TextBox x:Name="ResultBox" Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left" Height="200"  Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="680" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-        <Window Closing="Window_Closing"/>
     </Grid>
 </UserControl>

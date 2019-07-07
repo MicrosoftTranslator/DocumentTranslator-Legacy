@@ -379,7 +379,7 @@ namespace TranslationAssistant.TranslationServices.Core
             }
             else
             {
-                throw new ArgumentException(String.Format("LanguageNameToLanguageCode: Language name {0} not found.", languagename));
+                return String.Empty;
             }
         }
 

@@ -16,6 +16,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
     using System.Collections.Generic;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Windows;
     using System.Windows.Controls;
 
     /// <summary>
@@ -33,7 +34,14 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         public ImmediateWindow()
         {
             this.InitializeComponent();
+            this.Loaded += ImmediateWindow_Loaded;
             this.KeyDown += ImmediateWindow_KeyDown;
+        }
+
+        private void ImmediateWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window window = Window.GetWindow(this);
+            window.Closing += Window_Closing;
         }
 
         private void ImmediateWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -92,11 +100,51 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         private void CbTargetLanguages_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             documentTranslation.SelectedTargetLanguage = e.AddedItems[0].ToString();
+            if (ResultBox != null)
+            {
+                if ((TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(documentTranslation.SelectedTargetLanguage) == "he") ||
+                 (TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(documentTranslation.SelectedTargetLanguage) == "ar"))
+                {
+                    ResultBox.HorizontalAlignment = HorizontalAlignment.Right;
+                    ResultBox.TextAlignment = TextAlignment.Right;
+                    ResultBox.FlowDirection = FlowDirection.RightToLeft;
+                    ResultBox.HorizontalContentAlignment = HorizontalAlignment.Right;
+                }
+                else
+                {
+                    ResultBox.HorizontalAlignment = HorizontalAlignment.Left;
+                    ResultBox.TextAlignment = TextAlignment.Left;
+                    ResultBox.FlowDirection = FlowDirection.LeftToRight;
+                    ResultBox.HorizontalContentAlignment = HorizontalAlignment.Left;
+                }
+                ResultBox.InvalidateArrange();
+                ResultBox.UpdateLayout();
+            }
         }
 
         private void CbSourceLanguages_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             documentTranslation.SelectedSourceLanguage = e.AddedItems[0].ToString();
+            if (InputBox != null)
+            {
+                if ((TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(documentTranslation.SelectedSourceLanguage) == "he") ||
+                 (TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(documentTranslation.SelectedSourceLanguage) == "ar"))
+                {
+                    InputBox.HorizontalAlignment = HorizontalAlignment.Right;
+                    InputBox.TextAlignment = TextAlignment.Right;
+                    InputBox.FlowDirection = FlowDirection.RightToLeft;
+                    InputBox.HorizontalContentAlignment = HorizontalAlignment.Right;
+                }
+                else
+                {
+                    InputBox.HorizontalAlignment = HorizontalAlignment.Left;
+                    InputBox.TextAlignment = TextAlignment.Left;
+                    InputBox.FlowDirection = FlowDirection.LeftToRight;
+                    InputBox.HorizontalContentAlignment = HorizontalAlignment.Left;
+                }
+                ResultBox.InvalidateArrange();
+                InputBox.UpdateLayout();
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
