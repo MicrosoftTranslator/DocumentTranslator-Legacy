@@ -117,6 +117,9 @@
     <Compile Include="Content\CustomLanguages.xaml.cs">
       <DependentUpon>CustomLanguages.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ImmediateWindow.xaml.cs">
+      <DependentUpon>ImmediateWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\DocumentTranslator.Designer.cs">
       <DependentUpon>DocumentTranslator.settings</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -170,6 +173,10 @@
       <DependentUpon>SettingsAppearance.xaml</DependentUpon>
     </Compile>
     <Compile Include="Content\SettingsAppearanceViewModel.cs" />
+    <Page Include="Pages\ImmediateWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\Home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

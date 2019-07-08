@@ -12,7 +12,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     public sealed partial class DocumentTranslator : global::System.Configuration.ApplicationSettingsBase {
         
         private static DocumentTranslator defaultInstance = ((DocumentTranslator)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new DocumentTranslator())));
@@ -56,6 +56,18 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
             }
             set {
                 this["IgnoreHiddenContent"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultTranslateMode {
+            get {
+                return ((int)(this["DefaultTranslateMode"]));
+            }
+            set {
+                this["DefaultTranslateMode"] = value;
             }
         }
     }

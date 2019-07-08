@@ -18,6 +18,7 @@
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="{x:Static p:Resources.Main_Home}" Source="/Pages/Home.xaml" />
                 <mui:Link DisplayName="{x:Static p:Resources.Translate_title}" Source="/Pages/DocumentTranslationPage.xaml" />
+                <mui:Link DisplayName="{x:Static p:Resources.Main_ImmediateWindow}" Source="/Pages/ImmediateWindow.xaml" />
                 <mui:Link DisplayName="{x:Static p:Resources.Main_Settings}" Source="/Pages/Settings.xaml" />
             </mui:LinkGroup.Links>
         </mui:LinkGroup>
