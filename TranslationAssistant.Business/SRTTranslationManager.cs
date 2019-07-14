@@ -127,13 +127,13 @@ namespace TranslationAssistant.Business
             {
                 tosrt.WriteLine(srtutterance.Key);
                 tosrt.Write(srtutterance.Value.timefromto);
-                tosrt.Write(splitevenly(srtutterance.Value.utterance, srtutterance.Value.spanlines, _langcode));
+                tosrt.Write(Splitevenly(srtutterance.Value.utterance, srtutterance.Value.spanlines, _langcode));
                 tosrt.WriteLine();          //end utterance with an empty line
             }
             return tosrt.ToString();
         }
 
-        private string splitevenly(string utterance, int segments, string langcode)
+        private string Splitevenly(string utterance, int segments, string langcode)
         {
             if (segments <= 1) return utterance + "\r\n";
             StringWriter result = new StringWriter();
