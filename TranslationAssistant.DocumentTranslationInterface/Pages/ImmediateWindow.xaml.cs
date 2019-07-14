@@ -35,26 +35,12 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         {
             this.InitializeComponent();
             this.Loaded += ImmediateWindow_Loaded;
-            this.KeyDown += ImmediateWindow_KeyDown;
         }
 
         private void ImmediateWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Window window = Window.GetWindow(this);
             window.Closing += Window_Closing;
-        }
-
-        private void ImmediateWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            try
-            {
-                switch (e.Key)
-                {
-                    case System.Windows.Input.Key.F12:
-                        break;
-                }
-            }
-            catch (System.Exception ex) { };
         }
 
         #endregion
