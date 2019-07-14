@@ -236,7 +236,7 @@ Please visit the Azure Portal to obtain a subscription key for the Translator Te
     <value>Translate from any Microsoft Translator source language to any target language.</value>
   </data>
   <data name="Home_string14" xml:space="preserve">
-    <value>Uses your Translator Text API account, and any MT systems that have been customized using the Hub.</value>
+    <value>Uses your Translator Text API account, and any MT systems that have been customized using Custom Translator.</value>
   </data>
   <data name="Home_string15" xml:space="preserve">
     <value>Command line operation, wildcards and multiple languages at once using DocumentTranslatorCmd.exe.</value>

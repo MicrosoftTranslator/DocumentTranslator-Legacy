@@ -42,7 +42,7 @@
             <TextBlock Grid.Column="0" Grid.Row="0" Text="{x:Static p:Resources.Translate_ToLanguage}" Width="Auto" Margin="15,0,0,0" VerticalAlignment="Center"/>
             <ComboBox Grid.Column="0" AllowDrop="True" x:Name="cbTargetLanguages" ItemsSource="{Binding TargetLanguageList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTargetLanguage}" Margin="10,0,0,0" VerticalAlignment="Center" SelectionChanged="CbTargetLanguages_SelectionChanged"/>
             <TextBlock Grid.Column="0" Grid.Row="0" Text="{x:Static p:Resources.Translate_Mode}" Width="Auto" Margin="15,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-            <ComboBox Grid.Column="0" AllowDrop="True" x:Name="cbTranslateMode" ItemsSource="{Binding TranslateModeList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTranslateMode}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <ComboBox Grid.Column="0" AllowDrop="True" x:Name="cbTranslateMode" ItemsSource="{Binding TranslateModeList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTranslateMode}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" SelectionChanged="CbTranslateMode_SelectionChanged" />
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Width="Auto" Height="Auto">
             <Button x:Name="TranslateButton" Content="{x:Static p:Resources.Translate_Go}" Width="110" Height="Auto" HorizontalAlignment="Left" Click="Button_Click"/>

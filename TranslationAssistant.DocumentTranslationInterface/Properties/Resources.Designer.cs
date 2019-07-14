@@ -452,7 +452,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Uses your Translator Text API account, and any MT systems that have been customized using the Hub..
+        ///   Looks up a localized string similar to Uses your Translator Text API account, and any MT systems that have been customized using Custom Translator..
         /// </summary>
         public static string Home_string14 {
             get {

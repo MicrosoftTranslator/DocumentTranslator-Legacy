@@ -25,13 +25,13 @@ namespace TranslationAssistant.Business
             htmlDoc.LoadHtml(htmldocument);
             htmlDoc.DocumentNode.SetAttributeValue("lang", TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(tolanguage));
             var title = htmlDoc.DocumentNode.SelectSingleNode("//head//title");
-            if (title != null) title.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(title.InnerHtml, fromlanguage, tolanguage, 1);
+            if (title != null) title.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(title.InnerHtml, fromlanguage, tolanguage, TranslationServices.Core.TranslationServiceFacade.ContentType.HTML);
             var body = htmlDoc.DocumentNode.SelectSingleNode("//body");
             if (body != null)
             {
                 if (body.InnerHtml.Length < maxRequestSize)
                 {
-                    body.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(body.InnerHtml, fromlanguage, tolanguage, 1);
+                    body.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(body.InnerHtml, fromlanguage, tolanguage, TranslationServices.Core.TranslationServiceFacade.ContentType.HTML);
                 }
                 else
                 {
@@ -44,7 +44,7 @@ namespace TranslationAssistant.Business
                             {
                                 throw new Exception("Child node with a length of more than 5000 characters encountered.");
                             }
-                            node.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(node.InnerHtml, fromlanguage, tolanguage, 1);
+                            node.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(node.InnerHtml, fromlanguage, tolanguage, TranslationServices.Core.TranslationServiceFacade.ContentType.HTML);
                         });
                 }
             }

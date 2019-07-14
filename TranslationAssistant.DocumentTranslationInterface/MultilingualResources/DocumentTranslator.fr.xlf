@@ -25,7 +25,7 @@
         <trans-unit id="Account_string10" translate="yes" xml:space="preserve">
           <source>Optionally you may enter a category identifier to use a customized machine translation system. Enter the category ID of a custom system you have built on</source>
           <target state="needs-review-translation">Vous pouvez également indiquer un identifiant de catégorie pour utiliser un système de traduction automatique personnalisé. Les catégories que vous pouvez utiliser par défaut sont « general » (s’applique si vous laissez le champ vide), « tech » pour le contenu technique lié à l’informatique, « generalnn » pour les réseaux neuraux, ou la catégorie personnalisée que vous avez construite sur </target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          
         </trans-unit>
         <trans-unit id="Account_string11" translate="yes" xml:space="preserve">
           <source>Build a customized machine translation system here.</source>
@@ -38,7 +38,7 @@
         <trans-unit id="Account_category" translate="yes" xml:space="preserve">
           <source>Category ID:</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Catégorie :</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          
         </trans-unit>
         <trans-unit id="Account_key" translate="yes" xml:space="preserve">
           <source>Key:</source>
@@ -117,7 +117,7 @@ Veuillez visiter la page de paramètres pour entrer vos informations d’identif
         <trans-unit id="Translate_Go" translate="yes" xml:space="preserve">
           <source>Translate</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">OK</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          
         </trans-unit>
         <trans-unit id="Common_AutoDetect" translate="yes" xml:space="preserve">
           <source>Auto-Detect</source>
@@ -170,8 +170,9 @@ Les documents traduits contiennent l’identificateur de langue</target>
           <target state="translated">Traduit de toutes les langues source à toutes les langues cible de Microsoft Translator.</target>
         </trans-unit>
         <trans-unit id="Home_string14" translate="yes" xml:space="preserve">
-          <source>Uses your Translator Text API account, and any MT systems that have been customized using the Hub.</source>
-          <target state="translated">Utilise votre compte Microsoft API, les données stockées dans le CTF et les systèmes de mémoire personnalisés à l’aide du Hub.</target>
+          <source>Uses your Translator Text API account, and any MT systems that have been customized using Custom Translator.</source>
+          <target state="needs-review-translation">Utilise votre compte Microsoft API, les données stockées dans le CTF et les systèmes de mémoire personnalisés à l’aide du Hub.</target>
+          
         </trans-unit>
         <trans-unit id="Home_string15" translate="yes" xml:space="preserve">
           <source>Command line operation, wildcards and multiple languages at once using DocumentTranslatorCmd.exe.</source>
@@ -230,7 +231,7 @@ S’il vous plaît visitez https://portal.customtranslator.azure.ai afin de dét
         <trans-unit id="AzureGov_text" translate="yes" xml:space="preserve">
           <source>Use Azure Government:</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Utiliser Azure gouvernement</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          
         </trans-unit>
         <trans-unit id="Translate_Hidden" translate="yes" xml:space="preserve">
           <source>Ignore hidden content</source>
@@ -244,43 +245,43 @@ Word documents : texte masqué</target>
         </trans-unit>
         <trans-unit id="TestWindow_Title" translate="yes" xml:space="preserve">
           <source>Test Window</source>
-          <target state="new">Test Window</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Fenêtre d'essai</target>
         </trans-unit>
         <trans-unit id="Main_ImmediateWindow" translate="yes" xml:space="preserve">
           <source>Translate</source>
-          <target state="new">Translate</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Traduire</target>
         </trans-unit>
         <trans-unit id="Translate_Input" translate="yes" xml:space="preserve">
           <source>Input:</source>
-          <target state="new">Input:</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">réaction:</target>
         </trans-unit>
         <trans-unit id="Translate_Result" translate="yes" xml:space="preserve">
           <source>Result:</source>
-          <target state="new">Result:</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">résultat:</target>
         </trans-unit>
         <trans-unit id="Translate_BreakSentences" translate="yes" xml:space="preserve">
           <source>Break Sentences</source>
-          <target state="new">Break Sentences</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Condamnations à briser</target>
         </trans-unit>
         <trans-unit id="Translate_Detect" translate="yes" xml:space="preserve">
           <source>Detect</source>
-          <target state="new">Detect</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Détecter</target>
         </trans-unit>
         <trans-unit id="Translate_Mode" translate="yes" xml:space="preserve">
           <source>Mode</source>
-          <target state="new">Mode</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Mode</target>
         </trans-unit>
         <trans-unit id="Common_HTML" translate="yes" xml:space="preserve">
           <source>HTML</source>
-          <target state="new">HTML</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">HTML</target>
         </trans-unit>
         <trans-unit id="Common_PlainText" translate="yes" xml:space="preserve">
           <source>plain text</source>
-          <target state="new">plain text</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">texte brut</target>
         </trans-unit>
         <trans-unit id="Translate_SentNum" translate="yes" xml:space="preserve">
           <source>Number of sentences:</source>
-          <target state="new">Number of sentences:</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Nombre de phrases:</target>
         </trans-unit>
       </group>
     </body>

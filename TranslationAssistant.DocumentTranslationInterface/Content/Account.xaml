@@ -31,8 +31,8 @@
                 <TextBlock Height="20" />
                 <TextBlock TextWrapping="Wrap" Text="{x:Static p:Resources.Account_string10}" />
                 <TextBlock>
-                    <Hyperlink NavigateUri="https://hub.microsofttranslator.com" ToolTip="Build a customized machine translation system here." RequestNavigate="Hyperlink_OnRequestNavigate">
-                    <Run Text="https://hub.microsofttranslator.com."/>
+                    <Hyperlink NavigateUri="http://customtranslator.ai" ToolTip="Build a customized machine translation system here." RequestNavigate="Hyperlink_OnRequestNavigate">
+                    <Run Text="http://customtranslator.ai."/>
                     </Hyperlink>
                 </TextBlock>
 

@@ -35,26 +35,12 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         {
             this.InitializeComponent();
             this.Loaded += ImmediateWindow_Loaded;
-            this.KeyDown += ImmediateWindow_KeyDown;
         }
 
         private void ImmediateWindow_Loaded(object sender, RoutedEventArgs e)
         {
             Window window = Window.GetWindow(this);
             window.Closing += Window_Closing;
-        }
-
-        private void ImmediateWindow_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            try
-            {
-                switch (e.Key)
-                {
-                    case System.Windows.Input.Key.F12:
-                        break;
-                }
-            }
-            catch (System.Exception ex) { };
         }
 
         #endregion
@@ -68,13 +54,16 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         private async void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             string translateFrom = documentTranslation.SelectedSourceLanguage;
+            TranslationServices.Core.TranslationServiceFacade.ContentType contentType = TranslationServices.Core.TranslationServiceFacade.ContentType.plain;
             if (documentTranslation.SourceLanguageList.IndexOf(documentTranslation.SelectedSourceLanguage) == 0) translateFrom = "";
+            if (documentTranslation.TranslateModeList.IndexOf(documentTranslation.SelectedTranslateMode) == 1) contentType = TranslationServices.Core.TranslationServiceFacade.ContentType.HTML;
+
             Task<string> task = TranslationServices.Core.TranslationServiceFacade.TranslateStringAsync(
                 InputBox.Text,
                 translateFrom,
                 TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(documentTranslation.SelectedTargetLanguage),
                 TranslationServices.Core.TranslationServiceFacade.CategoryID,
-                documentTranslation.TranslateModeList.IndexOf(documentTranslation.SelectedTranslateMode)
+                contentType
             );
             ResultBox.Text = await task;
         }
@@ -150,6 +139,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             documentTranslation.SaveSettings();
+        }
+
+        private void CbTranslateMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            documentTranslation.SelectedTranslateMode = e.AddedItems[0].ToString();
         }
     }
 }
