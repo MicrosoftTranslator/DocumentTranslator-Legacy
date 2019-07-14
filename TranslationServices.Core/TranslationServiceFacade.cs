@@ -39,7 +39,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
         public static Dictionary<string, string> AvailableLanguages = new Dictionary<string, string>();
 
-        public static int maxrequestsize = 5000;
+        public static int maxrequestsize = 5000;   //service size is 5000
         public static int maxelements = 100;
 
         private static string _CategoryID;
@@ -118,6 +118,7 @@ namespace TranslationAssistant.TranslationServices.Core
         public static string EndPointAddressV3Public { get; set; } = "https://api.cognitive.microsofttranslator.com";
         public static string EndPointAddressV3Gov { get; set; } = "https://api.cognitive.microsofttranslator.us";
 
+        public enum ContentType { plain, HTML };
 
         /// <summary>
         /// Authentication Service URL
@@ -182,19 +183,8 @@ namespace TranslationAssistant.TranslationServices.Core
 
         public static string Detect(string input, bool pretty=false)
         {
-            Task<string> task = Task.Run(async () => await DetectAsync(input));
-            if (pretty)
-            {
-                using (var stringReader = new StringReader(task.Result))
-                using (var stringWriter = new StringWriter())
-                {
-                    var jsonReader = new JsonTextReader(stringReader);
-                    var jsonWriter = new JsonTextWriter(stringWriter) { Formatting = Formatting.Indented };
-                    jsonWriter.WriteToken(jsonReader);
-                    return stringWriter.ToString();
-                }
-            }
-            else return task.Result;
+            Task<string> task = Task.Run(async () => await DetectAsync(input, pretty));
+            return task.Result;
         }
 
         /// <summary>
@@ -253,7 +243,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 try
                 {
                     string[] teststring = { "Test" };
-                    Task<string[]> translateTask = TranslateV3Async(teststring, "en", "he", category, "text/plain");
+                    Task<string[]> translateTask = TranslateV3Async(teststring, "en", "he", category);
                     await translateTask.ConfigureAwait(false);
                     if (translateTask.Result == null) return false; else return true;
                 }
@@ -408,7 +398,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="to">To language</param>
         /// <param name="contentType">Optional: Content Type: 0=plain text (default), 1=HTML</param>
         /// <returns></returns>
-        public static string TranslateString(string text, string from, string to, int contentType=0)
+        public static string TranslateString(string text, string from, string to, ContentType contentType = ContentType.plain)
         {
             string[] texts = new string[1];
             texts[0] = text;
@@ -419,19 +409,17 @@ namespace TranslationAssistant.TranslationServices.Core
 
         /// <summary>
         /// Translates an array of strings from the from language code to the to language code.
-        /// From langauge code can stay empty, in that case the source language is auto-detected, across all elements of the array together.
+        /// From language code can stay empty, in that case the source language is auto-detected, across all elements of the array together.
         /// </summary>
         /// <param name="texts">Array of strings to translate</param>
         /// <param name="from">From language code. May be empty</param>
         /// <param name="to">To language code. Must be a valid language</param>
-        /// <param name="contentType">text/plan or text/html depending on the type of string</param>
+        /// <param name="contentType">Enum: ContentType plain or HTML depending on the type of string</param>
         /// <returns></returns>
-        public static string[] TranslateArray(string[] texts, string from, string to, int contentType=0)
+        public static string[] TranslateArray(string[] texts, string from, string to, ContentType contentType = ContentType.plain)
         {
             string fromCode = string.Empty;
             string toCode = string.Empty;
-            string contentTypeText = "";
-            if (contentType == 1) contentTypeText = "HTML";
 
             if (autoDetectStrings.Contains(from.ToLower(CultureInfo.InvariantCulture)) || from == string.Empty)
             {
@@ -445,10 +433,53 @@ namespace TranslationAssistant.TranslationServices.Core
 
             toCode = LanguageNameToLanguageCode(to);
 
-            string[] result = TranslateV3Async(texts, fromCode, toCode, _CategoryID, contentTypeText).Result;
+            string[] result = TranslateV3Async(texts, fromCode, toCode, _CategoryID, contentType).Result;
             return result;
-
         }
+
+        /// <summary>
+        /// Split a string > than <see cref="maxrequestsize"/> into a list of smaller strings, at the appropriate sentence breaks. 
+        /// </summary>
+        /// <param name="text">The text to split.</param>
+        /// <param name="languagecode">The language code to apply.</param>
+        /// <returns>List of strings, each one smaller than maxrequestsize</returns>
+        private static async Task<List<string>> SplitStringAsync(string text, string languagecode)
+        {
+            List<string> result = new List<string>();
+            int previousboundary = 0;
+            if (text.Length <= maxrequestsize)
+            {
+                result.Add(text);
+            }
+            else
+            {
+                while (previousboundary <= text.Length)
+                {
+                    int boundary = await LastSentenceBreak(text.Substring(previousboundary), languagecode);
+                    if (boundary == 0) break;
+                    result.Add(text.Substring(previousboundary, boundary));
+                    previousboundary += boundary;
+                }
+                result.Add(text.Substring(previousboundary));
+            }
+            return result;
+        }
+
+
+        /// <summary>
+        /// Returns the last sentence break in the text.
+        /// </summary>
+        /// <param name="text">The original text</param>
+        /// <param name="languagecode">A language code</param>
+        /// <returns>The offset of the last sentence break, from the beginning of the text.</returns>
+        private static async Task<int> LastSentenceBreak(string text, string languagecode)
+        {
+            int sum = 0;
+            List<int> breakSentenceResult = await BreakSentencesAsync(text, languagecode);
+            for (int i = 0; i < breakSentenceResult.Count-1; i++) sum += breakSentenceResult[i];
+            return sum;
+        }
+
 
         private static bool IsCustomCategory(string categoryID)
         {
@@ -470,13 +501,11 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="contentType">Plain text or HTML. Default is plain text.</param>
         /// <param name="retrycount">How many times you want to retry. Default is 3.</param>
         /// <returns></returns>
-        public static async Task<string> TranslateStringAsync(string text, string from, string to, string category, int contentType=0, int retrycount = 3)
+        public static async Task<string> TranslateStringAsync(string text, string from, string to, string category, ContentType contentType = ContentType.plain, int retrycount = 3)
         {
             string[] vs = new string[1];
             vs[0] = text;
-            string contentTypeString = "plain";
-            if (contentType == 1) contentTypeString = "HTML";
-            Task<string[]> task = TranslateV3Async(vs, from, to, CategoryID, contentTypeString);
+            Task<string[]> task = TranslateV3Async(vs, from, to, CategoryID, contentType);
             await task;
             return task.Result[0];
         }
@@ -498,7 +527,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
 
         /// <summary>
-        /// Breaks string into sentences. 
+        /// Breaks string into sentences. The string will be cut off at maxrequestsize. 
         /// </summary>
         /// <param name="text"></param>
         /// <param name="language"></param>
@@ -509,8 +538,7 @@ namespace TranslationAssistant.TranslationServices.Core
             string params_ = "&language=" + language;
             string uri = EndPointAddressV3Public + path + params_;
             if (_UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
-
-            object[] body = new object[] { new { Text = text } };
+            object[] body = new object[] { new { Text = text.Substring(0, (text.Length < maxrequestsize) ? text.Length : maxrequestsize) } };
             string requestBody = JsonConvert.SerializeObject(body);
             List<int> resultList = new List<int>();
 
@@ -534,7 +562,57 @@ namespace TranslationAssistant.TranslationServices.Core
             return resultList;
         }
 
-        private static async Task<string[]> TranslateV3Async(string[] texts, string from, string to, string category, string contentType, int retrycount=3)
+        /// <summary>
+        /// Translate an array of texts. An element may be larger than <see cref="maxrequestsize"/>.
+        /// </summary>
+        /// <param name="texts">Array of text elements</param>
+        /// <param name="from">From language</param>
+        /// <param name="to">To language</param>
+        /// <param name="category">Category ID from Custom Translator</param>
+        /// <param name="contentType">Plain text or HTML</param>
+        /// <param name="retrycount">How many times to retry</param>
+        /// <returns></returns>
+        private static async Task<string[]> TranslateV3Async(string[] texts, string from, string to, string category, ContentType contentType = ContentType.plain, int retrycount = 3)
+        {
+            bool translateindividually = false;
+            foreach(string text in texts)
+            {
+                if (text.Length >= maxrequestsize) translateindividually = true;
+            }
+            if (translateindividually)
+            {
+                List<string> resultlist = new List<string>();
+                foreach (string text in texts)
+                {
+                    List<string> splitstring = await SplitStringAsync(text, from);
+                    string linetranslation = string.Empty;
+                    foreach (string innertext in splitstring)
+                    {
+                        string innertranslation = await TranslateStringAsync(innertext, from, to, category, contentType, retrycount);
+                        linetranslation += innertranslation;
+                    }
+                    resultlist.Add(linetranslation);
+                }
+                return resultlist.ToArray();
+            }
+            else
+            {
+                return await TranslateV3AsyncInternal(texts, from, to, category, contentType);
+            }
+        }
+
+
+        /// <summary>
+        /// Raw function to translate an array of strings. Doe snot allow elements to be larger than <see cref="maxrequestsize"/>.
+        /// </summary>
+        /// <param name="texts"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <param name="category"></param>
+        /// <param name="contentType"></param>
+        /// <param name="retrycount"></param>
+        /// <returns></returns>
+        private static async Task<string[]> TranslateV3AsyncInternal(string[] texts, string from, string to, string category, ContentType contentType, int retrycount = 3)
         {
             string path = "/translate?api-version=3.0";
             string params_ = "&from=" + from + "&to=" + to;
@@ -549,6 +627,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 if (thiscategory == "general") thiscategory = null;
             }
             if (thiscategory != null) params_ += "&category=" + System.Web.HttpUtility.UrlEncode(category);
+            if (contentType == ContentType.HTML) params_ += "&textType=HTML";
             string uri = EndPointAddressV3Public + path + params_;
             if (_UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
             
@@ -588,7 +667,7 @@ namespace TranslationAssistant.TranslationServices.Core
                                         string[] totranslate = new string[1];
                                         totranslate[0] = texts[i];
                                         string[] result = new string[1];
-                                        result = await TranslateV3Async(totranslate, from, to, category, contentType, 2);
+                                        result = await TranslateV3AsyncInternal(totranslate, from, to, category, contentType, 2);
                                         resultList.Add(result[0]);
                                     }
                                     catch
@@ -604,7 +683,7 @@ namespace TranslationAssistant.TranslationServices.Core
                                 System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
                                 Thread.Sleep(MillisecondsTimeout);
                                 if (retrycount-- <= 0) break;
-                                else await TranslateV3Async(texts, from, to, category, null, retrycount);
+                                else await TranslateV3AsyncInternal(texts, from, to, category, contentType, retrycount);
                                 break;
                             }
                         default:

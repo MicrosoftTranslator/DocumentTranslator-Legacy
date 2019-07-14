@@ -875,6 +875,7 @@ namespace TranslationAssistant.Business
                             .Length;
                     if (aggregatedSize >= maxSize)
                     {
+                        if (elementCount == 1) break;
                         elementCount = elementCount - 1;
                     }
                     else

@@ -60,7 +60,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             this.categoryID = new Argument(
                 "categoryID",
                 false,
-                "Translator Hub or Custom Translator category ID to use for calls to the translator service.");
+                "Custom Translator category ID to use for calls to the translator service.");
 
             this.Arguments = new ArgumentList(
                 new[] { this.AzureKey, this.categoryID },

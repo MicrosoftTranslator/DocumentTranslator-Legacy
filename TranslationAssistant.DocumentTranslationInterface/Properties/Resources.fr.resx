@@ -183,4 +183,34 @@ S’il vous plaît visitez https://portal.customtranslator.azure.ai afin de dét
     <value>Cocher pour ignorer le contenu suivant :
 Word documents : texte masqué</value>
   </data>
+  <data name="TestWindow_Title" xml:space="preserve">
+    <value>Fenêtre d'essai</value>
+  </data>
+  <data name="Main_ImmediateWindow" xml:space="preserve">
+    <value>Traduire</value>
+  </data>
+  <data name="Translate_Input" xml:space="preserve">
+    <value>réaction:</value>
+  </data>
+  <data name="Translate_Result" xml:space="preserve">
+    <value>résultat:</value>
+  </data>
+  <data name="Translate_BreakSentences" xml:space="preserve">
+    <value>Condamnations à briser</value>
+  </data>
+  <data name="Translate_Detect" xml:space="preserve">
+    <value>Détecter</value>
+  </data>
+  <data name="Translate_Mode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="Common_HTML" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="Common_PlainText" xml:space="preserve">
+    <value>texte brut</value>
+  </data>
+  <data name="Translate_SentNum" xml:space="preserve">
+    <value>Nombre de phrases:</value>
+  </data>
 </root>
