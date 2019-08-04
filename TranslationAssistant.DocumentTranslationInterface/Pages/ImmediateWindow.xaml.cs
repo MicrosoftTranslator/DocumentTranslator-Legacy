@@ -56,6 +56,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
             string translateFrom = documentTranslation.SelectedSourceLanguage;
             TranslationServices.Core.TranslationServiceFacade.ContentType contentType = TranslationServices.Core.TranslationServiceFacade.ContentType.plain;
             if (documentTranslation.SourceLanguageList.IndexOf(documentTranslation.SelectedSourceLanguage) == 0) translateFrom = "";
+            else translateFrom = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(documentTranslation.SelectedSourceLanguage);
             if (documentTranslation.TranslateModeList.IndexOf(documentTranslation.SelectedTranslateMode) == 1) contentType = TranslationServices.Core.TranslationServiceFacade.ContentType.HTML;
 
             Task<string> task = TranslationServices.Core.TranslationServiceFacade.TranslateStringAsync(

@@ -496,7 +496,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         {
             var openfileDlg = new OpenFileDialog
                                   {
-                                      Filter = $"{Properties.Resources.Common_SupportedFiles}|*.doc; *.docx; *.pdf; *.xls; *.xlsx; *.ppt; *.pptx; *.txt; *.text; *.htm; *.html; *.srt",      //Add XLF file types here
+                                      Filter = $"{Properties.Resources.Common_SupportedFiles}|*.doc; *.docx; *.pdf; *.xls; *.xlsx; *.ppt; *.pptx; *.txt; *.text; *.htm; *.html; *.srt; *.md; *.markdown",      //Add XLF file types here
                                       Multiselect = true
                                   };
             if (openfileDlg.ShowDialog().Value)
