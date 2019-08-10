@@ -13,6 +13,7 @@
 
 namespace TranslationAssistant.DocumentTranslationInterface.Pages
 {
+    using System;
     using System.Collections.Generic;
     using System.Text;
     using System.Threading.Tasks;
@@ -48,15 +49,24 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         private async void DetectButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             Task<string> task = TranslationServices.Core.TranslationServiceFacade.DetectAsync(InputBox.Text, true);
+            ResultBox.Text = string.Empty;
             ResultBox.Text = await task;
         }
 
         private async void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            ResultBox.Text = string.Empty;
             string translateFrom = documentTranslation.SelectedSourceLanguage;
             TranslationServices.Core.TranslationServiceFacade.ContentType contentType = TranslationServices.Core.TranslationServiceFacade.ContentType.plain;
-            if (documentTranslation.SourceLanguageList.IndexOf(documentTranslation.SelectedSourceLanguage) == 0) translateFrom = "";
-            else translateFrom = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(documentTranslation.SelectedSourceLanguage);
+            if (documentTranslation.SourceLanguageList.IndexOf(documentTranslation.SelectedSourceLanguage) == 0)
+            {
+                translateFrom = "";
+            }
+            else
+            {
+                translateFrom = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(translateFrom);
+            }
+
             if (documentTranslation.TranslateModeList.IndexOf(documentTranslation.SelectedTranslateMode) == 1) contentType = TranslationServices.Core.TranslationServiceFacade.ContentType.HTML;
 
             Task<string> task = TranslationServices.Core.TranslationServiceFacade.TranslateStringAsync(
@@ -66,17 +76,34 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
                 TranslationServices.Core.TranslationServiceFacade.CategoryID,
                 contentType
             );
-            ResultBox.Text = await task;
+            try
+            {
+                ResultBox.Text = await task;
+            }
+            catch (Exception ex)
+            {
+                ResultBox.Text = ex.Message;
+            }
         }
 
         private async void BreakSentencesButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            ResultBox.Text = string.Empty;
             string language = documentTranslation.SelectedSourceLanguage;
             if (documentTranslation.SourceLanguageList.IndexOf(language) == 0) language = string.Empty;
             Task<List<int>> task = TranslationServices.Core.TranslationServiceFacade.BreakSentencesAsync(InputBox.Text, language);
             StringBuilder outputstring = new StringBuilder(string.Empty);
             int startindex = 0;
-            List<int> BreakResult = await task;
+            List<int> BreakResult = new List<int>();
+            try
+            {
+                BreakResult = await task;
+            }
+            catch (Exception ex)
+            {
+                ResultBox.Text = ex.Message;
+                return;
+            }
             foreach (int offset in BreakResult)
             {
                 outputstring.Append(InputBox.Text.Substring(startindex, offset));
