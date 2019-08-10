@@ -532,10 +532,10 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="text"></param>
         /// <param name="language"></param>
         /// <returns>List of integers denoting the offset of the sentence boundaries</returns>
-        public static async Task<List<int>> BreakSentencesAsync(string text, string language)
+        public static async Task<List<int>> BreakSentencesAsync(string text, string languagecode)
         {
             string path = "/breaksentence?api-version=3.0";
-            string params_ = "&language=" + language;
+            string params_ = "&language=" + languagecode;
             string uri = EndPointAddressV3Public + path + params_;
             if (_UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
             object[] body = new object[] { new { Text = text.Substring(0, (text.Length < maxrequestsize) ? text.Length : maxrequestsize) } };

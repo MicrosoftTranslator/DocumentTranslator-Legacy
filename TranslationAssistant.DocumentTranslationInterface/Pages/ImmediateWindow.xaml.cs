@@ -91,6 +91,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
             ResultBox.Text = string.Empty;
             string language = documentTranslation.SelectedSourceLanguage;
             if (documentTranslation.SourceLanguageList.IndexOf(language) == 0) language = string.Empty;
+            else language = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(language);
             Task<List<int>> task = TranslationServices.Core.TranslationServiceFacade.BreakSentencesAsync(InputBox.Text, language);
             StringBuilder outputstring = new StringBuilder(string.Empty);
             int startindex = 0;
