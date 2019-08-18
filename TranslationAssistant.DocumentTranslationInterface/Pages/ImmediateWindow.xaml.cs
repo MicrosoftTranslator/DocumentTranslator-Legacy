@@ -48,7 +48,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
 
         private async void DetectButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Task<string> task = TranslationServices.Core.TranslationServiceFacade.DetectAsync(InputBox.Text, true);
+            Task<string> task = TranslationServices.Core.TranslationServiceFacade.DetectAsync(InputBox.Text, false);
             ResultBox.Text = string.Empty;
             ResultBox.Text = await task;
         }

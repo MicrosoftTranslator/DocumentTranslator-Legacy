@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace TranslationAssistant.Business
 {
@@ -101,13 +102,14 @@ namespace TranslationAssistant.Business
         public void Translate(string fromlanguage, string tolanguage)
         {
             Dictionary<int, MDUtterance> ToDict = new Dictionary<int, MDUtterance>();
-            Parallel.ForEach(MDContent, (mdutterance) =>
+//            Parallel.ForEach(MDContent, (mdutterance) =>
+            foreach(var mdutterance in MDContent)
             {
                 MDUtterance toutterance = new MDUtterance();
                 toutterance = mdutterance.Value;
-                toutterance.text = TranslationServices.Core.TranslationServiceFacade.TranslateString(mdutterance.Value.text, fromlanguage, tolanguage, 0);
+                toutterance.text = Tagged2Markdown(TranslationServices.Core.TranslationServiceFacade.TranslateString(Markdown2Tagged(mdutterance.Value.text), fromlanguage, tolanguage, 0));
                 ToDict.Add(mdutterance.Key, toutterance);
-            });
+            };
             _langcode = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(tolanguage);
             MDContent = ToDict;        //Replace the master collection with the translated version. 
         }
@@ -146,6 +148,50 @@ namespace TranslationAssistant.Business
             string debug = result.ToString();
             return result.ToString();
         }
+
+        private struct MDTag
+        {
+            public string value;    //value
+        }
+
+        private Dictionary<string, MDTag> MDTags = new Dictionary<string, MDTag>();
+
+        private int g_count = 0;   //global counter for 
+
+        /// <summary>
+        /// Replace markdown with <C0> style tags
+        /// Assumes a single utterance. Do not pass in multi-paragraph strings. 
+        /// Writes to the global MDTags dictionary
+        /// </summary>
+        /// <param name="input">Markdown string</param>
+        /// <returns>Same string with markdown replaced by <C0> style tags</returns>
+        public string Markdown2Tagged(string input)
+        {
+            string output = string.Empty;
+            Match match = Regex.Match(input, "#*");
+            if (match.Success)
+            {
+                g_count++;
+                string key = "C" + g_count;
+                MDTag mdtag = new MDTag
+                {
+                    value = match.Value
+                };
+                MDTags.Add(key, mdtag);
+                output = input.Substring(0, match.Index) + "<" + key + ">" + Markdown2Tagged(input.Substring(match.Index + match.Length));
+            }
+            else {
+                return input;
+            }
+            return output;
+        }
+
+
+        private string Tagged2Markdown(string input)
+        {
+            string output = input;
+            return output;
+        }
     }
 
 
@@ -156,6 +202,7 @@ namespace TranslationAssistant.Business
             string mdtext = File.ReadAllText(mdfilename);
             MDDocument mddocument = new MDDocument();
             string _fromlanguagecode = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(fromlanguage);
+            if (_fromlanguagecode.Length < 1) _fromlanguagecode = TranslationServices.Core.TranslationServiceFacade.Detect(mdtext);
             int noofutterances = mddocument.LoadMD(mdtext, _fromlanguagecode);
             mddocument.Translate(fromlanguage, tolanguage);
             File.WriteAllText(mdfilename, mddocument.ToString(), Encoding.UTF8);
