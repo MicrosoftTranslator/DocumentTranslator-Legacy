@@ -73,6 +73,7 @@ namespace TranslationAssistant.Business
             int paragraphindex = 0;
             while (lineindex < md.Length)
             {
+                string trimline = md[lineindex].Trim();
                 paragraphindex++;
                 if (paragraphindex > 0)
                 {
@@ -82,17 +83,28 @@ namespace TranslationAssistant.Business
                         spanlines = 0,
                         lineType = LineType.translatable
                     };
-                    while (md[lineindex].Trim().Length > 0)
+                    //Check for heading. If heading, leave as single paragraph, do not combine lines. Else combine lines until an empty line.
+                    if (md[lineindex].Trim().Length > 0)
                     {
-                        mdutterance.text += md[lineindex];
-                        //add a space between the lines for languages that use space
-                        if (!nonspacelanguages.Contains(langcode.ToLowerInvariant())) mdutterance.text += " ";
-                        lineindex++;
-                        mdutterance.spanlines++;
-                        if (lineindex == md.Length) break;
+                        if (md[lineindex].TrimStart()[0] == '#')
+                        {
+                            mdutterance.text += md[lineindex];
+                        }
+                        else
+                        {
+                            while (md[lineindex].Trim().Length > 0)
+                            {
+                                mdutterance.text += md[lineindex];
+                                //add a space between the lines for languages that use space
+                                if (!nonspacelanguages.Contains(langcode.ToLowerInvariant())) mdutterance.text += " ";
+                                lineindex++;
+                                mdutterance.spanlines++;
+                                if (lineindex == md.Length) break;
+                            }
+                        }
+                        mdutterance.text = mdutterance.text.Replace("\r", string.Empty);
                     }
                     lineindex++;
-                    mdutterance.text = mdutterance.text.Replace("\r", string.Empty);
                     MDContent.Add(paragraphindex, mdutterance);
                 }
             }
@@ -140,7 +152,7 @@ namespace TranslationAssistant.Business
                 for (int i = 1; i < segments; i++)
                 {
                     int endindex = utterance.IndexOf(' ', segmentlength * i);
-                    result.WriteLine(utterance.Substring(startindex, endindex-startindex));
+                    if (endindex > startindex) result.WriteLine(utterance.Substring(startindex, endindex-startindex));
                     startindex = endindex + 1;
                 }
                 result.WriteLine(utterance.Substring(startindex));          //copy the last segment
@@ -156,7 +168,8 @@ namespace TranslationAssistant.Business
 
         private Dictionary<string, MDTag> MDTags = new Dictionary<string, MDTag>();
 
-        private int g_count = 0;   //global counter for 
+        private int g_count = 0;   //global counter for tag numbering
+
 
         /// <summary>
         /// Replace markdown with <C0> style tags
@@ -167,22 +180,28 @@ namespace TranslationAssistant.Business
         /// <returns>Same string with markdown replaced by <C0> style tags</returns>
         public string Markdown2Tagged(string input)
         {
+            g_count = 0;
+            MDTags.Clear();
+            bool inside = false;
             string output = string.Empty;
-            Match match = Regex.Match(input, "#*");
-            if (match.Success)
+            int startofcopy = 0;
+            MatchCollection matchCollection = Regex.Matches(input, @"(#+)|(\*+)|(~~+)|(_+)");
+
+            foreach (Match match in matchCollection)
             {
-                g_count++;
-                string key = "C" + g_count;
+                if (!inside) g_count++;
+                string key = inside ? "/c" : "c";
+                key += g_count;
+                inside = ((match.Value[0] == '*') || match.Value[0] == '~') && !inside ? true : false;
                 MDTag mdtag = new MDTag
                 {
                     value = match.Value
                 };
                 MDTags.Add(key, mdtag);
-                output = input.Substring(0, match.Index) + "<" + key + ">" + Markdown2Tagged(input.Substring(match.Index + match.Length));
+                output += input.Substring(startofcopy, match.Index-startofcopy) + "<" + key + ">";
+                startofcopy = match.Index + match.Length;
             }
-            else {
-                return input;
-            }
+            output += input.Substring(startofcopy);
             return output;
         }
 
@@ -190,6 +209,10 @@ namespace TranslationAssistant.Business
         private string Tagged2Markdown(string input)
         {
             string output = input;
+            foreach(var mdtag in MDTags)
+            {
+                output = output.Replace("<"+mdtag.Key+">", mdtag.Value.value);
+            }
             return output;
         }
     }
