@@ -265,7 +265,7 @@ namespace TranslationAssistant.TranslationServices.Core
         public static void Initialize(bool force=false)
         {
             if (IsInitialized && !force) return;
-            LoadCredentials();
+            //LoadCredentials();
 
             //Inspect the given Azure Key to see if this is host with appid auth
             string[] AuthComponents = _AzureKey.Split('?');

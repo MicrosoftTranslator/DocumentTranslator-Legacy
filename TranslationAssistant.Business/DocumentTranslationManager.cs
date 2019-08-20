@@ -330,7 +330,11 @@ namespace TranslationAssistant.Business
         private static List<string> GetAllDocumentsToProcess(string documentPath, string targetLanguage)
         {
             List<string> allFiles = new List<string>();
-            File.Delete(GetOutputDocumentFullName(documentPath, targetLanguage));
+            var expectedOutputDocumentName = GetOutputDocumentFullName(documentPath, targetLanguage);
+            if (File.Exists(expectedOutputDocumentName))
+            {
+                File.Delete(expectedOutputDocumentName);
+            }
             var outputDocumentName = GetOutputDocumentFullName(documentPath, targetLanguage);
 
             if (documentPath.ToLowerInvariant().EndsWith(".doc") || documentPath.ToLowerInvariant().EndsWith(".pdf"))
