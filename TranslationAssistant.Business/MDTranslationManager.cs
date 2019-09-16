@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace TranslationAssistant.Business
 {
@@ -35,7 +36,7 @@ namespace TranslationAssistant.Business
         /// </summary>
         private const string nonspacelanguages = "zh, th, ja, ko, zh-hans, zh-hant, zh-chs, zh-cht";
 
-        private enum LineType { star, dash, equalsign, code, translatable };
+        private enum LineType { empty, title, code, translatable, blockquote, list };
 
         /// <summary>
         /// Hold one utterance (aka paragraph) of the MD file
@@ -71,6 +72,7 @@ namespace TranslationAssistant.Business
             string[] md = mddocument.Split('\n');
             int lineindex = 0;
             int paragraphindex = 0;
+            bool insidecodesection = false;
             while (lineindex < md.Length)
             {
                 string trimline = md[lineindex].Trim();
@@ -83,29 +85,87 @@ namespace TranslationAssistant.Business
                         spanlines = 0,
                         lineType = LineType.translatable
                     };
-                    //Check for heading. If heading, leave as single paragraph, do not combine lines. Else combine lines until an empty line.
-                    if (md[lineindex].Trim().Length > 0)
+
+                    //Check for empty string
+                    if (trimline.Length == 0)
                     {
-                        if (md[lineindex].TrimStart()[0] == '#')
+                        mdutterance.lineType = LineType.empty;
+                        MDContent.Add(paragraphindex, mdutterance);
+                        lineindex++;
+                        continue;
+                    }
+                    //Mark lines enclosed with "'''" as untranslatable code. 
+                    if (insidecodesection) mdutterance.lineType = LineType.code;
+                    if (trimline.StartsWith(@"'''") || trimline.StartsWith(@"```"))
+                    {
+                        mdutterance.lineType = LineType.code;
+                        if (insidecodesection)
+                            insidecodesection = false;
+                        else
+                            insidecodesection = true;
+                    }
+
+                    //Check for Blockquote. Remove the > character and treat as continuous utterance. Mark utterance as linetype.blockquote
+                    if (trimline.StartsWith(@">"))
+                    {
+                        trimline = trimline.Substring(1).Trim();
+                        mdutterance.lineType = LineType.blockquote;
+                    }
+
+                    //Check for Lists
+                    if (trimline.StartsWith(@"*"))
+                    {
+                        mdutterance.lineType = LineType.list;
+                    }
+
+                    //Check for heading. If heading, leave as single paragraph, do not combine lines. Else combine lines until an empty line.
+                    if (trimline.Length > 0)
+                    {
+                        if (trimline.StartsWith("#") || insidecodesection || trimline.StartsWith(@"'''") || trimline.StartsWith(@"```") || trimline.StartsWith(@"*") || trimline.StartsWith(@"-"))
                         {
-                            mdutterance.text += md[lineindex];
+                            //create a single-line utterance
+                            mdutterance.text = trimline;
                         }
                         else
                         {
+                            //combine multiple lines to a single utterance
                             while (md[lineindex].Trim().Length > 0)
                             {
-                                mdutterance.text += md[lineindex];
+                                //break on ''' (start of untranslatable code section)
+                                if (md[lineindex].TrimStart().StartsWith(@"'''") || md[lineindex].TrimStart().StartsWith(@"```"))
+                                {
+                                    MDContent.Add(paragraphindex, mdutterance);
+                                    insidecodesection = true;
+                                    mdutterance.text = md[lineindex];
+                                    mdutterance.lineType = LineType.code;
+                                    mdutterance.spanlines = 1;
+                                    paragraphindex++;
+                                    break;
+                                }
+
+                                //check for blockquote
+                                if (md[lineindex].TrimStart().StartsWith(@">"))
+                                {
+                                    mdutterance.lineType = LineType.blockquote;
+                                    mdutterance.text += md[lineindex].Trim().Substring(1);
+                                }
+                                else
+                                {
+                                    mdutterance.text += md[lineindex].Trim();
+                                }
                                 //add a space between the lines for languages that use space
                                 if (!nonspacelanguages.Contains(langcode.ToLowerInvariant())) mdutterance.text += " ";
                                 lineindex++;
-                                mdutterance.spanlines++;
+
                                 if (lineindex == md.Length) break;
+                                mdutterance.spanlines++;
                             }
                         }
-                        mdutterance.text = mdutterance.text.Replace("\r", string.Empty);
+                        mdutterance.text = mdutterance.text.Replace("\r\n", string.Empty);
                     }
-                    lineindex++;
+                    Debug.WriteLine(mdutterance.lineType.ToString() + ": " + mdutterance.text);
                     MDContent.Add(paragraphindex, mdutterance);
+                    lineindex++;
                 }
             }
             return MDContent.Count;
@@ -119,7 +179,10 @@ namespace TranslationAssistant.Business
             {
                 MDUtterance toutterance = new MDUtterance();
                 toutterance = mdutterance.Value;
-                toutterance.text = Tagged2Markdown(TranslationServices.Core.TranslationServiceFacade.TranslateString(Markdown2Tagged(mdutterance.Value.text), fromlanguage, tolanguage, 0));
+                if (mdutterance.Value.lineType != LineType.code)
+                {
+                    toutterance.text = Tagged2Markdown(TranslationServices.Core.TranslationServiceFacade.TranslateString(Markdown2Tagged(mdutterance.Value.text), fromlanguage, tolanguage, 0));
+                }
                 ToDict.Add(mdutterance.Key, toutterance);
             };
             _langcode = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(tolanguage);
@@ -131,15 +194,29 @@ namespace TranslationAssistant.Business
             StringWriter tomd = new StringWriter();
             foreach (var mdutterance in MDContent.OrderBy(Key => Key.Key))
             {
-                tomd.Write(Splitevenly(mdutterance.Value.text, mdutterance.Value.spanlines, _langcode));
-                tomd.WriteLine();          //end utterance with an empty line
+                Debug.WriteLine(mdutterance.Value.lineType.ToString() + ": " + mdutterance.Value.text);
+                if (mdutterance.Value.lineType == LineType.blockquote)
+                {
+                    StringWriter blockquote = new StringWriter();
+                    blockquote.Write(Splitevenly(mdutterance.Value.text, mdutterance.Value.spanlines, _langcode));
+                    tomd.WriteLine(">" + blockquote.ToString().Replace("\r\n", "\r\n> "));
+                }
+                else
+                {
+                    string splitstring = string.Empty;
+                    if (mdutterance.Value.lineType == LineType.translatable)
+                        splitstring = Splitevenly(mdutterance.Value.text, mdutterance.Value.spanlines, _langcode);
+                    else
+                        splitstring = mdutterance.Value.text.TrimEnd();
+                    tomd.WriteLine(splitstring);
+                }
             }
             return tomd.ToString();
         }
 
         private string Splitevenly(string utterance, int segments, string langcode)
         {
-            if (segments <= 1) return utterance + "\r\n";
+            if (segments <= 1) return utterance;
             StringWriter result = new StringWriter();
             int segmentlength = utterance.Length / segments;
             if (nonspacelanguages.Contains(langcode.ToLowerInvariant()))    //non-spacing languages
@@ -178,21 +255,23 @@ namespace TranslationAssistant.Business
         /// </summary>
         /// <param name="input">Markdown string</param>
         /// <returns>Same string with markdown replaced by <C0> style tags</returns>
-        public string Markdown2Tagged(string input)
+        private string Markdown2Tagged(string input)
         {
             g_count = 0;
             MDTags.Clear();
             bool inside = false;
             string output = string.Empty;
             int startofcopy = 0;
-            MatchCollection matchCollection = Regex.Matches(input, @"(#+)|(\*+)|(~~+)|(_+)");
+            MatchCollection matchCollection = Regex.Matches(input, @"(#+)|(\*+)|(~~+)|(_+)|(')");
 
             foreach (Match match in matchCollection)
             {
                 if (!inside) g_count++;
-                string key = inside ? "/c" : "c";
+                string key = inside ? "/a" : "a";
+                if (match.Value[0] == '\'')
+                    key = inside ? "/c" : "c";
                 key += g_count;
-                inside = ((match.Value[0] == '*') || match.Value[0] == '~') && !inside ? true : false;
+                inside = ((match.Value[0] == '*') || match.Value[0] == '~' || match.Value[0] == '_' || match.Value[0] == '\'') && !inside ? true : false;
                 MDTag mdtag = new MDTag
                 {
                     value = match.Value
