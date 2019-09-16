@@ -295,11 +295,15 @@ namespace TranslationAssistant.Business
                 }
                 else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".html") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".htm"))
                 {
-                    ProcessHTMLDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+                    HTMLTranslationManager.DoTranslation(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
                 }
                 else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".srt"))
                 {
-                    ProcessSRTDocument(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+                    SRTTranslationManager.DoTranslation(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+                }
+                else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".md") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".markdown"))
+                {
+                    MDTranslationManager.DoTranslation(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);                    
                 }
             }
             catch (AggregateException ae)
@@ -392,16 +396,6 @@ namespace TranslationAssistant.Business
             return outputDocumentNameWithoutExtension + documentFullName.Substring(documentFullName.LastIndexOf(".", StringComparison.Ordinal));
         }
 
-
-        private static void ProcessHTMLDocument(string fullNameForDocumentToProcess, string sourceLanguage, string targetLanguage)
-        {
-            HTMLTranslationManager.DoTranslation(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
-        }
-
-        private static void ProcessSRTDocument(string fullNameForDocumentToProcess, string sourceLanguage, string targetLanguage)
-        {
-            SRTTranslationManager.DoTranslation(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
-        }
 
 
         /// <summary>

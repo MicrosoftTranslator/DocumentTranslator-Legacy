@@ -48,7 +48,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
 
         private async void DetectButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Task<string> task = TranslationServices.Core.TranslationServiceFacade.DetectAsync(InputBox.Text, true);
+            Task<string> task = TranslationServices.Core.TranslationServiceFacade.DetectAsync(InputBox.Text, false);
             ResultBox.Text = string.Empty;
             ResultBox.Text = await task;
         }
@@ -91,6 +91,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
             ResultBox.Text = string.Empty;
             string language = documentTranslation.SelectedSourceLanguage;
             if (documentTranslation.SourceLanguageList.IndexOf(language) == 0) language = string.Empty;
+            else language = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(language);
             Task<List<int>> task = TranslationServices.Core.TranslationServiceFacade.BreakSentencesAsync(InputBox.Text, language);
             StringBuilder outputstring = new StringBuilder(string.Empty);
             int startindex = 0;

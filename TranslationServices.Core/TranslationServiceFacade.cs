@@ -143,7 +143,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         /// <param name="input">Input string to detect the language of</param>
         /// <returns></returns>
-        public static async Task<string> DetectAsync(string input, bool pretty=false)
+        private static async Task<string> DetectInternalAsync(string input, bool pretty=false)
         {
             string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/detect?api-version=3.0";
             string result = String.Empty;
@@ -172,7 +172,11 @@ namespace TranslationAssistant.TranslationServices.Core
                             return stringWriter.ToString();
                         }
                     }
-                    else return detectResult;
+                    else
+                    {
+                        return detectResult;
+                    }
+                       
                 }
                 else
                 {
@@ -181,11 +185,54 @@ namespace TranslationAssistant.TranslationServices.Core
             }
         }
 
-        public static string Detect(string input, bool pretty=false)
+        public static string Detect(string input)
         {
-            Task<string> task = Task.Run(async () => await DetectAsync(input, pretty));
+            Task<string> task = Task.Run(async () => await DetectAsync(input, true));
             return task.Result;
         }
+
+        /// <summary>
+        /// Detects the most likely language of the input.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="simple"></param>
+        /// <returns></returns>
+        public static async Task<string> DetectAsync(string input, bool simple = true)
+        {
+            if (simple)
+            {
+                DetectResult[] detectResults = await DetectAsync(input);
+                return detectResults[0].Language;
+            }
+            else
+            {
+                return await DetectInternalAsync(input, true);
+            }
+        }
+
+        public static async Task<DetectResult[]> DetectAsync(string input)
+        {
+            string result = await DetectInternalAsync(input);
+            DetectResult[] deserializedOutput = JsonConvert.DeserializeObject<DetectResult[]>(result);
+            return deserializedOutput;
+        }
+
+        public class DetectResult
+        {
+            public string Language { get; set; }
+            public float Score { get; set; }
+            public bool IsTranslationSupported { get; set; }
+            public bool IsTransliterationSupported { get; set; }
+            public AltTranslations[] Alternatives { get; set; }
+        }
+        public class AltTranslations
+        {
+            public string Language { get; set; }
+            public float Score { get; set; }
+            public bool IsTranslationSupported { get; set; }
+            public bool IsTransliterationSupported { get; set; }
+        }
+
 
         /// <summary>
         /// Check if the Translation service is ready to use, with a valid Azure key
@@ -195,7 +242,7 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             try
             {
-                string detectedlanguage = await DetectAsync("Test");
+                string detectedlanguage = await DetectInternalAsync("Test");
                 if (detectedlanguage == null) return false;
                 return true;
             }
@@ -532,10 +579,10 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="text"></param>
         /// <param name="language"></param>
         /// <returns>List of integers denoting the offset of the sentence boundaries</returns>
-        public static async Task<List<int>> BreakSentencesAsync(string text, string language)
+        public static async Task<List<int>> BreakSentencesAsync(string text, string languagecode)
         {
             string path = "/breaksentence?api-version=3.0";
-            string params_ = "&language=" + language;
+            string params_ = "&language=" + languagecode;
             string uri = EndPointAddressV3Public + path + params_;
             if (_UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
             object[] body = new object[] { new { Text = text.Substring(0, (text.Length < maxrequestsize) ? text.Length : maxrequestsize) } };
@@ -574,6 +621,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns></returns>
         private static async Task<string[]> TranslateV3Async(string[] texts, string from, string to, string category, ContentType contentType = ContentType.plain, int retrycount = 3)
         {
+            if (from == to) return texts;
             bool translateindividually = false;
             foreach(string text in texts)
             {
