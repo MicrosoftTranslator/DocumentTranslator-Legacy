@@ -25,7 +25,6 @@
         <trans-unit id="Account_string10" translate="yes" xml:space="preserve">
           <source>Optionally you may enter a category identifier to use a customized machine translation system. Enter the category ID of a custom system you have built on</source>
           <target state="needs-review-translation">Vous pouvez également indiquer un identifiant de catégorie pour utiliser un système de traduction automatique personnalisé. Les catégories que vous pouvez utiliser par défaut sont « general » (s’applique si vous laissez le champ vide), « tech » pour le contenu technique lié à l’informatique, « generalnn » pour les réseaux neuraux, ou la catégorie personnalisée que vous avez construite sur </target>
-          
         </trans-unit>
         <trans-unit id="Account_string11" translate="yes" xml:space="preserve">
           <source>Build a customized machine translation system here.</source>
@@ -38,7 +37,6 @@
         <trans-unit id="Account_category" translate="yes" xml:space="preserve">
           <source>Category ID:</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Catégorie :</target>
-          
         </trans-unit>
         <trans-unit id="Account_key" translate="yes" xml:space="preserve">
           <source>Key:</source>
@@ -117,7 +115,6 @@ Veuillez visiter la page de paramètres pour entrer vos informations d’identif
         <trans-unit id="Translate_Go" translate="yes" xml:space="preserve">
           <source>Translate</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">OK</target>
-          
         </trans-unit>
         <trans-unit id="Common_AutoDetect" translate="yes" xml:space="preserve">
           <source>Auto-Detect</source>
@@ -162,8 +159,9 @@ Les documents traduits contiennent l’identificateur de langue</target>
           <target state="translated">Traduit des documents PDF : Office 2013 ou une version plus récente doit être installé sur ce PC. Les documents PDF seront enregistrés comme documents Word.</target>
         </trans-unit>
         <trans-unit id="Home_string12" translate="yes" xml:space="preserve">
-          <source>Translate HTML, SRT caption files, and plain text (.txt file) in UTF-8 character encoding.</source>
-          <target state="translated">Traduit des fichiers HTML, SRT et texte brut (fichier .txt) en encodage de caractères UTF-8.</target>
+          <source>Translate HTML, Markdown, SRT caption files, and plain text (.txt file) in UTF-8 character encoding.</source>
+          <target state="needs-review-translation">Traduit des fichiers HTML, SRT et texte brut (fichier .txt) en encodage de caractères UTF-8.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Home_string13" translate="yes" xml:space="preserve">
           <source>Translate from any Microsoft Translator source language to any target language.</source>
@@ -172,7 +170,6 @@ Les documents traduits contiennent l’identificateur de langue</target>
         <trans-unit id="Home_string14" translate="yes" xml:space="preserve">
           <source>Uses your Translator Text API account, and any MT systems that have been customized using Custom Translator.</source>
           <target state="needs-review-translation">Utilise votre compte Microsoft API, les données stockées dans le CTF et les systèmes de mémoire personnalisés à l’aide du Hub.</target>
-          
         </trans-unit>
         <trans-unit id="Home_string15" translate="yes" xml:space="preserve">
           <source>Command line operation, wildcards and multiple languages at once using DocumentTranslatorCmd.exe.</source>
@@ -223,15 +220,15 @@ Please visit https://hub.microsofttranslator.com to determine a valid category I
 S’il vous plaît visitez https://hub.microsofttranslator.com afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</target>
         </trans-unit>
         <trans-unit id="Error_CategoryV3Invalid" translate="yes" xml:space="preserve">
-          <source>V3: Category is invalid.
+          <source>Category is invalid.
 Please visit https://portal.customtranslator.azure.ai to determine a valid category ID, leave empty, or use one of the standard categories.</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">V3 : Catégorie n’est pas valide. 
 S’il vous plaît visitez https://portal.customtranslator.azure.ai afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="AzureGov_text" translate="yes" xml:space="preserve">
           <source>Use Azure Government:</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Utiliser Azure gouvernement</target>
-          
         </trans-unit>
         <trans-unit id="Translate_Hidden" translate="yes" xml:space="preserve">
           <source>Ignore hidden content</source>

@@ -230,7 +230,7 @@ Please visit the Azure Portal to obtain a subscription key for the Translator Te
     <value>Translate PDF. Requires Office 2013 or later installed on this PC. PDFs will be saved as Word documents.</value>
   </data>
   <data name="Home_string12" xml:space="preserve">
-    <value>Translate HTML, SRT caption files, and plain text (.txt file) in UTF-8 character encoding.</value>
+    <value>Translate HTML, Markdown, SRT caption files, and plain text (.txt file) in UTF-8 character encoding.</value>
   </data>
   <data name="Home_string13" xml:space="preserve">
     <value>Translate from any Microsoft Translator source language to any target language.</value>

@@ -434,7 +434,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Translate HTML, SRT caption files, and plain text (.txt file) in UTF-8 character encoding..
+        ///   Looks up a localized string similar to Translate HTML, Markdown, SRT caption files, and plain text (.txt file) in UTF-8 character encoding..
         /// </summary>
         public static string Home_string12 {
             get {
