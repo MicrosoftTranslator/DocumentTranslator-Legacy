@@ -269,7 +269,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         /// <param name="category">Category ID</param>
         /// <returns>True if the category is valid</returns>
-        public static bool IsCategoryValid(string category)
+        public static async Task<bool> IsCategoryValidAsync(string category)
         {
             if (category == "") return true;
             if (category == string.Empty) return true;
@@ -277,8 +277,7 @@ namespace TranslationAssistant.TranslationServices.Core
             if (category.ToLower() == "generalnn") return true;
             if (category.ToLower() == "tech") return true;
 
-            Task<bool> testV3 = IsCategoryValidV3Async(category);
-            return testV3.Result;
+            return await IsCategoryValidV3Async(category);
         }
 
         private static async Task<bool> IsCategoryValidV3Async(string category)
@@ -357,19 +356,6 @@ namespace TranslationAssistant.TranslationServices.Core
             }
         }
 
-
-
-        private static string GetHeaderValue()
-        {
-            string headerValue = null;
-            if (authMode == AuthMode.Azure)
-            {
-                AzureAuthToken authTokenSource = new AzureAuthToken(_AzureKey, UseAzureGovernment ? AuthServiceUrlGov : AuthServiceUrlPublic);
-                headerValue = authTokenSource.GetAccessToken();
-            }
-            else headerValue = appid;
-            return headerValue;
-        }
 
         /// <summary>
         /// Loads credentials from settings file.

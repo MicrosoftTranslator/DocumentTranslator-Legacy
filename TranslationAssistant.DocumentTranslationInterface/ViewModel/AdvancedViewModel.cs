@@ -139,7 +139,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// <summary>
         ///     Saves the account settings to the settings file for next use.
         /// </summary>
-        private void SaveAccountClick()
+        private async void SaveAccountClick()
         {
             //Set the Account values and save.
             TranslationServices.Core.TranslationServiceFacade.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey.Trim();
@@ -158,7 +158,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                 this.StatusText = Properties.Resources.Error_KeyInvalid;
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
             }
-            if (!TranslationServices.Core.TranslationServiceFacade.IsCategoryValid(this.adv_categoryID))
+            if (! await TranslationServices.Core.TranslationServiceFacade.IsCategoryValidAsync(this.adv_categoryID))
             {
                 this.StatusText = Properties.Resources.Error_CategoryV3Invalid;
                 SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Publish(false);
