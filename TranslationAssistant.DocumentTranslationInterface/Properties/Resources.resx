@@ -204,7 +204,7 @@ The translated documents contain the language identifier</value>
 Please visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories.</value>
   </data>
   <data name="Error_CategoryV3Invalid" xml:space="preserve">
-    <value>V3: Category is invalid.
+    <value>Category is invalid.
 Please visit https://portal.customtranslator.azure.ai to determine a valid category ID, leave empty, or use one of the standard categories.</value>
   </data>
   <data name="Error_KeyInvalid" xml:space="preserve">
