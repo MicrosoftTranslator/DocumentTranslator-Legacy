@@ -259,7 +259,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns>Whether the translation servoce is ready to translate</returns>
         public static bool IsTranslationServiceReady()
         {
-            Task<bool> task = Task.Run<bool>(async () => await IsTranslationServiceReadyAsync());
+            Task<bool> task = Task.Run(async () => await IsTranslationServiceReadyAsync());
             return task.Result;
         }
 
@@ -331,7 +331,7 @@ namespace TranslationAssistant.TranslationServices.Core
         }
 
 
-        private static void GetLanguages()
+        private static async void GetLanguages()
         {
             AvailableLanguages.Clear();
             string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/languages?api-version=3.0&scope=translation";
@@ -340,8 +340,8 @@ namespace TranslationAssistant.TranslationServices.Core
             {
                 request.Method = HttpMethod.Get;
                 request.RequestUri = new Uri(uri);
-                HttpResponseMessage response = client.SendAsync(request).Result;
-                string jsonResponse = response.Content.ReadAsStringAsync().Result;
+                HttpResponseMessage response = await client.SendAsync(request);
+                string jsonResponse = await response.Content.ReadAsStringAsync();
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var result = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
