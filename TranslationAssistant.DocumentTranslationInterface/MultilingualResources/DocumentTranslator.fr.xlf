@@ -161,7 +161,6 @@ Les documents traduits contiennent l’identificateur de langue</target>
         <trans-unit id="Home_string12" translate="yes" xml:space="preserve">
           <source>Translate HTML, Markdown, SRT caption files, and plain text (.txt file) in UTF-8 character encoding.</source>
           <target state="needs-review-translation">Traduit des fichiers HTML, SRT et texte brut (fichier .txt) en encodage de caractères UTF-8.</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Home_string13" translate="yes" xml:space="preserve">
           <source>Translate from any Microsoft Translator source language to any target language.</source>
@@ -224,7 +223,6 @@ S’il vous plaît visitez https://hub.microsofttranslator.com afin de détermin
 Please visit https://portal.customtranslator.azure.ai to determine a valid category ID, leave empty, or use one of the standard categories.</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">V3 : Catégorie n’est pas valide. 
 S’il vous plaît visitez https://portal.customtranslator.azure.ai afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="AzureGov_text" translate="yes" xml:space="preserve">
           <source>Use Azure Government:</source>
@@ -265,8 +263,9 @@ Word documents : texte masqué</target>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Détecter</target>
         </trans-unit>
         <trans-unit id="Translate_Mode" translate="yes" xml:space="preserve">
-          <source>Mode</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">Mode</target>
+          <source>Content Type</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Type de contenu</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="Common_HTML" translate="yes" xml:space="preserve">
           <source>HTML</source>
@@ -279,6 +278,26 @@ Word documents : texte masqué</target>
         <trans-unit id="Translate_SentNum" translate="yes" xml:space="preserve">
           <source>Number of sentences:</source>
           <target state="needs-review-translation" state-qualifier="mt-suggestion">Nombre de phrases:</target>
+        </trans-unit>
+        <trans-unit id="Translate_ToAll" translate="yes" xml:space="preserve">
+          <source>Translate to all</source>
+          <target state="new">Translate to all</target>
+        </trans-unit>
+        <trans-unit id="Tooltip_Translate" translate="yes" xml:space="preserve">
+          <source>Returns the translation of the input to the specified language.</source>
+          <target state="new">Returns the translation of the input to the specified language.</target>
+        </trans-unit>
+        <trans-unit id="Tooltip_BreakSentences" translate="yes" xml:space="preserve">
+          <source>Returns the sentence boundaries of the input. </source>
+          <target state="new">Returns the sentence boundaries of the input. </target>
+        </trans-unit>
+        <trans-unit id="Tooltip_Detect" translate="yes" xml:space="preserve">
+          <source>Returns a JSON array with the result of the Detect function call.</source>
+          <target state="new">Returns a JSON array with the result of the Detect function call.</target>
+        </trans-unit>
+        <trans-unit id="Tooltip_TranslateToAll" translate="yes" xml:space="preserve">
+          <source>Returns a translation to all of the Microsoft Translator languages. Useful only for short strings.</source>
+          <target state="new">Returns a translation to all of the Microsoft Translator languages. Useful only for short strings.</target>
         </trans-unit>
       </group>
     </body>

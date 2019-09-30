@@ -310,12 +310,27 @@ Word documents: hidden text</value>
     <value>Detect</value>
   </data>
   <data name="Translate_Mode" xml:space="preserve">
-    <value>Mode</value>
+    <value>Content Type</value>
   </data>
   <data name="Translate_Result" xml:space="preserve">
     <value>Result:</value>
   </data>
   <data name="Translate_SentNum" xml:space="preserve">
     <value>Number of sentences:</value>
+  </data>
+  <data name="Translate_ToAll" xml:space="preserve">
+    <value>Translate to all</value>
+  </data>
+  <data name="Tooltip_BreakSentences" xml:space="preserve">
+    <value>Returns the sentence boundaries of the input. </value>
+  </data>
+  <data name="Tooltip_Detect" xml:space="preserve">
+    <value>Returns a JSON array with the result of the Detect function call.</value>
+  </data>
+  <data name="Tooltip_Translate" xml:space="preserve">
+    <value>Returns the translation of the input to the specified language.</value>
+  </data>
+  <data name="Tooltip_TranslateToAll" xml:space="preserve">
+    <value>Returns a translation to all of the Microsoft Translator languages. Useful only for short strings.</value>
   </data>
 </root>

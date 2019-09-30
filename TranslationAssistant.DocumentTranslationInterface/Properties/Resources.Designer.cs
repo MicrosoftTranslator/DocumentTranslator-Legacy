@@ -515,6 +515,42 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Returns the sentence boundaries of the input. .
+        /// </summary>
+        public static string Tooltip_BreakSentences {
+            get {
+                return ResourceManager.GetString("Tooltip_BreakSentences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returns a JSON array with the result of the Detect function call..
+        /// </summary>
+        public static string Tooltip_Detect {
+            get {
+                return ResourceManager.GetString("Tooltip_Detect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returns the translation of the input to the specified language..
+        /// </summary>
+        public static string Tooltip_Translate {
+            get {
+                return ResourceManager.GetString("Tooltip_Translate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Returns a translation to all of the Microsoft Translator languages. Useful only for short strings..
+        /// </summary>
+        public static string Tooltip_TranslateToAll {
+            get {
+                return ResourceManager.GetString("Tooltip_TranslateToAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Break Sentences.
         /// </summary>
         public static string Translate_BreakSentences {
@@ -607,7 +643,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Mode.
+        ///   Looks up a localized string similar to Content Type.
         /// </summary>
         public static string Translate_Mode {
             get {
@@ -639,6 +675,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         public static string Translate_title {
             get {
                 return ResourceManager.GetString("Translate_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Translate to all.
+        /// </summary>
+        public static string Translate_ToAll {
+            get {
+                return ResourceManager.GetString("Translate_ToAll", resourceCulture);
             }
         }
         
