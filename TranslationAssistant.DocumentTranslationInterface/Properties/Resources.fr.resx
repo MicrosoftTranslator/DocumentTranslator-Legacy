@@ -202,7 +202,7 @@ Word documents : texte masqué</value>
     <value>Détecter</value>
   </data>
   <data name="Translate_Mode" xml:space="preserve">
-    <value>Mode</value>
+    <value>Type de contenu</value>
   </data>
   <data name="Common_HTML" xml:space="preserve">
     <value>HTML</value>

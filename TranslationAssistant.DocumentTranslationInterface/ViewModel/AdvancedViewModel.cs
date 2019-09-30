@@ -147,7 +147,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
             TranslationServices.Core.TranslationServiceFacade.Initialize();
             
-            if (TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReady()) { 
+            if (await TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReadyAsync()) { 
                 this.StatusText = Properties.Resources.Common_SettingsSaved;
                 NotifyPropertyChanged("SettingsSaved");
                 //Need to initialize with new credentials in order to get the language list.

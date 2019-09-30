@@ -174,5 +174,40 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         {
             documentTranslation.SelectedTranslateMode = e.AddedItems[0].ToString();
         }
+
+        private async void TranslateToAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResultBox.Text = string.Empty;
+            string translateFrom = documentTranslation.SelectedSourceLanguage;
+            TranslationServices.Core.TranslationServiceFacade.ContentType contentType = TranslationServices.Core.TranslationServiceFacade.ContentType.plain;
+            if (documentTranslation.SourceLanguageList.IndexOf(documentTranslation.SelectedSourceLanguage) == 0)
+            {
+                translateFrom = "";
+            }
+            else
+            {
+                translateFrom = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(translateFrom);
+            }
+
+            if (documentTranslation.TranslateModeList.IndexOf(documentTranslation.SelectedTranslateMode) == 1) contentType = TranslationServices.Core.TranslationServiceFacade.ContentType.HTML;
+
+            Business.TranslateToAll translateToAll = new Business.TranslateToAll();
+
+            Task<string> task = translateToAll.TranslateToAllLanguagesString
+            (
+                InputBox.Text,
+                translateFrom,
+                TranslationServices.Core.TranslationServiceFacade.CategoryID,
+                contentType
+            );
+            try
+            {
+                ResultBox.Text = await task;
+            }
+            catch (Exception ex)
+            {
+                ResultBox.Text = ex.Message;
+            }
+        }
     }
 }

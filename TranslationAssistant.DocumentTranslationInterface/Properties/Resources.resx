@@ -204,7 +204,7 @@ The translated documents contain the language identifier</value>
 Please visit https://hub.microsofttranslator.com to determine a valid category ID, leave empty, or use one of the standard categories.</value>
   </data>
   <data name="Error_CategoryV3Invalid" xml:space="preserve">
-    <value>V3: Category is invalid.
+    <value>Category is invalid.
 Please visit https://portal.customtranslator.azure.ai to determine a valid category ID, leave empty, or use one of the standard categories.</value>
   </data>
   <data name="Error_KeyInvalid" xml:space="preserve">
@@ -230,7 +230,7 @@ Please visit the Azure Portal to obtain a subscription key for the Translator Te
     <value>Translate PDF. Requires Office 2013 or later installed on this PC. PDFs will be saved as Word documents.</value>
   </data>
   <data name="Home_string12" xml:space="preserve">
-    <value>Translate HTML, SRT caption files, and plain text (.txt file) in UTF-8 character encoding.</value>
+    <value>Translate HTML, Markdown, SRT caption files, and plain text (.txt file) in UTF-8 character encoding.</value>
   </data>
   <data name="Home_string13" xml:space="preserve">
     <value>Translate from any Microsoft Translator source language to any target language.</value>
@@ -310,12 +310,27 @@ Word documents: hidden text</value>
     <value>Detect</value>
   </data>
   <data name="Translate_Mode" xml:space="preserve">
-    <value>Mode</value>
+    <value>Content Type</value>
   </data>
   <data name="Translate_Result" xml:space="preserve">
     <value>Result:</value>
   </data>
   <data name="Translate_SentNum" xml:space="preserve">
     <value>Number of sentences:</value>
+  </data>
+  <data name="Translate_ToAll" xml:space="preserve">
+    <value>Translate to all</value>
+  </data>
+  <data name="Tooltip_BreakSentences" xml:space="preserve">
+    <value>Returns the sentence boundaries of the input. </value>
+  </data>
+  <data name="Tooltip_Detect" xml:space="preserve">
+    <value>Returns a JSON array with the result of the Detect function call.</value>
+  </data>
+  <data name="Tooltip_Translate" xml:space="preserve">
+    <value>Returns the translation of the input to the specified language.</value>
+  </data>
+  <data name="Tooltip_TranslateToAll" xml:space="preserve">
+    <value>Returns a translation to all of the Microsoft Translator languages. Useful only for short strings.</value>
   </data>
 </root>
