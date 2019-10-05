@@ -533,6 +533,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Return a dictionary entry for this item.
+        /// </summary>
+        public static string Tooltip_Dictionary {
+            get {
+                return ResourceManager.GetString("Tooltip_Dictionary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Returns the translation of the input to the specified language..
         /// </summary>
         public static string Tooltip_Translate {
@@ -574,6 +583,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         public static string Translate_Detect {
             get {
                 return ResourceManager.GetString("Translate_Detect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dictionary.
+        /// </summary>
+        public static string Translate_Dictionary {
+            get {
+                return ResourceManager.GetString("Translate_Dictionary", resourceCulture);
             }
         }
         
