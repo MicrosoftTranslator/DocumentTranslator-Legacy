@@ -40,10 +40,6 @@ namespace TranslationAssistant.Business
 
                     Parallel.ForEach(nodes, (node) =>
                         {
-                            if (node.InnerHtml.Length > maxRequestSize)
-                            {
-                                throw new Exception("Child node with a length of more than 5000 characters encountered.");
-                            }
                             node.InnerHtml = TranslationServices.Core.TranslationServiceFacade.TranslateString(node.InnerHtml, fromlanguage, tolanguage, TranslationServices.Core.TranslationServiceFacade.ContentType.HTML);
                         });
                 }
