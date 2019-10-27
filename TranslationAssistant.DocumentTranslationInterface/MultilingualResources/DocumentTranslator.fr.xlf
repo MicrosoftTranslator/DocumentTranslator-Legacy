@@ -299,6 +299,14 @@ Word documents : texte masqué</target>
           <source>Returns a translation to all of the Microsoft Translator languages. Useful only for short strings.</source>
           <target state="new">Returns a translation to all of the Microsoft Translator languages. Useful only for short strings.</target>
         </trans-unit>
+        <trans-unit id="Tooltip_Dictionary" translate="yes" xml:space="preserve">
+          <source>Return a dictionary entry for this item</source>
+          <target state="new">Return a dictionary entry for this item</target>
+        </trans-unit>
+        <trans-unit id="Translate_Dictionary" translate="yes" xml:space="preserve">
+          <source>Dictionary</source>
+          <target state="new">Dictionary</target>
+        </trans-unit>
       </group>
     </body>
   </file>

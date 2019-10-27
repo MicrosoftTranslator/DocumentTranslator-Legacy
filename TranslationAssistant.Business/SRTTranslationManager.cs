@@ -31,13 +31,7 @@ namespace TranslationAssistant.Business
             set { string _langcode = langcode; }
         }
         
-        /// <summary>
-        /// List of languages that do not use space as word saparator.
-        /// Must be listed in all lowercase.
-        /// </summary>
-        const string nonspacelanguages = "zh, th, ja, ko, zh-hans, zh-hant, zh-chs, zh-cht";
-
-        /// <summary>
+         /// <summary>
         /// Hold one utterance of the SRT file
         /// </summary>
         private struct SrtUtterance
@@ -95,7 +89,7 @@ namespace TranslationAssistant.Business
                     {
                         srtutterance.utterance += srt[lineindex];
                         //add a space between the lines for languages that use space
-                        if (!nonspacelanguages.Contains(langcode.ToLowerInvariant())) srtutterance.utterance += " ";
+                        if (!TranslationBusinessHelper.nonspacelanguages.Contains(langcode.ToLowerInvariant())) srtutterance.utterance += " ";
                         lineindex++;
                         srtutterance.spanlines++;
                     }
@@ -127,34 +121,10 @@ namespace TranslationAssistant.Business
             {
                 tosrt.WriteLine(srtutterance.Key);
                 tosrt.Write(srtutterance.Value.timefromto);
-                tosrt.Write(Splitevenly(srtutterance.Value.utterance, srtutterance.Value.spanlines, _langcode));
+                tosrt.Write(TranslationBusinessHelper.Splitevenly(srtutterance.Value.utterance, srtutterance.Value.spanlines, _langcode));
                 tosrt.WriteLine();          //end utterance with an empty line
             }
             return tosrt.ToString();
-        }
-
-        private string Splitevenly(string utterance, int segments, string langcode)
-        {
-            if (segments <= 1) return utterance + "\r\n";
-            StringWriter result = new StringWriter();
-            int segmentlength = utterance.Length / segments;
-            if (nonspacelanguages.Contains(langcode.ToLowerInvariant()))    //non-spacing languages
-            {
-                for (int i = 0; i < segments; i++) result.WriteLine(utterance.Substring(segmentlength * i, segmentlength));
-            }
-            else                                                            //spacing languages
-            {
-                int startindex = 0; 
-                for (int i = 1; i < segments; i++)
-                {
-                    int endindex = utterance.IndexOf(' ', segmentlength * i);
-                    result.WriteLine(utterance.Substring(startindex, endindex));
-                    startindex = endindex + 1;
-                }
-                result.WriteLine(utterance.Substring(startindex));          //copy the last segment
-            }
-            string debug = result.ToString();
-            return result.ToString();
         }
     }
 

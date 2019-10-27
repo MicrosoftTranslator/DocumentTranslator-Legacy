@@ -4,7 +4,6 @@
  * https://guides.github.com/features/mastering-markdown/
  * */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,11 +29,6 @@ namespace TranslationAssistant.Business
             set { string _langcode = langcode; }
         }
 
-        /// <summary>
-        /// List of languages that do not use space as word saparator.
-        /// Must be listed in all lowercase.
-        /// </summary>
-        private const string nonspacelanguages = "zh, th, ja, ko, zh-hans, zh-hant, zh-chs, zh-cht";
 
         private enum LineType { empty, title, code, translatable, blockquote, list };
 
@@ -154,7 +148,7 @@ namespace TranslationAssistant.Business
                                     mdutterance.text += md[lineindex].Trim();
                                 }
                                 //add a space between the lines for languages that use space
-                                if (!nonspacelanguages.Contains(langcode.ToLowerInvariant())) mdutterance.text += " ";
+                                if (! TranslationBusinessHelper.nonspacelanguages.Contains(langcode.ToLowerInvariant())) mdutterance.text += " ";
                                 lineindex++;
 
                                 if (lineindex == md.Length) break;
@@ -171,21 +165,22 @@ namespace TranslationAssistant.Business
             return MDContent.Count;
         }
 
-        public void Translate(string fromlanguage, string tolanguage)
+        public async void Translate(string fromlanguage, string tolanguage)
         {
             Dictionary<int, MDUtterance> ToDict = new Dictionary<int, MDUtterance>();
-//            Parallel.ForEach(MDContent, (mdutterance) =>
-            foreach(var mdutterance in MDContent)
+            List<Task<string>> tasks = new List<Task<string>>(); 
+            foreach(KeyValuePair<int, MDUtterance> mdutterance in MDContent)
             {
                 MDUtterance toutterance = new MDUtterance();
                 toutterance = mdutterance.Value;
                 if (mdutterance.Value.lineType != LineType.code)
                 {
-                    toutterance.text = Tagged2Markdown(TranslationServices.Core.TranslationServiceFacade.TranslateString(Markdown2Tagged(mdutterance.Value.text), fromlanguage, tolanguage, 0));
+                    string translation = await TranslationServices.Core.TranslationServiceFacade.TranslateStringAsync(Markdown2Tagged(mdutterance.Value.text), fromlanguage, tolanguage, TranslationServices.Core.TranslationServiceFacade.CategoryID, TranslationServices.Core.TranslationServiceFacade.ContentType.plain);
+                    toutterance.text = Tagged2Markdown(translation);
                 }
                 ToDict.Add(mdutterance.Key, toutterance);
             };
-            _langcode = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(tolanguage);
+            _langcode = tolanguage;
             MDContent = ToDict;        //Replace the master collection with the translated version. 
         }
 
@@ -198,44 +193,20 @@ namespace TranslationAssistant.Business
                 if (mdutterance.Value.lineType == LineType.blockquote)
                 {
                     StringWriter blockquote = new StringWriter();
-                    blockquote.Write(Splitevenly(mdutterance.Value.text, mdutterance.Value.spanlines, _langcode));
+                    blockquote.Write(TranslationBusinessHelper.Splitevenly(mdutterance.Value.text, mdutterance.Value.spanlines, _langcode));
                     tomd.WriteLine(">" + blockquote.ToString().Replace("\r\n", "\r\n> "));
                 }
                 else
                 {
                     string splitstring = string.Empty;
                     if (mdutterance.Value.lineType == LineType.translatable)
-                        splitstring = Splitevenly(mdutterance.Value.text, mdutterance.Value.spanlines, _langcode);
+                        splitstring = TranslationBusinessHelper.Splitevenly(mdutterance.Value.text, mdutterance.Value.spanlines, _langcode);
                     else
                         splitstring = mdutterance.Value.text.TrimEnd();
                     tomd.WriteLine(splitstring);
                 }
             }
             return tomd.ToString();
-        }
-
-        private string Splitevenly(string utterance, int segments, string langcode)
-        {
-            if (segments <= 1) return utterance;
-            StringWriter result = new StringWriter();
-            int segmentlength = utterance.Length / segments;
-            if (nonspacelanguages.Contains(langcode.ToLowerInvariant()))    //non-spacing languages
-            {
-                for (int i = 0; i < segments; i++) result.WriteLine(utterance.Substring(segmentlength * i, segmentlength));
-            }
-            else                                                            //spacing languages
-            {
-                int startindex = 0; 
-                for (int i = 1; i < segments; i++)
-                {
-                    int endindex = utterance.IndexOf(' ', segmentlength * i);
-                    if (endindex > startindex) result.WriteLine(utterance.Substring(startindex, endindex-startindex));
-                    startindex = endindex + 1;
-                }
-                result.WriteLine(utterance.Substring(startindex));          //copy the last segment
-            }
-            string debug = result.ToString();
-            return result.ToString();
         }
 
         private struct MDTag
@@ -304,9 +275,10 @@ namespace TranslationAssistant.Business
             string mdtext = File.ReadAllText(mdfilename);
             MDDocument mddocument = new MDDocument();
             string _fromlanguagecode = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(fromlanguage);
+            string _tolanguagecode = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(tolanguage);
             if (_fromlanguagecode.Length < 1) _fromlanguagecode = TranslationServices.Core.TranslationServiceFacade.Detect(mdtext);
             int noofutterances = mddocument.LoadMD(mdtext, _fromlanguagecode);
-            mddocument.Translate(fromlanguage, tolanguage);
+            mddocument.Translate(_fromlanguagecode, _tolanguagecode);
             File.WriteAllText(mdfilename, mddocument.ToString(), Encoding.UTF8);
             return noofutterances;
         }
