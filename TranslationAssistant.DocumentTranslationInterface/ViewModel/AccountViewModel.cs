@@ -47,6 +47,16 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private bool useAzureGovernment;
 
         /// <summary>
+        /// Use the Container 
+        /// </summary>
+        private bool useCustomEndpoint;
+
+        /// <summary>
+        /// Container Url 
+        /// </summary>
+        private string customEndpointUrl;
+        
+        /// <summary>
         ///     The save account settings click command.
         /// </summary>
         private ICommand saveAccountSettingsClickCommand;
@@ -111,6 +121,34 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             }
         }
 
+        public bool UseCustomEndpoint
+        {
+            get
+            {
+                return this.useCustomEndpoint;
+            }
+
+            set
+            {
+                this.useCustomEndpoint = value;
+                this.NotifyPropertyChanged("UseCustomEndpoint");
+            }
+        }
+
+        public string CustomEndpointUrl
+        {
+            get
+            {
+                return this.customEndpointUrl;
+            }
+
+            set
+            {
+                this.customEndpointUrl = value;
+                this.NotifyPropertyChanged("CustomEndpointUrl");
+            }
+        }
+
         /// <summary>
         ///     Gets the save account settings click command.
         /// </summary>
@@ -153,6 +191,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             this.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey;
             this.categoryID = TranslationServices.Core.TranslationServiceFacade.CategoryID;
             this.useAzureGovernment = TranslationServices.Core.TranslationServiceFacade.UseAzureGovernment;
+            this.useCustomEndpoint = TranslationServices.Core.TranslationServiceFacade.UseCustomEndpoint;
+            this.customEndpointUrl = TranslationServices.Core.TranslationServiceFacade.CustomEndpointUrl;
         }
 
         /// <summary>
@@ -164,6 +204,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             TranslationServices.Core.TranslationServiceFacade.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey.Trim();
             TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID.Trim();
             TranslationServices.Core.TranslationServiceFacade.UseAzureGovernment = this.useAzureGovernment;
+            TranslationServices.Core.TranslationServiceFacade.UseCustomEndpoint = this.useCustomEndpoint;
+            TranslationServices.Core.TranslationServiceFacade.CustomEndpointUrl = this.customEndpointUrl;
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
             TranslationServices.Core.TranslationServiceFacade.Initialize(true);
 

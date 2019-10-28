@@ -521,7 +521,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         {
             this.SourceLanguageList.Clear();
             this.TargetLanguageList.Clear();
-            this.SourceLanguageList.Add(Properties.Resources.Common_AutoDetect);
+            if (!TranslationServiceFacade.UseCustomEndpoint) this.SourceLanguageList.Add(Properties.Resources.Common_AutoDetect);
             try
             {
                 this.TargetLanguageList.AddRange(TranslationServiceFacade.AvailableLanguages.Values);

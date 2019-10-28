@@ -41,67 +41,29 @@ namespace TranslationAssistant.TranslationServices.Core
 
         public static int maxrequestsize = 5000;   //service size is 5000
         public static int maxelements = 100;
-
-        private static string _CategoryID;
-        public static string CategoryID{
-            get { return _CategoryID; }
-            set { _CategoryID = value; }
-        }
+        public static string CategoryID { get; set; }
+        public static string AppId { get; set; }
+        public static string Adv_CategoryId { get; set; }
+        public static bool UseAdvancedSettings { get; set; }
+        public static bool UseAzureGovernment { get; set; }
+        /// <summary>
+        /// Holds the setting whether to use a container offline
+        /// </summary>
+        public static bool UseCustomEndpoint { get; set; }
+        /// <summary>
+        /// Holds the value of the custom endpoint, the container
+        /// </summary>
+        public static string CustomEndpointUrl { get; set; }
 
         /// <summary>
-        /// Used only for on-prem installs
+        /// Holds the Azure subscription key
         /// </summary>
-        private static string _AppId;
-        public static string AppId
-        {
-            get { return _AppId; }
-            set { _AppId = value; }
-        }
-
-        /// <summary>
-        /// Used only for on-prem installs
-        /// </summary>
-        private static string _Adv_CategoryId;
-        public static string Adv_CategoryId
-        {
-            get { return _Adv_CategoryId; }
-            set { _Adv_CategoryId = value; }
-        }
-
-        /// <summary>
-        /// Used only for on-prem installs
-        /// </summary>
-        private static bool _UseAdvancedSettings;
-        public static bool UseAdvancedSettings
-        {
-            get { return _UseAdvancedSettings; }
-            set { _UseAdvancedSettings = value; }
-        }
-
-        private static bool _UseAzureGovernment;
-        public static bool UseAzureGovernment
-        {
-            get { return _UseAzureGovernment; }
-            set { _UseAzureGovernment = value; }
-        }
-
-        private static string _AzureKey;
-        public static string AzureKey
-        {
-            get { return _AzureKey; }
-            set { _AzureKey = value; }
-        }
-
-        private static string _TmxFileName = "_DocumentTranslator.TMX";
+        public static string AzureKey { get; set; }
         /// <summary>
         /// Allows to set the file name to save the TMX under.
         /// No effect if CreateTMXOnTranslate is not set.
         /// </summary>
-        public static string TmxFileName
-        {
-            get { return _TmxFileName; }
-            set { _TmxFileName = value; }
-        }
+        public static string TmxFileName { get; set; } = "_DocumentTranslator.TMX";
         /// <summary>
         /// Create a TMX file containing source and target while translating. 
         /// </summary>
@@ -126,7 +88,7 @@ namespace TranslationAssistant.TranslationServices.Core
         private static readonly Uri AuthServiceUrlPublic = new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
         private static readonly Uri AuthServiceUrlGov = new Uri("https://virginia.api.cognitive.microsoft.us/sts/v1.0/issueToken");
 
-        private enum AuthMode { Azure, AppId };
+        private enum AuthMode { Azure, AppId, Container };
         private static AuthMode authMode = AuthMode.Azure;
         private static string appid = null;
 
@@ -199,6 +161,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns></returns>
         public static async Task<string> DetectAsync(string input, bool simple = true)
         {
+            if (UseCustomEndpoint) return null;
             if (simple)
             {
                 DetectResult[] detectResults = await DetectAsync(input);
@@ -212,6 +175,8 @@ namespace TranslationAssistant.TranslationServices.Core
 
         public static async Task<DetectResult[]> DetectAsync(string input)
         {
+            if (UseCustomEndpoint) return null;
+
             string result = await DetectInternalAsync(input);
             DetectResult[] deserializedOutput = JsonConvert.DeserializeObject<DetectResult[]>(result);
             return deserializedOutput;
@@ -233,6 +198,28 @@ namespace TranslationAssistant.TranslationServices.Core
             public bool IsTransliterationSupported { get; set; }
         }
 
+        private static async Task<bool> ContainerStatus()
+        {
+            using (HttpClient client = new HttpClient())
+            using (HttpRequestMessage request = new HttpRequestMessage())
+            {
+                client.Timeout = TimeSpan.FromSeconds(10);
+                request.Method = HttpMethod.Get;
+                request.RequestUri = new Uri(CustomEndpointUrl);
+                var response = await client.SendAsync(request).ConfigureAwait(false);
+                var responseBody = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+
 
         /// <summary>
         /// Check if the Translation service is ready to use, with a valid Azure key
@@ -240,20 +227,34 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns>true if ready, false if not</returns>
         public static async Task<bool> IsTranslationServiceReadyAsync()
         {
-            try
+            if (UseCustomEndpoint)
             {
-                string detectedlanguage = await DetectInternalAsync("Test");
-                if (detectedlanguage == null) return false;
-                return true;
+                try
+                {
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
             }
-            catch
+            else
             {
-                return false;
+                try
+                {
+                    string detectedlanguage = await DetectInternalAsync("Test");
+                    if (detectedlanguage == null) return false;
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
             }
         }
 
         /// <summary>
-        /// Test whether the translation servoce credentials are valid by performing a simple function and checking whether it succeeds.
+        /// Test whether the translation service credentials are valid by performing a simple function and checking whether it succeeds.
         /// Synchronous version of IsTranslationServceReadyAsync().
         /// </summary>
         /// <returns>Whether the translation servoce is ready to translate</returns>
@@ -314,7 +315,7 @@ namespace TranslationAssistant.TranslationServices.Core
             LoadCredentials();
 
             //Inspect the given Azure Key to see if this is host with appid auth
-            string[] AuthComponents = _AzureKey.Split('?');
+            string[] AuthComponents = AzureKey.Split('?');
             if (AuthComponents.Length > 1)
             {
                 EndPointAddress = AuthComponents[0];
@@ -330,10 +331,116 @@ namespace TranslationAssistant.TranslationServices.Core
             IsInitialized = true;
         }
 
+        private static async void ContainerGetLanguages()
+        {
+            AvailableLanguages.Clear();
+            AvailableLanguages.Add("en", "English");
+            AvailableLanguages.Add("ar", "Arabic");
+            AvailableLanguages.Add("de", "German");
+            AvailableLanguages.Add("ru", "Russian");
+            AvailableLanguages.Add("zh-Hans", "Chinese (Simplified)");
+            AvailableLanguages.Add("es", "Spanish");
+            AvailableLanguages.Add("fr", "French");
+
+            ///This container probably only containsa subset of these.
+            ///Test all of them and delete the ones that aren't valid.
+            List<Task<KeyValuePair<string, bool>>> tasks = new List<Task<KeyValuePair<string, bool>>>();
+            foreach(KeyValuePair<string, string> kv in AvailableLanguages)
+            {
+                Task<KeyValuePair<string, bool>> task = ContainerTestLanguage(kv.Key);
+            }
+            await Task.WhenAll(tasks);
+            foreach (var task in tasks)
+            {
+                if (!task.Result.Value) AvailableLanguages.Remove(task.Result.Key);
+            }
+        }
+
+        private static async Task<KeyValuePair<string, bool>> ContainerTestLanguage(string language)
+        {
+            bool testresult = false;
+            try
+            {
+                string translationresult = await ContainerTranslateTextAsync("Test", "en", language);
+                if (translationresult != null) testresult = true;
+            }
+            catch { };
+            KeyValuePair<string, bool> returnvalue = new KeyValuePair<string, bool>(language, testresult);
+            return returnvalue;
+        }
+
+        private static string[] ContainerBreakSentences(string input, string language)
+        {
+            string[] separators = {". ","\r\n", "۔", "։", "⽌", "⾉", "。", "︒", "﹒", "．", "｡" };
+            return input.Split(separators, StringSplitOptions.None);
+        }
+
+        private static async Task<string> ContainerTranslateTextAsync(string textToTranslate, string fromlanguage, string tolanguage)
+        {
+            string[] arraytotranslate = ContainerBreakSentences(textToTranslate, fromlanguage);
+            StringBuilder result = new StringBuilder();
+            foreach(string element in arraytotranslate)
+            {
+                string translationresult = await ContainerTranslateTextAsyncInternal(element, fromlanguage, tolanguage);
+                result.Append(translationresult + ". ");
+            }
+            //result.Replace("..", ".");
+            return result.ToString();
+        }
+
+
+        private static async Task<string> ContainerTranslateTextAsyncInternal(string textToTranslate, string fromlanguage, string tolanguage)
+        {
+            if (fromlanguage == tolanguage) return textToTranslate;
+            if ((fromlanguage != "en") && (tolanguage != "en")) {
+                string intermediateresult = await ContainerTranslateTextAsync(textToTranslate, fromlanguage, "en");
+                string translateresult = await ContainerTranslateTextAsync(intermediateresult, "en", tolanguage);
+                return translateresult;
+            }
+            else {
+                string TranslateApi = "/translate?api-version=3.0&from=" + fromlanguage + "&to=" + tolanguage;
+                var body = new object[] { new { Text = textToTranslate } };
+                var requestBody = JsonConvert.SerializeObject(body);
+
+                var client = new HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(30);
+                using (var request =
+                    new HttpRequestMessage
+                    {
+                        Method = HttpMethod.Post,
+                        RequestUri = new Uri($"{CustomEndpointUrl}{TranslateApi}"),
+                        Content = new StringContent(requestBody, Encoding.UTF8, "application/json")
+                    })
+                {
+                    try
+                    {
+                        // Send the request and await a response.
+                        var response = await client.SendAsync(request);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            string resultJson = await response.Content.ReadAsStringAsync();
+                            return ParseJsonResult(resultJson)[0];
+                        }
+                        else return null;
+                    }
+                    catch
+                    {
+                        return null;
+                    }
+                }
+            }
+        }
+
+
 
         private static async void GetLanguages()
         {
             AvailableLanguages.Clear();
+            if (UseCustomEndpoint)
+            {
+                ContainerGetLanguages();
+                return;
+            }
             string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/languages?api-version=3.0&scope=translation";
             using (HttpClient client = new HttpClient())
             using (HttpRequestMessage request = new HttpRequestMessage())
@@ -363,12 +470,14 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         private static void LoadCredentials()
         {
-            _AzureKey = Properties.Settings.Default.AzureKey;
-            _CategoryID = Properties.Settings.Default.CategoryID;
-            _AppId = Properties.Settings.Default.AppId;
-            _UseAdvancedSettings = Properties.Settings.Default.UseAdvancedSettings;
-            _Adv_CategoryId = Properties.Settings.Default.Adv_CategoryID;
-            _UseAzureGovernment = Properties.Settings.Default.UseAzureGovernment;
+            AzureKey = Properties.Settings.Default.AzureKey;
+            CategoryID = Properties.Settings.Default.CategoryID;
+            AppId = Properties.Settings.Default.AppId;
+            UseAdvancedSettings = Properties.Settings.Default.UseAdvancedSettings;
+            Adv_CategoryId = Properties.Settings.Default.Adv_CategoryID;
+            UseAzureGovernment = Properties.Settings.Default.UseAzureGovernment;
+            UseCustomEndpoint = Properties.Settings.Default.UseCustomEndpoint;
+            CustomEndpointUrl = Properties.Settings.Default.CustomEndpointUrl;
         }
 
         /// <summary>
@@ -376,12 +485,14 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         public static void SaveCredentials()
         {
-            Properties.Settings.Default.AzureKey = _AzureKey;
-            Properties.Settings.Default.CategoryID = _CategoryID;
-            Properties.Settings.Default.AppId = _AppId;
-            Properties.Settings.Default.UseAdvancedSettings = _UseAdvancedSettings;
-            Properties.Settings.Default.Adv_CategoryID = _Adv_CategoryId;
-            Properties.Settings.Default.UseAzureGovernment = _UseAzureGovernment;
+            Properties.Settings.Default.AzureKey = AzureKey;
+            Properties.Settings.Default.CategoryID = CategoryID;
+            Properties.Settings.Default.AppId = AppId;
+            Properties.Settings.Default.UseAdvancedSettings = UseAdvancedSettings;
+            Properties.Settings.Default.Adv_CategoryID = Adv_CategoryId;
+            Properties.Settings.Default.UseAzureGovernment = UseAzureGovernment;
+            Properties.Settings.Default.UseCustomEndpoint = UseCustomEndpoint;
+            Properties.Settings.Default.CustomEndpointUrl = CustomEndpointUrl;
             Properties.Settings.Default.Save();
         }
 
@@ -466,7 +577,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
             toCode = LanguageNameToLanguageCode(to);
 
-            string[] result = TranslateV3Async(texts, fromCode, toCode, _CategoryID, contentType).Result;
+            string[] result = TranslateV3Async(texts, fromCode, toCode, CategoryID, contentType).Result;
             return result;
         }
 
@@ -567,10 +678,15 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns>List of integers denoting the offset of the sentence boundaries</returns>
         public static async Task<List<int>> BreakSentencesAsync(string text, string languagecode)
         {
+            if (UseCustomEndpoint)
+            {
+                throw new Exception("ERROR: Cannot use BreakSentences in a container service.");
+            }
+
             string path = "/breaksentence?api-version=3.0";
             string params_ = "&language=" + languagecode;
             string uri = EndPointAddressV3Public + path + params_;
-            if (_UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
+            if (UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
             object[] body = new object[] { new { Text = text.Substring(0, (text.Length < maxrequestsize) ? text.Length : maxrequestsize) } };
             string requestBody = JsonConvert.SerializeObject(body);
             List<int> resultList = new List<int>();
@@ -637,7 +753,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
 
         /// <summary>
-        /// Raw function to translate an array of strings. Doe snot allow elements to be larger than <see cref="maxrequestsize"/>.
+        /// Raw function to translate an array of strings. Does not allow elements to be larger than <see cref="maxrequestsize"/>.
         /// </summary>
         /// <param name="texts"></param>
         /// <param name="from"></param>
@@ -648,101 +764,136 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns></returns>
         private static async Task<string[]> TranslateV3AsyncInternal(string[] texts, string from, string to, string category, ContentType contentType, int retrycount = 3)
         {
-            string path = "/translate?api-version=3.0";
-            string params_ = "&from=" + from + "&to=" + to;
-            string thiscategory = category;
-            if (String.IsNullOrEmpty(category))
+            if (UseCustomEndpoint)
             {
-                thiscategory = null;
+                List<string> results = new List<string>();
+                foreach (string text in texts)
+                {
+                    string translationresult = await ContainerTranslateTextAsync(text, from, to);
+                    results.Add(translationresult);
+                }
+                return results.ToArray();
             }
             else
             {
-                if (thiscategory == "generalnn") thiscategory = null;
-                if (thiscategory == "general") thiscategory = null;
-            }
-            if (thiscategory != null) params_ += "&category=" + System.Web.HttpUtility.UrlEncode(category);
-            if (contentType == ContentType.HTML) params_ += "&textType=HTML";
-            string uri = EndPointAddressV3Public + path + params_;
-            if (_UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
-            
 
-            ArrayList requestAL = new ArrayList();
-            foreach (string text in texts)
-            {
-                requestAL.Add(new { Text = text } );
-            }
-            string requestJson = JsonConvert.SerializeObject(requestAL);
-
-            IList<string> resultList = new List<string>();
-            using (var client = new HttpClient())
-            using (var request = new HttpRequestMessage())
-            {
-                client.Timeout = TimeSpan.FromSeconds(10);
-                request.Method = HttpMethod.Post;
-                request.RequestUri = new Uri(uri);
-                request.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
-                request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                var response = await client.SendAsync(request).ConfigureAwait(false);
-                var responseBody = await response.Content.ReadAsStringAsync();
-                if (!response.IsSuccessStatusCode)
+                string path = "/translate?api-version=3.0";
+                string params_ = "&from=" + from + "&to=" + to;
+                string thiscategory = category;
+                if (String.IsNullOrEmpty(category))
                 {
-                    int status = (int)response.StatusCode;
-                    switch (status)
+                    thiscategory = null;
+                }
+                else
+                {
+                    if (thiscategory == "generalnn") thiscategory = null;
+                    if (thiscategory == "general") thiscategory = null;
+                }
+                if (thiscategory != null) params_ += "&category=" + System.Web.HttpUtility.UrlEncode(category);
+                if (contentType == ContentType.HTML) params_ += "&textType=HTML";
+                string uri = EndPointAddressV3Public + path + params_;
+                if (UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
+
+
+                ArrayList requestAL = new ArrayList();
+                foreach (string text in texts)
+                {
+                    requestAL.Add(new { Text = text });
+                }
+                string requestJson = JsonConvert.SerializeObject(requestAL);
+
+                IList<string> resultList = new List<string>();
+                using (var client = new HttpClient())
+                using (var request = new HttpRequestMessage())
+                {
+                    client.Timeout = TimeSpan.FromSeconds(10);
+                    request.Method = HttpMethod.Post;
+                    request.RequestUri = new Uri(uri);
+                    request.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+                    request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
+                    var response = await client.SendAsync(request).ConfigureAwait(false);
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    if (!response.IsSuccessStatusCode)
                     {
-                        case 429:
-                        case 500:
-                        case 503:
-                            if (texts.Length > 1)
-                            {
-                                for (int i=0; i<texts.Length; i++)
+                        int status = (int)response.StatusCode;
+                        switch (status)
+                        {
+                            case 429:
+                            case 500:
+                            case 503:
+                                if (texts.Length > 1)
                                 {
-                                    try
+                                    for (int i = 0; i < texts.Length; i++)
                                     {
-                                        string[] totranslate = new string[1];
-                                        totranslate[0] = texts[i];
-                                        string[] result = new string[1];
-                                        result = await TranslateV3AsyncInternal(totranslate, from, to, category, contentType, 2);
-                                        resultList.Add(result[0]);
+                                        try
+                                        {
+                                            string[] totranslate = new string[1];
+                                            totranslate[0] = texts[i];
+                                            string[] result = new string[1];
+                                            result = await TranslateV3AsyncInternal(totranslate, from, to, category, contentType, 2);
+                                            resultList.Add(result[0]);
+                                        }
+                                        catch
+                                        {
+                                            System.Diagnostics.Debug.WriteLine("Failed to translate: {0}\n", texts[i]);
+                                            resultList.Add(texts[i]);
+                                        }
                                     }
-                                    catch
-                                    {
-                                        System.Diagnostics.Debug.WriteLine("Failed to translate: {0}\n", texts[i]);
-                                        resultList.Add(texts[i]);
-                                    }
+                                    return resultList.ToArray();
                                 }
-                                return resultList.ToArray();
-                            }
-                            else
-                            {
-                                System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
-                                Thread.Sleep(MillisecondsTimeout);
-                                if (retrycount-- <= 0) break;
-                                else await TranslateV3AsyncInternal(texts, from, to, category, contentType, retrycount);
-                                break;
-                            }
-                        default:
-                            var errorstring = "ERROR " + response.StatusCode + "\n" + JsonConvert.SerializeObject(JsonConvert.DeserializeObject(responseBody), Formatting.Indented);
-                            Exception ex = new Exception(errorstring);
-                            throw ex;
+                                else
+                                {
+                                    System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
+                                    Thread.Sleep(MillisecondsTimeout);
+                                    if (retrycount-- <= 0) break;
+                                    else await TranslateV3AsyncInternal(texts, from, to, category, contentType, retrycount);
+                                    break;
+                                }
+                            default:
+                                var errorstring = "ERROR " + response.StatusCode + "\n" + JsonConvert.SerializeObject(JsonConvert.DeserializeObject(responseBody), Formatting.Indented);
+                                Exception ex = new Exception(errorstring);
+                                throw ex;
+                        }
+                    }
+                    JArray jaresult;
+                    try
+                    {
+                        jaresult = JArray.Parse(responseBody);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(responseBody);
+                        throw ex;
+                    }
+                    foreach (JObject result in jaresult)
+                    {
+                        string txt = (string)result.SelectToken("translations[0].text");
+                        resultList.Add(txt);
                     }
                 }
-                JArray jaresult;
-                try
-                {
-                    jaresult = JArray.Parse(responseBody);
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(responseBody);
-                    throw ex;
-                }
-                foreach (JObject result in jaresult)
-                {
-                    string txt = (string)result.SelectToken("translations[0].text");
-                    resultList.Add(txt);
-                }
+                return resultList.ToArray();
             }
-            return resultList.ToArray();
+        }
+
+        private static List<string> ParseJsonResult(string responseBody)
+        {
+            List<string> resultList = new List<string>();
+            JArray jaresult;
+            try
+            {
+                jaresult = JArray.Parse(responseBody);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(responseBody);
+                throw ex;
+            }
+            foreach (JObject result in jaresult)
+            {
+                string txt = (string)result.SelectToken("translations[0].text");
+                resultList.Add(txt);
+            }
+            return resultList;
         }
 
 
@@ -761,7 +912,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 TU.comment = comment;
                 TM.Add(TU);
             }
-            TM.WriteToTmx(_TmxFileName);
+            TM.WriteToTmx(TmxFileName);
             return;
         }
 

@@ -333,4 +333,7 @@ Word documents: hidden text</value>
   <data name="Tooltip_TranslateToAll" xml:space="preserve">
     <value>Returns a translation to all of the Microsoft Translator languages. Useful only for short strings.</value>
   </data>
+  <data name="CustomEndpoint" xml:space="preserve">
+    <value>Use custom endpoint</value>
+  </data>
 </root>

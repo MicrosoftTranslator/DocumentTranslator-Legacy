@@ -105,5 +105,29 @@ namespace TranslationAssistant.TranslationServices.Core.Properties {
                 this["UseAzureGovernment"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool UseCustomEndpoint {
+            get {
+                return ((bool)(this["UseCustomEndpoint"]));
+            }
+            set {
+                this["UseCustomEndpoint"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:5000")]
+        public string CustomEndpointUrl {
+            get {
+                return ((string)(this["CustomEndpointUrl"]));
+            }
+            set {
+                this["CustomEndpointUrl"] = value;
+            }
+        }
     }
 }

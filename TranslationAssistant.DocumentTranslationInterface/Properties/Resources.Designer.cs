@@ -341,6 +341,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use custom endpoint.
+        /// </summary>
+        public static string CustomEndpoint {
+            get {
+                return ResourceManager.GetString("CustomEndpoint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Document Translator.
         /// </summary>
         public static string DocumentTranslator_name {
