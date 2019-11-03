@@ -299,6 +299,10 @@ Word documents : texte masqué</target>
           <source>Returns a translation to all of the Microsoft Translator languages. Useful only for short strings.</source>
           <target state="new">Returns a translation to all of the Microsoft Translator languages. Useful only for short strings.</target>
         </trans-unit>
+        <trans-unit id="CustomEndpoint" translate="yes" xml:space="preserve">
+          <source>Use custom endpoint</source>
+          <target state="new">Use custom endpoint</target>
+        </trans-unit>
       </group>
     </body>
   </file>
