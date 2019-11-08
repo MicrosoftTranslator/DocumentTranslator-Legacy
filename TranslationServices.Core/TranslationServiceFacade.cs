@@ -669,6 +669,26 @@ namespace TranslationAssistant.TranslationServices.Core
             public float Score { get; set; }
         }
 
+        public static async Task<string> Dictionary(string text, string from, string to)
+        {
+            string path = "/dictionary/lookup?api-version=3.0";
+            string params_ = "&from=" + from + "&to=" + to;
+            string uri = EndPointAddressV3Public + path + params_;
+            object[] body = new object[] { new { Text = text } };
+            using (var client = new HttpClient())
+            using (var request = new HttpRequestMessage())
+            {
+                request.Method = HttpMethod.Post;
+                request.RequestUri = new Uri(uri);
+                request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
+                request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
+                var response = client.SendAsync(request).Result;
+                var jsonResponse = await response.Content.ReadAsStringAsync();
+                return jsonResponse;
+            }
+        }
+
+
 
         /// <summary>
         /// Breaks string into sentences. The string will be cut off at maxrequestsize. 

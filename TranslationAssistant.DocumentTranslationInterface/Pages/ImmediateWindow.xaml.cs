@@ -13,8 +13,10 @@
 
 namespace TranslationAssistant.DocumentTranslationInterface.Pages
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows;
@@ -203,6 +205,44 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
             try
             {
                 ResultBox.Text = await task;
+            }
+            catch (Exception ex)
+            {
+                ResultBox.Text = ex.Message;
+            }
+        }
+
+        private async void DictionaryButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResultBox.Text = string.Empty;
+            string translateFrom = documentTranslation.SelectedSourceLanguage;
+            if (documentTranslation.SourceLanguageList.IndexOf(documentTranslation.SelectedSourceLanguage) == 0)
+            {
+                translateFrom = "";
+            }
+            else
+            {
+                translateFrom = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(translateFrom);
+            }
+            string translateTo = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(documentTranslation.SelectedTargetLanguage);
+
+            Task<string> task = TranslationServices.Core.TranslationServiceFacade.Dictionary
+            (
+                InputBox.Text,
+                translateFrom,
+                translateTo
+            );
+            try
+            {
+                string dictionaryResult = await task;
+                using (var stringReader = new StringReader(dictionaryResult))
+                using (var stringWriter = new StringWriter())
+                {
+                    var jsonReader = new JsonTextReader(stringReader);
+                    var jsonWriter = new JsonTextWriter(stringWriter) { Formatting = Formatting.Indented };
+                    jsonWriter.WriteToken(jsonReader);
+                    ResultBox.Text = stringWriter.ToString();
+                }
             }
             catch (Exception ex)
             {
