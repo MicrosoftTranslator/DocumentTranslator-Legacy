@@ -14,7 +14,7 @@ namespace TranslationAssistant.Business
 {
     class HTMLTranslationManager
     {
-        private static readonly int maxRequestSize = TranslationServices.Core.TranslationServiceFacade.maxrequestsize;
+        private static readonly int maxRequestSize = TranslationServices.Core.TranslationServiceFacade.Maxrequestsize;
 
         public static int DoTranslation(string htmlfilename, string fromlanguage, string tolanguage)
         {

@@ -408,7 +408,7 @@ namespace TranslationAssistant.Business
         {
             var document = File.ReadAllLines(fullNameForDocumentToProcess, Encoding.UTF8);
             List<string> lstTexts = new List<string>(document);
-            var batches = SplitList(lstTexts, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
+            var batches = SplitList(lstTexts, TranslationServiceFacade.Maxelements, TranslationServiceFacade.Maxrequestsize);
             File.Delete(fullNameForDocumentToProcess);
 
             foreach (var batch in batches)
@@ -446,7 +446,7 @@ namespace TranslationAssistant.Business
                 var batch = lstTexts.Select(item => item.Text);
                 IEnumerable<string> values = batch as string[] ?? batch.ToArray();
 
-                var batches = SplitList(values, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
+                var batches = SplitList(values, TranslationServiceFacade.Maxelements, TranslationServiceFacade.Maxrequestsize);
                 string[] translated = new string[values.Count()];
 
                 var exceptions = new ConcurrentQueue<Exception>();
@@ -509,7 +509,7 @@ namespace TranslationAssistant.Business
                 }
 
                 var batchComments = lstComments.Select(item => item.InnerText);
-                var batchesComments = SplitList(batchComments, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
+                var batchesComments = SplitList(batchComments, TranslationServiceFacade.Maxelements, TranslationServiceFacade.Maxrequestsize);
                 string[] translatedComments = new string[batchesComments.Count()];
 
                 Parallel.For(
@@ -609,7 +609,7 @@ namespace TranslationAssistant.Business
                         var batch = lstComments.Select(text => text.InnerText);
 
                         // Do Translation
-                        var batchesComments = SplitList(batch, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
+                        var batchesComments = SplitList(batch, TranslationServiceFacade.Maxelements, TranslationServiceFacade.Maxrequestsize);
 
                         // Use ConcurrentQueue to enable safe enqueueing from multiple threads. 
                         var exceptions = new ConcurrentQueue<Exception>();
@@ -672,7 +672,7 @@ namespace TranslationAssistant.Business
                 var batch = texts.Select(text => text.Text);
 
                 // Do Translation
-                var batches = SplitList(batch, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
+                var batches = SplitList(batch, TranslationServiceFacade.Maxelements, TranslationServiceFacade.Maxrequestsize);
 
                 // Use ConcurrentQueue to enable safe enqueueing from multiple threads. 
                 var exceptions = new ConcurrentQueue<Exception>();
@@ -787,7 +787,7 @@ namespace TranslationAssistant.Business
                 var batch = texts.Select(text => text.Text);
 
                 // Do Translation
-                var batches = SplitList(batch, TranslationServiceFacade.maxelements, TranslationServiceFacade.maxrequestsize);
+                var batches = SplitList(batch, TranslationServiceFacade.Maxelements, TranslationServiceFacade.Maxrequestsize);
                 Parallel.For(
                     0,
                     batches.Count(),

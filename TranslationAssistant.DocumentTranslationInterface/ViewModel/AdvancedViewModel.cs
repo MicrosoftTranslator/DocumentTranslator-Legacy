@@ -132,7 +132,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             //Initialize in order to load the credentials.
             TranslationServices.Core.TranslationServiceFacade.Initialize();
             this.appId = TranslationServices.Core.TranslationServiceFacade.AppId;
-            this.adv_categoryID = TranslationServices.Core.TranslationServiceFacade.Adv_CategoryId;
+            this.adv_categoryID = TranslationServices.Core.TranslationServiceFacade.AdvCategoryId;
             this.UseAdvancedSettings = TranslationServices.Core.TranslationServiceFacade.UseAdvancedSettings;
         }
 

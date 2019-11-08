@@ -15,7 +15,6 @@ namespace TranslationAssistant.TranslationServices.Core
 {
     #region Usings
 
-    using Microsoft.Translator.API;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System;
@@ -31,19 +30,18 @@ namespace TranslationAssistant.TranslationServices.Core
 
     #endregion
 
-    public class TranslationServiceFacade
+    public static class TranslationServiceFacade
     {
         private const int MillisecondsTimeout = 100;
 
         #region Static Fields
 
-        public static Dictionary<string, string> AvailableLanguages = new Dictionary<string, string>();
 
-        public static int maxrequestsize = 5000;   //service size is 5000
-        public static int maxelements = 100;
+        private static int maxrequestsize = 5000;   //service size is 5000
+        private static int maxelements = 100;
         public static string CategoryID { get; set; }
         public static string AppId { get; set; }
-        public static string Adv_CategoryId { get; set; }
+        public static string AdvCategoryId { get; set; }
         public static bool UseAdvancedSettings { get; set; }
         public static bool UseAzureGovernment { get; set; }
         /// <summary>
@@ -53,7 +51,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <summary>
         /// Holds the value of the custom endpoint, the container
         /// </summary>
-        public static string CustomEndpointUrl { get; set; }
+        public static Uri CustomEndpointUrl { get; set; }
 
         /// <summary>
         /// Holds the Azure subscription key
@@ -79,6 +77,9 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         public static string EndPointAddressV3Public { get; set; } = "https://api.cognitive.microsofttranslator.com";
         public static string EndPointAddressV3Gov { get; set; } = "https://api.cognitive.microsofttranslator.us";
+        public static Dictionary<string, string> AvailableLanguages { get; } = new Dictionary<string, string>();
+        public static int Maxrequestsize { get => maxrequestsize; }
+        public static int Maxelements { get => maxelements; }
 
         public enum ContentType { plain, HTML };
 
@@ -119,17 +120,17 @@ namespace TranslationAssistant.TranslationServices.Core
                 string requestBody = JsonConvert.SerializeObject(body);
                 request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                HttpResponseMessage response = await client.SendAsync(request);
+                HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    string detectResult= await response.Content.ReadAsStringAsync();
+                    string detectResult= await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                     if (pretty)
                     {
                         using (var stringReader = new StringReader(detectResult))
                         using (var stringWriter = new StringWriter())
                         {
-                            var jsonReader = new JsonTextReader(stringReader);
-                            var jsonWriter = new JsonTextWriter(stringWriter) { Formatting = Formatting.Indented };
+                            JsonTextReader jsonReader = new JsonTextReader(stringReader);
+                            JsonTextWriter jsonWriter = new JsonTextWriter(stringWriter) { Formatting = Formatting.Indented };
                             jsonWriter.WriteToken(jsonReader);
                             return stringWriter.ToString();
                         }
@@ -149,7 +150,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
         public static string Detect(string input)
         {
-            Task<string> task = Task.Run(async () => await DetectAsync(input, true));
+            Task<string> task = Task.Run(async () => await DetectAsync(input, true).ConfigureAwait(false));
             return task.Result;
         }
 
@@ -164,12 +165,12 @@ namespace TranslationAssistant.TranslationServices.Core
             if (UseCustomEndpoint) return null;
             if (simple)
             {
-                DetectResult[] detectResults = await DetectAsync(input);
+                DetectResult[] detectResults = await DetectAsync(input).ConfigureAwait(false);
                 return detectResults[0].Language;
             }
             else
             {
-                return await DetectInternalAsync(input, true);
+                return await DetectInternalAsync(input, true).ConfigureAwait(false);
             }
         }
 
@@ -177,7 +178,7 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             if (UseCustomEndpoint) return null;
 
-            string result = await DetectInternalAsync(input);
+            string result = await DetectInternalAsync(input).ConfigureAwait(false);
             DetectResult[] deserializedOutput = JsonConvert.DeserializeObject<DetectResult[]>(result);
             return deserializedOutput;
         }
@@ -205,9 +206,9 @@ namespace TranslationAssistant.TranslationServices.Core
             {
                 client.Timeout = TimeSpan.FromSeconds(10);
                 request.Method = HttpMethod.Get;
-                request.RequestUri = new Uri(CustomEndpointUrl);
+                request.RequestUri = CustomEndpointUrl;
                 var response = await client.SendAsync(request).ConfigureAwait(false);
-                var responseBody = await response.Content.ReadAsStringAsync();
+                var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 if (response.IsSuccessStatusCode)
                 {
                     return true;
@@ -242,7 +243,7 @@ namespace TranslationAssistant.TranslationServices.Core
             {
                 try
                 {
-                    string detectedlanguage = await DetectInternalAsync("Test");
+                    string detectedlanguage = await DetectInternalAsync("Test").ConfigureAwait(false);
                     if (detectedlanguage == null) return false;
                     return true;
                 }
@@ -260,7 +261,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns>Whether the translation servoce is ready to translate</returns>
         public static bool IsTranslationServiceReady()
         {
-            Task<bool> task = Task.Run(async () => await IsTranslationServiceReadyAsync());
+            Task<bool> task = Task.Run(async () => await IsTranslationServiceReadyAsync().ConfigureAwait(false));
             return task.Result;
         }
 
@@ -273,12 +274,12 @@ namespace TranslationAssistant.TranslationServices.Core
         public static async Task<bool> IsCategoryValidAsync(string category)
         {
             if (category == "") return true;
-            if (category == string.Empty) return true;
-            if (category.ToLower() == "general") return true;
-            if (category.ToLower() == "generalnn") return true;
-            if (category.ToLower() == "tech") return true;
+            if (string.IsNullOrEmpty(category)) return true;
+            if (category.ToLowerInvariant() == "general") return true;
+            if (category.ToLowerInvariant() == "generalnn") return true;
+            if (category.ToLowerInvariant() == "tech") return true;
 
-            return await IsCategoryValidV3Async(category);
+            return await IsCategoryValidV3Async(category).ConfigureAwait(false);
         }
 
         private static async Task<bool> IsCategoryValidV3Async(string category)
@@ -349,7 +350,7 @@ namespace TranslationAssistant.TranslationServices.Core
             {
                 Task<KeyValuePair<string, bool>> task = ContainerTestLanguage(kv.Key);
             }
-            await Task.WhenAll(tasks);
+            await Task.WhenAll(tasks).ConfigureAwait(false);
             foreach (var task in tasks)
             {
                 if (!task.Result.Value) AvailableLanguages.Remove(task.Result.Key);
@@ -361,7 +362,7 @@ namespace TranslationAssistant.TranslationServices.Core
             bool testresult = false;
             try
             {
-                string translationresult = await ContainerTranslateTextAsync("Test", "en", language);
+                string translationresult = await ContainerTranslateTextAsync("Test", "en", language).ConfigureAwait(false);
                 if (translationresult != null) testresult = true;
             }
             catch { };
@@ -381,7 +382,7 @@ namespace TranslationAssistant.TranslationServices.Core
             StringBuilder result = new StringBuilder();
             foreach(string element in arraytotranslate)
             {
-                string translationresult = await ContainerTranslateTextAsyncInternal(element, fromlanguage, tolanguage);
+                string translationresult = await ContainerTranslateTextAsyncInternal(element, fromlanguage, tolanguage).ConfigureAwait(false);
                 result.Append(translationresult + ". ");
             }
             //result.Replace("..", ".");
@@ -393,8 +394,8 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             if (fromlanguage == tolanguage) return textToTranslate;
             if ((fromlanguage != "en") && (tolanguage != "en")) {
-                string intermediateresult = await ContainerTranslateTextAsync(textToTranslate, fromlanguage, "en");
-                string translateresult = await ContainerTranslateTextAsync(intermediateresult, "en", tolanguage);
+                string intermediateresult = await ContainerTranslateTextAsync(textToTranslate, fromlanguage, "en").ConfigureAwait(false);
+                string translateresult = await ContainerTranslateTextAsync(intermediateresult, "en", tolanguage).ConfigureAwait(false);
                 return translateresult;
             }
             else {
@@ -415,10 +416,10 @@ namespace TranslationAssistant.TranslationServices.Core
                     try
                     {
                         // Send the request and await a response.
-                        var response = await client.SendAsync(request);
+                        var response = await client.SendAsync(request).ConfigureAwait(false);
                         if (response.IsSuccessStatusCode)
                         {
-                            string resultJson = await response.Content.ReadAsStringAsync();
+                            string resultJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                             return ParseJsonResult(resultJson)[0];
                         }
                         else return null;
@@ -447,8 +448,8 @@ namespace TranslationAssistant.TranslationServices.Core
             {
                 request.Method = HttpMethod.Get;
                 request.RequestUri = new Uri(uri);
-                HttpResponseMessage response = await client.SendAsync(request);
-                string jsonResponse = await response.Content.ReadAsStringAsync();
+                HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
+                string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var result = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
@@ -474,7 +475,7 @@ namespace TranslationAssistant.TranslationServices.Core
             CategoryID = Properties.Settings.Default.CategoryID;
             AppId = Properties.Settings.Default.AppId;
             UseAdvancedSettings = Properties.Settings.Default.UseAdvancedSettings;
-            Adv_CategoryId = Properties.Settings.Default.Adv_CategoryID;
+            AdvCategoryId = Properties.Settings.Default.Adv_CategoryID;
             UseAzureGovernment = Properties.Settings.Default.UseAzureGovernment;
             UseCustomEndpoint = Properties.Settings.Default.UseCustomEndpoint;
             CustomEndpointUrl = Properties.Settings.Default.CustomEndpointUrl;
@@ -489,7 +490,7 @@ namespace TranslationAssistant.TranslationServices.Core
             Properties.Settings.Default.CategoryID = CategoryID;
             Properties.Settings.Default.AppId = AppId;
             Properties.Settings.Default.UseAdvancedSettings = UseAdvancedSettings;
-            Properties.Settings.Default.Adv_CategoryID = Adv_CategoryId;
+            Properties.Settings.Default.Adv_CategoryID = AdvCategoryId;
             Properties.Settings.Default.UseAzureGovernment = UseAzureGovernment;
             Properties.Settings.Default.UseCustomEndpoint = UseCustomEndpoint;
             Properties.Settings.Default.CustomEndpointUrl = CustomEndpointUrl;
@@ -565,7 +566,7 @@ namespace TranslationAssistant.TranslationServices.Core
             string fromCode = string.Empty;
             string toCode = string.Empty;
 
-            if (autoDetectStrings.Contains(from.ToLower(CultureInfo.InvariantCulture)) || from == string.Empty)
+            if (string.IsNullOrEmpty(from) || autoDetectStrings.Contains(from.ToLower(CultureInfo.InvariantCulture)))
             {
                 fromCode = string.Empty;
             }
@@ -582,7 +583,7 @@ namespace TranslationAssistant.TranslationServices.Core
         }
 
         /// <summary>
-        /// Split a string > than <see cref="maxrequestsize"/> into a list of smaller strings, at the appropriate sentence breaks. 
+        /// Split a string > than <see cref="Maxrequestsize"/> into a list of smaller strings, at the appropriate sentence breaks. 
         /// </summary>
         /// <param name="text">The text to split.</param>
         /// <param name="languagecode">The language code to apply.</param>
@@ -591,7 +592,7 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             List<string> result = new List<string>();
             int previousboundary = 0;
-            if (text.Length <= maxrequestsize)
+            if (text.Length <= Maxrequestsize)
             {
                 result.Add(text);
             }
@@ -599,7 +600,7 @@ namespace TranslationAssistant.TranslationServices.Core
             {
                 while (previousboundary <= text.Length)
                 {
-                    int boundary = await LastSentenceBreak(text.Substring(previousboundary), languagecode);
+                    int boundary = await LastSentenceBreak(text.Substring(previousboundary), languagecode).ConfigureAwait(false);
                     if (boundary == 0) break;
                     result.Add(text.Substring(previousboundary, boundary));
                     previousboundary += boundary;
@@ -619,7 +620,7 @@ namespace TranslationAssistant.TranslationServices.Core
         private static async Task<int> LastSentenceBreak(string text, string languagecode)
         {
             int sum = 0;
-            List<int> breakSentenceResult = await BreakSentencesAsync(text, languagecode);
+            List<int> breakSentenceResult = await BreakSentencesAsync(text, languagecode).ConfigureAwait(false);
             for (int i = 0; i < breakSentenceResult.Count-1; i++) sum += breakSentenceResult[i];
             return sum;
         }
@@ -627,11 +628,10 @@ namespace TranslationAssistant.TranslationServices.Core
 
         private static bool IsCustomCategory(string categoryID)
         {
-            string category = categoryID.ToLower();
+            if (string.IsNullOrEmpty(categoryID)) return false;
+            string category = categoryID.ToLowerInvariant();
             if (category == "general") return false;
-            if (category == null) return false;
             if (category == "generalnn") return false;
-            if (category == string.Empty) return false;
             return true;
         }
 
@@ -643,14 +643,14 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="to">To languagecode</param>
         /// <param name="category">Category ID</param>
         /// <param name="contentType">Plain text or HTML. Default is plain text.</param>
-        /// <param name="retrycount">How many times you want to retry. Default is 3.</param>
+        /// 
         /// <returns></returns>
-        public static async Task<string> TranslateStringAsync(string text, string from, string to, string category, ContentType contentType = ContentType.plain, int retrycount = 3)
+        public static async Task<string> TranslateStringAsync(string text, string from, string to, string category, ContentType contentType = ContentType.plain)
         {
             string[] vs = new string[1];
             vs[0] = text;
             Task<string[]> task = TranslateV3Async(vs, from, to, CategoryID, contentType);
-            await task;
+            await task.ConfigureAwait(false);
             return task.Result[0];
         }
 
@@ -683,7 +683,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
                 var response = client.SendAsync(request).Result;
-                var jsonResponse = await response.Content.ReadAsStringAsync();
+                var jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return jsonResponse;
             }
         }
@@ -707,7 +707,7 @@ namespace TranslationAssistant.TranslationServices.Core
             string params_ = "&language=" + languagecode;
             string uri = EndPointAddressV3Public + path + params_;
             if (UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
-            object[] body = new object[] { new { Text = text.Substring(0, (text.Length < maxrequestsize) ? text.Length : maxrequestsize) } };
+            object[] body = new object[] { new { Text = text.Substring(0, (text.Length < Maxrequestsize) ? text.Length : Maxrequestsize) } };
             string requestBody = JsonConvert.SerializeObject(body);
             List<int> resultList = new List<int>();
 
@@ -719,7 +719,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
                 HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
-                string result = await response.Content.ReadAsStringAsync();
+                string result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 BreakSentenceResult[] deserializedOutput = JsonConvert.DeserializeObject<BreakSentenceResult[]>(result);
                 foreach (BreakSentenceResult o in deserializedOutput)
                 {
@@ -732,7 +732,7 @@ namespace TranslationAssistant.TranslationServices.Core
         }
 
         /// <summary>
-        /// Translate an array of texts. An element may be larger than <see cref="maxrequestsize"/>.
+        /// Translate an array of texts. An element may be larger than <see cref="Maxrequestsize"/>.
         /// </summary>
         /// <param name="texts">Array of text elements</param>
         /// <param name="from">From language</param>
@@ -747,18 +747,18 @@ namespace TranslationAssistant.TranslationServices.Core
             bool translateindividually = false;
             foreach(string text in texts)
             {
-                if (text.Length >= maxrequestsize) translateindividually = true;
+                if (text.Length >= Maxrequestsize) translateindividually = true;
             }
             if (translateindividually)
             {
                 List<string> resultlist = new List<string>();
                 foreach (string text in texts)
                 {
-                    List<string> splitstring = await SplitStringAsync(text, from);
+                    List<string> splitstring = await SplitStringAsync(text, from).ConfigureAwait(false);
                     string linetranslation = string.Empty;
                     foreach (string innertext in splitstring)
                     {
-                        string innertranslation = await TranslateStringAsync(innertext, from, to, category, contentType, retrycount);
+                        string innertranslation = await TranslateStringAsync(innertext, from, to, category, contentType).ConfigureAwait(false);
                         linetranslation += innertranslation;
                     }
                     resultlist.Add(linetranslation);
@@ -767,13 +767,13 @@ namespace TranslationAssistant.TranslationServices.Core
             }
             else
             {
-                return await TranslateV3AsyncInternal(texts, from, to, category, contentType);
+                return await TranslateV3AsyncInternal(texts, from, to, category, contentType).ConfigureAwait(false);
             }
         }
 
 
         /// <summary>
-        /// Raw function to translate an array of strings. Does not allow elements to be larger than <see cref="maxrequestsize"/>.
+        /// Raw function to translate an array of strings. Does not allow elements to be larger than <see cref="Maxrequestsize"/>.
         /// </summary>
         /// <param name="texts"></param>
         /// <param name="from"></param>
@@ -789,7 +789,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 List<string> results = new List<string>();
                 foreach (string text in texts)
                 {
-                    string translationresult = await ContainerTranslateTextAsync(text, from, to);
+                    string translationresult = await ContainerTranslateTextAsync(text, from, to).ConfigureAwait(false);
                     results.Add(translationresult);
                 }
                 return results.ToArray();
@@ -832,7 +832,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     request.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
                     request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
                     var response = await client.SendAsync(request).ConfigureAwait(false);
-                    var responseBody = await response.Content.ReadAsStringAsync();
+                    var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                     if (!response.IsSuccessStatusCode)
                     {
                         int status = (int)response.StatusCode;
@@ -850,7 +850,7 @@ namespace TranslationAssistant.TranslationServices.Core
                                             string[] totranslate = new string[1];
                                             totranslate[0] = texts[i];
                                             string[] result = new string[1];
-                                            result = await TranslateV3AsyncInternal(totranslate, from, to, category, contentType, 2);
+                                            result = await TranslateV3AsyncInternal(totranslate, from, to, category, contentType, 2).ConfigureAwait(false);
                                             resultList.Add(result[0]);
                                         }
                                         catch
@@ -866,7 +866,7 @@ namespace TranslationAssistant.TranslationServices.Core
                                     System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
                                     Thread.Sleep(MillisecondsTimeout);
                                     if (retrycount-- <= 0) break;
-                                    else await TranslateV3AsyncInternal(texts, from, to, category, contentType, retrycount);
+                                    else await TranslateV3AsyncInternal(texts, from, to, category, contentType, retrycount).ConfigureAwait(false);
                                     break;
                                 }
                             default:
@@ -880,10 +880,10 @@ namespace TranslationAssistant.TranslationServices.Core
                     {
                         jaresult = JArray.Parse(responseBody);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         System.Diagnostics.Debug.WriteLine(responseBody);
-                        throw ex;
+                        throw;
                     }
                     foreach (JObject result in jaresult)
                     {
@@ -903,10 +903,10 @@ namespace TranslationAssistant.TranslationServices.Core
             {
                 jaresult = JArray.Parse(responseBody);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 System.Diagnostics.Debug.WriteLine(responseBody);
-                throw ex;
+                throw;
             }
             foreach (JObject result in jaresult)
             {

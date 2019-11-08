@@ -17,7 +17,7 @@ namespace TranslationAssistant.TranslationServices.Core
     {
         #region Static Fields
 
-        public static readonly string DatamarketAccessUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
+        public const string DatamarketAccessUri = "https://datamarket.accesscontrol.windows.net/v2/OAuth2-13";
 
         #endregion
     }
