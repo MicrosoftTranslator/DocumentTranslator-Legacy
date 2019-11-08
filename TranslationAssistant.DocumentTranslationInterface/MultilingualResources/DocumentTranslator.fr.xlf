@@ -305,11 +305,31 @@ Word documents : texte masqué</target>
         </trans-unit>
         <trans-unit id="Translate_Dictionary" translate="yes" xml:space="preserve">
           <source>Dictionary</source>
-          <target state="new">Dictionary</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dictionnaire</target>
         </trans-unit>
         <trans-unit id="CustomEndpoint" translate="yes" xml:space="preserve">
-          <source>Use custom endpoint</source>
-          <target state="new">Use custom endpoint</target>
+          <source>Use container:</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Utiliser le conteneur</target>
+        </trans-unit>
+        <trans-unit id="Tooltip_CustomUrl" translate="yes" xml:space="preserve">
+          <source>Enter the Url to the endpoint where you are hosting the Translator container.</source>
+          <target state="new">Enter the Url to the endpoint where you are hosting the Translator container.</target>
+        </trans-unit>
+        <trans-unit id="Tooltip_CustomUrlCheckbox" translate="yes" xml:space="preserve">
+          <source>Check this only if you have a container install of Translator (uncommon)</source>
+          <target state="new">Check this only if you have a container install of Translator (uncommon)</target>
+        </trans-unit>
+        <trans-unit id="Tooltip_AccountKey" translate="yes" xml:space="preserve">
+          <source>Required: Enter the key to your Azure Text Translator subscription.</source>
+          <target state="new">Required: Enter the key to your Azure Text Translator subscription.</target>
+        </trans-unit>
+        <trans-unit id="Tooltip_Category" translate="yes" xml:space="preserve">
+          <source>Optional: Enter the category ID of the custom system you want to use. </source>
+          <target state="new">Optional: Enter the category ID of the custom system you want to use. </target>
+        </trans-unit>
+        <trans-unit id="Tooltip_UseAzureGovernment" translate="yes" xml:space="preserve">
+          <source>Check if your account key is for Azure Government (azure.us).</source>
+          <target state="new">Check if your account key is for Azure Government (azure.us).</target>
         </trans-unit>
       </group>
     </body>

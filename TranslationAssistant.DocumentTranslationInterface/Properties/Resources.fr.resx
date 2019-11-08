@@ -213,4 +213,10 @@ Word documents : texte masqué</value>
   <data name="Translate_SentNum" xml:space="preserve">
     <value>Nombre de phrases:</value>
   </data>
+  <data name="Translate_Dictionary" xml:space="preserve">
+    <value>Dictionnaire</value>
+  </data>
+  <data name="CustomEndpoint" xml:space="preserve">
+    <value>Utiliser le conteneur</value>
+  </data>
 </root>

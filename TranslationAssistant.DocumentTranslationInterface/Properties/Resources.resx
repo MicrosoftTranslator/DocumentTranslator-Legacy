@@ -340,6 +340,21 @@ Word documents: hidden text</value>
     <value>Dictionary</value>
   </data>
   <data name="CustomEndpoint" xml:space="preserve">
-    <value>Use custom endpoint</value>
+    <value>Use container:</value>
+  </data>
+  <data name="Tooltip_AccountKey" xml:space="preserve">
+    <value>Required: Enter the key to your Azure Text Translator subscription.</value>
+  </data>
+  <data name="Tooltip_Category" xml:space="preserve">
+    <value>Optional: Enter the category ID of the custom system you want to use. </value>
+  </data>
+  <data name="Tooltip_CustomUrl" xml:space="preserve">
+    <value>Enter the Url to the endpoint where you are hosting the Translator container.</value>
+  </data>
+  <data name="Tooltip_CustomUrlCheckbox" xml:space="preserve">
+    <value>Check this only if you have a container install of Translator (uncommon)</value>
+  </data>
+  <data name="Tooltip_UseAzureGovernment" xml:space="preserve">
+    <value>Check if your account key is for Azure Government (azure.us).</value>
   </data>
 </root>

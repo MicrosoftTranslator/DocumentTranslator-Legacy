@@ -19,7 +19,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -341,7 +341,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use custom endpoint.
+        ///   Looks up a localized string similar to Use container:.
         /// </summary>
         public static string CustomEndpoint {
             get {
@@ -524,11 +524,47 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Required: Enter the key to your Azure Text Translator subscription..
+        /// </summary>
+        public static string Tooltip_AccountKey {
+            get {
+                return ResourceManager.GetString("Tooltip_AccountKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Returns the sentence boundaries of the input. .
         /// </summary>
         public static string Tooltip_BreakSentences {
             get {
                 return ResourceManager.GetString("Tooltip_BreakSentences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optional: Enter the category ID of the custom system you want to use. .
+        /// </summary>
+        public static string Tooltip_Category {
+            get {
+                return ResourceManager.GetString("Tooltip_Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the Url to the endpoint where you are hosting the Translator container..
+        /// </summary>
+        public static string Tooltip_CustomUrl {
+            get {
+                return ResourceManager.GetString("Tooltip_CustomUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check this only if you have a container install of Translator (uncommon).
+        /// </summary>
+        public static string Tooltip_CustomUrlCheckbox {
+            get {
+                return ResourceManager.GetString("Tooltip_CustomUrlCheckbox", resourceCulture);
             }
         }
         
@@ -565,6 +601,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         public static string Tooltip_TranslateToAll {
             get {
                 return ResourceManager.GetString("Tooltip_TranslateToAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check if your account key is for Azure Government (azure.us)..
+        /// </summary>
+        public static string Tooltip_UseAzureGovernment {
+            get {
+                return ResourceManager.GetString("Tooltip_UseAzureGovernment", resourceCulture);
             }
         }
         

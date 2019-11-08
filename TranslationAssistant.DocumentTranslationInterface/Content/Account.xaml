@@ -51,17 +51,17 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="1" Grid.Column="0" Text="{x:Static p:Resources.Account_key}" VerticalAlignment="Center" Margin="0,3,16,0" />
-                    <PasswordBox Name="KeyBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" PasswordChanged="PasswordBox_PasswordChanged"/>
+                    <PasswordBox Name="KeyBox" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" PasswordChanged="PasswordBox_PasswordChanged" ToolTip="{x:Static p:Resources.Tooltip_AccountKey}" />
 
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static p:Resources.Account_category}" VerticalAlignment="Center" Margin="0,3,16,0"  />
-                    <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0"  Text="{Binding CategoryID, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0"  Text="{Binding CategoryID, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_Category}" />
 
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static p:Resources.AzureGov_text}" VerticalAlignment="Center" Margin="0,3,16,0"  />
-                    <CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" IsChecked="{Binding UseAzureGovernment, UpdateSourceTrigger=PropertyChanged}"/>
+                    <CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" IsChecked="{Binding UseAzureGovernment, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_UseAzureGovernment}" />
 
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static p:Resources.CustomEndpoint}" VerticalAlignment="Center" Margin="0,3,16,0"  />
-                    <CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" IsChecked="{Binding UseCustomEndpoint, UpdateSourceTrigger=PropertyChanged}"/>
-                    <TextBox x:Name="CustomEndpointUrl" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Margin="30,0,0,0" TextWrapping="Wrap" Text="{Binding CustomEndpointUrl, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="270"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static p:Resources.CustomEndpoint}" VerticalAlignment="Center" Margin="0,3,16,0" />
+                    <CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" IsChecked="{Binding UseCustomEndpoint, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_CustomUrlCheckbox}" />
+                    <TextBox x:Name="CustomEndpointUrl" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Margin="30,0,0,0" TextWrapping="Wrap" Text="{Binding CustomEndpointUrl, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="270" ToolTip="{x:Static p:Resources.Tooltip_CustomUrl}"/>
 
 
                     <Button Grid.Row="6" Grid.Column="1" Content="{x:Static p:Resources.Account_save}" Width="80" HorizontalAlignment="Left" Margin="0,20,0,0">
