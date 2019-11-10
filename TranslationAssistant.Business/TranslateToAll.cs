@@ -11,21 +11,64 @@ namespace TranslationAssistant.Business
     {
         public event EventHandler OneTranslationDone;
 
+ 
+        /// <summary>
+        /// Translate to all languages
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="from"></param>
+        /// <param name="category"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
         private async Task<SortedDictionary<string, string>> TranslateToAllLanguages(string text, string from, string category, TranslationServiceFacade.ContentType contentType)
         {
             EventHandler handler = OneTranslationDone;
-            SortedDictionary<string, string> translatedDictionary = new SortedDictionary<string, string>();
+            List<Task<KeyValuePair<string, string>>> tasklist = new List<Task<KeyValuePair<string, string>>>();
             foreach (KeyValuePair<string, string> language in TranslationServiceFacade.AvailableLanguages)
             {
-                string translation = await TranslationServiceFacade.TranslateStringAsync(text, from, language.Key, category, contentType);
-                translatedDictionary.Add(language.Key, translation);
+                Task<KeyValuePair<string, string>> task = TranslateInternal(text, from, language.Key, category, contentType);
+                tasklist.Add(task);
                 handler(this, EventArgs.Empty);
             };
+            KeyValuePair<string, string>[] resultkv = await Task.WhenAll(tasklist); 
+            SortedDictionary<string, string> translatedDictionary = new SortedDictionary<string, string>();
+            foreach(KeyValuePair<string, string> pair in resultkv)
+            {
+                translatedDictionary.Add(pair.Key, pair.Value);
+            }
+
+
+
             return translatedDictionary;
         }
 
-        
+        /// <summary>
+        /// A wrapper for the Translate method that returns a key value pair with [targetlanguage, translatedstring]
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <param name="category"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
+        private async Task<KeyValuePair<string, string>> TranslateInternal(string text, string from, string to, string category, TranslationServiceFacade.ContentType contentType)
+        {
+            KeyValuePair<string, string> kv = new KeyValuePair<string, string>(
+                key: to,
+                value: await TranslationServiceFacade.TranslateStringAsync(text, from, to, category, contentType).ConfigureAwait(false)
+                );
+            return kv;
+        }
 
+        /// <summary>
+        /// Return a string that contains a sorted sequence of translations to all available languages
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <param name="category"></param>
+        /// <param name="contentType"></param>
+        /// <returns></returns>
         public async Task<string> TranslateToAllLanguagesString(string text, string from, string category, TranslationServiceFacade.ContentType contentType)
         {
             using (StringWriter stringWriter = new StringWriter())
