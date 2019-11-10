@@ -28,7 +28,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
     public partial class ImmediateWindow : UserControl
     {
         #region Constructors and Destructors
-        ViewModel.DocumentTranslation documentTranslation = new ViewModel.DocumentTranslation();
+        readonly ViewModel.DocumentTranslation documentTranslation = new ViewModel.DocumentTranslation();
 
 
         /// <summary>
@@ -97,7 +97,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
             Task<List<int>> task = TranslationServices.Core.TranslationServiceFacade.BreakSentencesAsync(InputBox.Text, language);
             StringBuilder outputstring = new StringBuilder(string.Empty);
             int startindex = 0;
-            List<int> BreakResult = new List<int>();
+            _ = new List<int>();
+            List<int> BreakResult;
             try
             {
                 BreakResult = await task;
@@ -194,7 +195,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
             if (documentTranslation.TranslateModeList.IndexOf(documentTranslation.SelectedTranslateMode) == 1) contentType = TranslationServices.Core.TranslationServiceFacade.ContentType.HTML;
 
             Business.TranslateToAll translateToAll = new Business.TranslateToAll();
-
+            translateToAll.OneTranslationDone += TranslateToAll_OneTranslationDone;
             Task<string> task = translateToAll.TranslateToAllLanguagesString
             (
                 InputBox.Text,
@@ -210,6 +211,16 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
             {
                 ResultBox.Text = ex.Message;
             }
+        }
+
+        /// <summary>
+        /// Generate some animation in the Result box, while we are waiting for the translations to come in.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TranslateToAll_OneTranslationDone(object sender, EventArgs e)
+        {
+            ResultBox.Text = ResultBox.Text += ".";
         }
 
         private async void DictionaryButton_Click(object sender, RoutedEventArgs e)
@@ -239,8 +250,10 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
                 using (var stringWriter = new StringWriter())
                 {
                     var jsonReader = new JsonTextReader(stringReader);
-                    var jsonWriter = new JsonTextWriter(stringWriter) { Formatting = Formatting.Indented };
-                    jsonWriter.WriteToken(jsonReader);
+                    using (var jsonWriter = new JsonTextWriter(stringWriter) { Formatting = Formatting.Indented })
+                    {
+                        jsonWriter.WriteToken(jsonReader);
+                    }
                     ResultBox.Text = stringWriter.ToString();
                 }
             }
