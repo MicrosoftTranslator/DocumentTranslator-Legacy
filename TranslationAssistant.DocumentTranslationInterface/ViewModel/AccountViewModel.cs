@@ -187,7 +187,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         public AccountViewModel()
         {
             //Initialize in order to load the credentials.
-            TranslationServices.Core.TranslationServiceFacade.Initialize();
+            try
+            {
+                TranslationServices.Core.TranslationServiceFacade.Initialize();
+            }
+            catch { };
             this.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey;
             this.categoryID = TranslationServices.Core.TranslationServiceFacade.CategoryID;
             this.useAzureGovernment = TranslationServices.Core.TranslationServiceFacade.UseAzureGovernment;
@@ -207,7 +211,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             TranslationServices.Core.TranslationServiceFacade.UseCustomEndpoint = this.useCustomEndpoint;
             TranslationServices.Core.TranslationServiceFacade.CustomEndpointUrl = this.customEndpointUrl;
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
-            TranslationServices.Core.TranslationServiceFacade.Initialize(true);
+            try
+            {
+                TranslationServices.Core.TranslationServiceFacade.Initialize(true);
+            }
+            catch { }
 
             bool isready = false;
 

@@ -23,6 +23,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
     using TranslationAssistant.DocumentTranslationInterface.Common;
     using FirstFloor.ModernUI.Presentation;
     using FirstFloor.ModernUI.Windows;
+    using System.Windows.Navigation;
 
     /// <summary>
     ///     The Main window view model.
@@ -48,10 +49,17 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// </summary>
         public MainWindowViewModel()
         {
-            TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.Upgrade();
-            TranslationAssistant.DocumentTranslationInterface.Properties.DocumentTranslator.Default.Reload();
-            TranslationAssistant.TranslationServices.Core.TranslationServiceFacade.Initialize();
-            this.StatusText = string.Empty;
+            Properties.DocumentTranslator.Default.Upgrade();
+            Properties.DocumentTranslator.Default.Reload();
+            try
+            {
+                TranslationServices.Core.TranslationServiceFacade.Initialize();
+            }
+            catch
+            {
+                
+            }
+            StatusText = string.Empty;
             ShowStatus();
         }
 
@@ -85,10 +93,10 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
 
         #region Methods
 
-        private void ShowStatus()
+        private async void ShowStatus()
         {
 
-            if (TranslationAssistant.TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReady())
+            if (await TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReadyAsync())
             {
                 this.StatusText = Properties.Resources.Common_Ready;
             }

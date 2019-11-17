@@ -20,6 +20,7 @@ namespace TranslationAssistant.TranslationServices.Core
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Globalization;
     using System.IO;
     using System.Linq;
@@ -89,14 +90,13 @@ namespace TranslationAssistant.TranslationServices.Core
         private static readonly Uri AuthServiceUrlPublic = new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
         private static readonly Uri AuthServiceUrlGov = new Uri("https://virginia.api.cognitive.microsoft.us/sts/v1.0/issueToken");
 
-        private enum AuthMode { Azure, AppId, Container };
-        private static AuthMode authMode = AuthMode.Azure;
+        private enum AuthMode { Azure, AppId, Container, Disconnected };
+        private static AuthMode authMode = AuthMode.Disconnected;
         private static string appid = null;
 
         private static List<string> autoDetectStrings = new List<string>() { "auto-detect", "détection automatique" };
 
         private static bool IsInitialized = false;
-
         #endregion
 
         #region Public Methods and Operators
@@ -106,7 +106,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         /// <param name="input">Input string to detect the language of</param>
         /// <returns></returns>
-        private static async Task<string> DetectInternalAsync(string input, bool pretty=false)
+        private static async Task<string> DetectInternalAsync(string input, bool pretty = false)
         {
             string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/detect?api-version=3.0";
             string result = String.Empty;
@@ -114,13 +114,22 @@ namespace TranslationAssistant.TranslationServices.Core
             using (HttpClient client = new HttpClient())
             using (HttpRequestMessage request = new HttpRequestMessage())
             {
-                client.Timeout = System.TimeSpan.FromMilliseconds(1000);
+                client.Timeout = TimeSpan.FromSeconds(2);
                 request.Method = HttpMethod.Post;
                 request.RequestUri = new Uri(uri);
                 string requestBody = JsonConvert.SerializeObject(body);
                 request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
+                HttpResponseMessage response = new HttpResponseMessage();
+                try
+                {
+                    response = await client.SendAsync(request).ConfigureAwait(false);
+                }
+                catch (HttpRequestException e)
+                {
+                    Debug.WriteLine("Received exception {0}", e.Message);
+                    return null;
+                }
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     string detectResult= await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -230,27 +239,13 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             if (UseCustomEndpoint)
             {
-                try
-                {
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                return true;
             }
             else
             {
-                try
-                {
-                    string detectedlanguage = await DetectInternalAsync("Test").ConfigureAwait(false);
-                    if (detectedlanguage == null) return false;
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
+                string detectedlanguage = await DetectInternalAsync("Test").ConfigureAwait(false);
+                if (detectedlanguage == null) return false;
+                return true;
             }
         }
 
@@ -273,7 +268,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns>True if the category is valid</returns>
         public static async Task<bool> IsCategoryValidAsync(string category)
         {
-            if (category == "") return true;
+            if (String.IsNullOrEmpty(category)) return true;
             if (string.IsNullOrEmpty(category)) return true;
             if (category.ToLowerInvariant() == "general") return true;
             if (category.ToLowerInvariant() == "generalnn") return true;
@@ -310,11 +305,24 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <summary>
         /// Call once to initialize the static variables
         /// </summary>
-        public static void Initialize(bool force=false)
+        public static void Initialize(bool force = false)
         {
             if (IsInitialized && !force) return;
             LoadCredentials();
+            if (String.IsNullOrEmpty(AzureKey))
+            {
+                if (UseCustomEndpoint == false)
+                {
+                    Exception ex = new Exception(Properties.Resources.NotConnectError);
+                    throw ex;
+                }
+                authMode = AuthMode.Disconnected;
+            }
 
+            if (UseCustomEndpoint)
+            {
+                authMode = AuthMode.Container;
+            }
             //Inspect the given Azure Key to see if this is host with appid auth
             string[] AuthComponents = AzureKey.Split('?');
             if (AuthComponents.Length > 1)
@@ -343,7 +351,7 @@ namespace TranslationAssistant.TranslationServices.Core
             AvailableLanguages.Add("es", "Spanish");
             AvailableLanguages.Add("fr", "French");
 
-            ///This container probably only containsa subset of these.
+            ///This container probably only contains a subset of these.
             ///Test all of them and delete the ones that aren't valid.
             List<Task<KeyValuePair<string, bool>>> tasks = new List<Task<KeyValuePair<string, bool>>>();
             foreach(KeyValuePair<string, string> kv in AvailableLanguages)
@@ -402,10 +410,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 string TranslateApi = "/translate?api-version=3.0&from=" + fromlanguage + "&to=" + tolanguage;
                 var body = new object[] { new { Text = textToTranslate } };
                 var requestBody = JsonConvert.SerializeObject(body);
-
-                var client = new HttpClient();
-                client.Timeout = TimeSpan.FromSeconds(30);
-                using (var request =
+                using (HttpRequestMessage request =
                     new HttpRequestMessage
                     {
                         Method = HttpMethod.Post,
@@ -415,23 +420,27 @@ namespace TranslationAssistant.TranslationServices.Core
                 {
                     try
                     {
-                        // Send the request and await a response.
-                        var response = await client.SendAsync(request).ConfigureAwait(false);
-                        if (response.IsSuccessStatusCode)
+                        using (HttpClient client = new HttpClient())
                         {
-                            string resultJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                            return ParseJsonResult(resultJson)[0];
+                            client.Timeout = TimeSpan.FromSeconds(30);
+                            // Send the request and await a response.
+                            var response = await client.SendAsync(request).ConfigureAwait(false);
+                            if (response.IsSuccessStatusCode)
+                            {
+                                string resultJson = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                                return ParseJsonResult(resultJson)[0];
+                            }
+                            else return null;
                         }
-                        else return null;
                     }
                     catch
                     {
+                        AvailableLanguages.Clear();
                         return null;
                     }
                 }
             }
         }
-
 
 
         private static async void GetLanguages()
@@ -443,25 +452,36 @@ namespace TranslationAssistant.TranslationServices.Core
                 return;
             }
             string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/languages?api-version=3.0&scope=translation";
-            using (HttpClient client = new HttpClient())
-            using (HttpRequestMessage request = new HttpRequestMessage())
+            try
             {
-                request.Method = HttpMethod.Get;
-                request.RequestUri = new Uri(uri);
-                HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
-                string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                using (HttpClient client = new HttpClient())
+                using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    var result = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
-                    var languages = result["translation"];
-
-                    string[] languagecodes = languages.Keys.ToArray();
-                    foreach (var kv in languages)
+                    client.Timeout = TimeSpan.FromSeconds(5);
+                    request.Method = HttpMethod.Get;
+                    request.RequestUri = new Uri(uri);
+                    HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
+                    string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-                        AvailableLanguages.Add(kv.Key, kv.Value["name"]);
+                        var result = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
+                        var languages = result["translation"];
+
+                        string[] languagecodes = languages.Keys.ToArray();
+                        foreach (var kv in languages)
+                        {
+                            AvailableLanguages.Add(kv.Key, kv.Value["name"]);
+                        }
                     }
                 }
             }
+            catch
+            {
+                authMode = AuthMode.Disconnected;
+                AvailableLanguages.Clear();
+                return;
+            }
+            return;
         }
 
 
