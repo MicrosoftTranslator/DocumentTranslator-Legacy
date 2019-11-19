@@ -121,9 +121,9 @@ namespace TranslationAssistant.TranslationServices.Core.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:5000")]
-        public global::System.Uri CustomEndpointUrl {
+        public string CustomEndpointUrl {
             get {
-                return ((global::System.Uri)(this["CustomEndpointUrl"]));
+                return ((string)(this["CustomEndpointUrl"]));
             }
             set {
                 this["CustomEndpointUrl"] = value;

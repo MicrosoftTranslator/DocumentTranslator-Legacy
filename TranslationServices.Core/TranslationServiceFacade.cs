@@ -52,7 +52,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <summary>
         /// Holds the value of the custom endpoint, the container
         /// </summary>
-        public static Uri CustomEndpointUrl { get; set; }
+        public static string CustomEndpointUrl { get; set; }
 
         /// <summary>
         /// Holds the Azure subscription key
@@ -215,7 +215,7 @@ namespace TranslationAssistant.TranslationServices.Core
             {
                 client.Timeout = TimeSpan.FromSeconds(10);
                 request.Method = HttpMethod.Get;
-                request.RequestUri = CustomEndpointUrl;
+                request.RequestUri = new Uri(CustomEndpointUrl);
                 var response = await client.SendAsync(request).ConfigureAwait(false);
                 var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 if (response.IsSuccessStatusCode)
@@ -328,8 +328,8 @@ namespace TranslationAssistant.TranslationServices.Core
             if (AuthComponents.Length > 1)
             {
                 EndPointAddress = AuthComponents[0];
-                string[] appidComponents = AuthComponents[1].ToLowerInvariant().Split('=');
-                if (appidComponents[0] == "appid")
+                string[] appidComponents = AuthComponents[1].ToUpperInvariant().Split('=');
+                if (appidComponents[0] == "APPID")
                 {
                     authMode = AuthMode.AppId;
                     appid = appidComponents[1];

@@ -54,7 +54,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// <summary>
         /// Container Url 
         /// </summary>
-        private Uri customEndpointUrl;
+        private string customEndpointUrl;
         
         /// <summary>
         ///     The save account settings click command.
@@ -144,8 +144,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
 
             set
             {
-                this.customEndpointUrl = new Uri(value);
-                this.NotifyPropertyChanged("CustomEndpointUrl");
+                customEndpointUrl = value;
+                NotifyPropertyChanged("CustomEndpointUrl");
             }
         }
 
