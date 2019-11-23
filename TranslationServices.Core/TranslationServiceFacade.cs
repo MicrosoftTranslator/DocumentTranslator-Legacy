@@ -28,6 +28,8 @@ namespace TranslationAssistant.TranslationServices.Core
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
+    using Polly.Retry;
+    using Polly.Timeout;
 
     #endregion
 
@@ -720,9 +722,9 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             if (UseCustomEndpoint)
             {
-                throw new Exception("ERROR: Cannot use BreakSentences in a container service.");
+                throw new Exception(Properties.Resources.Err_ContainerBreakSentences);
             }
-
+            if (String.IsNullOrEmpty(text) || String.IsNullOrWhiteSpace(text)) return null;
             string path = "/breaksentence?api-version=3.0";
             string params_ = "&language=" + languagecode;
             string uri = EndPointAddressV3Public + path + params_;
