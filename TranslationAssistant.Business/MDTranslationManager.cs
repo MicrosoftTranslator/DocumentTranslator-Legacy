@@ -299,12 +299,12 @@ namespace TranslationAssistant.Business
 
     class MDTranslationManager
     {
-        public static int DoTranslation(string mdfilename, string fromlanguage, string tolanguage)
+        public static async Task<int> DoTranslation(string mdfilename, string fromlanguage, string tolanguage)
         {
             string mdtext = File.ReadAllText(mdfilename);
             MDDocument mddocument = new MDDocument();
             string _fromlanguagecode = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(fromlanguage);
-            if (_fromlanguagecode.Length < 1) _fromlanguagecode = TranslationServices.Core.TranslationServiceFacade.Detect(mdtext);
+            if (_fromlanguagecode.Length < 1) _fromlanguagecode = await TranslationServices.Core.TranslationServiceFacade.DetectAsync(mdtext, true);
             int noofutterances = mddocument.LoadMD(mdtext, _fromlanguagecode);
             mddocument.Translate(fromlanguage, tolanguage);
             File.WriteAllText(mdfilename, mddocument.ToString(), Encoding.UTF8);
