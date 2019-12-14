@@ -692,7 +692,10 @@ namespace TranslationAssistant.TranslationServices.Core
             }
             else
             {
-
+                var policy = Policy.Handle<Exception>().WaitAndRetryAsync(
+                    retryCount: 20,
+                    sleepDurationProvider: attempt => TimeSpan.FromMilliseconds(500)
+                    );
                 string path = "/translate?api-version=3.0";
                 string params_ = "&from=" + from + "&to=" + to;
                 string thiscategory = category;
