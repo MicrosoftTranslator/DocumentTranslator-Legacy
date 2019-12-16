@@ -12,7 +12,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
     public sealed partial class DocumentTranslator : global::System.Configuration.ApplicationSettingsBase {
         
         private static DocumentTranslator defaultInstance = ((DocumentTranslator)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new DocumentTranslator())));
