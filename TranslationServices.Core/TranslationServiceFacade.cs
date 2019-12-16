@@ -38,8 +38,8 @@ namespace TranslationAssistant.TranslationServices.Core
         #region Static Fields
 
 
-        private static int maxrequestsize = 5000;   //service size is 5000
-        private static int maxelements = 100;
+        private const int maxrequestsize = 5000;   //service size is 5000
+        private const int maxelements = 100;
         public static string CategoryID { get; set; }
         public static string AppId { get; set; }
         public static string AdvCategoryId { get; set; }
@@ -94,7 +94,7 @@ namespace TranslationAssistant.TranslationServices.Core
         private static AuthMode authMode = AuthMode.Disconnected;
         private static string appid = null;
 
-        private static List<string> autoDetectStrings = new List<string>() { "auto-detect", "détection automatique" };
+        private static readonly List<string> autoDetectStrings = new List<string>() { "auto-detect", "détection automatique" };
 
         private static bool IsInitialized = false;
         #endregion
@@ -301,7 +301,7 @@ namespace TranslationAssistant.TranslationServices.Core
             return returnvalue;
         }
 
-
+        
         /// <summary>
         /// Call once to initialize the static variables
         /// </summary>
@@ -313,8 +313,8 @@ namespace TranslationAssistant.TranslationServices.Core
             {
                 if (UseCustomEndpoint == false)
                 {
-                    Exception ex = new Exception(Properties.Resources.NotConnectError);
-                    throw ex;
+                    Exception CredentialsMissingException = new CredentialsMissingException(Properties.Resources.NotConnectError);
+                    throw CredentialsMissingException;
                 }
                 authMode = AuthMode.Disconnected;
             }
