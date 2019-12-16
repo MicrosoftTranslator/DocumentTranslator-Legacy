@@ -58,10 +58,17 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         public TranslateDocuments(ConsoleLogger Logger)
             : base(Logger)
         {
-            TranslationServiceFacade.Initialize();
+            try
+            {
+                TranslationServiceFacade.Initialize();
+            }
+            catch (CredentialsMissingException ex)
+            {
+                this.Logger.WriteLine(LogLevel.Error, ex.Message);
+            }
             if (!TranslationServiceFacade.IsTranslationServiceReady())
             {
-                this.Logger.WriteLine(LogLevel.Error, "Invalid translation service credentials. Use \"DocumentTranslatorCmd setcredentials\", or use the Document Translator Settings option.");
+                this.Logger.WriteLine(LogLevel.Error, "Invalid translation service credentials. Use \"DocumentTranslatorCmd setcredentials\"");
                 return;
             }
 
