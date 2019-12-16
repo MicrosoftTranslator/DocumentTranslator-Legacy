@@ -95,7 +95,7 @@ namespace TranslationAssistant.AutomationToolkit
             {
                 if (pluginMappings[name.ToLower(CultureInfo.InvariantCulture).Trim()] is string)
                 {
-                    string path = (string)pluginMappings[name.ToLower(CultureInfo.InvariantCulture).Trim()];
+                    var path = (string)pluginMappings[name.ToLower(CultureInfo.InvariantCulture).Trim()];
                     try
                     {
                         //Assembly assembly = Assembly.LoadFrom(path);
