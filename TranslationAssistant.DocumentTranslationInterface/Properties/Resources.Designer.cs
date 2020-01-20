@@ -97,6 +97,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show experimental languages.
+        /// </summary>
+        public static string Account_ShowExperimental {
+            get {
+                return ResourceManager.GetString("Account_ShowExperimental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please subscribe to Microsoft Translator Text API at.
         /// </summary>
         public static string Account_string1 {
@@ -524,7 +533,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Required: Enter the key to your Azure Text Translator subscription..
+        ///   Looks up a localized string similar to Required: Enter the key to your Azure Translator subscription..
         /// </summary>
         public static string Tooltip_AccountKey {
             get {
@@ -583,6 +592,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         public static string Tooltip_Dictionary {
             get {
                 return ResourceManager.GetString("Tooltip_Dictionary", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show the experimental languages. Not recommended for production use..
+        /// </summary>
+        public static string Tooltip_ShowExperimental {
+            get {
+                return ResourceManager.GetString("Tooltip_ShowExperimental", resourceCulture);
             }
         }
         

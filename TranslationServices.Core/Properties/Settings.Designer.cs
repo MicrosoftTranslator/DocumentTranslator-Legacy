@@ -129,5 +129,17 @@ namespace TranslationAssistant.TranslationServices.Core.Properties {
                 this["CustomEndpointUrl"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ShowExperimental {
+            get {
+                return ((bool)(this["ShowExperimental"]));
+            }
+            set {
+                this["ShowExperimental"] = value;
+            }
+        }
     }
 }

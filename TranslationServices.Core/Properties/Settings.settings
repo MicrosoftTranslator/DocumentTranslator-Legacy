@@ -29,5 +29,8 @@
     <Setting Name="CustomEndpointUrl" Type="System.String" Scope="User">
       <Value Profile="(Default)">http://localhost:5000</Value>
     </Setting>
+    <Setting Name="ShowExperimental" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -53,6 +53,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// Holds the value of the custom endpoint, the container
         /// </summary>
         public static string CustomEndpointUrl { get; set; }
+        public static bool ShowExperimental { get; set; }
 
         /// <summary>
         /// Holds the Azure subscription key
@@ -452,6 +453,8 @@ namespace TranslationAssistant.TranslationServices.Core
                 return;
             }
             string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/languages?api-version=3.0&scope=translation";
+            if (ShowExperimental) uri += "&flight=experimental";
+
             try
             {
                 using (HttpClient client = new HttpClient())
@@ -499,6 +502,7 @@ namespace TranslationAssistant.TranslationServices.Core
             UseAzureGovernment = Properties.Settings.Default.UseAzureGovernment;
             UseCustomEndpoint = Properties.Settings.Default.UseCustomEndpoint;
             CustomEndpointUrl = Properties.Settings.Default.CustomEndpointUrl;
+            ShowExperimental = Properties.Settings.Default.ShowExperimental;
         }
 
         /// <summary>
@@ -514,6 +518,7 @@ namespace TranslationAssistant.TranslationServices.Core
             Properties.Settings.Default.UseAzureGovernment = UseAzureGovernment;
             Properties.Settings.Default.UseCustomEndpoint = UseCustomEndpoint;
             Properties.Settings.Default.CustomEndpointUrl = CustomEndpointUrl;
+            Properties.Settings.Default.ShowExperimental = ShowExperimental;
             Properties.Settings.Default.Save();
         }
 
@@ -818,6 +823,7 @@ namespace TranslationAssistant.TranslationServices.Core
             {
 
                 string path = "/translate?api-version=3.0";
+                if (ShowExperimental) path += "&flight=experimental";
                 string params_ = "&from=" + from + "&to=" + to;
                 string thiscategory = category;
                 if (String.IsNullOrEmpty(category))

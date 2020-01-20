@@ -320,8 +320,8 @@ Word documents : texte masqué</target>
           <target state="new">Check this only if you have a container install of Translator (uncommon)</target>
         </trans-unit>
         <trans-unit id="Tooltip_AccountKey" translate="yes" xml:space="preserve">
-          <source>Required: Enter the key to your Azure Text Translator subscription.</source>
-          <target state="new">Required: Enter the key to your Azure Text Translator subscription.</target>
+          <source>Required: Enter the key to your Azure Translator subscription.</source>
+          <target state="new">Required: Enter the key to your Azure Translator subscription.</target>
         </trans-unit>
         <trans-unit id="Tooltip_Category" translate="yes" xml:space="preserve">
           <source>Optional: Enter the category ID of the custom system you want to use. </source>
@@ -330,6 +330,14 @@ Word documents : texte masqué</target>
         <trans-unit id="Tooltip_UseAzureGovernment" translate="yes" xml:space="preserve">
           <source>Check if your account key is for Azure Government (azure.us).</source>
           <target state="new">Check if your account key is for Azure Government (azure.us).</target>
+        </trans-unit>
+        <trans-unit id="Account_ShowExperimental" translate="yes" xml:space="preserve">
+          <source>Show experimental languages</source>
+          <target state="new">Show experimental languages</target>
+        </trans-unit>
+        <trans-unit id="Tooltip_ShowExperimental" translate="yes" xml:space="preserve">
+          <source>Show the experimental languages. Not recommended for production use.</source>
+          <target state="new">Show the experimental languages. Not recommended for production use.</target>
         </trans-unit>
       </group>
     </body>
