@@ -112,7 +112,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// </summary>
         public DocumentTranslation()
         {
-            TranslationServiceFacade.Initialize();
+            try
+            {
+                TranslationServiceFacade.Initialize();
+            }
+            catch (CredentialsMissingException) { }
             this.PopulateAvailableLanguages();
             this.PopulateTranslateMode();
             this.ShowProgressBar = false;
@@ -129,6 +133,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                 this.StatusText = Properties.Resources.Common_SelectDocuments;
                 this.PopulateReadyToTranslateMessage(true);
             }
+            ShowStatus();
             
 
             SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Unsubscribe(PopulateReadyToTranslateMessage);
@@ -561,6 +566,20 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                 ReadyToTranslateMessage =  Properties.Resources.Translate_invalidcredentials;
             }
         }
+
+        private async void ShowStatus()
+        {
+
+            if (await TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReadyAsync())
+            {
+                this.StatusText = Properties.Resources.Common_Ready;
+            }
+            else
+            {
+                this.StatusText = Properties.Resources.Error_PleaseSubscribe;
+            }
+        }
+
 
         #endregion
     }
