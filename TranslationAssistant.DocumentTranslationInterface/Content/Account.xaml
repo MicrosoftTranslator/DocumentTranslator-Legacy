@@ -39,7 +39,7 @@
                 <Grid x:Name="CustomEndpointText" HorizontalAlignment="Left" Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition MinWidth="320" />
+                        <ColumnDefinition MinWidth="300" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition />
