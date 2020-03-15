@@ -39,9 +39,10 @@
                 <Grid x:Name="CustomEndpointText" HorizontalAlignment="Left" Margin="0,10,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition MinWidth="320" />
+                        <ColumnDefinition MinWidth="300" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
+                        <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
@@ -56,15 +57,18 @@
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Static p:Resources.Account_category}" VerticalAlignment="Center" Margin="0,3,16,0"  />
                     <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0"  Text="{Binding CategoryID, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_Category}" />
 
-                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static p:Resources.AzureGov_text}" VerticalAlignment="Center" Margin="0,3,16,0"  />
-                    <CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" IsChecked="{Binding UseAzureGovernment, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_UseAzureGovernment}" />
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static p:Resources.Account_ShowExperimental}" VerticalAlignment="Center" Margin="0,3,16,0"  />
+                    <CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" IsChecked="{Binding ShowExperimental, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_ShowExperimental}" Click="CheckBox_Click" x:Name="ShowExperimental_CheckBox"/>
 
-                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static p:Resources.CustomEndpoint}" VerticalAlignment="Center" Margin="0,3,16,0" />
-                    <CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" IsChecked="{Binding UseCustomEndpoint, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_CustomUrlCheckbox}" />
-                    <TextBox x:Name="CustomEndpointUrl" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Margin="30,0,0,0" TextWrapping="Wrap" Text="{Binding CustomEndpointUrl, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="270" ToolTip="{x:Static p:Resources.Tooltip_CustomUrl}"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static p:Resources.AzureGov_text}" VerticalAlignment="Center" Margin="0,3,16,0"  />
+                    <CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" IsChecked="{Binding UseAzureGovernment, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_UseAzureGovernment}" />
+
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="{x:Static p:Resources.CustomEndpoint}" VerticalAlignment="Center" Margin="0,3,16,0" />
+                    <CheckBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" IsChecked="{Binding UseCustomEndpoint, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_CustomUrlCheckbox}" />
+                    <TextBox x:Name="CustomEndpointUrl" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" Margin="30,0,0,0" TextWrapping="Wrap" Text="{Binding CustomEndpointUrl, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="270" ToolTip="{x:Static p:Resources.Tooltip_CustomUrl}"/>
 
 
-                    <Button Grid.Row="6" Grid.Column="1" Content="{x:Static p:Resources.Account_save}" Width="80" HorizontalAlignment="Left" Margin="0,20,0,0">
+                    <Button Grid.Row="7" Grid.Column="1" Content="{x:Static p:Resources.Account_save}" Width="80" HorizontalAlignment="Left" Margin="0,20,0,0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="PreviewMouseUp">
                                 <i:InvokeCommandAction

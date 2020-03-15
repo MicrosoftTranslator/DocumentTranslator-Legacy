@@ -13,14 +13,9 @@
 
 namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
 {
-    using System;
-    using System.Windows;
     using System.Windows.Input;
 
     using Microsoft.Practices.Prism.Commands;
-
-    using TranslationAssistant.Business;
-    using TranslationAssistant.Business.Model;
     using TranslationAssistant.DocumentTranslationInterface.Common;
 
     /// <summary>
@@ -45,6 +40,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// Use the Government instance of Azure (true) or not (false) 
         /// </summary>
         private bool useAzureGovernment;
+
+        /// <summary>
+        /// Show the experimental languages 
+        /// </summary>
+        private bool showExperimental;
 
         /// <summary>
         /// Use the Container 
@@ -120,6 +120,21 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                 this.NotifyPropertyChanged("UseAzureGovernment");
             }
         }
+        public bool ShowExperimental
+        {
+            get
+            {
+                return this.showExperimental;
+            }
+
+            set
+            {
+                this.showExperimental = value;
+                this.NotifyPropertyChanged("ShowExperimental");
+            }
+        }
+
+
 
         public bool UseCustomEndpoint
         {
@@ -197,6 +212,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             this.useAzureGovernment = TranslationServices.Core.TranslationServiceFacade.UseAzureGovernment;
             this.useCustomEndpoint = TranslationServices.Core.TranslationServiceFacade.UseCustomEndpoint;
             this.customEndpointUrl = TranslationServices.Core.TranslationServiceFacade.CustomEndpointUrl;
+            this.showExperimental = TranslationServices.Core.TranslationServiceFacade.ShowExperimental;
         }
 
         /// <summary>
@@ -210,6 +226,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             TranslationServices.Core.TranslationServiceFacade.UseAzureGovernment = this.useAzureGovernment;
             TranslationServices.Core.TranslationServiceFacade.UseCustomEndpoint = this.useCustomEndpoint;
             TranslationServices.Core.TranslationServiceFacade.CustomEndpointUrl = this.customEndpointUrl;
+            TranslationServices.Core.TranslationServiceFacade.ShowExperimental = this.showExperimental;
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
             try
             {

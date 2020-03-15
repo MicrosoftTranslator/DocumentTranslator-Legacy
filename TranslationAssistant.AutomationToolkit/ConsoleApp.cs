@@ -11,16 +11,16 @@
 // // <summary>Program.cs</summary>
 // // ----------------------------------------------------------------------
 
+using System;
+using System.Collections;
+using System.Configuration;
+using System.Globalization;
+using System.Reflection;
+
+using TranslationAssistant.AutomationToolkit.BasePlugin;
+
 namespace TranslationAssistant.AutomationToolkit
 {
-    using System;
-    using System.Collections;
-    using System.Configuration;
-    using System.Globalization;
-    using System.Reflection;
-
-    using TranslationAssistant.AutomationToolkit.BasePlugin;
-
     /// <summary>
     ///     The console app.
     /// </summary>
@@ -95,7 +95,7 @@ namespace TranslationAssistant.AutomationToolkit
             {
                 if (pluginMappings[name.ToLower(CultureInfo.InvariantCulture).Trim()] is string)
                 {
-                    var path = (string)pluginMappings[name.ToLower(CultureInfo.InvariantCulture).Trim()];
+                    string path = (string)pluginMappings[name.ToLower(CultureInfo.InvariantCulture).Trim()];
                     try
                     {
                         //Assembly assembly = Assembly.LoadFrom(path);

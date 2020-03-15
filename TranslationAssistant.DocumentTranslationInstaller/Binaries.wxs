@@ -20,7 +20,7 @@
         
         <File Id="System.Windows.Interactivity" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInterface\bin\Debug\System.Windows.Interactivity.dll" DiskId="1" KeyPath="no" />
         <File Id="Microsoft.Practices.Prism" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInterface\bin\Debug\Microsoft.Practices.Prism.dll" DiskId="1" KeyPath="no" />
-        <File Id="System.Net.Http" Source="$(var.SolutionDir)\TranslationAssistant.DocumentTranslationInterface\bin\Debug\System.Net.Http.dll" DiskId="1" KeyPath="no" />
+        <File Id="System.Net.Http" Source="$(var.SolutionDir)\System.Net.Http.dll" DiskId="1" KeyPath="no" />
 
         <File Id="DocumentFormat.OpenXml" Source="$(var.SolutionDir)\TranslationAssistant.Business\bin\Debug\DocumentFormat.OpenXml.dll" DiskId="1" KeyPath="no" />
         <File Id="HtmlAgilityPack" Source="$(var.SolutionDir)\TranslationAssistant.Business\bin\Debug\HtmlAgilityPack.dll" DiskId="1" KeyPath="no" />

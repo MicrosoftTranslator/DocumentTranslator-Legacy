@@ -343,7 +343,7 @@ Word documents: hidden text</value>
     <value>Use container:</value>
   </data>
   <data name="Tooltip_AccountKey" xml:space="preserve">
-    <value>Required: Enter the key to your Azure Text Translator subscription.</value>
+    <value>Required: Enter the key to your Azure Translator subscription.</value>
   </data>
   <data name="Tooltip_Category" xml:space="preserve">
     <value>Optional: Enter the category ID of the custom system you want to use. </value>
@@ -356,5 +356,11 @@ Word documents: hidden text</value>
   </data>
   <data name="Tooltip_UseAzureGovernment" xml:space="preserve">
     <value>Check if your account key is for Azure Government (azure.us).</value>
+  </data>
+  <data name="Account_ShowExperimental" xml:space="preserve">
+    <value>Show experimental languages</value>
+  </data>
+  <data name="Tooltip_ShowExperimental" xml:space="preserve">
+    <value>Show the experimental languages. Not recommended for production use.</value>
   </data>
 </root>

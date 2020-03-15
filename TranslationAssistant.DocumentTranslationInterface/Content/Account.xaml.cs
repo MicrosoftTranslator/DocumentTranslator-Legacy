@@ -13,8 +13,8 @@
 
 namespace TranslationAssistant.DocumentTranslationInterface.Content
 {
-    #region
-
+# region
+    using System;
     using System.Diagnostics;
     using System.Windows.Controls;
     using System.Windows.Navigation;
@@ -47,6 +47,14 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
         {
             TranslationServices.Core.TranslationServiceFacade.AzureKey = KeyBox.Password;
         }
+
+        public event EventHandler ShowExperimental_Changed;
         #endregion
+
+        private void CheckBox_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            TranslationServices.Core.TranslationServiceFacade.Initialize(true);
+            ShowExperimental_Changed?.Invoke(this, EventArgs.Empty);
+        }
     }
 }
