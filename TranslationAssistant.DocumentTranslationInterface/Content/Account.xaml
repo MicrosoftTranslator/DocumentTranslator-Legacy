@@ -58,7 +58,7 @@
                     <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0"  Text="{Binding CategoryID, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_Category}" />
 
                     <TextBlock Grid.Row="3" Grid.Column="0" Text="{x:Static p:Resources.Account_ShowExperimental}" VerticalAlignment="Center" Margin="0,3,16,0"  />
-                    <CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" IsChecked="{Binding ShowExperimental, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_ShowExperimental}" />
+                    <CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" IsChecked="{Binding ShowExperimental, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_ShowExperimental}" Click="CheckBox_Click" x:Name="ShowExperimental_CheckBox"/>
 
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="{x:Static p:Resources.AzureGov_text}" VerticalAlignment="Center" Margin="0,3,16,0"  />
                     <CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" Margin ="0,3,0,0" IsChecked="{Binding UseAzureGovernment, UpdateSourceTrigger=PropertyChanged}" ToolTip="{x:Static p:Resources.Tooltip_UseAzureGovernment}" />
