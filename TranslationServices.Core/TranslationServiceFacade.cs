@@ -12,7 +12,6 @@
 // // ----------------------------------------------------------------------
 
 #region Usings
-
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System;
@@ -26,11 +25,10 @@
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using Polly;
+#endregion
 
 namespace TranslationAssistant.TranslationServices.Core
 {
-    #endregion
 
     public static partial class TranslationServiceFacade
     {
@@ -697,10 +695,6 @@ namespace TranslationAssistant.TranslationServices.Core
             }
             else
             {
-                var policy = Policy.Handle<Exception>().WaitAndRetryAsync(
-                    retryCount: 20,
-                    sleepDurationProvider: attempt => TimeSpan.FromMilliseconds(500)
-                    );
                 string path = "/translate?api-version=3.0";
                 if (ShowExperimental) path += "&flight=experimental";
                 string params_ = "&from=" + from + "&to=" + to;
