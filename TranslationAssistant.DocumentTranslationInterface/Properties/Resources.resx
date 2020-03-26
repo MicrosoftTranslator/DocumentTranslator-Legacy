@@ -363,4 +363,10 @@ Word documents: hidden text</value>
   <data name="Tooltip_ShowExperimental" xml:space="preserve">
     <value>Show the experimental languages. Not recommended for production use.</value>
   </data>
+  <data name="Translate_FromAll" xml:space="preserve">
+    <value>Translate from all</value>
+  </data>
+  <data name="Tooltip_TranslateFromAll" xml:space="preserve">
+    <value>Returns a translation from all of the Microsoft Translator languages to the selected language. Useful only for short strings.</value>
+  </data>
 </root>

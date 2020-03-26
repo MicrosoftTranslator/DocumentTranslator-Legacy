@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using TranslationAssistant.TranslationServices.Core;
 
 namespace TranslationAssistant.Business
 {
-    public class TranslateToAll
+    public class TranslateFromAll
     {
         public event EventHandler OneTranslationDone;
 
@@ -19,13 +20,13 @@ namespace TranslationAssistant.Business
         /// <param name="category"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        private async Task<SortedDictionary<string, string>> TranslateToAllLanguages(string text, string from, string category, TranslationServiceFacade.ContentType contentType)
+        private async Task<SortedDictionary<string, string>> TranslateFromAllLanguages(string text, string to, string category, TranslationServiceFacade.ContentType contentType)
         {
             EventHandler handler = OneTranslationDone;
             List<Task<KeyValuePair<string, string>>> tasklist = new List<Task<KeyValuePair<string, string>>>();
             foreach (KeyValuePair<string, string> language in TranslationServiceFacade.AvailableLanguages)
             {
-                Task<KeyValuePair<string, string>> task = TranslateInternal(text, from, language.Key, category, contentType);
+                Task<KeyValuePair<string, string>> task = TranslateInternal(text, language.Key, to, category, contentType);
                 tasklist.Add(task);
                 handler(this, EventArgs.Empty);
             };
@@ -42,7 +43,7 @@ namespace TranslationAssistant.Business
         }
 
         /// <summary>
-        /// A wrapper for the Translate method that returns a key value pair with [targetlanguage, translatedstring]
+        /// A wrapper for the Translate method that returns a key value pair with [sourcelanguage, translatedstring]
         /// </summary>
         /// <param name="text"></param>
         /// <param name="from"></param>
@@ -53,14 +54,14 @@ namespace TranslationAssistant.Business
         private async Task<KeyValuePair<string, string>> TranslateInternal(string text, string from, string to, string category, TranslationServiceFacade.ContentType contentType)
         {
             KeyValuePair<string, string> kv = new KeyValuePair<string, string>(
-                key: to,
+                key: from,
                 value: await TranslationServiceFacade.TranslateStringAsync(text, from, to, category, contentType).ConfigureAwait(false)
                 );
             return kv;
         }
 
         /// <summary>
-        /// Return a string that contains a sorted sequence of translations to all available languages
+        /// Return a string that contains a sorted sequence of translations from all available languages
         /// </summary>
         /// <param name="text"></param>
         /// <param name="from"></param>
@@ -68,12 +69,12 @@ namespace TranslationAssistant.Business
         /// <param name="category"></param>
         /// <param name="contentType"></param>
         /// <returns></returns>
-        public async Task<string> TranslateToAllLanguagesString(string text, string from, string category, TranslationServiceFacade.ContentType contentType)
+        public async Task<string> TranslateFromAllLanguagesString(string text, string from, string category, TranslationServiceFacade.ContentType contentType)
         {
             using (StringWriter stringWriter = new StringWriter())
             {
                 _ = new SortedDictionary<string, string>();
-                SortedDictionary<string, string> translatedDictionary = await TranslateToAllLanguages(text, from, category, contentType);
+                SortedDictionary<string, string> translatedDictionary = await TranslateFromAllLanguages(text, from, category, contentType);
                 foreach (string key in translatedDictionary.Keys)
                 {
                     string value = string.Empty;

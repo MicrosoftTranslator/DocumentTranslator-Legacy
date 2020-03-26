@@ -737,6 +737,12 @@ namespace TranslationAssistant.TranslationServices.Core
                         int status = (int)response.StatusCode;
                         switch (status)
                         {
+                            case 408:       //Custom system is being loaded
+                                System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
+                                Thread.Sleep(MillisecondsTimeout * 5);
+                                if (true)
+                                await TranslateV3AsyncInternal(texts, from, to, category, contentType, retrycount).ConfigureAwait(false);
+                                break;
                             case 429:
                             case 500:
                             case 503:

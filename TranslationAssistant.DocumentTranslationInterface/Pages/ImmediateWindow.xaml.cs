@@ -223,6 +223,17 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
             ResultBox.Text = ResultBox.Text += ".";
         }
 
+        /// <summary>
+        /// Generate some animation in the Result box, while we are waiting for the translations to come in.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TranslateFromAll_OneTranslationDone(object sender, EventArgs e)
+        {
+            ResultBox.Text = ResultBox.Text += ".";
+        }
+
+
         private async void DictionaryButton_Click(object sender, RoutedEventArgs e)
         {
             ResultBox.Text = string.Empty;
@@ -262,5 +273,42 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
                 ResultBox.Text = ex.Message;
             }
         }
+
+        private async void TranslateFromAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResultBox.Text = string.Empty;
+            string translateTo = documentTranslation.SelectedTargetLanguage;
+            TranslationServices.Core.TranslationServiceFacade.ContentType contentType = TranslationServices.Core.TranslationServiceFacade.ContentType.plain;
+            if (documentTranslation.SourceLanguageList.IndexOf(documentTranslation.SelectedTargetLanguage) == 0)
+            {
+                translateTo = "en";
+            }
+            else
+            {
+                translateTo = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(translateTo);
+            }
+
+            if (documentTranslation.TranslateModeList.IndexOf(documentTranslation.SelectedTranslateMode) == 1) contentType = TranslationServices.Core.TranslationServiceFacade.ContentType.HTML;
+
+            Business.TranslateFromAll translateFromAll = new Business.TranslateFromAll();
+            translateFromAll.OneTranslationDone += TranslateFromAll_OneTranslationDone;
+            Task<string> task = translateFromAll.TranslateFromAllLanguagesString
+            (
+                InputBox.Text,
+                translateTo,
+                TranslationServices.Core.TranslationServiceFacade.CategoryID,
+                contentType
+            );
+            try
+            {
+                ResultBox.Text = await task;
+            }
+            catch (Exception ex)
+            {
+                ResultBox.Text = ex.Message;
+            }
+        }
+
+
     }
 }
