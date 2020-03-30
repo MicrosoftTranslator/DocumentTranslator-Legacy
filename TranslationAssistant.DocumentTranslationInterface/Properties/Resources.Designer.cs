@@ -614,6 +614,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Returns a translation from all of the Microsoft Translator languages to the selected language. Useful only for short strings..
+        /// </summary>
+        public static string Tooltip_TranslateFromAll {
+            get {
+                return ResourceManager.GetString("Tooltip_TranslateFromAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Returns a translation to all of the Microsoft Translator languages. Useful only for short strings..
         /// </summary>
         public static string Tooltip_TranslateToAll {
@@ -673,6 +682,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         public static string Translate_Documents {
             get {
                 return ResourceManager.GetString("Translate_Documents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Translate from all.
+        /// </summary>
+        public static string Translate_FromAll {
+            get {
+                return ResourceManager.GetString("Translate_FromAll", resourceCulture);
             }
         }
         

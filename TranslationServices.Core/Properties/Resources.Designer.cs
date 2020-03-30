@@ -61,6 +61,15 @@ namespace TranslationAssistant.TranslationServices.Core.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ERROR: Cannot use BreakSentences in a container service..
+        /// </summary>
+        internal static string Err_ContainerBreakSentences {
+            get {
+                return ResourceManager.GetString("Err_ContainerBreakSentences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not connected..
         /// </summary>
         internal static string NotConnectError {

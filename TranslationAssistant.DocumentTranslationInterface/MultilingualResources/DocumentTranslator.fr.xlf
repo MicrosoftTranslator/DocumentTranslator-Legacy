@@ -339,6 +339,14 @@ Word documents : texte masqué</target>
           <source>Show the experimental languages. Not recommended for production use.</source>
           <target state="new">Show the experimental languages. Not recommended for production use.</target>
         </trans-unit>
+        <trans-unit id="Translate_FromAll" translate="yes" xml:space="preserve">
+          <source>Translate from all</source>
+          <target state="new">Translate from all</target>
+        </trans-unit>
+        <trans-unit id="Tooltip_TranslateFromAll" translate="yes" xml:space="preserve">
+          <source>Returns a translation from all of the Microsoft Translator languages to the selected language. Useful only for short strings.</source>
+          <target state="new">Returns a translation from all of the Microsoft Translator languages to the selected language. Useful only for short strings.</target>
+        </trans-unit>
       </group>
     </body>
   </file>
