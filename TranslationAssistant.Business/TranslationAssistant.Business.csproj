@@ -108,7 +108,7 @@
       <Version>2.10.1</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.11.22</Version>
+      <Version>1.11.23</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Office.Interop.Excel">
       <Version>15.0.4795.1000</Version>
