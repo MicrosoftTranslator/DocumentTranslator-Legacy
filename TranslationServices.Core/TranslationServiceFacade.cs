@@ -32,10 +32,11 @@ namespace TranslationAssistant.TranslationServices.Core
 
     public static partial class TranslationServiceFacade
     {
-        private const int MillisecondsTimeout = 100;
-
         #region Static Fields
 
+        private const int MillisecondsTimeout = 100;
+
+        public static event EventHandler RetryingEvent;
 
         private const int maxrequestsize = 5000;   //service size is 5000
         private const int maxelements = 100;
@@ -722,80 +723,101 @@ namespace TranslationAssistant.TranslationServices.Core
                 string requestJson = JsonConvert.SerializeObject(requestAL);
 
                 IList<string> resultList = new List<string>();
-                using (var client = new HttpClient())
-                using (var request = new HttpRequestMessage())
+                while (retrycount > 0)
                 {
-                    client.Timeout = TimeSpan.FromSeconds(10);
+                    var client = new HttpClient();
+                    var request = new HttpRequestMessage();
+                    client.Timeout = TimeSpan.FromSeconds(20);
                     request.Method = HttpMethod.Post;
                     request.RequestUri = new Uri(uri);
                     request.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
                     request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                    var response = await client.SendAsync(request).ConfigureAwait(false);
-                    var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    if (!response.IsSuccessStatusCode)
-                    {
-                        int status = (int)response.StatusCode;
-                        switch (status)
-                        {
-                            case 408:       //Custom system is being loaded
-                                System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
-                                Thread.Sleep(MillisecondsTimeout * 5);
-                                if (true)
-                                await TranslateV3AsyncInternal(texts, from, to, category, contentType, retrycount).ConfigureAwait(false);
-                                break;
-                            case 429:
-                            case 500:
-                            case 503:
-                                if (texts.Length > 1)
-                                {
-                                    for (int i = 0; i < texts.Length; i++)
-                                    {
-                                        try
-                                        {
-                                            string[] totranslate = new string[1];
-                                            totranslate[0] = texts[i];
-                                            string[] result = new string[1];
-                                            result = await TranslateV3AsyncInternal(totranslate, from, to, category, contentType, 2).ConfigureAwait(false);
-                                            resultList.Add(result[0]);
-                                        }
-                                        catch
-                                        {
-                                            System.Diagnostics.Debug.WriteLine("Failed to translate: {0}\n", texts[i]);
-                                            resultList.Add(texts[i]);
-                                        }
-                                    }
-                                    return resultList.ToArray();
-                                }
-                                else
-                                {
-                                    System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
-                                    Thread.Sleep(MillisecondsTimeout);
-                                    if (retrycount-- <= 0) break;
-                                    else await TranslateV3AsyncInternal(texts, from, to, category, contentType, retrycount).ConfigureAwait(false);
-                                    break;
-                                }
-                            default:
-                                var errorstring = "ERROR " + response.StatusCode + "\n" + JsonConvert.SerializeObject(JsonConvert.DeserializeObject(responseBody), Formatting.Indented);
-                                Exception ex = new Exception(errorstring);
-                                throw ex;
-                        }
-                    }
-                    JArray jaresult;
+                    HttpResponseMessage response = new HttpResponseMessage();
+                    response.StatusCode = System.Net.HttpStatusCode.RequestTimeout;
+                    string responseBody = string.Empty;
+
                     try
                     {
-                        jaresult = JArray.Parse(responseBody);
+                        response = await client.SendAsync(request).ConfigureAwait(false);
                     }
-                    catch (Exception)
+                    catch (TaskCanceledException)
                     {
-                        System.Diagnostics.Debug.WriteLine(responseBody);
-                        throw;
+                        response.StatusCode = System.Net.HttpStatusCode.RequestTimeout;
+                        Thread.Sleep(MillisecondsTimeout);
+                        request.Dispose(); client.Dispose(); response.Dispose();
+                        continue;
                     }
-                    foreach (JObject result in jaresult)
+                    int status = (int)response.StatusCode;
+                    switch (status)
                     {
-                        string txt = (string)result.SelectToken("translations[0].text");
-                        resultList.Add(txt);
+                        case 200:
+                            break; ;
+                        case 408:       //Custom system is being loaded
+                            System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
+                            Thread.Sleep(MillisecondsTimeout * 10);
+                            RetryingEvent?.Invoke(null, EventArgs.Empty);
+                            request.Dispose(); client.Dispose(); response.Dispose();
+                            continue;
+                        case 429:
+                        case 500:
+                        case 503:       //translate the array one element at a time
+                            if (texts.Length > 1)
+                            {
+                                for (int i = 0; i < texts.Length; i++)
+                                {
+                                    try
+                                    {
+                                        string[] totranslate = new string[1];
+                                        totranslate[0] = texts[i];
+                                        string[] result = new string[1];
+                                        result = await TranslateV3AsyncInternal(totranslate, from, to, category, contentType, 2).ConfigureAwait(false);
+                                        resultList.Add(result[0]);
+                                    }
+                                    catch
+                                    {
+                                        System.Diagnostics.Debug.WriteLine("Failed to translate: {0}\n", texts[i]);
+                                        resultList.Add(texts[i]);
+                                    }
+                                }
+                                return resultList.ToArray();
+                            }
+                            else
+                            {
+                                System.Diagnostics.Debug.WriteLine("Retry #" + retrycount + " Response: " + (int)response.StatusCode);
+                                Thread.Sleep(MillisecondsTimeout);
+                                request.Dispose(); client.Dispose(); response.Dispose();
+                                continue;
+                            }
+                        default:
+                            var errorstring = "ERROR " + response.StatusCode + "\n" + JsonConvert.SerializeObject(JsonConvert.DeserializeObject(responseBody), Formatting.Indented);
+                            Thread.Sleep(MillisecondsTimeout * 5);
+                            retrycount--;
+                            request.Dispose(); client.Dispose(); response.Dispose();
+                            continue;
                     }
+                    responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    request.Dispose(); client.Dispose(); response.Dispose();
+                    if (!string.IsNullOrEmpty(responseBody))
+                    {
+                        JArray jaresult;
+                        try
+                        {
+                            jaresult = JArray.Parse(responseBody);
+                        }
+                        catch (Exception)
+                        {
+                            System.Diagnostics.Debug.WriteLine(responseBody);
+                            throw;
+                        }
+                        foreach (JObject result in jaresult)
+                        {
+                            string txt = (string)result.SelectToken("translations[0].text");
+                            resultList.Add(txt);
+                        }
+                    }
+                    break;
                 }
+
                 return resultList.ToArray();
             }
         }
