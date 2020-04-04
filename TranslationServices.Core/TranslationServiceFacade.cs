@@ -545,7 +545,16 @@ namespace TranslationAssistant.TranslationServices.Core
             vs[0] = text;
             Task<string[]> task = TranslateV3Async(vs, from, to, CategoryID, contentType);
             await task.ConfigureAwait(false);
-            return task.Result[0];
+            try
+            {
+                return task.Result[0];
+            }
+            catch (System.IndexOutOfRangeException)
+            {
+                //A translate call with an expired subscription causes a null return
+                Exception CredentialsMissingException = new CredentialsMissingException(Properties.Resources.NotConnectError);
+                throw CredentialsMissingException;
+            }
         }
 
 
