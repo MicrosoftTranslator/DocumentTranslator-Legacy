@@ -414,6 +414,22 @@ namespace TranslationAssistant.TranslationServices.Core
 
         public static string LanguageCodeToLanguageName(string languagecode)
         {
+            switch (languagecode.ToLowerInvariant())
+            {
+                case "zh-hans":
+                case "zh-chs":
+                case "zh-cn":
+                    languagecode = "zh-Hans";
+                    break;
+                case "zh-hant":
+                case "zh-cht":
+                case "zh-tw":
+                    languagecode = "zh-Hant";
+                    break;
+                case "zh-hk":
+                    languagecode = "yue";
+                    break;
+            }
             if (AvailableLanguages.ContainsValue(languagecode))
             {
                 return languagecode;
