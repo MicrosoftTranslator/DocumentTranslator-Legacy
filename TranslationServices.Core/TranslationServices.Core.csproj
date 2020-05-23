@@ -60,6 +60,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Region.cs" />
     <Compile Include="TranslationMemory.cs" />
     <Compile Include="TranslationServiceFacade.cs" />
     <Compile Include="TranslationUnit.cs" />

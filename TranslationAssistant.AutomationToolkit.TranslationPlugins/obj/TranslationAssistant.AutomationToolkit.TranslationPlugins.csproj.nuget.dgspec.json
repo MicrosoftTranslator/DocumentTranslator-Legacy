@@ -1,0 +1,543 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.TranslationPlugins\\TranslationAssistant.AutomationToolkit.TranslationPlugins.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\DocumentTranslator.Tmx\\DocumentTranslator.Tmx.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\DocumentTranslator.Tmx\\DocumentTranslator.Tmx.csproj",
+        "projectName": "DocumentTranslator.Tmx",
+        "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\DocumentTranslator.Tmx\\DocumentTranslator.Tmx.csproj",
+        "packagesPath": "C:\\Users\\wendt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\DocumentTranslator.Tmx\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\.nuget\\NuGet.Config",
+          "C:\\Users\\wendt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/esrptools/sign/_packaging/ClientPackage%40Local/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "EnterpriseLibrary.TransientFaultHandling": {
+              "target": "Package",
+              "version": "[6.0.1304, )"
+            },
+            "EnterpriseLibrary.TransientFaultHandling.Data": {
+              "target": "Package",
+              "version": "[6.0.1304.1, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\OpenXmlPowerTools\\OpenXmlPowerTools.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\OpenXmlPowerTools\\OpenXmlPowerTools.csproj",
+        "projectName": "OpenXmlPowerTools",
+        "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\OpenXmlPowerTools\\OpenXmlPowerTools.csproj",
+        "packagesPath": "C:\\Users\\wendt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\OpenXmlPowerTools\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\.nuget\\NuGet.Config",
+          "C:\\Users\\wendt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/esrptools/sign/_packaging/ClientPackage%40Local/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "DocumentFormat.OpenXml": {
+              "target": "Package",
+              "version": "[2.11.0, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.BasePlugin\\TranslationAssistant.AutomationToolkit.BasePlugin.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.BasePlugin\\TranslationAssistant.AutomationToolkit.BasePlugin.csproj",
+        "projectName": "TranslationAssistant.AutomationToolkit.BasePlugin",
+        "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.BasePlugin\\TranslationAssistant.AutomationToolkit.BasePlugin.csproj",
+        "packagesPath": "C:\\Users\\wendt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.BasePlugin\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\.nuget\\NuGet.Config",
+          "C:\\Users\\wendt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/esrptools/sign/_packaging/ClientPackage%40Local/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "Microsoft.NetFramework.Analyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.0.0, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.TranslationPlugins\\TranslationAssistant.AutomationToolkit.TranslationPlugins.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.TranslationPlugins\\TranslationAssistant.AutomationToolkit.TranslationPlugins.csproj",
+        "projectName": "TranslationAssistant.AutomationToolkit.TranslationPlugins",
+        "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.TranslationPlugins\\TranslationAssistant.AutomationToolkit.TranslationPlugins.csproj",
+        "packagesPath": "C:\\Users\\wendt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.TranslationPlugins\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\.nuget\\NuGet.Config",
+          "C:\\Users\\wendt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/esrptools/sign/_packaging/ClientPackage%40Local/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\DocumentTranslator.Tmx\\DocumentTranslator.Tmx.csproj": {
+                "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\DocumentTranslator.Tmx\\DocumentTranslator.Tmx.csproj"
+              },
+              "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.BasePlugin\\TranslationAssistant.AutomationToolkit.BasePlugin.csproj": {
+                "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.BasePlugin\\TranslationAssistant.AutomationToolkit.BasePlugin.csproj"
+              },
+              "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.Business\\TranslationAssistant.Business.csproj": {
+                "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.Business\\TranslationAssistant.Business.csproj"
+              },
+              "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationServices.Core\\TranslationServices.Core.csproj": {
+                "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationServices.Core\\TranslationServices.Core.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "Microsoft.NetFramework.Analyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.0.0, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.Business\\TranslationAssistant.Business.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.Business\\TranslationAssistant.Business.csproj",
+        "projectName": "TranslationAssistant.Business",
+        "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.Business\\TranslationAssistant.Business.csproj",
+        "packagesPath": "C:\\Users\\wendt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.Business\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\.nuget\\NuGet.Config",
+          "C:\\Users\\wendt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/esrptools/sign/_packaging/ClientPackage%40Local/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\OpenXmlPowerTools\\OpenXmlPowerTools.csproj": {
+                "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\OpenXmlPowerTools\\OpenXmlPowerTools.csproj"
+              },
+              "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.BasePlugin\\TranslationAssistant.AutomationToolkit.BasePlugin.csproj": {
+                "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationAssistant.AutomationToolkit.BasePlugin\\TranslationAssistant.AutomationToolkit.BasePlugin.csproj"
+              },
+              "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationServices.Core\\TranslationServices.Core.csproj": {
+                "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationServices.Core\\TranslationServices.Core.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "DocumentFormat.OpenXml": {
+              "target": "Package",
+              "version": "[2.11.0, )"
+            },
+            "HtmlAgilityPack": {
+              "target": "Package",
+              "version": "[1.11.23, )"
+            },
+            "Microsoft.Office.Interop.Excel": {
+              "target": "Package",
+              "version": "[15.0.4795.1000, )"
+            },
+            "Microsoft.Office.Interop.PowerPoint": {
+              "target": "Package",
+              "version": "[15.0.4420.1017, )"
+            },
+            "Microsoft.Office.Interop.Word": {
+              "target": "Package",
+              "version": "[15.0.4797.1003, )"
+            },
+            "Microsoft.Win32.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "NETStandard.Library": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "System.AppContext": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Collections": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Collections.Concurrent": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Console": {
+              "target": "Package",
+              "version": "[4.3.1, )"
+            },
+            "System.Diagnostics.Debug": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Diagnostics.DiagnosticSource": {
+              "target": "Package",
+              "version": "[4.7.1, )"
+            },
+            "System.Diagnostics.Tools": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Diagnostics.Tracing": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Globalization": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Globalization.Calendars": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.IO": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.IO.Compression": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.IO.Compression.ZipFile": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.IO.FileSystem": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Linq": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Linq.Expressions": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Net.Http": {
+              "target": "Package",
+              "version": "[4.3.4, )"
+            },
+            "System.Net.Primitives": {
+              "target": "Package",
+              "version": "[4.3.1, )"
+            },
+            "System.Net.Sockets": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.ObjectModel": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Reflection": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Reflection.Extensions": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Reflection.Primitives": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Resources.ResourceManager": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Runtime": {
+              "target": "Package",
+              "version": "[4.3.1, )"
+            },
+            "System.Runtime.Extensions": {
+              "target": "Package",
+              "version": "[4.3.1, )"
+            },
+            "System.Runtime.Handles": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Runtime.InteropServices": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Runtime.InteropServices.RuntimeInformation": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Runtime.Numerics": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Security.Cryptography.Algorithms": {
+              "target": "Package",
+              "version": "[4.3.1, )"
+            },
+            "System.Security.Cryptography.X509Certificates": {
+              "target": "Package",
+              "version": "[4.3.2, )"
+            },
+            "System.Text.Encoding": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Text.Encoding.Extensions": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Text.RegularExpressions": {
+              "target": "Package",
+              "version": "[4.3.1, )"
+            },
+            "System.Threading": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Threading.Tasks": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Threading.Timer": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
+            "System.Xml.ReaderWriter": {
+              "target": "Package",
+              "version": "[4.3.1, )"
+            },
+            "System.Xml.XDocument": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationServices.Core\\TranslationServices.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationServices.Core\\TranslationServices.Core.csproj",
+        "projectName": "TranslationServices.Core",
+        "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationServices.Core\\TranslationServices.Core.csproj",
+        "packagesPath": "C:\\Users\\wendt\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\TranslationServices.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\.nuget\\NuGet.Config",
+          "C:\\Users\\wendt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://pkgs.dev.azure.com/esrptools/sign/_packaging/ClientPackage%40Local/nuget/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {
+              "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\DocumentTranslator.Tmx\\DocumentTranslator.Tmx.csproj": {
+                "projectPath": "C:\\Users\\wendt\\Documents\\GitHub\\DocumentTranslator\\DocumentTranslator.Tmx\\DocumentTranslator.Tmx.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "Microsoft.CodeAnalysis.FxCopAnalyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.0.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "System.Net.Http": {
+              "target": "Package",
+              "version": "[4.3.4, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}
