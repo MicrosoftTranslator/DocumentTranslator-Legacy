@@ -520,6 +520,10 @@
               "target": "Package",
               "version": "[12.0.3, )"
             },
+            "System.Collections.NonGeneric": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
             "System.Net.Http": {
               "target": "Package",
               "version": "[4.3.4, )"

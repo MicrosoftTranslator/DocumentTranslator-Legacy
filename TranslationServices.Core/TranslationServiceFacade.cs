@@ -74,22 +74,12 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         public static string EndPointAddress { get; set; } = "https://api.cognitive.microsofttranslator.com";
 
-        /// <summary>
-        /// End point address for V3 of the Translator API
-        /// </summary>
-        public static string EndPointAddressV3Public { get; set; } = "https://api.cognitive.microsofttranslator.com";
-        public static string EndPointAddressV3Gov { get; set; } = "https://api.cognitive.microsofttranslator.us";
         public static Dictionary<string, string> AvailableLanguages { get; } = new Dictionary<string, string>();
         public static int Maxrequestsize { get => maxrequestsize; }
         public static int Maxelements { get => maxelements; }
+        public static string SubscriptionRegion { get; set; } = null;
 
         public enum ContentType { plain, HTML };
-
-        /// <summary>
-        /// Authentication Service URL
-        /// </summary>
-        private static readonly Uri AuthServiceUrlPublic = new Uri("https://api.cognitive.microsoft.com/sts/v1.0/issueToken");
-        private static readonly Uri AuthServiceUrlGov = new Uri("https://virginia.api.cognitive.microsoft.us/sts/v1.0/issueToken");
 
         private enum AuthMode { Azure, AppId, Container, Disconnected };
         private static AuthMode authMode = AuthMode.Disconnected;
@@ -109,7 +99,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns></returns>
         private static async Task<string> DetectInternalAsync(string input, bool pretty = false)
         {
-            string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/detect?api-version=3.0";
+            string uri = EndPointAddress + "/detect?api-version=3.0";
             string result = String.Empty;
             object[] body = new object[] { new { Text = input } };
             using (HttpClient client = new HttpClient())
@@ -121,6 +111,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 string requestBody = JsonConvert.SerializeObject(body);
                 request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
+                if (!string.IsNullOrEmpty(SubscriptionRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", SubscriptionRegion);
                 HttpResponseMessage response = new HttpResponseMessage();
                 try
                 {
@@ -321,7 +312,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 ContainerGetLanguages();
                 return;
             }
-            string uri = (UseAzureGovernment ? EndPointAddressV3Gov : EndPointAddressV3Public) + "/languages?api-version=3.0&scope=translation";
+            string uri = EndPointAddress + "/languages?api-version=3.0&scope=translation";
             if (ShowExperimental) uri += "&flight=experimental";
 
             try
@@ -592,7 +583,7 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             string path = "/dictionary/lookup?api-version=3.0";
             string params_ = "&from=" + from + "&to=" + to;
-            string uri = EndPointAddressV3Public + path + params_;
+            string uri = EndPointAddress + path + params_;
             object[] body = new object[] { new { Text = text } };
             using (var client = new HttpClient())
             using (var request = new HttpRequestMessage())
@@ -601,6 +592,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 request.RequestUri = new Uri(uri);
                 request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
+                if (!string.IsNullOrEmpty(SubscriptionRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", SubscriptionRegion);
                 var response = client.SendAsync(request).Result;
                 var jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return jsonResponse;
@@ -624,8 +616,7 @@ namespace TranslationAssistant.TranslationServices.Core
             if (String.IsNullOrEmpty(text) || String.IsNullOrWhiteSpace(text)) return null;
             string path = "/breaksentence?api-version=3.0";
             string params_ = "&language=" + languagecode;
-            string uri = EndPointAddressV3Public + path + params_;
-            if (UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
+            string uri = EndPointAddress + path + params_;
             object[] body = new object[] { new { Text = text.Substring(0, (text.Length < Maxrequestsize) ? text.Length : Maxrequestsize) } };
             string requestBody = JsonConvert.SerializeObject(body);
             List<int> resultList = new List<int>();
@@ -637,6 +628,8 @@ namespace TranslationAssistant.TranslationServices.Core
                 request.RequestUri = new Uri(uri);
                 request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
+                if (!string.IsNullOrEmpty(SubscriptionRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", SubscriptionRegion);
+
                 HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
                 string result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 BreakSentenceResult[] deserializedOutput = JsonConvert.DeserializeObject<BreakSentenceResult[]>(result);
@@ -736,8 +729,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 }
                 if (thiscategory != null) params_ += "&category=" + System.Web.HttpUtility.UrlEncode(category);
                 if (contentType == ContentType.HTML) params_ += "&textType=HTML";
-                string uri = EndPointAddressV3Public + path + params_;
-                if (UseAzureGovernment) uri = EndPointAddressV3Gov + path + params_;
+                string uri = EndPointAddress + path + params_;
 
 
                 ArrayList requestAL = new ArrayList();
@@ -757,6 +749,8 @@ namespace TranslationAssistant.TranslationServices.Core
                     request.RequestUri = new Uri(uri);
                     request.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
                     request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
+                    if (!string.IsNullOrEmpty(SubscriptionRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", SubscriptionRegion);
+
                     HttpResponseMessage response = new HttpResponseMessage();
                     response.StatusCode = System.Net.HttpStatusCode.RequestTimeout;
                     string responseBody = string.Empty;
