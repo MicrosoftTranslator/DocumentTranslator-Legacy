@@ -279,7 +279,7 @@ Please visit the Settings page first to enter your Microsoft Translator credenti
     <value>Started</value>
   </data>
   <data name="AzureGov_text" xml:space="preserve">
-    <value>Use Azure Government:</value>
+    <value>Use Azure Government</value>
   </data>
   <data name="Translate_Hidden" xml:space="preserve">
     <value>Ignore hidden content</value>
@@ -368,5 +368,20 @@ Word documents: hidden text</value>
   </data>
   <data name="Tooltip_TranslateFromAll" xml:space="preserve">
     <value>Returns a translation from all of the Microsoft Translator languages to the selected language. Useful only for short strings.</value>
+  </data>
+  <data name="Account_region" xml:space="preserve">
+    <value>Region:</value>
+  </data>
+  <data name="Tooltip_Region" xml:space="preserve">
+    <value>Required: Enter the region of your Azure Translator location.</value>
+  </data>
+  <data name="AzureChina_text" xml:space="preserve">
+    <value>Use Azure China</value>
+  </data>
+  <data name="AzureGlobal_text" xml:space="preserve">
+    <value>Use Azure Global</value>
+  </data>
+  <data name="Azure_LinkType" xml:space="preserve">
+    <value>Azure Link Type:</value>
   </data>
 </root>

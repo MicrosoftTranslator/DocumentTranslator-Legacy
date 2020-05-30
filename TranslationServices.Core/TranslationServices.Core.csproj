@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AzureLinkType.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ContainerSpecifics.cs" />
     <Compile Include="CustomLanguages.cs" />
