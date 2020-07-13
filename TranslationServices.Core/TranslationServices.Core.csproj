@@ -50,6 +50,7 @@
     <Compile Include="CustomLanguages.cs" />
     <Compile Include="Endpoints.cs" />
     <Compile Include="Exception.cs" />
+    <Compile Include="LoadSaveCredentials.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

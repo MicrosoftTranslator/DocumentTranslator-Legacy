@@ -1,7 +1,13 @@
-﻿using System;
+﻿using Microsoft.Azure.Management.ResourceManager.Fluent.Core;
+using Mts.Common.Tmx.Parser;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.Remoting;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +16,7 @@ namespace TranslationAssistant.TranslationServices.Core
     /// <summary>
     /// A Dictionary of clouds and regions
     /// </summary>
-    class Endpoints
+    public static class Endpoints
     {
         public static Dictionary<string, cloud_endpoint> CloudEndpoints { get; } = new Dictionary<string, cloud_endpoint>();
         public static List<string> AvailableRegions { get; } = new List<string>();
@@ -19,7 +25,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <summary>
         /// Initializes the class
         /// </summary>
-        Endpoints()
+        static Endpoints()
         {
             cloud_endpoint c_e = new cloud_endpoint();
             //Enter each cloud and the Translator endpoint here. There is typically one endpoint per cloud.
@@ -31,6 +37,7 @@ namespace TranslationAssistant.TranslationServices.Core
             c_e.cloudprefix = "china"; c_e.endpoint = "api.translator.azure.cn"; CloudEndpoints.Add("China", c_e);
 
             PopulateRegions();
+            PopulateRegionList();
         }
 
 
@@ -41,6 +48,12 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             public string cloudprefix { get; set; }
             public string endpoint { get; set; }
+        }
+
+        public class prefix_region
+        {
+            public string cloudprefix { get; set; }
+            public string region { get; set; }
         }
 
 
@@ -54,13 +67,14 @@ namespace TranslationAssistant.TranslationServices.Core
             {
                 AvailableRegions.Add(value.Name);
             }
+            AvailableRegions.Sort();
             return;
         }
 
         /// <summary>
         /// Returns an array of available clouds
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Array of available clouds</returns>
         public static string[] GetClouds()
         {
             List<string> clouds = new List<string>();
@@ -72,40 +86,58 @@ namespace TranslationAssistant.TranslationServices.Core
             return clouds.ToArray();
         }
 
-        /// <summary>
-        /// Returns an array of regions for one cloud. 
-        /// </summary>
-        /// <param name="cloudname">The cloud you want to obtain the regions for. Acts as a filter over the entire regions list. Obtain the available clouds fromk CloudEndpoints</param>
-        /// <returns></returns>
-        public static string[] GetRegions(string cloudname)
-        {
-            List<string> regions = new List<string>();
-            List<string> globalregions = new List<string>();
-            cloud_endpoint c_e = new cloud_endpoint();
-            CloudEndpoints.TryGetValue(cloudname, out c_e);
 
+
+
+        /// <summary>
+        /// Holds a table of regions with their cloudprefix
+        /// </summary>
+        private static List<prefix_region> regionlist = new List<prefix_region>();
+
+        private static void PopulateRegionList()
+        {
+            regionlist.Clear();
+            prefix_region row = new prefix_region();
             foreach (var region in AvailableRegions)
             {
-                if (region.StartsWith(c_e.cloudprefix)) regions.Add(region);
-                else globalregions.Add(region);
-            }
-
-            if (cloudname.ToUpperInvariant() == "GLOBAL") {
-                foreach (cloud_endpoint cev in CloudEndpoints.Values)
+                row.region = region;
+                if (region.Contains("china"))
                 {
-                    foreach (string region in globalregions)
-                        if (region.StartsWith(cev.cloudprefix)) globalregions.Remove(region);
+                    row.cloudprefix = "china";
+                    regionlist.Add(row);
+                    continue;
                 }
-                globalregions.Sort();
-                return globalregions.ToArray();
+                if (region.Contains("usgov") || region.Contains("usdod"))
+                {
+                    row.cloudprefix = "usgov";
+                    regionlist.Add(row);
+                    continue;
+                }
+                row.cloudprefix = "global";
+                regionlist.Add(row);
+                continue;
             }
-            else { 
-                regions.Sort();
-                return regions.ToArray();
-            }
+            return;
         }
 
 
+        /// <summary>
+        /// Returns an array of regions for one cloud. 
+        /// </summary>
+        /// <param name="cloudname">The cloud you want to obtain the regions for. Acts as a filter over the entire regions list. Obtain the available clouds from CloudEndpoints</param>
+        /// <returns>Array of regions in the given cloud.</returns>
+        public static string[] GetRegions(string cloudname="Global")
+        {
+            /* //Can't get the LinQ to work properly...
+            if (string.IsNullOrEmpty(cloudname)) cloudname = "Global";
+            cloud_endpoint cloudendpoint = new cloud_endpoint();
+            bool result = CloudEndpoints.TryGetValue(cloudname, out cloudendpoint);
+            var regions = from r in regionlist where r.cloudprefix.Equals(cloudendpoint.cloudprefix) select r;
+            List<string> returnregions = new List<string>();
+            foreach (var region in regions) returnregions.Add(region.region);
+            */
+            return AvailableRegions.ToArray();
+        }
 
     }
 }

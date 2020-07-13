@@ -37,9 +37,14 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private string categoryID;
 
         /// <summary>
-        /// Use the Government instance of Azure (true) or not (false) 
+        /// The cloud to use 
         /// </summary>
-        private bool useAzureGovernment;
+        private string AzureCloud;
+
+        /// <summary>
+        /// The region to use 
+        /// </summary>
+        private string AzureRegion;
 
         /// <summary>
         /// Show the experimental languages 
@@ -107,17 +112,46 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             }
         }
 
-        public bool UseAzureGovernment
+        public string[] AvailableClouds
         {
             get
             {
-                return this.useAzureGovernment;
+                return TranslationAssistant.TranslationServices.Core.Endpoints.GetClouds();
             }
 
             set
             {
-                this.useAzureGovernment = value;
-                this.NotifyPropertyChanged("UseAzureGovernment");
+                this.AvailableClouds = value;
+                this.NotifyPropertyChanged("AvailableClouds");
+            }
+        }
+        
+        public string SelectedRegion
+        {
+            get
+            {
+                return TranslationAssistant.TranslationServices.Core.TranslationServiceFacade.AzureRegion;
+            }
+
+            set
+            {
+                this.SelectedRegion = value;
+                this.NotifyPropertyChanged("SelectedRegion");
+            }
+
+        }
+
+        public string[] AvailableRegions
+        {
+            get
+            {
+                return TranslationAssistant.TranslationServices.Core.Endpoints.AvailableRegions.ToArray();
+            }
+
+            set
+            {
+                this.AvailableRegions = value;
+                this.NotifyPropertyChanged("AvailableRegions");
             }
         }
         public bool ShowExperimental
@@ -209,7 +243,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             catch { };
             this.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey;
             this.categoryID = TranslationServices.Core.TranslationServiceFacade.CategoryID;
-            this.useAzureGovernment = TranslationServices.Core.TranslationServiceFacade.UseAzureGovernment;
+            this.AzureRegion = TranslationServices.Core.TranslationServiceFacade.AzureRegion;
+            this.AzureCloud = TranslationServices.Core.TranslationServiceFacade.AzureCloud;
             this.useCustomEndpoint = TranslationServices.Core.TranslationServiceFacade.UseCustomEndpoint;
             this.customEndpointUrl = TranslationServices.Core.TranslationServiceFacade.CustomEndpointUrl;
             this.showExperimental = TranslationServices.Core.TranslationServiceFacade.ShowExperimental;
@@ -223,7 +258,9 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             //Set the Account values and save.
             TranslationServices.Core.TranslationServiceFacade.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey.Trim();
             TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID.Trim();
-            TranslationServices.Core.TranslationServiceFacade.UseAzureGovernment = this.useAzureGovernment;
+            TranslationServices.Core.TranslationServiceFacade.AzureCloud = this.AzureCloud;
+            if (this.AzureRegion.ToUpperInvariant() == "GLOBAL") TranslationServices.Core.TranslationServiceFacade.AzureRegion = null;
+            else TranslationServices.Core.TranslationServiceFacade.AzureRegion = this.AzureRegion;
             TranslationServices.Core.TranslationServiceFacade.UseCustomEndpoint = this.useCustomEndpoint;
             TranslationServices.Core.TranslationServiceFacade.CustomEndpointUrl = this.customEndpointUrl;
             TranslationServices.Core.TranslationServiceFacade.ShowExperimental = this.showExperimental;

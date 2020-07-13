@@ -278,8 +278,8 @@ Please visit the Settings page first to enter your Microsoft Translator credenti
   <data name="Common_Started" xml:space="preserve">
     <value>Started</value>
   </data>
-  <data name="AzureGov_text" xml:space="preserve">
-    <value>Use Azure Government:</value>
+  <data name="AzureCloud_text" xml:space="preserve">
+    <value>Azure Cloud to use:</value>
   </data>
   <data name="Translate_Hidden" xml:space="preserve">
     <value>Ignore hidden content</value>
@@ -354,8 +354,8 @@ Word documents: hidden text</value>
   <data name="Tooltip_CustomUrlCheckbox" xml:space="preserve">
     <value>Check this only if you have a container install of Translator (uncommon)</value>
   </data>
-  <data name="Tooltip_UseAzureGovernment" xml:space="preserve">
-    <value>Check if your account key is for Azure Government (azure.us).</value>
+  <data name="Tooltip_AzureCloud" xml:space="preserve">
+    <value>Which Azure cloud to use</value>
   </data>
   <data name="Account_ShowExperimental" xml:space="preserve">
     <value>Show experimental languages</value>
@@ -368,5 +368,11 @@ Word documents: hidden text</value>
   </data>
   <data name="Tooltip_TranslateFromAll" xml:space="preserve">
     <value>Returns a translation from all of the Microsoft Translator languages to the selected language. Useful only for short strings.</value>
+  </data>
+  <data name="AzureRegion_text" xml:space="preserve">
+    <value>Azure Region:</value>
+  </data>
+  <data name="Tooltip_AzureRegion" xml:space="preserve">
+    <value>Which Azure region is your Azure resource in?</value>
   </data>
 </root>

@@ -241,11 +241,20 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Use Azure Government:.
+        ///   Looks up a localized string similar to Azure Cloud to use:.
         /// </summary>
-        public static string AzureGov_text {
+        public static string AzureCloud_text {
             get {
-                return ResourceManager.GetString("AzureGov_text", resourceCulture);
+                return ResourceManager.GetString("AzureCloud_text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Azure Region:.
+        /// </summary>
+        public static string AzureRegion_text {
+            get {
+                return ResourceManager.GetString("AzureRegion_text", resourceCulture);
             }
         }
         
@@ -542,6 +551,24 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Which Azure cloud to use.
+        /// </summary>
+        public static string Tooltip_AzureCloud {
+            get {
+                return ResourceManager.GetString("Tooltip_AzureCloud", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Which Azure region is your Azure resource in?.
+        /// </summary>
+        public static string Tooltip_AzureRegion {
+            get {
+                return ResourceManager.GetString("Tooltip_AzureRegion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Returns the sentence boundaries of the input. .
         /// </summary>
         public static string Tooltip_BreakSentences {
@@ -628,15 +655,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         public static string Tooltip_TranslateToAll {
             get {
                 return ResourceManager.GetString("Tooltip_TranslateToAll", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Check if your account key is for Azure Government (azure.us)..
-        /// </summary>
-        public static string Tooltip_UseAzureGovernment {
-            get {
-                return ResourceManager.GetString("Tooltip_UseAzureGovernment", resourceCulture);
             }
         }
         

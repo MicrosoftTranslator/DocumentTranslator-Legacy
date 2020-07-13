@@ -20,8 +20,8 @@
     <Setting Name="Adv_CategoryID" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="UseAzureGovernment" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+    <Setting Name="AzureCloud" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Global</Value>
     </Setting>
     <Setting Name="UseCustomEndpoint" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -31,6 +31,9 @@
     </Setting>
     <Setting Name="ShowExperimental" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="SubscriptionRegion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">null</Value>
     </Setting>
   </Settings>
 </SettingsFile>

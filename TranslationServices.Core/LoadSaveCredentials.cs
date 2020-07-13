@@ -1,6 +1,6 @@
 ﻿namespace TranslationAssistant.TranslationServices.Core
 {
-    public static class LoadSaveCredentials
+    public static partial class TranslationServiceFacade
     {
 
         /// <summary>
@@ -9,15 +9,15 @@
         /// </summary>
         public static void LoadCredentials()
         {
-            TranslationServiceFacade.AzureKey = Properties.Settings.Default.AzureKey;
-            TranslationServiceFacade.CategoryID = Properties.Settings.Default.CategoryID;
-            TranslationServiceFacade.AppId = Properties.Settings.Default.AppId;
-            TranslationServiceFacade.UseAdvancedSettings = Properties.Settings.Default.UseAdvancedSettings;
-            TranslationServiceFacade.Adv_CategoryId = Properties.Settings.Default.Adv_CategoryID;
-            TranslationServiceFacade.UseAzureGovernment = Properties.Settings.Default.UseAzureGovernment;
-            TranslationServiceFacade.UseCustomEndpoint = Properties.Settings.Default.UseCustomEndpoint;
-            TranslationServiceFacade.CustomEndpointUrl = Properties.Settings.Default.CustomEndpointUrl;
-            SpeechServiceFacade.SpeechAccountKey = Properties.Settings.Default.SpeechAccountKey;
+            AzureKey = Properties.Settings.Default.AzureKey;
+            CategoryID = Properties.Settings.Default.CategoryID;
+            AppId = Properties.Settings.Default.AppId;
+            UseAdvancedSettings = Properties.Settings.Default.UseAdvancedSettings;
+            AzureCloud = Properties.Settings.Default.AzureCloud;
+            AzureRegion = Properties.Settings.Default.SubscriptionRegion;
+            UseCustomEndpoint = Properties.Settings.Default.UseCustomEndpoint;
+            CustomEndpointUrl = Properties.Settings.Default.CustomEndpointUrl;
+            EndPointAddress = SetEndPointAddress(AzureCloud);
         }
 
         /// <summary>
@@ -25,16 +25,29 @@
         /// </summary>
         public static void SaveCredentials()
         {
-            Properties.Settings.Default.AzureKey = TranslationServiceFacade.AzureKey;
-            Properties.Settings.Default.CategoryID = TranslationServiceFacade.CategoryID;
-            Properties.Settings.Default.AppId = TranslationServiceFacade.AppId;
-            Properties.Settings.Default.UseAdvancedSettings = TranslationServiceFacade.UseAdvancedSettings;
-            Properties.Settings.Default.Adv_CategoryID = TranslationServiceFacade.Adv_CategoryId;
-            Properties.Settings.Default.UseAzureGovernment = TranslationServiceFacade.UseAzureGovernment;
-            Properties.Settings.Default.UseCustomEndpoint = TranslationServiceFacade.UseCustomEndpoint;
-            Properties.Settings.Default.CustomEndpointUrl = TranslationServiceFacade.CustomEndpointUrl;
-            Properties.Settings.Default.SpeechAccountKey = SpeechServiceFacade.SpeechAccountKey;
+            Properties.Settings.Default.AzureKey = AzureKey;
+            Properties.Settings.Default.CategoryID = CategoryID;
+            Properties.Settings.Default.AppId = AppId;
+            Properties.Settings.Default.UseAdvancedSettings = UseAdvancedSettings;
+            Properties.Settings.Default.AzureCloud = AzureCloud;
+            Properties.Settings.Default.SubscriptionRegion = AzureRegion;
+            Properties.Settings.Default.UseCustomEndpoint = UseCustomEndpoint;
+            Properties.Settings.Default.CustomEndpointUrl = CustomEndpointUrl;
             Properties.Settings.Default.Save();
+        }
+
+        /// <summary>
+        /// Calculates the EndpointAddress to use for this cloud.
+        /// </summary>
+        /// <param name="Cloud">The cloud you want the Translator endpoint address for.</param>
+        /// <returns></returns>
+        private static string SetEndPointAddress(string Cloud)
+        {
+            Endpoints.cloud_endpoint cloud_Endpoint = new Endpoints.cloud_endpoint();
+            if (Endpoints.CloudEndpoints.TryGetValue(AzureCloud, out cloud_Endpoint))
+                return "https://"+ cloud_Endpoint.endpoint;
+            else
+                return "https://api.microsofttranslator.com";
         }
 
     }

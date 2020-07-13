@@ -173,9 +173,6 @@ S’il vous plaît visitez https://hub.microsofttranslator.com afin de détermin
     <value>V3 : Catégorie n’est pas valide. 
 S’il vous plaît visitez https://portal.customtranslator.azure.ai afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</value>
   </data>
-  <data name="AzureGov_text" xml:space="preserve">
-    <value>Utiliser Azure gouvernement</value>
-  </data>
   <data name="Translate_Hidden" xml:space="preserve">
     <value>Ignorer le contenu masqué</value>
   </data>

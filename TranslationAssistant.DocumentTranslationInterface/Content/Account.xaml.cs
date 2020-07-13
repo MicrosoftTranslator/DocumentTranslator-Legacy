@@ -13,7 +13,7 @@
 
 namespace TranslationAssistant.DocumentTranslationInterface.Content
 {
-# region
+    #region Usings
     using System;
     using System.Diagnostics;
     using System.Windows.Controls;
@@ -55,6 +55,17 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
         {
             TranslationServices.Core.TranslationServiceFacade.Initialize(true);
             ShowExperimental_Changed?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void RegionSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TranslationServices.Core.TranslationServiceFacade.AzureRegion = RegionSelector.SelectedItem.ToString();
+        }
+
+        private void CloudSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            TranslationServices.Core.TranslationServiceFacade.AzureCloud = CloudSelector.SelectedItem.ToString();
+            RegionSelector.ItemsSource = TranslationServices.Core.Endpoints.GetRegions(CloudSelector.SelectedItem.ToString());
         }
     }
 }

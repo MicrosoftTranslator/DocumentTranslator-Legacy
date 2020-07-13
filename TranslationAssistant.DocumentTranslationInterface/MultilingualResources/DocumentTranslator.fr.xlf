@@ -224,10 +224,6 @@ Please visit https://portal.customtranslator.azure.ai to determine a valid categ
           <target state="needs-review-translation" state-qualifier="mt-suggestion">V3 : Catégorie n’est pas valide. 
 S’il vous plaît visitez https://portal.customtranslator.azure.ai afin de déterminer un ID de catégorie valide, laissez vide, ou utilisez l’une des catégories standards.</target>
         </trans-unit>
-        <trans-unit id="AzureGov_text" translate="yes" xml:space="preserve">
-          <source>Use Azure Government:</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Utiliser Azure gouvernement</target>
-        </trans-unit>
         <trans-unit id="Translate_Hidden" translate="yes" xml:space="preserve">
           <source>Ignore hidden content</source>
           <target state="translated">Ignorer le contenu masqué</target>
@@ -327,10 +323,6 @@ Word documents : texte masqué</target>
           <source>Optional: Enter the category ID of the custom system you want to use. </source>
           <target state="new">Optional: Enter the category ID of the custom system you want to use. </target>
         </trans-unit>
-        <trans-unit id="Tooltip_UseAzureGovernment" translate="yes" xml:space="preserve">
-          <source>Check if your account key is for Azure Government (azure.us).</source>
-          <target state="new">Check if your account key is for Azure Government (azure.us).</target>
-        </trans-unit>
         <trans-unit id="Account_ShowExperimental" translate="yes" xml:space="preserve">
           <source>Show experimental languages</source>
           <target state="new">Show experimental languages</target>
@@ -346,6 +338,22 @@ Word documents : texte masqué</target>
         <trans-unit id="Tooltip_TranslateFromAll" translate="yes" xml:space="preserve">
           <source>Returns a translation from all of the Microsoft Translator languages to the selected language. Useful only for short strings.</source>
           <target state="new">Returns a translation from all of the Microsoft Translator languages to the selected language. Useful only for short strings.</target>
+        </trans-unit>
+        <trans-unit id="AzureCloud_text" translate="yes" xml:space="preserve">
+          <source>Azure Cloud to use:</source>
+          <target state="new">Azure Cloud to use:</target>
+        </trans-unit>
+        <trans-unit id="Tooltip_AzureCloud" translate="yes" xml:space="preserve">
+          <source>Which Azure cloud to use</source>
+          <target state="new">Which Azure cloud to use</target>
+        </trans-unit>
+        <trans-unit id="AzureRegion_text" translate="yes" xml:space="preserve">
+          <source>Azure Region:</source>
+          <target state="new">Azure Region:</target>
+        </trans-unit>
+        <trans-unit id="Tooltip_AzureRegion" translate="yes" xml:space="preserve">
+          <source>Which Azure region is your Azure resource in?</source>
+          <target state="new">Which Azure region is your Azure resource in?</target>
         </trans-unit>
       </group>
     </body>

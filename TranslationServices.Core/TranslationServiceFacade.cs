@@ -44,7 +44,6 @@ namespace TranslationAssistant.TranslationServices.Core
         public static string AppId { get; set; }
         public static string AdvCategoryId { get; set; }
         public static bool UseAdvancedSettings { get; set; }
-        public static bool UseAzureGovernment { get; set; }
         /// <summary>
         /// Holds the setting whether to use a container offline
         /// </summary>
@@ -77,7 +76,8 @@ namespace TranslationAssistant.TranslationServices.Core
         public static Dictionary<string, string> AvailableLanguages { get; } = new Dictionary<string, string>();
         public static int Maxrequestsize { get => maxrequestsize; }
         public static int Maxelements { get => maxelements; }
-        public static string SubscriptionRegion { get; set; } = null;
+        public static string AzureRegion { get; set; } = null;
+        public static string AzureCloud { get; set; } = null;
 
         public enum ContentType { plain, HTML };
 
@@ -111,7 +111,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 string requestBody = JsonConvert.SerializeObject(body);
                 request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                if (!string.IsNullOrEmpty(SubscriptionRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", SubscriptionRegion);
+                if (!string.IsNullOrEmpty(AzureRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", AzureRegion);
                 HttpResponseMessage response = new HttpResponseMessage();
                 try
                 {
@@ -349,40 +349,6 @@ namespace TranslationAssistant.TranslationServices.Core
 
 
         /// <summary>
-        /// Loads credentials from settings file.
-        /// Doesn't need to be public, because it is called during Initialize();
-        /// </summary>
-        private static void LoadCredentials()
-        {
-            AzureKey = Properties.Settings.Default.AzureKey;
-            CategoryID = Properties.Settings.Default.CategoryID;
-            AppId = Properties.Settings.Default.AppId;
-            UseAdvancedSettings = Properties.Settings.Default.UseAdvancedSettings;
-            AdvCategoryId = Properties.Settings.Default.Adv_CategoryID;
-            UseAzureGovernment = Properties.Settings.Default.UseAzureGovernment;
-            UseCustomEndpoint = Properties.Settings.Default.UseCustomEndpoint;
-            CustomEndpointUrl = Properties.Settings.Default.CustomEndpointUrl;
-            ShowExperimental = Properties.Settings.Default.ShowExperimental;
-        }
-
-        /// <summary>
-        /// Saves credentials Azure Key and categoryID to the personalized settings file.
-        /// </summary>
-        public static void SaveCredentials()
-        {
-            Properties.Settings.Default.AzureKey = AzureKey;
-            Properties.Settings.Default.CategoryID = CategoryID;
-            Properties.Settings.Default.AppId = AppId;
-            Properties.Settings.Default.UseAdvancedSettings = UseAdvancedSettings;
-            Properties.Settings.Default.Adv_CategoryID = AdvCategoryId;
-            Properties.Settings.Default.UseAzureGovernment = UseAzureGovernment;
-            Properties.Settings.Default.UseCustomEndpoint = UseCustomEndpoint;
-            Properties.Settings.Default.CustomEndpointUrl = CustomEndpointUrl;
-            Properties.Settings.Default.ShowExperimental = ShowExperimental;
-            Properties.Settings.Default.Save();
-        }
-
-        /// <summary>
         /// Takes a single language name and returns the matching language code. OK to pass a language code.
         /// </summary>
         /// <param name="languagename"></param>
@@ -592,7 +558,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 request.RequestUri = new Uri(uri);
                 request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                if (!string.IsNullOrEmpty(SubscriptionRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", SubscriptionRegion);
+                if (!string.IsNullOrEmpty(AzureRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", AzureRegion);
                 var response = client.SendAsync(request).Result;
                 var jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return jsonResponse;
@@ -628,7 +594,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 request.RequestUri = new Uri(uri);
                 request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                if (!string.IsNullOrEmpty(SubscriptionRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", SubscriptionRegion);
+                if (!string.IsNullOrEmpty(AzureRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", AzureRegion);
 
                 HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
                 string result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -749,7 +715,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     request.RequestUri = new Uri(uri);
                     request.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
                     request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                    if (!string.IsNullOrEmpty(SubscriptionRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", SubscriptionRegion);
+                    if (!string.IsNullOrEmpty(AzureRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", AzureRegion);
 
                     HttpResponseMessage response = new HttpResponseMessage();
                     response.StatusCode = System.Net.HttpStatusCode.RequestTimeout;
