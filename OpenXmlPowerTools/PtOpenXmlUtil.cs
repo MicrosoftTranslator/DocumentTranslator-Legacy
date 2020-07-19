@@ -1,29 +1,5 @@
-﻿/***************************************************************************
-
-Copyright (c) Microsoft Corporation 2012-2015.
-
-This code is licensed using the Microsoft Public License (Ms-PL).  The text of the license can be found here:
-
-http://www.microsoft.com/resources/sharedsource/licensingbasics/publiclicense.mspx
-
-Published at http://OpenXmlDeveloper.org
-Resource Center and Documentation: http://openxmldeveloper.org/wiki/w/wiki/powertools-for-open-xml.aspx
-
-Developer: Eric White
-Blog: http://www.ericwhite.com
-Twitter: @EricWhiteDev
-Email: eric@ericwhite.com
-
-Version: 3.1.10
- * Add PtOpenXml.ListItemRun
-
-Version: 2.7.03
- * Enhancements to support RTL
-
-Version: 2.6.00
- * Enhancements to support HtmlConverter.cs
-
-***************************************************************************/
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
 using System.IO;
@@ -678,13 +654,15 @@ namespace OpenXmlPowerTools
             if (rPr == null)
                 throw new OpenXmlPowerToolsException("Internal Error, should have run properties");
             var languageType = (string)r.Attribute(PtOpenXml.LanguageType);
-            decimal? sz = null;
+            decimal? szn = null;
             if (languageType == "bidi")
-                sz = (decimal?)rPr.Elements(W.szCs).Attributes(W.val).FirstOrDefault();
+                szn = (decimal?)rPr.Elements(W.szCs).Attributes(W.val).FirstOrDefault();
             else
-                sz = (decimal?)rPr.Elements(W.sz).Attributes(W.val).FirstOrDefault();
-            if (sz == null)
-                sz = 22m;
+                szn = (decimal?)rPr.Elements(W.sz).Attributes(W.val).FirstOrDefault();
+            if (szn == null)
+                szn = 22m;
+
+            var sz = szn.GetValueOrDefault();
 
             // unknown font families will throw ArgumentException, in which case just return 0
             if (!KnownFamilies.Contains(fontName))
@@ -743,66 +721,9 @@ namespace OpenXmlPowerTools
                 runText = sb.ToString();
             }
 
-            try
-            {
-                using (Font f = new Font(ff, (float)sz / 2f, fs))
-                {
-                    System.Windows.Forms.TextFormatFlags tff = System.Windows.Forms.TextFormatFlags.NoPadding;
-                    Size proposedSize = new Size(int.MaxValue, int.MaxValue);
-                    var sf = System.Windows.Forms.TextRenderer.MeasureText(runText, f, proposedSize, tff); // sf returns size in pixels
-                    var dpi = 96m;
-                    var twip = (int)(((sf.Width / dpi) * 1440m) / multiplier + tabLength * 1440m);
-                    return twip;
-                }
-            }
-            catch (ArgumentException)
-            {
-                try
-                {
-                    var fs2 = FontStyle.Regular;
-                    using (Font f = new Font(ff, (float)sz / 2f, fs2))
-                    {
-                        System.Windows.Forms.TextFormatFlags tff = System.Windows.Forms.TextFormatFlags.NoPadding;
-                        Size proposedSize = new Size(int.MaxValue, int.MaxValue);
-                        var sf = System.Windows.Forms.TextRenderer.MeasureText(runText, f, proposedSize, tff); // sf returns size in pixels
-                        var dpi = 96m;
-                        var twip = (int)(((sf.Width / dpi) * 1440m) / multiplier + tabLength * 1440m);
-                        return twip;
-                    }
-                }
-                catch (ArgumentException)
-                {
-                    var fs2 = FontStyle.Bold;
-                    try
-                    {
-                        using (Font f = new Font(ff, (float)sz / 2f, fs2))
-                        {
-                            System.Windows.Forms.TextFormatFlags tff = System.Windows.Forms.TextFormatFlags.NoPadding;
-                            Size proposedSize = new Size(int.MaxValue, int.MaxValue);
-                            var sf = System.Windows.Forms.TextRenderer.MeasureText(runText, f, proposedSize, tff); // sf returns size in pixels
-                            var dpi = 96m;
-                            var twip = (int)(((sf.Width / dpi) * 1440m) / multiplier + tabLength * 1440m);
-                            return twip;
-                        }
-                    }
-                    catch (ArgumentException)
-                    {
-                        // if both regular and bold fail, then get metrics for Times New Roman
-                        // use the original FontStyle (in fs)
-                        FontFamily ff2;
-                        ff2 = new FontFamily("Times New Roman");
-                        using (Font f = new Font(ff2, (float)sz / 2f, fs))
-                        {
-                            System.Windows.Forms.TextFormatFlags tff = System.Windows.Forms.TextFormatFlags.NoPadding;
-                            Size proposedSize = new Size(int.MaxValue, int.MaxValue);
-                            var sf = System.Windows.Forms.TextRenderer.MeasureText(runText, f, proposedSize, tff); // sf returns size in pixels
-                            var dpi = 96m;
-                            var twip = (int)(((sf.Width / dpi) * 1440m) / multiplier + tabLength * 1440m);
-                            return twip;
-                        }
-                    }
-                }
-            }
+            var w = MetricsGetter.GetTextWidth(ff, fs, sz, runText);
+
+            return (int) (w / 96m * 1440m / multiplier + tabLength * 1440m);
         }
 
         public static bool GetBoolProp(XElement runProps, XName xName)
@@ -1270,6 +1191,8 @@ listSeparator
 
         private static Dictionary<XName, int> Order_rPr = new Dictionary<XName, int>
         {
+            { W.moveFrom, 5 },
+            { W.moveTo, 7 },
             { W.ins, 10 },
             { W.del, 20 },
             { W.rStyle, 30 },
@@ -2889,60 +2812,6 @@ listSeparator
         public static readonly XName property = custpro + "property";
     }
 
-    public static class CX
-    {
-        public static XNamespace cx =
-            "http://schemas.microsoft.com/office/drawing/2014/chartex";
-    }
-
-    public static class CX1
-    {
-        public static XNamespace cx1 =
-            "http://schemas.microsoft.com/office/drawing/2015/9/8/chartex";
-    }
-
-    public static class CX2
-    {
-        public static XNamespace cx2 =
-            "http://schemas.microsoft.com/office/drawing/2015/10/21/chartex";
-    }
-
-    public static class CX3
-    {
-        public static XNamespace cx3 =
-            "http://schemas.microsoft.com/office/drawing/2016/5/9/chartex";
-    }
-
-    public static class CX4
-    {
-        public static XNamespace cx4 =
-            "http://schemas.microsoft.com/office/drawing/2016/5/10/chartex";
-    }
-
-    public static class CX5
-    {
-        public static XNamespace cx5 =
-            "http://schemas.microsoft.com/office/drawing/2016/5/11/chartex";
-    }
-
-    public static class CX6
-    {
-        public static XNamespace cx6 =
-            "http://schemas.microsoft.com/office/drawing/2016/5/12/chartex";
-    }
-
-    public static class CX7
-    {
-        public static XNamespace cx7 =
-            "http://schemas.microsoft.com/office/drawing/2016/5/13/chartex";
-    }
-
-    public static class CX8
-    {
-        public static XNamespace cx8 =
-            "http://schemas.microsoft.com/office/drawing/2016/5/14/chartex";
-    }
-
     public static class DC
     {
         public static readonly XNamespace dc =
@@ -4312,7 +4181,11 @@ listSeparator
         public static readonly XName _pic = pic + "pic";
         public static readonly XName spPr = pic + "spPr";
     }
-
+    public static class SVG
+    {
+        public static readonly XNamespace svg = "http://schemas.microsoft.com/office/drawing/2016/SVG/main";
+        public static readonly XName svgBlip = svg + "svgBlip";
+    }
     public static class Plegacy
     {
         public static readonly XNamespace plegacy = "urn:schemas-microsoft-com:office:powerpoint";
@@ -5729,324 +5602,12 @@ listSeparator
 
     public static class W15
     {
-        public static readonly XNamespace w15 = "http://schemas.microsoft.com/office/word/2012/wordml";
-        public static readonly XName algn = w15 + "algn";
-        public static readonly XName alpha = w15 + "alpha";
-        public static readonly XName ang = w15 + "ang";
-        public static readonly XName b = w15 + "b";
-        public static readonly XName bevel = w15 + "bevel";
-        public static readonly XName bevelB = w15 + "bevelB";
-        public static readonly XName bevelT = w15 + "bevelT";
-        public static readonly XName blurRad = w15 + "blurRad";
-        public static readonly XName camera = w15 + "camera";
-        public static readonly XName cap = w15 + "cap";
-        public static readonly XName checkbox = w15 + "checkbox";
-        public static readonly XName _checked = w15 + "checked";
-        public static readonly XName checkedState = w15 + "checkedState";
-        public static readonly XName cmpd = w15 + "cmpd";
-        public static readonly XName cntxtAlts = w15 + "cntxtAlts";
-        public static readonly XName cNvContentPartPr = w15 + "cNvContentPartPr";
-        public static readonly XName conflictMode = w15 + "conflictMode";
-        public static readonly XName contentPart = w15 + "contentPart";
-        public static readonly XName contourClr = w15 + "contourClr";
-        public static readonly XName contourW = w15 + "contourW";
-        public static readonly XName defaultImageDpi = w15 + "defaultImageDpi";
-        public static readonly XName dir = w15 + "dir";
-        public static readonly XName discardImageEditingData = w15 + "discardImageEditingData";
-        public static readonly XName dist = w15 + "dist";
-        public static readonly XName docId = w15 + "docId";
-        public static readonly XName editId = w15 + "editId";
-        public static readonly XName enableOpenTypeKerning = w15 + "enableOpenTypeKerning";
-        public static readonly XName endA = w15 + "endA";
-        public static readonly XName endPos = w15 + "endPos";
-        public static readonly XName entityPicker = w15 + "entityPicker";
-        public static readonly XName extrusionClr = w15 + "extrusionClr";
-        public static readonly XName extrusionH = w15 + "extrusionH";
-        public static readonly XName fadeDir = w15 + "fadeDir";
-        public static readonly XName fillToRect = w15 + "fillToRect";
-        public static readonly XName font = w15 + "font";
-        public static readonly XName glow = w15 + "glow";
-        public static readonly XName gradFill = w15 + "gradFill";
-        public static readonly XName gs = w15 + "gs";
-        public static readonly XName gsLst = w15 + "gsLst";
-        public static readonly XName h = w15 + "h";
-        public static readonly XName hueMod = w15 + "hueMod";
-        public static readonly XName id = w15 + "id";
-        public static readonly XName kx = w15 + "kx";
-        public static readonly XName ky = w15 + "ky";
-        public static readonly XName l = w15 + "l";
-        public static readonly XName lat = w15 + "lat";
-        public static readonly XName ligatures = w15 + "ligatures";
-        public static readonly XName lightRig = w15 + "lightRig";
-        public static readonly XName lim = w15 + "lim";
-        public static readonly XName lin = w15 + "lin";
-        public static readonly XName lon = w15 + "lon";
-        public static readonly XName lumMod = w15 + "lumMod";
-        public static readonly XName lumOff = w15 + "lumOff";
-        public static readonly XName miter = w15 + "miter";
-        public static readonly XName noFill = w15 + "noFill";
-        public static readonly XName numForm = w15 + "numForm";
-        public static readonly XName numSpacing = w15 + "numSpacing";
-        public static readonly XName nvContentPartPr = w15 + "nvContentPartPr";
-        public static readonly XName paraId = w15 + "paraId";
-        public static readonly XName path = w15 + "path";
-        public static readonly XName pos = w15 + "pos";
-        public static readonly XName props3d = w15 + "props3d";
-        public static readonly XName prst = w15 + "prst";
-        public static readonly XName prstDash = w15 + "prstDash";
-        public static readonly XName prstMaterial = w15 + "prstMaterial";
-        public static readonly XName r = w15 + "r";
-        public static readonly XName rad = w15 + "rad";
-        public static readonly XName reflection = w15 + "reflection";
-        public static readonly XName rev = w15 + "rev";
-        public static readonly XName rig = w15 + "rig";
-        public static readonly XName rot = w15 + "rot";
-        public static readonly XName round = w15 + "round";
-        public static readonly XName sat = w15 + "sat";
-        public static readonly XName satMod = w15 + "satMod";
-        public static readonly XName satOff = w15 + "satOff";
-        public static readonly XName scaled = w15 + "scaled";
-        public static readonly XName scene3d = w15 + "scene3d";
-        public static readonly XName schemeClr = w15 + "schemeClr";
-        public static readonly XName shade = w15 + "shade";
-        public static readonly XName shadow = w15 + "shadow";
-        public static readonly XName solidFill = w15 + "solidFill";
-        public static readonly XName srgbClr = w15 + "srgbClr";
-        public static readonly XName stA = w15 + "stA";
-        public static readonly XName stPos = w15 + "stPos";
-        public static readonly XName styleSet = w15 + "styleSet";
-        public static readonly XName stylisticSets = w15 + "stylisticSets";
-        public static readonly XName sx = w15 + "sx";
-        public static readonly XName sy = w15 + "sy";
-        public static readonly XName t = w15 + "t";
-        public static readonly XName textFill = w15 + "textFill";
-        public static readonly XName textId = w15 + "textId";
-        public static readonly XName textOutline = w15 + "textOutline";
-        public static readonly XName tint = w15 + "tint";
-        public static readonly XName uncheckedState = w15 + "uncheckedState";
-        public static readonly XName val = w15 + "val";
-        public static readonly XName w = w15 + "w";
-        public static readonly XName wProps3d = w15 + "wProps3d";
-        public static readonly XName wScene3d = w15 + "wScene3d";
-        public static readonly XName wShadow = w15 + "wShadow";
-        public static readonly XName wTextFill = w15 + "wTextFill";
-        public static readonly XName wTextOutline = w15 + "wTextOutline";
-        public static readonly XName xfrm = w15 + "xfrm";
+        public static XNamespace w15 = "http://schemas.microsoft.com/office/word/2012/wordml";
     }
 
     public static class W16SE
     {
         public static XNamespace w16se = "http://schemas.microsoft.com/office/word/2015/wordml/symex";
-        public static readonly XName algn = w16se + "algn";
-        public static readonly XName alpha = w16se + "alpha";
-        public static readonly XName ang = w16se + "ang";
-        public static readonly XName b = w16se + "b";
-        public static readonly XName bevel = w16se + "bevel";
-        public static readonly XName bevelB = w16se + "bevelB";
-        public static readonly XName bevelT = w16se + "bevelT";
-        public static readonly XName blurRad = w16se + "blurRad";
-        public static readonly XName camera = w16se + "camera";
-        public static readonly XName cap = w16se + "cap";
-        public static readonly XName checkbox = w16se + "checkbox";
-        public static readonly XName _checked = w16se + "checked";
-        public static readonly XName checkedState = w16se + "checkedState";
-        public static readonly XName cmpd = w16se + "cmpd";
-        public static readonly XName cntxtAlts = w16se + "cntxtAlts";
-        public static readonly XName cNvContentPartPr = w16se + "cNvContentPartPr";
-        public static readonly XName conflictMode = w16se + "conflictMode";
-        public static readonly XName contentPart = w16se + "contentPart";
-        public static readonly XName contourClr = w16se + "contourClr";
-        public static readonly XName contourW = w16se + "contourW";
-        public static readonly XName defaultImageDpi = w16se + "defaultImageDpi";
-        public static readonly XName dir = w16se + "dir";
-        public static readonly XName discardImageEditingData = w16se + "discardImageEditingData";
-        public static readonly XName dist = w16se + "dist";
-        public static readonly XName docId = w16se + "docId";
-        public static readonly XName editId = w16se + "editId";
-        public static readonly XName enableOpenTypeKerning = w16se + "enableOpenTypeKerning";
-        public static readonly XName endA = w16se + "endA";
-        public static readonly XName endPos = w16se + "endPos";
-        public static readonly XName entityPicker = w16se + "entityPicker";
-        public static readonly XName extrusionClr = w16se + "extrusionClr";
-        public static readonly XName extrusionH = w16se + "extrusionH";
-        public static readonly XName fadeDir = w16se + "fadeDir";
-        public static readonly XName fillToRect = w16se + "fillToRect";
-        public static readonly XName font = w16se + "font";
-        public static readonly XName glow = w16se + "glow";
-        public static readonly XName gradFill = w16se + "gradFill";
-        public static readonly XName gs = w16se + "gs";
-        public static readonly XName gsLst = w16se + "gsLst";
-        public static readonly XName h = w16se + "h";
-        public static readonly XName hueMod = w16se + "hueMod";
-        public static readonly XName id = w16se + "id";
-        public static readonly XName kx = w16se + "kx";
-        public static readonly XName ky = w16se + "ky";
-        public static readonly XName l = w16se + "l";
-        public static readonly XName lat = w16se + "lat";
-        public static readonly XName ligatures = w16se + "ligatures";
-        public static readonly XName lightRig = w16se + "lightRig";
-        public static readonly XName lim = w16se + "lim";
-        public static readonly XName lin = w16se + "lin";
-        public static readonly XName lon = w16se + "lon";
-        public static readonly XName lumMod = w16se + "lumMod";
-        public static readonly XName lumOff = w16se + "lumOff";
-        public static readonly XName miter = w16se + "miter";
-        public static readonly XName noFill = w16se + "noFill";
-        public static readonly XName numForm = w16se + "numForm";
-        public static readonly XName numSpacing = w16se + "numSpacing";
-        public static readonly XName nvContentPartPr = w16se + "nvContentPartPr";
-        public static readonly XName paraId = w16se + "paraId";
-        public static readonly XName path = w16se + "path";
-        public static readonly XName pos = w16se + "pos";
-        public static readonly XName props3d = w16se + "props3d";
-        public static readonly XName prst = w16se + "prst";
-        public static readonly XName prstDash = w16se + "prstDash";
-        public static readonly XName prstMaterial = w16se + "prstMaterial";
-        public static readonly XName r = w16se + "r";
-        public static readonly XName rad = w16se + "rad";
-        public static readonly XName reflection = w16se + "reflection";
-        public static readonly XName rev = w16se + "rev";
-        public static readonly XName rig = w16se + "rig";
-        public static readonly XName rot = w16se + "rot";
-        public static readonly XName round = w16se + "round";
-        public static readonly XName sat = w16se + "sat";
-        public static readonly XName satMod = w16se + "satMod";
-        public static readonly XName satOff = w16se + "satOff";
-        public static readonly XName scaled = w16se + "scaled";
-        public static readonly XName scene3d = w16se + "scene3d";
-        public static readonly XName schemeClr = w16se + "schemeClr";
-        public static readonly XName shade = w16se + "shade";
-        public static readonly XName shadow = w16se + "shadow";
-        public static readonly XName solidFill = w16se + "solidFill";
-        public static readonly XName srgbClr = w16se + "srgbClr";
-        public static readonly XName stA = w16se + "stA";
-        public static readonly XName stPos = w16se + "stPos";
-        public static readonly XName styleSet = w16se + "styleSet";
-        public static readonly XName stylisticSets = w16se + "stylisticSets";
-        public static readonly XName sx = w16se + "sx";
-        public static readonly XName sy = w16se + "sy";
-        public static readonly XName t = w16se + "t";
-        public static readonly XName textFill = w16se + "textFill";
-        public static readonly XName textId = w16se + "textId";
-        public static readonly XName textOutline = w16se + "textOutline";
-        public static readonly XName tint = w16se + "tint";
-        public static readonly XName uncheckedState = w16se + "uncheckedState";
-        public static readonly XName val = w16se + "val";
-        public static readonly XName w = w16se + "w";
-        public static readonly XName wProps3d = w16se + "wProps3d";
-        public static readonly XName wScene3d = w16se + "wScene3d";
-        public static readonly XName wShadow = w16se + "wShadow";
-        public static readonly XName wTextFill = w16se + "wTextFill";
-        public static readonly XName wTextOutline = w16se + "wTextOutline";
-        public static readonly XName xfrm = w16se + "xfrm";
-    }
-
-    public static class W16CID
-    {
-        public static readonly XNamespace w16cid =
-            "http://schemas.microsoft.com/office/word/2016/wordml/cid";
-        public static readonly XName algn = w16cid + "algn";
-        public static readonly XName alpha = w16cid + "alpha";
-        public static readonly XName ang = w16cid + "ang";
-        public static readonly XName b = w16cid + "b";
-        public static readonly XName bevel = w16cid + "bevel";
-        public static readonly XName bevelB = w16cid + "bevelB";
-        public static readonly XName bevelT = w16cid + "bevelT";
-        public static readonly XName blurRad = w16cid + "blurRad";
-        public static readonly XName camera = w16cid + "camera";
-        public static readonly XName cap = w16cid + "cap";
-        public static readonly XName checkbox = w16cid + "checkbox";
-        public static readonly XName _checked = w16cid + "checked";
-        public static readonly XName checkedState = w16cid + "checkedState";
-        public static readonly XName cmpd = w16cid + "cmpd";
-        public static readonly XName cntxtAlts = w16cid + "cntxtAlts";
-        public static readonly XName cNvContentPartPr = w16cid + "cNvContentPartPr";
-        public static readonly XName conflictMode = w16cid + "conflictMode";
-        public static readonly XName contentPart = w16cid + "contentPart";
-        public static readonly XName contourClr = w16cid + "contourClr";
-        public static readonly XName contourW = w16cid + "contourW";
-        public static readonly XName defaultImageDpi = w16cid + "defaultImageDpi";
-        public static readonly XName dir = w16cid + "dir";
-        public static readonly XName discardImageEditingData = w16cid + "discardImageEditingData";
-        public static readonly XName dist = w16cid + "dist";
-        public static readonly XName docId = w16cid + "docId";
-        public static readonly XName editId = w16cid + "editId";
-        public static readonly XName enableOpenTypeKerning = w16cid + "enableOpenTypeKerning";
-        public static readonly XName endA = w16cid + "endA";
-        public static readonly XName endPos = w16cid + "endPos";
-        public static readonly XName entityPicker = w16cid + "entityPicker";
-        public static readonly XName extrusionClr = w16cid + "extrusionClr";
-        public static readonly XName extrusionH = w16cid + "extrusionH";
-        public static readonly XName fadeDir = w16cid + "fadeDir";
-        public static readonly XName fillToRect = w16cid + "fillToRect";
-        public static readonly XName font = w16cid + "font";
-        public static readonly XName glow = w16cid + "glow";
-        public static readonly XName gradFill = w16cid + "gradFill";
-        public static readonly XName gs = w16cid + "gs";
-        public static readonly XName gsLst = w16cid + "gsLst";
-        public static readonly XName h = w16cid + "h";
-        public static readonly XName hueMod = w16cid + "hueMod";
-        public static readonly XName id = w16cid + "id";
-        public static readonly XName kx = w16cid + "kx";
-        public static readonly XName ky = w16cid + "ky";
-        public static readonly XName l = w16cid + "l";
-        public static readonly XName lat = w16cid + "lat";
-        public static readonly XName ligatures = w16cid + "ligatures";
-        public static readonly XName lightRig = w16cid + "lightRig";
-        public static readonly XName lim = w16cid + "lim";
-        public static readonly XName lin = w16cid + "lin";
-        public static readonly XName lon = w16cid + "lon";
-        public static readonly XName lumMod = w16cid + "lumMod";
-        public static readonly XName lumOff = w16cid + "lumOff";
-        public static readonly XName miter = w16cid + "miter";
-        public static readonly XName noFill = w16cid + "noFill";
-        public static readonly XName numForm = w16cid + "numForm";
-        public static readonly XName numSpacing = w16cid + "numSpacing";
-        public static readonly XName nvContentPartPr = w16cid + "nvContentPartPr";
-        public static readonly XName paraId = w16cid + "paraId";
-        public static readonly XName path = w16cid + "path";
-        public static readonly XName pos = w16cid + "pos";
-        public static readonly XName props3d = w16cid + "props3d";
-        public static readonly XName prst = w16cid + "prst";
-        public static readonly XName prstDash = w16cid + "prstDash";
-        public static readonly XName prstMaterial = w16cid + "prstMaterial";
-        public static readonly XName r = w16cid + "r";
-        public static readonly XName rad = w16cid + "rad";
-        public static readonly XName reflection = w16cid + "reflection";
-        public static readonly XName rev = w16cid + "rev";
-        public static readonly XName rig = w16cid + "rig";
-        public static readonly XName rot = w16cid + "rot";
-        public static readonly XName round = w16cid + "round";
-        public static readonly XName sat = w16cid + "sat";
-        public static readonly XName satMod = w16cid + "satMod";
-        public static readonly XName satOff = w16cid + "satOff";
-        public static readonly XName scaled = w16cid + "scaled";
-        public static readonly XName scene3d = w16cid + "scene3d";
-        public static readonly XName schemeClr = w16cid + "schemeClr";
-        public static readonly XName shade = w16cid + "shade";
-        public static readonly XName shadow = w16cid + "shadow";
-        public static readonly XName solidFill = w16cid + "solidFill";
-        public static readonly XName srgbClr = w16cid + "srgbClr";
-        public static readonly XName stA = w16cid + "stA";
-        public static readonly XName stPos = w16cid + "stPos";
-        public static readonly XName styleSet = w16cid + "styleSet";
-        public static readonly XName stylisticSets = w16cid + "stylisticSets";
-        public static readonly XName sx = w16cid + "sx";
-        public static readonly XName sy = w16cid + "sy";
-        public static readonly XName t = w16cid + "t";
-        public static readonly XName textFill = w16cid + "textFill";
-        public static readonly XName textId = w16cid + "textId";
-        public static readonly XName textOutline = w16cid + "textOutline";
-        public static readonly XName tint = w16cid + "tint";
-        public static readonly XName uncheckedState = w16cid + "uncheckedState";
-        public static readonly XName val = w16cid + "val";
-        public static readonly XName w = w16cid + "w";
-        public static readonly XName wProps3d = w16cid + "wProps3d";
-        public static readonly XName wScene3d = w16cid + "wScene3d";
-        public static readonly XName wShadow = w16cid + "wShadow";
-        public static readonly XName wTextFill = w16cid + "wTextFill";
-        public static readonly XName wTextOutline = w16cid + "wTextOutline";
-        public static readonly XName xfrm = w16cid + "xfrm";
     }
 
     public static class WE
@@ -6398,47 +5959,5 @@ listSeparator
             : base(string.Format("The worksheet ({0}) already exists.", sheetName))
         {
         }
-    }
-
-    public static class NamespaceAttributeUtil
-    {
-        private static readonly XAttribute[] BaseNamespaceAttributes =
-        {
-            new XAttribute(XNamespace.Xmlns + "wpc", WPC.wpc),
-            new XAttribute(XNamespace.Xmlns + "mc", MC.mc),
-            new XAttribute(XNamespace.Xmlns + "o", O.o),
-            new XAttribute(XNamespace.Xmlns + "r", R.r),
-            new XAttribute(XNamespace.Xmlns + "m", M.m),
-            new XAttribute(XNamespace.Xmlns + "v", VML.vml),
-            new XAttribute(XNamespace.Xmlns + "wp14", WP14.wp14),
-            new XAttribute(XNamespace.Xmlns + "wp", WP.wp),
-            new XAttribute(XNamespace.Xmlns + "w10", W10.w10),
-            new XAttribute(XNamespace.Xmlns + "w", W.w),
-            new XAttribute(XNamespace.Xmlns + "w14", W14.w14),
-            new XAttribute(XNamespace.Xmlns + "w15", W15.w15),
-            new XAttribute(XNamespace.Xmlns + "w16cid", W16CID.w16cid),
-            new XAttribute(XNamespace.Xmlns + "w16se", W16SE.w16se),
-            new XAttribute(XNamespace.Xmlns + "wpg", WPG.wpg),
-            new XAttribute(XNamespace.Xmlns + "wpi", WPI.wpi),
-            new XAttribute(XNamespace.Xmlns + "wne", WNE.wne),
-            new XAttribute(XNamespace.Xmlns + "wps", WPS.wps),
-        };
-
-        private static readonly XAttribute[] CommonNamespaceAttributes =
-        {
-            new XAttribute(MC.Ignorable, "w14 wp14 w15 w16se w16cid"),
-        };
-
-        private static readonly XAttribute[] PowerToolsSpecificNamespaceAttributes =
-        {
-            new XAttribute(XNamespace.Xmlns + "pt", PtOpenXml.pt),
-            new XAttribute(MC.Ignorable, "w14 wp14 w15 w16se w16cid pt"),
-        };
-
-        public static readonly XAttribute[] NamespaceAttributes =
-            BaseNamespaceAttributes.Concat(CommonNamespaceAttributes).ToArray();
-
-        public static readonly XAttribute[] PowerToolsNamespaceAttributes =
-            BaseNamespaceAttributes.Concat(PowerToolsSpecificNamespaceAttributes).ToArray();
     }
 }

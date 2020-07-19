@@ -1,29 +1,5 @@
-﻿/***************************************************************************
-
-Copyright (c) Microsoft Corporation 2012-2015.
-
-This code is licensed using the Microsoft Public License (Ms-PL).  The text of the license can be found here:
-
-http://www.microsoft.com/resources/sharedsource/licensingbasics/publiclicense.mspx
-
-Published at http://OpenXmlDeveloper.org
-Resource Center and Documentation: http://openxmldeveloper.org/wiki/w/wiki/powertools-for-open-xml.aspx
-
-Developer: Eric White
-Blog: http://www.ericwhite.com
-Twitter: @EricWhiteDev
-Email: eric@ericwhite.com
-
-Version: 2.5.01
- * Fix issue where a specific relationship was not being created.
-
-Version: 2.5.00
- * Fix to optimize storing of images when the same image is on more than one slide.
-
-Version: 2.4.00
- * Update to PresentationBuilder to make it much more robust.
-
-***************************************************************************/
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
 using System.Collections.Generic;
@@ -659,7 +635,7 @@ namespace OpenXmlPowerTools
             IEnumerable<XElement> newContent, List<ImageData> images, List<MediaData> mediaList)
         {
             var relevantElements = newContent.DescendantsAndSelf()
-                .Where(d => d.Name == VML.imagedata || d.Name == VML.fill || d.Name == VML.stroke || d.Name == A.blip)
+                .Where(d => d.Name == VML.imagedata || d.Name == VML.fill || d.Name == VML.stroke || d.Name == A.blip || d.Name == SVG.svgBlip)
                 .ToList();
             foreach (XElement imageReference in relevantElements)
             {

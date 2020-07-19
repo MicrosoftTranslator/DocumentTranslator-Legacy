@@ -1,44 +1,5 @@
-﻿/***************************************************************************
-
-Copyright (c) Microsoft Corporation 2012-2015.
-
-This code is licensed using the Microsoft Public License (Ms-PL).  The text of the license can be found here:
-
-http://www.microsoft.com/resources/sharedsource/licensingbasics/publiclicense.mspx
-
-Published at http://OpenXmlDeveloper.org
-Resource Center and Documentation: http://openxmldeveloper.org/wiki/w/wiki/powertools-for-open-xml.aspx
-
-Developer: Eric White
-Blog: http://www.ericwhite.com
-Twitter: @EricWhiteDev
-Email: eric@ericwhite.com
-
-Version: 3.1.12
- * Improve layout of list items, using "display: inline-block" with a width rule.
- * Streamline HTML, omitting unnecessary formatting-related HTML (e.g., <b>bold</b>, <i>italic</i>).
- * Use HTML5 instead of HTML4 meta tags (e.g., for charset).
- * Produce correctly formatted decimal numbers (e.g., "0.5in" instead of "0,5in") also for non-US locales.
- * Produce correct color rules (e.g., "#000000" instead of "#auto").
- * Added quick fix to CalcWidthOfRunInTwips to better accommodate &nbsp; entities in the layout.
- * Make ProcessImage() publicly accessible.
- * Refactor and streamline code.
-
-Version: 2.7.03
- * Support for RTL languages.
-
-Version: 2.7.00
- * Uses new ListItemRetriever.
- * Better support for RTL languages.
-
-Version: 2.6.01
- * Add languageCultureName parameter to GetListItemText methods.  This enables a single implementation to handle
-   more than one language/culture where appropriate.
-
-Version: 2.6.00
- * Re-write to support styles and rich content
-
-***************************************************************************/
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
 using System.Collections.Generic;
@@ -47,7 +8,6 @@ using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Windows.Forms;
 using System.Xml.Linq;
 using DocumentFormat.OpenXml.Packaging;
 
@@ -2370,74 +2330,9 @@ namespace OpenXmlPowerTools
                 runText = sb.ToString();
             }
 
-            try
-            {
-                using (Font f = new Font(ff, (float) sz/2f, fs))
-                {
-                    const TextFormatFlags tff = TextFormatFlags.NoPadding;
-                    var proposedSize = new Size(int.MaxValue, int.MaxValue);
-                    var sf = TextRenderer.MeasureText(runText, f, proposedSize, tff);
-                        // sf returns size in pixels
-                    const decimal dpi = 96m;
-                    var twip = (int) (((sf.Width/dpi)*1440m)/multiplier + tabLength*1440m);
-                    return twip;
-                }
-            }
-            catch (ArgumentException)
-            {
-                try
-                {
-                    const FontStyle fs2 = FontStyle.Regular;
-                    using (Font f = new Font(ff, (float) sz/2f, fs2))
-                    {
-                        const TextFormatFlags tff = TextFormatFlags.NoPadding;
-                        var proposedSize = new Size(int.MaxValue, int.MaxValue);
-                        var sf = TextRenderer.MeasureText(runText, f, proposedSize, tff);
-                            // sf returns size in pixels
-                        const decimal dpi = 96m;
-                        var twip = (int) (((sf.Width/dpi)*1440m)/multiplier + tabLength*1440m);
-                        return twip;
-                    }
-                }
-                catch (ArgumentException)
-                {
-                    const FontStyle fs2 = FontStyle.Bold;
-                    try
-                    {
-                        using (var f = new Font(ff, (float) sz/2f, fs2))
-                        {
-                            const TextFormatFlags tff = TextFormatFlags.NoPadding;
-                            var proposedSize = new Size(int.MaxValue, int.MaxValue);
-                            var sf = TextRenderer.MeasureText(runText, f, proposedSize, tff);
-                                // sf returns size in pixels
-                            const decimal dpi = 96m;
-                            var twip = (int) (((sf.Width/dpi)*1440m)/multiplier + tabLength*1440m);
-                            return twip;
-                        }
-                    }
-                    catch (ArgumentException)
-                    {
-                        // if both regular and bold fail, then get metrics for Times New Roman
-                        // use the original FontStyle (in fs)
-                        var ff2 = new FontFamily("Times New Roman");
-                        using (var f = new Font(ff2, (float) sz/2f, fs))
-                        {
-                            const TextFormatFlags tff = TextFormatFlags.NoPadding;
-                            var proposedSize = new Size(int.MaxValue, int.MaxValue);
-                            var sf = TextRenderer.MeasureText(runText, f, proposedSize, tff);
-                                // sf returns size in pixels
-                            const decimal dpi = 96m;
-                            var twip = (int) (((sf.Width/dpi)*1440m)/multiplier + tabLength*1440m);
-                            return twip;
-                        }
-                    }
-                }
-            }
-            catch (OverflowException)
-            {
-                // This happened on Azure but interestingly enough not while testing locally.
-                return 0;
-            }
+            var w = MetricsGetter.GetTextWidth(ff, fs, sz, runText);
+
+            return (int)(w / 96m * 1440m / multiplier + tabLength * 1440m);
         }
 
         private static void InsertAppropriateNonbreakingSpaces(WordprocessingDocument wordDoc)

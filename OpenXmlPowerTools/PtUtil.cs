@@ -1,23 +1,5 @@
-﻿/***************************************************************************
-
-Copyright (c) Microsoft Corporation 2012-2015.
-
-This code is licensed using the Microsoft Public License (Ms-PL).  The text of the license can be found here:
-
-http://www.microsoft.com/resources/sharedsource/licensingbasics/publiclicense.mspx
-
-Published at http://OpenXmlDeveloper.org
-Resource Center and Documentation: http://openxmldeveloper.org/wiki/w/wiki/powertools-for-open-xml.aspx
-
-Developer: Eric White
-Blog: http://www.ericwhite.com
-Twitter: @EricWhiteDev
-Email: eric@ericwhite.com
-
-Version: 2.6.00
- * Enhancements to support HtmlConverter.cs
-
-***************************************************************************/
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
 using System.Collections;
@@ -26,6 +8,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -35,6 +18,32 @@ namespace OpenXmlPowerTools
 {
     public static class PtUtils
     {
+        public static string SHA1HashStringForUTF8String(string s)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(s);
+            var sha1 = SHA1.Create();
+            byte[] hashBytes = sha1.ComputeHash(bytes);
+            return HexStringFromBytes(hashBytes);
+        }
+
+        public static string SHA1HashStringForByteArray(byte[] bytes)
+        {
+            var sha1 = SHA1.Create();
+            byte[] hashBytes = sha1.ComputeHash(bytes);
+            return HexStringFromBytes(hashBytes);
+        }
+
+        public static string HexStringFromBytes(byte[] bytes)
+        {
+            var sb = new StringBuilder();
+            foreach (byte b in bytes)
+            {
+                var hex = b.ToString("x2");
+                sb.Append(hex);
+            }
+            return sb.ToString();
+        }
+
         public static string NormalizeDirName(string dirName)
         {
             string d = dirName.Replace('\\', '/');
@@ -1168,7 +1177,7 @@ namespace OpenXmlPowerTools
             public TimeSpan Time;
         }
 
-        private static string LastBucket = null;
+        public static string LastBucket = null;
         private static DateTime LastTime;
         private static Dictionary<string, BucketInfo> Buckets;
 
@@ -1176,23 +1185,36 @@ namespace OpenXmlPowerTools
         {
             DateTime now = DateTime.Now;
             if (LastBucket != null)
-            {
-                TimeSpan d = now - LastTime;
-                if (Buckets.ContainsKey(LastBucket))
-                {
-                    Buckets[LastBucket].Count = Buckets[LastBucket].Count + 1;
-                    Buckets[LastBucket].Time += d;
-                }
-                else
-                {
-                    Buckets.Add(LastBucket, new BucketInfo()
-                    {
-                        Count = 1,
-                        Time = d,
-                    });
-                }
-            }
+                AddToBuckets(now);
             LastBucket = bucket;
+            LastTime = now;
+        }
+
+        public static void End()
+        {
+            DateTime now = DateTime.Now;
+            if (LastBucket != null)
+                AddToBuckets(now);
+            LastBucket = null;
+        }
+
+        private static void AddToBuckets(DateTime now)
+        {
+            TimeSpan d = now - LastTime;
+
+            if (Buckets.ContainsKey(LastBucket))
+            {
+                Buckets[LastBucket].Count += 1;
+                Buckets[LastBucket].Time += d;
+            }
+            else
+            {
+                Buckets.Add(LastBucket, new BucketInfo()
+                {
+                    Count = 1,
+                    Time = d,
+                });
+            }
             LastTime = now;
         }
 
@@ -1204,13 +1226,27 @@ namespace OpenXmlPowerTools
                 string ts = bucket.Value.Time.ToString();
                 if (ts.Contains('.'))
                     ts = ts.Substring(0, ts.Length - 5);
-                string s = bucket.Key.PadRight(60, '-') + "  " + string.Format("{0:00000000}", bucket.Value.Count) + "  " + ts;
+                string s = bucket.Key.PadRight(80, '-') + "  " + string.Format("{0:00000000}", bucket.Value.Count) + "  " + ts;
                 sb.Append(s + Environment.NewLine);
             }
             TimeSpan total = Buckets
                 .Aggregate(TimeSpan.Zero, (t, b) => t + b.Value.Time);
             var tz = total.ToString();
             sb.Append(string.Format("Total: {0}", tz.Substring(0, tz.Length - 5)));
+            return sb.ToString();
+        }
+
+        public static string DumpBucketsToCsvByKey()
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (var bucket in Buckets.OrderBy(b => b.Key))
+            {
+                string ts = bucket.Value.Time.TotalMilliseconds.ToString();
+                if (ts.Contains('.'))
+                    ts = ts.Substring(0, ts.Length - 5);
+                string s = bucket.Key + "," + bucket.Value.Count.ToString() + "," + ts;
+                sb.Append(s + Environment.NewLine);
+            }
             return sb.ToString();
         }
 
@@ -1222,7 +1258,7 @@ namespace OpenXmlPowerTools
                 string ts = bucket.Value.Time.ToString();
                 if (ts.Contains('.'))
                     ts = ts.Substring(0, ts.Length - 5);
-                string s = bucket.Key.PadRight(60, '-') + "  " + string.Format("{0:00000000}", bucket.Value.Count) + "  " + ts;
+                string s = bucket.Key.PadRight(80, '-') + "  " + string.Format("{0:00000000}", bucket.Value.Count) + "  " + ts;
                 sb.Append(s + Environment.NewLine);
             }
             TimeSpan total = Buckets
@@ -1234,10 +1270,11 @@ namespace OpenXmlPowerTools
 
         public static void Init()
         {
+            LastBucket = null;
             Buckets = new Dictionary<string, BucketInfo>();
         }
     }
-
+    
     public class XEntity : XText
     {
         public override void WriteTo(XmlWriter writer)

@@ -1,23 +1,9 @@
-﻿/***************************************************************************
-
-Copyright (c) Microsoft Corporation 2012-2015.
-
-This code is licensed using the Microsoft Public License (Ms-PL).  The text of the license can be found here:
-
-http://www.microsoft.com/resources/sharedsource/licensingbasics/publiclicense.mspx
-
-Published at http://OpenXmlDeveloper.org
-Resource Center and Documentation: http://openxmldeveloper.org/wiki/w/wiki/powertools-for-open-xml.aspx
-
-Developer: Eric White
-Blog: http://www.ericwhite.com
-Twitter: @EricWhiteDev
-Email: eric@ericwhite.com
-
-***************************************************************************/
+﻿// Copyright (c) Microsoft. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.IO.Packaging;
 using System.Linq;
@@ -39,6 +25,12 @@ namespace OpenXmlPowerTools
 
     public class MetricsGetter
     {
+        private static Lazy<Graphics> Graphics { get; } = new Lazy<Graphics>(() =>
+        {
+            Image image = new Bitmap(1, 1);
+            return System.Drawing.Graphics.FromImage(image);
+        });
+
         public static XElement GetMetrics(string fileName, MetricsGetterSettings settings)
         {
             FileInfo fi = new FileInfo(fileName);
@@ -114,6 +106,59 @@ namespace OpenXmlPowerTools
                 new XAttribute(H.FileType, "WordprocessingML"),
                 new XAttribute(H.Error, "Unknown error, metrics not determined"));
             return metrics;
+        }
+
+        private static int _getTextWidth(FontFamily ff, FontStyle fs, decimal sz, string text)
+        {
+            try
+            {
+                using (var f = new Font(ff, (float)sz / 2f, fs))
+                {
+                    var proposedSize = new Size(int.MaxValue, int.MaxValue);
+                    var sf = Graphics.Value.MeasureString(text, f, proposedSize);
+                    return (int) sf.Width;
+                }
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+
+        public static int GetTextWidth(FontFamily ff, FontStyle fs, decimal sz, string text)
+        {
+            try
+            {
+                return _getTextWidth(ff, fs, sz, text);
+            }
+            catch (ArgumentException)
+            {
+                try
+                {
+                    const FontStyle fs2 = FontStyle.Regular;
+                    return _getTextWidth(ff, fs2, sz, text);
+                }
+                catch (ArgumentException)
+                {
+                    const FontStyle fs2 = FontStyle.Bold;
+                    try
+                    {
+                        return _getTextWidth(ff, fs2, sz, text);
+                    }
+                    catch (ArgumentException)
+                    {
+                        // if both regular and bold fail, then get metrics for Times New Roman
+                        // use the original FontStyle (in fs)
+                        var ff2 = new FontFamily("Times New Roman");
+                        return _getTextWidth(ff2, fs, sz, text);
+                    }
+                }
+            }
+            catch (OverflowException)
+            {
+                // This happened on Azure but interestingly enough not while testing locally.
+                return 0;
+            }
         }
 
         private static Uri FixUri(string brokenUri)
