@@ -105,7 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="DocumentFormat.OpenXml">
-      <Version>2.11.3</Version>
+      <Version>2.11.2</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.11.24</Version>

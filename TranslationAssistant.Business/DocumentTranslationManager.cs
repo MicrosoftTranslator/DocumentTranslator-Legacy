@@ -743,13 +743,13 @@ namespace TranslationAssistant.Business
                     RemoveEndAndFootNotes = true,
                     RemoveFieldCodes = true,
                     RemoveGoBackBookmark = true,
-                    RemoveHyperlinks = false,   //false
+                    //RemoveHyperlinks = false,
                     RemoveLastRenderedPageBreak = true,
                     RemoveMarkupForDocumentComparison = true,
                     RemovePermissions = false,
                     RemoveProof = true,
                     RemoveRsidInfo = true,
-                    RemoveSmartTags = false,    //setting this to false may reduce translation quality, but if true some documents have XML format errors when opening
+                    RemoveSmartTags = true,
                     RemoveSoftHyphens = true,
                     RemoveWebHidden = true,
                     ReplaceTabsWithSpaces = false

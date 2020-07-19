@@ -1,5 +1,20 @@
-﻿// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿/***************************************************************************
+
+Copyright (c) Microsoft Corporation 2012-2015.
+
+This code is licensed using the Microsoft Public License (Ms-PL).  The text of the license can be found here:
+
+http://www.microsoft.com/resources/sharedsource/licensingbasics/publiclicense.mspx
+
+Published at http://OpenXmlDeveloper.org
+Resource Center and Documentation: http://openxmldeveloper.org/wiki/w/wiki/powertools-for-open-xml.aspx
+
+Developer: Eric White
+Blog: http://www.ericwhite.com
+Twitter: @EricWhiteDev
+Email: eric@ericwhite.com
+
+***************************************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -53,7 +68,7 @@ namespace OpenXmlPowerTools
 
                     if (!string.IsNullOrEmpty(foreColor))
                     {
-                        int colorValue = ColorParser.FromName(foreColor).ToArgb();
+                        int colorValue = System.Drawing.Color.FromName(foreColor).ToArgb();
                         if (colorValue == 0)
                             throw new OpenXmlPowerToolsException(String.Format("Add-DocxText: The specified color {0} is unsupported, Please specify the valid color. Ex, Red, Green", foreColor));
 
@@ -66,7 +81,7 @@ namespace OpenXmlPowerTools
 
                     if (!string.IsNullOrEmpty(backColor))
                     {
-                        int colorShade = ColorParser.FromName(backColor).ToArgb();
+                        int colorShade = System.Drawing.Color.FromName(backColor).ToArgb();
                         if (colorShade == 0)
                             throw new OpenXmlPowerToolsException(String.Format("Add-DocxText: The specified color {0} is unsupported, Please specify the valid color. Ex, Red, Green", foreColor));
 

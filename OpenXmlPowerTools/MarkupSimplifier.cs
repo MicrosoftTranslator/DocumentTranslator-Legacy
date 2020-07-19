@@ -1,5 +1,22 @@
-﻿// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿/***************************************************************************
+
+Copyright (c) Microsoft Corporation 2012-2015.
+
+This code is licensed using the Microsoft Public License (Ms-PL).  The text of the license can be found here:
+
+http://www.microsoft.com/resources/sharedsource/licensingbasics/publiclicense.mspx
+
+Published at http://OpenXmlDeveloper.org
+Resource Center and Documentation: http://openxmldeveloper.org/wiki/w/wiki/powertools-for-open-xml.aspx
+
+Developer: Eric White
+Blog: http://www.ericwhite.com
+Twitter: @EricWhiteDev
+Email: eric@ericwhite.com
+
+Version: 2.6.00
+
+***************************************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -573,27 +590,7 @@ namespace OpenXmlPowerTools
 
             if (settings.NormalizeXml)
             {
-                XAttribute[] nsAttrs =
-                {
-                    new XAttribute(XNamespace.Xmlns + "wpc", WPC.wpc),
-                    new XAttribute(XNamespace.Xmlns + "mc", MC.mc),
-                    new XAttribute(XNamespace.Xmlns + "o", O.o),
-                    new XAttribute(XNamespace.Xmlns + "r", R.r),
-                    new XAttribute(XNamespace.Xmlns + "m", M.m),
-                    new XAttribute(XNamespace.Xmlns + "v", VML.vml),
-                    new XAttribute(XNamespace.Xmlns + "wp14", WP14.wp14),
-                    new XAttribute(XNamespace.Xmlns + "wp", WP.wp),
-                    new XAttribute(XNamespace.Xmlns + "w10", W10.w10),
-                    new XAttribute(XNamespace.Xmlns + "w", W.w),
-                    new XAttribute(XNamespace.Xmlns + "w14", W14.w14),
-                    new XAttribute(XNamespace.Xmlns + "w15", W15.w15),
-                    new XAttribute(XNamespace.Xmlns + "w16se", W16SE.w16se),
-                    new XAttribute(XNamespace.Xmlns + "wpg", WPG.wpg),
-                    new XAttribute(XNamespace.Xmlns + "wpi", WPI.wpi),
-                    new XAttribute(XNamespace.Xmlns + "wne", WNE.wne),
-                    new XAttribute(XNamespace.Xmlns + "wps", WPS.wps),
-                    new XAttribute(MC.Ignorable, "w14 wp14 w15 w16se"),
-                };
+                XAttribute[] nsAttrs = NamespaceAttributeUtil.NamespaceAttributes;
 
                 XDocument newXDoc = Normalize(new XDocument(newRoot), null);
                 newRoot = newXDoc.Root;

@@ -1,7 +1,4 @@
-﻿// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
-
-/***************************************************************************
+﻿/***************************************************************************
 
 Copyright (c) Microsoft Corporation 2012-2015.
 
@@ -811,10 +808,12 @@ namespace OpenXmlPowerTools.HtmlToWml.CSS
                     }
                     if (number) { return false; }
 
-                    if (ColorParser.IsValidName(m_value))
+                    try
                     {
+                        KnownColor kc = (KnownColor)Enum.Parse(typeof(KnownColor), m_value, true);
                         return true;
                     }
+                    catch { }
                 }
                 return false;
             }
@@ -836,10 +835,13 @@ namespace OpenXmlPowerTools.HtmlToWml.CSS
             }
             else
             {
-                if (ColorParser.TryFromName(m_value, out var c))
+                try
                 {
+                    KnownColor kc = (KnownColor)Enum.Parse(typeof(KnownColor), m_value, true);
+                    Color c = Color.FromKnownColor(kc);
                     return c;
                 }
+                catch { }
             }
             int r = ConvertFromHex(hex.Substring(0, 2));
             int g = ConvertFromHex(hex.Substring(2, 2));
@@ -1521,7 +1523,8 @@ namespace OpenXmlPowerTools.HtmlToWml.CSS
                         return false;
                     }
 
-                    if (ColorParser.IsValidName(m_val))
+                    KnownColor kc;
+                    if (Enum.TryParse(m_val, true, out kc))
                     {
                         return true;
                     }
@@ -1646,10 +1649,13 @@ namespace OpenXmlPowerTools.HtmlToWml.CSS
             }
             else
             {
-                if (ColorParser.TryFromName(m_val, out var c))
+                try
                 {
+                    KnownColor kc = (KnownColor)Enum.Parse(typeof(KnownColor), m_val, true);
+                    Color c = Color.FromKnownColor(kc);
                     return c;
                 }
+                catch { }
             }
             if (hex.Length == 3)
             {

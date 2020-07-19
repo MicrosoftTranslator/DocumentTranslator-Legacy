@@ -1,5 +1,20 @@
-﻿// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+﻿/***************************************************************************
+
+Copyright (c) Microsoft Corporation 2012-2015.
+
+This code is licensed using the Microsoft Public License (Ms-PL).  The text of the license can be found here:
+
+http://www.microsoft.com/resources/sharedsource/licensingbasics/publiclicense.mspx
+
+Published at http://OpenXmlDeveloper.org
+Resource Center and Documentation: http://openxmldeveloper.org/wiki/w/wiki/powertools-for-open-xml.aspx
+
+Developer: Eric White
+Blog: http://www.ericwhite.com
+Twitter: @EricWhiteDev
+Email: eric@ericwhite.com
+
+***************************************************************************/
 
 /***************************************************************************
  * HTML elements handled in this module:
@@ -109,6 +124,7 @@ using OpenXmlPowerTools;
 using OpenXmlPowerTools.HtmlToWml;
 using OpenXmlPowerTools.HtmlToWml.CSS;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace OpenXmlPowerTools.HtmlToWml
 {
@@ -292,23 +308,7 @@ namespace OpenXmlPowerTools.HtmlToWml
 
         private static void UpdateMainDocumentPart(WordprocessingDocument wDoc, XElement html, HtmlToWmlConverterSettings settings)
         {
-            XDocument xDoc = XDocument.Parse(
-@"<w:document xmlns:wpc='http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas'
-            xmlns:mc='http://schemas.openxmlformats.org/markup-compatibility/2006'
-            xmlns:o='urn:schemas-microsoft-com:office:office'
-            xmlns:r='http://schemas.openxmlformats.org/officeDocument/2006/relationships'
-            xmlns:m='http://schemas.openxmlformats.org/officeDocument/2006/math'
-            xmlns:v='urn:schemas-microsoft-com:vml'
-            xmlns:wp14='http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing'
-            xmlns:wp='http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing'
-            xmlns:w10='urn:schemas-microsoft-com:office:word'
-            xmlns:w='http://schemas.openxmlformats.org/wordprocessingml/2006/main'
-            xmlns:w14='http://schemas.microsoft.com/office/word/2010/wordml'
-            xmlns:wpg='http://schemas.microsoft.com/office/word/2010/wordprocessingGroup'
-            xmlns:wpi='http://schemas.microsoft.com/office/word/2010/wordprocessingInk'
-            xmlns:wne='http://schemas.microsoft.com/office/word/2006/wordml'
-            xmlns:wps='http://schemas.microsoft.com/office/word/2010/wordprocessingShape'
-            mc:Ignorable='w14 wp14'/>");
+            var xDoc = new XDocument(new XElement(W.document, NamespaceAttributeUtil.NamespaceAttributes));            
 
             XElement body = new XElement(W.body,
                         Transform(html, settings, wDoc, NextExpected.Paragraph, false),
@@ -1214,7 +1214,65 @@ namespace OpenXmlPowerTools.HtmlToWml
                 runText = sb.ToString();
             }
 
-            return MetricsGetter.GetTextWidth(ff, fs, sz, runText) / multiplier;
+            try
+            {
+                using (Font f = new Font(ff, (float)sz / 2f, fs))
+                {
+                    const TextFormatFlags tff = TextFormatFlags.NoPadding;
+                    var proposedSize = new Size(int.MaxValue, int.MaxValue);
+                    var sf = TextRenderer.MeasureText(runText, f, proposedSize, tff);
+                    // sf returns size in pixels
+                    return sf.Width / multiplier;
+                }
+            }
+            catch (ArgumentException)
+            {
+                try
+                {
+                    const FontStyle fs2 = FontStyle.Regular;
+                    using (Font f = new Font(ff, (float)sz / 2f, fs2))
+                    {
+                        const TextFormatFlags tff = TextFormatFlags.NoPadding;
+                        var proposedSize = new Size(int.MaxValue, int.MaxValue);
+                        var sf = TextRenderer.MeasureText(runText, f, proposedSize, tff);
+                        return sf.Width / multiplier;
+                    }
+                }
+                catch (ArgumentException)
+                {
+                    const FontStyle fs2 = FontStyle.Bold;
+                    try
+                    {
+                        using (var f = new Font(ff, (float)sz / 2f, fs2))
+                        {
+                            const TextFormatFlags tff = TextFormatFlags.NoPadding;
+                            var proposedSize = new Size(int.MaxValue, int.MaxValue);
+                            var sf = TextRenderer.MeasureText(runText, f, proposedSize, tff);
+                            // sf returns size in pixels
+                            return sf.Width / multiplier;
+                        }
+                    }
+                    catch (ArgumentException)
+                    {
+                        // if both regular and bold fail, then get metrics for Times New Roman
+                        // use the original FontStyle (in fs)
+                        var ff2 = new FontFamily("Times New Roman");
+                        using (var f = new Font(ff2, (float)sz / 2f, fs))
+                        {
+                            const TextFormatFlags tff = TextFormatFlags.NoPadding;
+                            var proposedSize = new Size(int.MaxValue, int.MaxValue);
+                            var sf = TextRenderer.MeasureText(runText, f, proposedSize, tff);
+                            // sf returns size in pixels
+                            return sf.Width / multiplier;
+                        }
+                    }
+                }
+            }
+            catch (OverflowException)
+            {
+                // This happened on Azure but interestingly enough not while testing locally.
+                return 0;
+            }
         }
 
         // The algorithm for this method comes from the implementer notes in [MS-OI29500].pdf
