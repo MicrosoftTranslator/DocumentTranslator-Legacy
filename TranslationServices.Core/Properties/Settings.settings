@@ -32,5 +32,11 @@
     <Setting Name="ShowExperimental" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="Region" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="LinkType" Type="TranslationAssistant.TranslationServices.Core.AzureLinkType" Scope="User">
+      <Value Profile="(Default)">Global</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

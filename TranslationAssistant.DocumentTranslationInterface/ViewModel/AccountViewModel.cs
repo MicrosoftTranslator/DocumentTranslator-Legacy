@@ -37,6 +37,21 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private string categoryID;
 
         /// <summary>
+        ///     The Azure link type.
+        /// </summary>
+        private TranslationServices.Core.AzureLinkType linkType;
+
+        /// <summary>
+        ///     Indicate whether to show region.
+        /// </summary>
+        private bool showRegion;
+
+        /// <summary>
+        ///     The region string.
+        /// </summary>
+        private string region;
+
+        /// <summary>
         /// Use the Government instance of Azure (true) or not (false) 
         /// </summary>
         private bool useAzureGovernment;
@@ -107,6 +122,49 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             }
         }
 
+        public TranslationServices.Core.AzureLinkType LinkType
+        {
+            get
+            {
+                return this.linkType;
+            }
+
+            set
+            {
+                this.linkType = value;
+                this.NotifyPropertyChanged("LinkType");
+                ShowRegion = this.linkType == TranslationServices.Core.AzureLinkType.China;
+            }
+        }
+
+        public bool ShowRegion
+        {
+            get
+            {
+                return this.showRegion;
+            }
+
+            set
+            {
+                this.showRegion = value;
+                this.NotifyPropertyChanged("ShowRegion");
+            }
+        }
+
+        public string Region
+        {
+            get
+            {
+                return this.region;
+            }
+
+            set
+            {
+                this.region = value;
+                this.NotifyPropertyChanged("Region");
+            }
+        }
+
         public bool UseAzureGovernment
         {
             get
@@ -120,6 +178,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                 this.NotifyPropertyChanged("UseAzureGovernment");
             }
         }
+
         public bool ShowExperimental
         {
             get
@@ -208,6 +267,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             }
             catch { };
             this.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey;
+            this.LinkType = TranslationServices.Core.TranslationServiceFacade.LinkType;
+            this.Region = TranslationServices.Core.TranslationServiceFacade.Region;
             this.categoryID = TranslationServices.Core.TranslationServiceFacade.CategoryID;
             this.useAzureGovernment = TranslationServices.Core.TranslationServiceFacade.UseAzureGovernment;
             this.useCustomEndpoint = TranslationServices.Core.TranslationServiceFacade.UseCustomEndpoint;
@@ -222,6 +283,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         {
             //Set the Account values and save.
             TranslationServices.Core.TranslationServiceFacade.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey.Trim();
+            TranslationServices.Core.TranslationServiceFacade.LinkType = this.LinkType;
+            TranslationServices.Core.TranslationServiceFacade.Region = this.Region.Trim();
             TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID.Trim();
             TranslationServices.Core.TranslationServiceFacade.UseAzureGovernment = this.useAzureGovernment;
             TranslationServices.Core.TranslationServiceFacade.UseCustomEndpoint = this.useCustomEndpoint;
