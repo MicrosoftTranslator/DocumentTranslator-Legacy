@@ -749,7 +749,7 @@ namespace TranslationAssistant.Business
                     RemovePermissions = false,
                     RemoveProof = true,
                     RemoveRsidInfo = true,
-                    RemoveSmartTags = true,
+                    RemoveSmartTags = false,         //setting this to false reduces translation quality, but if true some documents have XML format errors when opening
                     RemoveSoftHyphens = true,
                     RemoveWebHidden = true,
                     ReplaceTabsWithSpaces = false
