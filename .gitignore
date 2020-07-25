@@ -43,3 +43,5 @@ TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vsh
 /TranslationAssistant.AutomationToolkit.BasePlugin/obj/Release
 /TranslationAssistant.AutomationToolkit.TranslationPlugins/obj/Release
 /azure-libraries-for-net
+/OpenXmlPowerTools/bin/Debug
+/.vs/Microsoft.DocumentTranslator/DesignTimeBuild
