@@ -736,7 +736,7 @@ namespace TranslationAssistant.Business
                 OpenXmlPowerTools.SimplifyMarkupSettings settings = new OpenXmlPowerTools.SimplifyMarkupSettings
                 {
                     AcceptRevisions=true,
-                    NormalizeXml = true,         //setting this to false reduces translation quality, but if true some documents have XML format errors when opening
+                    NormalizeXml = false,         //setting this to false reduces translation quality, but if true some documents have XML format errors when opening
                     RemoveBookmarks = true,
                     RemoveComments = true,
                     RemoveContentControls = true,
@@ -749,7 +749,7 @@ namespace TranslationAssistant.Business
                     RemovePermissions = false,
                     RemoveProof = true,
                     RemoveRsidInfo = true,
-                    RemoveSmartTags = true,
+                    RemoveSmartTags = false,         //setting this to false reduces translation quality, but if true some documents have XML format errors when opening
                     RemoveSoftHyphens = true,
                     RemoveWebHidden = true,
                     ReplaceTabsWithSpaces = false
