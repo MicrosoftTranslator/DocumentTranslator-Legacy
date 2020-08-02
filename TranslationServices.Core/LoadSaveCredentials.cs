@@ -1,4 +1,6 @@
-﻿namespace TranslationAssistant.TranslationServices.Core
+﻿using System.Collections.Generic;
+
+namespace TranslationAssistant.TranslationServices.Core
 {
     public static partial class TranslationServiceFacade
     {
@@ -30,6 +32,7 @@
             Properties.Settings.Default.AppId = AppId;
             Properties.Settings.Default.UseAdvancedSettings = UseAdvancedSettings;
             Properties.Settings.Default.AzureCloud = AzureCloud;
+            EndPointAddress = SetEndPointAddress(AzureCloud);
             Properties.Settings.Default.SubscriptionRegion = AzureRegion;
             Properties.Settings.Default.UseCustomEndpoint = UseCustomEndpoint;
             Properties.Settings.Default.CustomEndpointUrl = CustomEndpointUrl;
@@ -44,10 +47,16 @@
         private static string SetEndPointAddress(string Cloud)
         {
             Endpoints.cloud_endpoint cloud_Endpoint = new Endpoints.cloud_endpoint();
-            if (Endpoints.CloudEndpoints.TryGetValue(AzureCloud, out cloud_Endpoint))
-                return "https://"+ cloud_Endpoint.endpoint;
-            else
+
+            try
+            {
+                return "https://" + Endpoints.CloudEndpoints[Cloud];
+            }
+            catch(KeyNotFoundException)
+            {
                 return "https://api.microsofttranslator.com";
+            }
+
         }
 
     }

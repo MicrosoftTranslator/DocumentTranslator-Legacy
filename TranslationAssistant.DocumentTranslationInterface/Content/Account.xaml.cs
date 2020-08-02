@@ -26,7 +26,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
     /// </summary>
     public partial class Account : UserControl
     {
-        #region Constructors and Destructors
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SettingsAppearance" /> class.
@@ -35,6 +34,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
         {
             this.InitializeComponent();
             KeyBox.Password = TranslationServices.Core.TranslationServiceFacade.AzureKey;
+            CloudSelector.Text = TranslationServices.Core.TranslationServiceFacade.AzureCloud;
+            RegionSelector.Text = TranslationServices.Core.TranslationServiceFacade.AzureRegion;
         }
 
         private void Hyperlink_OnRequestNavigate(object sender, RequestNavigateEventArgs e)
@@ -49,12 +50,14 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
         }
 
         public event EventHandler ShowExperimental_Changed;
-        #endregion
 
         private void CheckBox_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             TranslationServices.Core.TranslationServiceFacade.Initialize(true);
             ShowExperimental_Changed?.Invoke(this, EventArgs.Empty);
+        }
+        private void CloudSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
         }
 
         private void RegionSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -62,10 +65,5 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
             TranslationServices.Core.TranslationServiceFacade.AzureRegion = RegionSelector.SelectedItem.ToString();
         }
 
-        private void CloudSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            TranslationServices.Core.TranslationServiceFacade.AzureCloud = CloudSelector.SelectedItem.ToString();
-            RegionSelector.ItemsSource = TranslationServices.Core.Endpoints.GetRegions(CloudSelector.SelectedItem.ToString());
-        }
     }
 }

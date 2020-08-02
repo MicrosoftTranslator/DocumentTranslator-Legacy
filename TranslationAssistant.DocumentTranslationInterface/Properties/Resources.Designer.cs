@@ -551,7 +551,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Which Azure cloud to use.
+        ///   Looks up a localized string similar to Which Azure cloud to use. China and US government cloud require a key in that region..
         /// </summary>
         public static string Tooltip_AzureCloud {
             get {

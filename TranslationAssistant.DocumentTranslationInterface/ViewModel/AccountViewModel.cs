@@ -39,12 +39,12 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// <summary>
         /// The cloud to use 
         /// </summary>
-        private string AzureCloud;
+        private string azureCloud;
 
         /// <summary>
         /// The region to use 
         /// </summary>
-        private string AzureRegion;
+        private string azureRegion;
 
         /// <summary>
         /// Show the experimental languages 
@@ -72,12 +72,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         private string statusText;
 
         #endregion
-
-        #region Constructors and Destructors
-
-
-        #endregion
-
+                
         #region Public Properties
 
         /// <summary>
@@ -165,6 +160,32 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             {
                 this.showExperimental = value;
                 this.NotifyPropertyChanged("ShowExperimental");
+            }
+        }
+
+        public string AzureRegion
+        {
+            get
+            {
+                return this.azureRegion;
+            }
+            set
+            {
+                this.azureRegion = value;
+                this.NotifyPropertyChanged("AzureRegion");
+            }
+        }
+
+        public string AzureCloud
+        {
+            get
+            {
+                return this.azureCloud;
+            }
+            set
+            {
+                this.azureCloud = value;
+                this.NotifyPropertyChanged("AzureCloud");
             }
         }
 
@@ -258,9 +279,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             //Set the Account values and save.
             TranslationServices.Core.TranslationServiceFacade.AzureKey = TranslationServices.Core.TranslationServiceFacade.AzureKey.Trim();
             TranslationServices.Core.TranslationServiceFacade.CategoryID = this.categoryID.Trim();
-            TranslationServices.Core.TranslationServiceFacade.AzureCloud = this.AzureCloud;
-            if (this.AzureRegion.ToUpperInvariant() == "GLOBAL") TranslationServices.Core.TranslationServiceFacade.AzureRegion = null;
-            else TranslationServices.Core.TranslationServiceFacade.AzureRegion = this.AzureRegion;
+            TranslationServices.Core.TranslationServiceFacade.AzureCloud = this.azureCloud;
+            TranslationServices.Core.TranslationServiceFacade.AzureRegion = this.azureRegion;
             TranslationServices.Core.TranslationServiceFacade.UseCustomEndpoint = this.useCustomEndpoint;
             TranslationServices.Core.TranslationServiceFacade.CustomEndpointUrl = this.customEndpointUrl;
             TranslationServices.Core.TranslationServiceFacade.ShowExperimental = this.showExperimental;

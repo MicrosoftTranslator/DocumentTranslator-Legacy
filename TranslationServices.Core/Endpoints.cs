@@ -18,7 +18,7 @@ namespace TranslationAssistant.TranslationServices.Core
     /// </summary>
     public static class Endpoints
     {
-        public static Dictionary<string, cloud_endpoint> CloudEndpoints { get; } = new Dictionary<string, cloud_endpoint>();
+        public static SortedDictionary<string, string> CloudEndpoints { get; } = new SortedDictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         public static List<string> AvailableRegions { get; } = new List<string>();
 
 
@@ -29,12 +29,12 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             cloud_endpoint c_e = new cloud_endpoint();
             //Enter each cloud and the Translator endpoint here. There is typically one endpoint per cloud.
-            c_e.cloudprefix = "global"; c_e.endpoint = "api.cognitive.microsofttranslator.com"; CloudEndpoints.Add("Global", c_e);
-            c_e.cloudprefix = "eur"; c_e.endpoint = "api-eur.cognitive.microsofttranslator.com"; CloudEndpoints.Add("Europe", c_e);
-            c_e.cloudprefix = "apc"; c_e.endpoint = "api-apc.cognitive.microsofttranslator.com"; CloudEndpoints.Add("Asia Pacific", c_e);
-            c_e.cloudprefix = "nam"; c_e.endpoint = "api-nam.cognitive.microsofttranslator.com"; CloudEndpoints.Add("Americas", c_e);
-            c_e.cloudprefix = "us"; c_e.endpoint = "api.cognitive.microsofttranslator.us"; CloudEndpoints.Add("US Government", c_e);
-            c_e.cloudprefix = "china"; c_e.endpoint = "api.translator.azure.cn"; CloudEndpoints.Add("China", c_e);
+            CloudEndpoints.Add("Americas", "api-nam.cognitive.microsofttranslator.com");
+            CloudEndpoints.Add("Asia Pacific", "api-apc.cognitive.microsofttranslator.com");
+            CloudEndpoints.Add("China", "api.translator.azure.cn");
+            CloudEndpoints.Add("Europe", "api-eur.cognitive.microsofttranslator.com");
+            CloudEndpoints.Add("Global", "api.cognitive.microsofttranslator.com");
+            CloudEndpoints.Add("US Government", "api.cognitive.microsofttranslator.us");
 
             PopulateRegions();
             PopulateRegionList();

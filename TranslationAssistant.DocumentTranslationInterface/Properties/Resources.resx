@@ -355,7 +355,7 @@ Word documents: hidden text</value>
     <value>Check this only if you have a container install of Translator (uncommon)</value>
   </data>
   <data name="Tooltip_AzureCloud" xml:space="preserve">
-    <value>Which Azure cloud to use</value>
+    <value>Which Azure cloud to use. China and US government cloud require a key in that region.</value>
   </data>
   <data name="Account_ShowExperimental" xml:space="preserve">
     <value>Show experimental languages</value>

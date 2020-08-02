@@ -76,7 +76,7 @@ namespace TranslationAssistant.TranslationServices.Core
         public static Dictionary<string, string> AvailableLanguages { get; } = new Dictionary<string, string>();
         public static int Maxrequestsize { get => maxrequestsize; }
         public static int Maxelements { get => maxelements; }
-        public static string AzureRegion { get; set; } = null;
+        public static string AzureRegion { get; set; } = "Global";
         public static string AzureCloud { get; set; } = null;
 
         public enum ContentType { plain, HTML };
@@ -110,8 +110,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 request.RequestUri = new Uri(uri);
                 string requestBody = JsonConvert.SerializeObject(body);
                 request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
-                request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                if (!string.IsNullOrEmpty(AzureRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", AzureRegion);
+                SetHeaders(request);
                 HttpResponseMessage response = new HttpResponseMessage();
                 try
                 {
@@ -124,7 +123,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 }
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    string detectResult= await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    string detectResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                     if (pretty)
                     {
                         using (var stringReader = new StringReader(detectResult))
@@ -140,13 +139,23 @@ namespace TranslationAssistant.TranslationServices.Core
                     {
                         return detectResult;
                     }
-                       
+
                 }
                 else
                 {
                     return null;
                 }
             }
+        }
+
+        /// <summary>
+        /// Set the request headers appropriately for the region
+        /// </summary>
+        /// <param name="request">Request object to set the headers for</param>
+        private static void SetHeaders(HttpRequestMessage request)
+        {
+            request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
+            if (!(AzureRegion.ToUpperInvariant() == "GLOBAL")) request.Headers.Add("Ocp-Apim-Subscription-Region", AzureRegion);
         }
 
         /// <summary>
@@ -557,8 +566,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 request.Method = HttpMethod.Post;
                 request.RequestUri = new Uri(uri);
                 request.Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json");
-                request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                if (!string.IsNullOrEmpty(AzureRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", AzureRegion);
+                SetHeaders(request);
                 var response = client.SendAsync(request).Result;
                 var jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 return jsonResponse;
@@ -593,8 +601,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 request.Method = HttpMethod.Post;
                 request.RequestUri = new Uri(uri);
                 request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
-                request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                if (!string.IsNullOrEmpty(AzureRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", AzureRegion);
+                SetHeaders(request);
 
                 HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
                 string result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -714,8 +721,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     request.Method = HttpMethod.Post;
                     request.RequestUri = new Uri(uri);
                     request.Content = new StringContent(requestJson, Encoding.UTF8, "application/json");
-                    request.Headers.Add("Ocp-Apim-Subscription-Key", AzureKey);
-                    if (!string.IsNullOrEmpty(AzureRegion)) request.Headers.Add("Ocp-Apim-Subscription-Region", AzureRegion);
+                    SetHeaders(request);
 
                     HttpResponseMessage response = new HttpResponseMessage();
                     response.StatusCode = System.Net.HttpStatusCode.RequestTimeout;

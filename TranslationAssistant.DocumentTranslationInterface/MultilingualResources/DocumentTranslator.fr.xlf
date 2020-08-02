@@ -344,8 +344,8 @@ Word documents : texte masqué</target>
           <target state="new">Azure Cloud to use:</target>
         </trans-unit>
         <trans-unit id="Tooltip_AzureCloud" translate="yes" xml:space="preserve">
-          <source>Which Azure cloud to use</source>
-          <target state="new">Which Azure cloud to use</target>
+          <source>Which Azure cloud to use. China and US government cloud require a key in that region.</source>
+          <target state="new">Which Azure cloud to use. China and US government cloud require a key in that region.</target>
         </trans-unit>
         <trans-unit id="AzureRegion_text" translate="yes" xml:space="preserve">
           <source>Azure Region:</source>
