@@ -14,12 +14,8 @@
 namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
 {
     using System;
-    using System.IO;
-    using System.Linq;
 
     using TranslationAssistant.AutomationToolkit.BasePlugin;
-    using TranslationAssistant.Business;
-    using TranslationAssistant.Business.Model;
     using TranslationAssistant.TranslationServices.Core;
 
     /// <summary>
@@ -39,6 +35,16 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         /// </summary>
         private readonly Argument categoryID;
 
+        /// <summary>
+        ///     The Cloud to use.
+        /// </summary>
+        private readonly Argument Cloud;
+
+        /// <summary>
+        ///     The Region to use. The key in the SetCredentials function must match the region. 
+        /// </summary>
+        private readonly Argument Region;
+
         #endregion
 
         #region Constructors and Destructors
@@ -54,7 +60,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         {
             this.AzureKey = new Argument(
                 "APIkey",
-                true,
+                false,
                 "API key to use for the calls to the Translator service.");
 
             this.categoryID = new Argument(
@@ -62,8 +68,24 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 false,
                 "Custom Translator category ID to use for calls to the translator service.");
 
+            this.Cloud = new Argument(
+                "Cloud",
+                false,
+                new string[] { TranslationServiceFacade.AzureCloud },
+                Endpoints.GetClouds(),
+                true,
+                "The cloud you want to use for Translator calls.");
+
+            this.Region = new Argument(
+                "Region",
+                false,
+                new string[] { TranslationServiceFacade.AzureRegion },
+                Endpoints.AvailableRegions.ToArray(),
+                true,
+                "The region of the resource the APIKey is associated with.");
+
             this.Arguments = new ArgumentList(
-                new[] { this.AzureKey, this.categoryID },
+                new[] { this.AzureKey, this.categoryID, this.Cloud, this.Region },
                 Logger);
         }
 
@@ -107,8 +129,10 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         {
             try
             {
-                TranslationServiceFacade.AzureKey = this.AzureKey.ValueString;
-                TranslationServiceFacade.CategoryID = this.categoryID.ValueString;
+                if (!string.IsNullOrEmpty(this.AzureKey.ValueString)) TranslationServiceFacade.AzureKey = this.AzureKey.ValueString;
+                if (!string.IsNullOrEmpty(this.categoryID.ValueString)) TranslationServiceFacade.CategoryID = this.categoryID.ValueString;
+                if (!string.IsNullOrEmpty(this.Cloud.ValueString)) TranslationServiceFacade.AzureCloud = this.Cloud.ValueString;
+                if (!string.IsNullOrEmpty(this.Region.ValueString)) TranslationServiceFacade.AzureRegion = this.Region.ValueString;
                 TranslationServiceFacade.SaveCredentials();
             }
             catch (Exception ex)
@@ -125,7 +149,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             }
             else
             {
-                this.Logger.WriteLine(LogLevel.Error, string.Format("Credentials are invalid."));
+                this.Logger.WriteLine(LogLevel.Error, string.Format("Credentials are invalid. Check that the key is for a resource in this cloud, in this region."));
             }
             return true;
         }

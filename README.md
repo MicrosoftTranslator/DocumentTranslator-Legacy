@@ -52,7 +52,9 @@ Translate documents:
 
 Set credentials:
 
-`DocumentTranslatorCmd setcredentials /APIkey:AzureKey`
+`DocumentTranslatorCmd setcredentials /APIkey:AzureKey /Region:westeurope /Cloud:Global /categoryID:your customization category ID`
+
+
 
 ## How to build Document Translator
 Microsoft Document Translator is written in C#, compiled in Visual Studio 2017.

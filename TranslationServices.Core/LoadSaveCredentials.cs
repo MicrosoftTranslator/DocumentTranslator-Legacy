@@ -48,6 +48,8 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             Endpoints.cloud_endpoint cloud_Endpoint = new Endpoints.cloud_endpoint();
 
+            if (string.IsNullOrEmpty(Cloud)) Cloud = "Global";
+
             try
             {
                 return "https://" + Endpoints.CloudEndpoints[Cloud];
