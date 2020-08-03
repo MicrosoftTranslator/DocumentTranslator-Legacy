@@ -355,6 +355,7 @@ namespace TranslationAssistant.Business
             else
             {
                 File.Copy(documentPath, outputDocumentName);
+                File.SetAttributes(outputDocumentName, FileAttributes.Normal);
                 allFiles.Add(outputDocumentName);
             }
 

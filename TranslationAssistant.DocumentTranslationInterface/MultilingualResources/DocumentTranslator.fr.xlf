@@ -349,7 +349,7 @@ Word documents : texte masqué</target>
         </trans-unit>
         <trans-unit id="AzureRegion_text" translate="yes" xml:space="preserve">
           <source>Azure Region:</source>
-          <target state="new">Azure Region:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Région Azure</target>
         </trans-unit>
         <trans-unit id="Tooltip_AzureRegion" translate="yes" xml:space="preserve">
           <source>Which Azure region is your Azure resource in?</source>
