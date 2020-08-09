@@ -39,6 +39,11 @@ namespace TranslationAssistant.TranslationServices.Core
             Properties.Settings.Default.Save();
         }
 
+        public static void ResetCredentials()
+        {
+            Properties.Settings.Default.Reset();
+        }
+
         /// <summary>
         /// Calculates the EndpointAddress to use for this cloud.
         /// </summary>

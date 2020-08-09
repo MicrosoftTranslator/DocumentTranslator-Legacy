@@ -45,6 +45,16 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         /// </summary>
         private readonly Argument Region;
 
+        /// <summary>
+        /// Reset the credentials to default values.
+        /// </summary>
+        private readonly Argument Reset;
+
+        /// <summary>
+        /// Prints the saved credentials
+        /// </summary>
+        private readonly Argument Print;
+
         #endregion
 
         #region Constructors and Destructors
@@ -84,8 +94,18 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 true,
                 "The region of the resource the APIKey is associated with.");
 
+            this.Reset = new Argument(
+                "Reset",
+                false,
+                "Value of 'true' resets the credentials to their default values.");
+
+            this.Print = new Argument(
+                "Print",
+                false,
+                "Value of 'true' prints the currently saved credentials");
+
             this.Arguments = new ArgumentList(
-                new[] { this.AzureKey, this.categoryID, this.Cloud, this.Region },
+                new[] { this.AzureKey, this.categoryID, this.Cloud, this.Region, this.Reset, this.Print},
                 Logger);
         }
 
@@ -100,7 +120,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         {
             get
             {
-                return "Sets the credentials for use with the Translator service.";
+                return "Sets or resets the credentials for use with the Translator service.";
             }
         }
 
@@ -129,6 +149,8 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         {
             try
             {
+                if (!string.IsNullOrEmpty(this.Reset.ValueString)) TranslationServiceFacade.ResetCredentials();
+                if (!string.IsNullOrEmpty(this.Print.ValueString)) PrintCredentials();
                 if (!string.IsNullOrEmpty(this.AzureKey.ValueString)) TranslationServiceFacade.AzureKey = this.AzureKey.ValueString;
                 if (!string.IsNullOrEmpty(this.categoryID.ValueString)) TranslationServiceFacade.CategoryID = this.categoryID.ValueString;
                 if (!string.IsNullOrEmpty(this.Cloud.ValueString)) TranslationServiceFacade.AzureCloud = this.Cloud.ValueString;
@@ -149,9 +171,18 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             }
             else
             {
-                this.Logger.WriteLine(LogLevel.Error, string.Format("Credentials are invalid. Check that the key is for a resource in this cloud, in this region."));
+                this.Logger.WriteLine(LogLevel.Error, string.Format("API Key is invalid. Check that the key is for a resource in this cloud, in this region."));
             }
             return true;
+        }
+
+        private void PrintCredentials()
+        {
+            TranslationServiceFacade.LoadCredentials();
+            Logger.WriteLine(LogLevel.Msg, "Cloud:\t{1}", TranslationServiceFacade.AzureCloud);
+            Logger.WriteLine(LogLevel.Msg, "Key:\t{1}", TranslationServiceFacade.AzureKey);
+            Logger.WriteLine(LogLevel.Msg, "Region:\t{1}", TranslationServiceFacade.AzureRegion);
+            Logger.WriteLine(LogLevel.Msg, "CategoryID:\t{1}", TranslationServiceFacade.CategoryID);
         }
 
         #endregion

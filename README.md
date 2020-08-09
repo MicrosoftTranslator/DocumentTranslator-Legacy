@@ -54,6 +54,10 @@ Set credentials:
 
 `DocumentTranslatorCmd setcredentials /APIkey:AzureKey /Region:westeurope /Cloud:Global /categoryID:your customization category ID`
 
+Delete stored credentials:
+
+`DocumentTranslatorCmd setcredentials /reset`
+
 
 
 ## How to build Document Translator

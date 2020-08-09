@@ -216,4 +216,7 @@ Word documents : texte masqué</value>
   <data name="CustomEndpoint" xml:space="preserve">
     <value>Utiliser le conteneur</value>
   </data>
+  <data name="AzureRegion_text" xml:space="preserve">
+    <value>Région Azure</value>
+  </data>
 </root>
