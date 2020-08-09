@@ -71,7 +71,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             this.AzureKey = new Argument(
                 "APIkey",
                 false,
-                "API key to use for the calls to the Translator service.");
+                "API key to use for the calls to the Translator service.") ;
 
             this.categoryID = new Argument(
                 "categoryID",
@@ -99,13 +99,8 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 false,
                 "Value of 'true' resets the credentials to their default values.");
 
-            this.Print = new Argument(
-                "Print",
-                false,
-                "Value of 'true' prints the currently saved credentials");
-
             this.Arguments = new ArgumentList(
-                new[] { this.AzureKey, this.categoryID, this.Cloud, this.Region, this.Reset, this.Print},
+                new[] { this.AzureKey, this.categoryID, this.Cloud, this.Region, this.Reset},
                 Logger);
         }
 
@@ -150,7 +145,6 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             try
             {
                 if (!string.IsNullOrEmpty(this.Reset.ValueString)) TranslationServiceFacade.ResetCredentials();
-                if (!string.IsNullOrEmpty(this.Print.ValueString)) PrintCredentials();
                 if (!string.IsNullOrEmpty(this.AzureKey.ValueString)) TranslationServiceFacade.AzureKey = this.AzureKey.ValueString;
                 if (!string.IsNullOrEmpty(this.categoryID.ValueString)) TranslationServiceFacade.CategoryID = this.categoryID.ValueString;
                 if (!string.IsNullOrEmpty(this.Cloud.ValueString)) TranslationServiceFacade.AzureCloud = this.Cloud.ValueString;
@@ -165,6 +159,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
             }
 
             this.Logger.WriteLine(LogLevel.Msg, string.Format("Credentials saved."));
+
             if (TranslationServiceFacade.IsTranslationServiceReady())
             {
                 this.Logger.WriteLine(LogLevel.Msg, string.Format("Translator service is ready to use."));
@@ -174,15 +169,6 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 this.Logger.WriteLine(LogLevel.Error, string.Format("API Key is invalid. Check that the key is for a resource in this cloud, in this region."));
             }
             return true;
-        }
-
-        private void PrintCredentials()
-        {
-            TranslationServiceFacade.LoadCredentials();
-            Logger.WriteLine(LogLevel.Msg, "Cloud:\t{1}", TranslationServiceFacade.AzureCloud);
-            Logger.WriteLine(LogLevel.Msg, "Key:\t{1}", TranslationServiceFacade.AzureKey);
-            Logger.WriteLine(LogLevel.Msg, "Region:\t{1}", TranslationServiceFacade.AzureRegion);
-            Logger.WriteLine(LogLevel.Msg, "CategoryID:\t{1}", TranslationServiceFacade.CategoryID);
         }
 
         #endregion

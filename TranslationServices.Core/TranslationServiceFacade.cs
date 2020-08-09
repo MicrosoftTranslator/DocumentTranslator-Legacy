@@ -76,7 +76,7 @@ namespace TranslationAssistant.TranslationServices.Core
         public static Dictionary<string, string> AvailableLanguages { get; } = new Dictionary<string, string>();
         public static int Maxrequestsize { get => maxrequestsize; }
         public static int Maxelements { get => maxelements; }
-        public static string AzureRegion { get; set; } = "Global";
+        public static string AzureRegion { get; set; } = null;
         public static string AzureCloud { get; set; } = null;
 
         public enum ContentType { plain, HTML };
@@ -229,8 +229,15 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns>Whether the translation servoce is ready to translate</returns>
         public static bool IsTranslationServiceReady()
         {
-            Task<bool> task = Task.Run(async () => await IsTranslationServiceReadyAsync().ConfigureAwait(false));
-            return task.Result;
+            try
+            {
+                Task<bool> task = Task.Run(async () => await IsTranslationServiceReadyAsync().ConfigureAwait(false));
+                return task.Result;
+            }
+            catch (TaskCanceledException)
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -273,7 +280,18 @@ namespace TranslationAssistant.TranslationServices.Core
             return returnvalue;
         }
 
-        
+
+        /// <summary>
+        /// Initializes the class.
+        /// </summary>
+        static TranslationServiceFacade()
+        {
+            Initialize(true);
+            return;
+        }
+
+
+
         /// <summary>
         /// Call once to initialize the static variables
         /// </summary>
