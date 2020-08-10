@@ -77,7 +77,7 @@ namespace TranslationAssistant.TranslationServices.Core
         public static int Maxrequestsize { get => maxrequestsize; }
         public static int Maxelements { get => maxelements; }
         public static string AzureRegion { get; set; } = null;
-        public static string AzureCloud { get; set; } = null;
+        public static string AzureCloud { get; set; } = String.Empty;
 
         public enum ContentType { plain, HTML };
 
@@ -286,7 +286,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// </summary>
         static TranslationServiceFacade()
         {
-            Initialize(true);
+            LoadCredentials();
             return;
         }
 
