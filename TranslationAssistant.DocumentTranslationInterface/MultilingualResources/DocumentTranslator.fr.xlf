@@ -355,6 +355,14 @@ Word documents : texte masqué</target>
           <source>Which Azure region is your Azure resource in?</source>
           <target state="new">Which Azure region is your Azure resource in?</target>
         </trans-unit>
+        <trans-unit id="Tooltip_ListAllLanguages" translate="yes" xml:space="preserve">
+          <source>List all languages in all languages</source>
+          <target state="new">List all languages in all languages</target>
+        </trans-unit>
+        <trans-unit id="Translate_ListAllLanguages" translate="yes" xml:space="preserve">
+          <source>List all languages</source>
+          <target state="new">List all languages</target>
+        </trans-unit>
       </group>
     </body>
   </file>

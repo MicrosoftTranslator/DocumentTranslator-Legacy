@@ -54,6 +54,7 @@
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" Width="Auto" Height="Auto">
             <Button x:Name="TranslateFromAllButton" Content="{x:Static p:Resources.Translate_FromAll}" Width="110" Height="Auto" Margin="400,0,0,0" HorizontalAlignment="Left" Click="TranslateFromAllButton_Click" ToolTip="{x:Static p:Resources.Tooltip_TranslateFromAll}"/>
+            <Button x:Name="ListAllLanguagesButton" Content="{x:Static p:Resources.Translate_ListAllLanguages}" Width="110" Height="Auto" Margin="20,0,0,0" HorizontalAlignment="Left" Click="ListAllLanguagesButton_Click"  ToolTip="{x:Static p:Resources.Tooltip_ListAllLanguages}"/>
         </StackPanel>
         <TextBlock Grid.Column="0" Grid.Row="3" Text="{x:Static p:Resources.Translate_Input}" VerticalAlignment="Center"/>
         <TextBox x:Name="InputBox" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" Height="200"  Margin="0,0,0,0" TextWrapping="Wrap" AcceptsReturn="True" VerticalAlignment="Center" Width="680" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"/>

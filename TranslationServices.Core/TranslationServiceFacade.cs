@@ -295,8 +295,9 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <summary>
         /// Call once to initialize the static variables
         /// </summary>
-        public static void Initialize(bool force = false)
+        public static async void Initialize(bool force = false)
         {
+            Task t = GetLanguages(Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
             if (IsInitialized && !force) return;
             LoadCredentials();
             if (String.IsNullOrEmpty(AzureKey))
@@ -326,12 +327,16 @@ namespace TranslationAssistant.TranslationServices.Core
                 }
                 else return;
             }
-            GetLanguages();
+            await t.ConfigureAwait(false);
             IsInitialized = true;
         }
 
 
-        private static async void GetLanguages()
+        /// <summary>
+        /// Fills the AvailableLanguages dictionary
+        /// </summary>
+        /// <param name="AcceptLanguage">Accept-Language</param>
+        public static async Task GetLanguages(string AcceptLanguage = "en")
         {
             AvailableLanguages.Clear();
             if (UseCustomEndpoint)
@@ -350,6 +355,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     client.Timeout = TimeSpan.FromSeconds(5);
                     request.Method = HttpMethod.Get;
                     request.RequestUri = new Uri(uri);
+                    request.Headers.Add("Accept-Language", AcceptLanguage);
                     HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
                     string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                     if (response.StatusCode == System.Net.HttpStatusCode.OK)

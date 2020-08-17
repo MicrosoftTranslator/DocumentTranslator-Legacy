@@ -309,6 +309,9 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
             }
         }
 
-
+        private async void ListAllLanguagesButton_Click(object sender, RoutedEventArgs e)
+        {
+            ResultBox.Text = await TranslationAssistant.Business.AllLanguageList.GetAllLanguages();
+        }
     }
 }

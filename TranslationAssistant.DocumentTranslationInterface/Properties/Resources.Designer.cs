@@ -623,6 +623,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to List all languages in all languages.
+        /// </summary>
+        public static string Tooltip_ListAllLanguages {
+            get {
+                return ResourceManager.GetString("Tooltip_ListAllLanguages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show the experimental languages. Not recommended for production use..
         /// </summary>
         public static string Tooltip_ShowExperimental {
@@ -765,6 +774,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         public static string Translate_invalidcredentials {
             get {
                 return ResourceManager.GetString("Translate_invalidcredentials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List all languages.
+        /// </summary>
+        public static string Translate_ListAllLanguages {
+            get {
+                return ResourceManager.GetString("Translate_ListAllLanguages", resourceCulture);
             }
         }
         

@@ -375,4 +375,10 @@ Word documents: hidden text</value>
   <data name="Tooltip_AzureRegion" xml:space="preserve">
     <value>Which Azure region is your Azure resource in?</value>
   </data>
+  <data name="Tooltip_ListAllLanguages" xml:space="preserve">
+    <value>List all languages in all languages</value>
+  </data>
+  <data name="Translate_ListAllLanguages" xml:space="preserve">
+    <value>List all languages</value>
+  </data>
 </root>
