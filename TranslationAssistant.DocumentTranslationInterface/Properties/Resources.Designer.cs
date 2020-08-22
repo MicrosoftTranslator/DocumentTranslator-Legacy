@@ -551,6 +551,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply aggressive normalization for Word documents to allow better translation. May result in an open error when opening in Word..
+        /// </summary>
+        public static string Tooltip_AggressiveNormalization {
+            get {
+                return ResourceManager.GetString("Tooltip_AggressiveNormalization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Which Azure cloud to use. China and US government cloud require a key in that region..
         /// </summary>
         public static string Tooltip_AzureCloud {
@@ -664,6 +673,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Properties {
         public static string Tooltip_TranslateToAll {
             get {
                 return ResourceManager.GetString("Tooltip_TranslateToAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aggressive normalization for Word documents.
+        /// </summary>
+        public static string Translate_AggressiveNormalization {
+            get {
+                return ResourceManager.GetString("Translate_AggressiveNormalization", resourceCulture);
             }
         }
         
