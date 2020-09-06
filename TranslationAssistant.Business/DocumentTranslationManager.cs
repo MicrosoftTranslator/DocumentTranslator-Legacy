@@ -43,7 +43,6 @@ namespace TranslationAssistant.Business
     public class DocumentTranslationManager
     {
         #region Public Properties
-        public static bool AggressiveNormalization = false;
 
         #endregion
         #region Public Methods and Operators
@@ -756,12 +755,6 @@ namespace TranslationAssistant.Business
                     RemoveWebHidden = true,
                     ReplaceTabsWithSpaces = false
                 };
-                if (AggressiveNormalization)
-                {
-                    settings.NormalizeXml = true;
-                    settings.RemoveSmartTags = true;
-                }
-
                 OpenXmlPowerTools.MarkupSimplifier.SimplifyMarkup(doc, settings);
             }
 

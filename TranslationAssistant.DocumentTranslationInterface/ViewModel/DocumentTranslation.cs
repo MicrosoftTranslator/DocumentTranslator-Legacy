@@ -62,11 +62,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// </summary>
         private string selectedTranslateMode;
 
-        /// <summary>
-        ///     Whether to normalize aggressively.
-        /// </summary>
-        private bool aggressiveNormalization;
-
 
 
         /// <summary>
@@ -175,7 +170,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
                             this.IsGoButtonEnabled = false;
                             this.StatusText = Properties.Resources.Common_Started;
 
-                            if (this.aggressiveNormalization) DocumentTranslationManager.AggressiveNormalization = true;
+
                             var worker = new BackgroundWorker();
                             var model = new CommentTranslationModel
                                             {
@@ -475,21 +470,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             }
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether hidden content should be ignored.
-        /// </summary>
-        public bool AggressiveNormalization
-        {
-            get
-            {
-                return this.aggressiveNormalization;
-            }
-            set
-            {
-                this.aggressiveNormalization = value;
-                this.NotifyPropertyChanged("AggressiveNormalization");
-            }
-        }
 
 
 

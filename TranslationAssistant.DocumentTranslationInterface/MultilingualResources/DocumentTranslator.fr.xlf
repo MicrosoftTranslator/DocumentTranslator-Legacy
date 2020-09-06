@@ -363,14 +363,6 @@ Word documents : texte masqué</target>
           <source>List all languages</source>
           <target state="new">List all languages</target>
         </trans-unit>
-        <trans-unit id="Tooltip_AggressiveNormalization" translate="yes" xml:space="preserve">
-          <source>Apply aggressive normalization for Word documents to allow better translation. May result in an open error when opening in Word.</source>
-          <target state="new">Apply aggressive normalization for Word documents to allow better translation. May result in an open error when opening in Word.</target>
-        </trans-unit>
-        <trans-unit id="Translate_AggressiveNormalization" translate="yes" xml:space="preserve">
-          <source>Aggressive normalization for Word documents</source>
-          <target state="new">Aggressive normalization for Word documents</target>
-        </trans-unit>
       </group>
     </body>
   </file>

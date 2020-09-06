@@ -240,10 +240,7 @@
                     <TextBlock Grid.Column="0" Grid.Row="4" Text="{x:Static p:Resources.Translate_ToLanguage}" Width="Auto" />
                     <ComboBox Grid.Column="1" Grid.Row="4" Width="300" AllowDrop="True" x:Name="cbTargetLanguages" ItemsSource="{Binding TargetLanguageList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTargetLanguage}" />
                 </Grid>
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox ToolTip="{x:Static p:Resources.Translate_HiddenTooltip}" Height="40" Margin="0,0,20,0"  Content="{x:Static p:Resources.Translate_Hidden}" x:Name="chkHiddenContent" IsChecked="{Binding IgnoreHiddenContent}"/>
-                    <CheckBox ToolTip="{x:Static p:Resources.Tooltip_AggressiveNormalization}" Height="40" Margin="0,0,20,0" Content="{x:Static p:Resources.Translate_AggressiveNormalization}" x:Name="chkAggressiveNormalization" IsChecked="{Binding AggressiveNormalization}"/>
-                </StackPanel>
+                <CheckBox ToolTip="{x:Static p:Resources.Translate_HiddenTooltip}" Height="40" Width="582" Content="{x:Static p:Resources.Translate_Hidden}" x:Name="chkHiddenContent" IsChecked="{Binding IgnoreHiddenContent}"/>
                 <StackPanel Margin="0,0,0,0" Width="582">
                     <Button Content="{x:Static p:Resources.Translate_Go}" Width="80" Height="30" HorizontalAlignment="Right"
                             IsEnabled="{Binding IsGoButtonEnabled}"

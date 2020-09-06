@@ -381,10 +381,4 @@ Word documents: hidden text</value>
   <data name="Translate_ListAllLanguages" xml:space="preserve">
     <value>List all languages</value>
   </data>
-  <data name="Tooltip_AggressiveNormalization" xml:space="preserve">
-    <value>Apply aggressive normalization for Word documents to allow better translation. May result in an open error when opening in Word.</value>
-  </data>
-  <data name="Translate_AggressiveNormalization" xml:space="preserve">
-    <value>Aggressive normalization for Word documents</value>
-  </data>
 </root>
