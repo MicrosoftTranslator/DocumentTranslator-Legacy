@@ -14,6 +14,7 @@ namespace TranslationAssistant.TranslationServices.Core
             AzureKey = Properties.Settings.Default.AzureKey;
             CategoryID = Properties.Settings.Default.CategoryID;
             AppId = Properties.Settings.Default.AppId;
+            ShowExperimental = Properties.Settings.Default.ShowExperimental;
             UseAdvancedSettings = Properties.Settings.Default.UseAdvancedSettings;
             AzureCloud = Properties.Settings.Default.AzureCloud;
             AzureRegion = Properties.Settings.Default.SubscriptionRegion;
@@ -30,6 +31,7 @@ namespace TranslationAssistant.TranslationServices.Core
             Properties.Settings.Default.AzureKey = AzureKey;
             Properties.Settings.Default.CategoryID = CategoryID;
             Properties.Settings.Default.AppId = AppId;
+            Properties.Settings.Default.ShowExperimental = ShowExperimental;
             Properties.Settings.Default.UseAdvancedSettings = UseAdvancedSettings;
             Properties.Settings.Default.AzureCloud = AzureCloud;
             EndPointAddress = SetEndPointAddress(AzureCloud);

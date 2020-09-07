@@ -236,9 +236,9 @@
                         </Button>
                     </Grid>
                     <TextBlock Grid.Column="0" Grid.Row="2" Text="{x:Static p:Resources.Translate_FromLanguage}" Width="Auto" />
-                    <ComboBox Grid.Column="1" Grid.Row="2" Width="300" AllowDrop="True" x:Name="cbSourceLanguages" ItemsSource="{Binding SourceLanguageList, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="0" SelectedItem="{Binding SelectedSourceLanguage}" />
+                    <ComboBox Grid.Column="1" Grid.Row="2" Width="300" AllowDrop="True" x:Name="cbSourceLanguages" ItemsSource="{Binding SourceLanguageList, UpdateSourceTrigger=Default}" SelectedIndex="0" SelectedItem="{Binding SelectedSourceLanguage}" />
                     <TextBlock Grid.Column="0" Grid.Row="4" Text="{x:Static p:Resources.Translate_ToLanguage}" Width="Auto" />
-                    <ComboBox Grid.Column="1" Grid.Row="4" Width="300" AllowDrop="True" x:Name="cbTargetLanguages" ItemsSource="{Binding TargetLanguageList, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTargetLanguage}" />
+                    <ComboBox Grid.Column="1" Grid.Row="4" Width="300" AllowDrop="True" x:Name="cbTargetLanguages" ItemsSource="{Binding TargetLanguageList, UpdateSourceTrigger=Default}" SelectedItem="{Binding SelectedTargetLanguage}" />
                 </Grid>
                 <CheckBox ToolTip="{x:Static p:Resources.Translate_HiddenTooltip}" Height="40" Width="582" Content="{x:Static p:Resources.Translate_Hidden}" x:Name="chkHiddenContent" IsChecked="{Binding IgnoreHiddenContent}"/>
                 <StackPanel Margin="0,0,0,0" Width="582">

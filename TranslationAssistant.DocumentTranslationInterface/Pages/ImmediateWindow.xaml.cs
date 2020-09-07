@@ -16,6 +16,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
     using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
     using System.Text;
     using System.Threading.Tasks;
@@ -38,6 +39,16 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         {
             this.InitializeComponent();
             this.Loaded += ImmediateWindow_Loaded;
+            this.GotFocus += ImmediateWindow_GotFocus;
+        }
+
+        private void ImmediateWindow_GotFocus(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("ImmediateWindow.xaml.cs: Available Languages: {0}", TranslationServices.Core.TranslationServiceFacade.AvailableLanguages.Count);
+            documentTranslation.PopulateAvailableLanguages();
+            cbSourceLanguages.GetBindingExpression(ComboBox.ItemsSourceProperty).UpdateTarget();
+            cbTargetLanguages.GetBindingExpression(ComboBox.ItemsSourceProperty).UpdateTarget();
+            
         }
 
         private void ImmediateWindow_Loaded(object sender, RoutedEventArgs e)

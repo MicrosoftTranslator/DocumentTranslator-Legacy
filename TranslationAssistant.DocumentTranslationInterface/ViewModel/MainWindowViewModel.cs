@@ -55,9 +55,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             {
                 TranslationServices.Core.TranslationServiceFacade.Initialize();
             }
-            catch
+            catch (TranslationServices.Core.CredentialsMissingException ex)
             {
-                
+                StatusText = String.Format("{0}\n{1}", Properties.Resources.Error_PleaseSubscribe, ex.Message);
+                ShowStatus();
+                return;
             }
             StatusText = string.Empty;
             ShowStatus();

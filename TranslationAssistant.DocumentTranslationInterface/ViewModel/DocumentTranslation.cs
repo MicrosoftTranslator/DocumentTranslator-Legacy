@@ -522,24 +522,25 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// <summary>
         ///     Populate available source and target languages.
         /// </summary>
-        private void PopulateAvailableLanguages()
+        public void PopulateAvailableLanguages()
         {
-            this.SourceLanguageList.Clear();
-            this.TargetLanguageList.Clear();
-            if (!TranslationServiceFacade.UseCustomEndpoint) this.SourceLanguageList.Add(Properties.Resources.Common_AutoDetect);
+            this.sourceLanguageList.Clear();
+            this.targetLanguageList.Clear();
+            if (!TranslationServiceFacade.UseCustomEndpoint) this.sourceLanguageList.Add(Properties.Resources.Common_AutoDetect);
             try
             {
-                this.TargetLanguageList.AddRange(TranslationServiceFacade.AvailableLanguages.Values);
+                this.targetLanguageList.AddRange(TranslationServiceFacade.AvailableLanguages.Values);
             }
             catch {
                 this.StatusText = Properties.Resources.Error_LanguageList;
                 this.NotifyPropertyChanged("StatusText");
                 return;
             };
-            this.TargetLanguageList.Sort();
-            this.SourceLanguageList.AddRange(this.TargetLanguageList);
+            this.targetLanguageList.Sort();
+            this.sourceLanguageList.AddRange(this.targetLanguageList);
             this.NotifyPropertyChanged("SourceLanguageList");
             this.NotifyPropertyChanged("TargetLanguageList");
+            Debug.WriteLine("DocumentTranslation.cs: targetLanguageList.Count: {0}", targetLanguageList.Count);
         }
 
         private void PopulateTranslateMode()

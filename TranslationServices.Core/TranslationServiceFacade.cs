@@ -298,14 +298,14 @@ namespace TranslationAssistant.TranslationServices.Core
         public static async void Initialize(bool force = false)
         {
             Task t = GetLanguages(Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
-            if (IsInitialized && !force) return;
+            if (IsInitialized && (!force) && (AvailableLanguages.Count>2)) return;
             LoadCredentials();
             if (String.IsNullOrEmpty(AzureKey))
             {
-                if (UseCustomEndpoint == false)
+                if (!UseCustomEndpoint)
                 {
                     Exception CredentialsMissingException = new CredentialsMissingException(Properties.Resources.NotConnectError);
-                    throw CredentialsMissingException;
+                    //throw CredentialsMissingException; //Code stopped working in the debugger with credential ssettings missing. Don't know why.
                 }
                 authMode = AuthMode.Disconnected;
             }
@@ -327,8 +327,9 @@ namespace TranslationAssistant.TranslationServices.Core
                 }
                 else return;
             }
-            await t.ConfigureAwait(false);
+            await t.ConfigureAwait(true);
             IsInitialized = true;
+            Debug.WriteLine("Facade: Number of available Languages: {0}", AvailableLanguages.Count);
         }
 
 
