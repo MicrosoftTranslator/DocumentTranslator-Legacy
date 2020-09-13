@@ -103,7 +103,6 @@ namespace TranslationAssistant.TranslationServices.Core
         private static async Task<string> DetectInternalAsync(string input, bool pretty = false)
         {
             string uri = EndPointAddress + "/detect?api-version=3.0";
-            string result = String.Empty;
             object[] body = new object[] { new { Text = input } };
             using (HttpClient client = new HttpClient())
             using (HttpRequestMessage request = new HttpRequestMessage())

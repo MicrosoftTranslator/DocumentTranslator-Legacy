@@ -54,11 +54,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             Properties.DocumentTranslator.Default.Upgrade();
             Properties.DocumentTranslator.Default.Reload();
             StatusText = String.Format("{0}", Properties.Resources.Error_PleaseSubscribe);
-            TranslationServices.Core.TranslationServiceFacade.Initialize();
-            if (!TranslationServiceFacade.IsInitialized)
-            {
-                StatusText = string.Empty;
-            }
+            _ = TranslationServiceFacade.Initialize();
             ShowStatus();
         }
 
