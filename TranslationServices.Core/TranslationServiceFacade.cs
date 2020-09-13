@@ -78,6 +78,10 @@ namespace TranslationAssistant.TranslationServices.Core
         public static int Maxelements { get => maxelements; }
         public static string AzureRegion { get; set; } = null;
         public static string AzureCloud { get; set; } = String.Empty;
+        /// <summary>
+        /// Indicates whether the translation service has been successfully initialized.
+        /// </summary>
+        public static bool IsInitialized { get; set; } = false;
 
         public enum ContentType { plain, HTML };
 
@@ -87,7 +91,6 @@ namespace TranslationAssistant.TranslationServices.Core
 
         private static readonly List<string> autoDetectStrings = new List<string>() { "auto-detect", "détection automatique" };
 
-        private static bool IsInitialized = false;
         #endregion
 
         #region Public Methods and Operators
@@ -96,7 +99,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// Detect the languages of the input
         /// </summary>
         /// <param name="input">Input string to detect the language of</param>
-        /// <returns></returns>
+        /// <returns>JSON object of the detected languages</returns>
         private static async Task<string> DetectInternalAsync(string input, bool pretty = false)
         {
             string uri = EndPointAddress + "/detect?api-version=3.0";
@@ -291,21 +294,23 @@ namespace TranslationAssistant.TranslationServices.Core
         }
 
 
-
         /// <summary>
-        /// Call once to initialize the static variables
+        /// Call once to initialize the static variables.
         /// </summary>
-        public static async void Initialize(bool force = false)
+        /// <param name="force">Force full initialization, even if successfully initialized before</param>
+        /// <returns>False if credentials failed</returns>
+        public static async Task<bool> Initialize(bool force = false)
         {
-            Task t = GetLanguages(Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
-            if (IsInitialized && (!force) && (AvailableLanguages.Count>2)) return;
+            await GetLanguages(Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
+            if (IsInitialized && (!force) && (AvailableLanguages.Count>2)) return true;
             LoadCredentials();
             if (String.IsNullOrEmpty(AzureKey))
             {
                 if (!UseCustomEndpoint)
                 {
                     Exception CredentialsMissingException = new CredentialsMissingException(Properties.Resources.NotConnectError);
-                    //throw CredentialsMissingException; //Code stopped working in the debugger with credential ssettings missing. Don't know why.
+                    //throw CredentialsMissingException; //Code stopped working in the debugger with credential settings missing. Don't know why.
+                    return false;
                 }
                 authMode = AuthMode.Disconnected;
             }
@@ -325,11 +330,11 @@ namespace TranslationAssistant.TranslationServices.Core
                     authMode = AuthMode.AppId;
                     appid = appidComponents[1];
                 }
-                else return;
+                else return true;
             }
-            await t.ConfigureAwait(true);
             IsInitialized = true;
             Debug.WriteLine("Facade: Number of available Languages: {0}", AvailableLanguages.Count);
+            return true;
         }
 
 
@@ -372,7 +377,7 @@ namespace TranslationAssistant.TranslationServices.Core
                     }
                 }
             }
-            catch
+            catch (HttpRequestException)
             {
                 authMode = AuthMode.Disconnected;
                 AvailableLanguages.Clear();
@@ -789,9 +794,9 @@ namespace TranslationAssistant.TranslationServices.Core
                                         result = await TranslateV3AsyncInternal(totranslate, from, to, category, contentType, 2).ConfigureAwait(false);
                                         resultList.Add(result[0]);
                                     }
-                                    catch
+                                    catch (Exception ex)
                                     {
-                                        System.Diagnostics.Debug.WriteLine("Failed to translate: {0}\n", texts[i]);
+                                        System.Diagnostics.Debug.WriteLine("Failed to translate: {0}\n{1}", texts[i], ex.Message);
                                         resultList.Add(texts[i]);
                                     }
                                 }
@@ -820,9 +825,9 @@ namespace TranslationAssistant.TranslationServices.Core
                         {
                             jaresult = JArray.Parse(responseBody);
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            System.Diagnostics.Debug.WriteLine(responseBody);
+                            System.Diagnostics.Debug.WriteLine("{0}\n{1}", responseBody, ex.Message);
                             throw;
                         }
                         foreach (JObject result in jaresult)

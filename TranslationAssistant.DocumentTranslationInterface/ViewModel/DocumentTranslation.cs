@@ -8,6 +8,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
 
     using Microsoft.Practices.Prism.Commands;
     using Microsoft.Win32;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
@@ -112,11 +113,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// </summary>
         public DocumentTranslation()
         {
-            try
-            {
-                TranslationServiceFacade.Initialize();
-            }
-            catch (CredentialsMissingException) { }
+            TranslationServiceFacade.Initialize();
             this.PopulateAvailableLanguages();
             this.PopulateTranslateMode();
             this.ShowProgressBar = false;
@@ -501,7 +498,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         {
             var openfileDlg = new OpenFileDialog
                                   {
-                                      Filter = $"{Properties.Resources.Common_SupportedFiles}|*.doc; *.docx; *.pdf; *.xls; *.xlsx; *.ppt; *.pptx; *.txt; *.text; *.htm; *.html; *.srt; *.md; *.markdown",      //Add XLF file types here
+                                      Filter = $"{Properties.Resources.Common_SupportedFiles}|*.doc; *.docx; *.pdf; *.xls; *.xlsx; *.ppt; *.pptx; *.txt; *.text; *.htm; *.html; *.srt; *.vtt; *.webvtt; *.md; *.markdown",      //Add XLF file types here
                                       Multiselect = true
                                   };
             if (openfileDlg.ShowDialog().Value)
@@ -531,8 +528,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             {
                 this.targetLanguageList.AddRange(TranslationServiceFacade.AvailableLanguages.Values);
             }
-            catch {
-                this.StatusText = Properties.Resources.Error_LanguageList;
+            catch (Exception ex) {
+                this.StatusText = String.Format("{0}\n{1}", Properties.Resources.Error_LanguageList, ex.Message);
                 this.NotifyPropertyChanged("StatusText");
                 return;
             };

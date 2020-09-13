@@ -78,7 +78,8 @@ namespace TranslationAssistant.Business
                 {
                     utteranceindex = Convert.ToInt16(srt[lineindex]);
                 }
-                catch {
+                catch
+                {
                     lineindex++;        // skip line and move on
                     continue;
                 } 

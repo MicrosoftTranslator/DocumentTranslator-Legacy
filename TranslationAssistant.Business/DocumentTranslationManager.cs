@@ -303,7 +303,12 @@ namespace TranslationAssistant.Business
                 }
                 else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".md") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".markdown"))
                 {
-                    MDTranslationManager.DoTranslation(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);                    
+                    MDTranslationManager.DoTranslation(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+                }
+                else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".vtt") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".webvtt"))
+                {
+                    VTTTranslate vTTTranslate = new VTTTranslate(fullNameForDocumentToProcess, sourceLanguage);
+                    _ = vTTTranslate.Translate(targetLanguage).Result;
                 }
             }
             catch (AggregateException ae)

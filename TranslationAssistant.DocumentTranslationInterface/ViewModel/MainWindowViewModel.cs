@@ -24,6 +24,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
     using FirstFloor.ModernUI.Presentation;
     using FirstFloor.ModernUI.Windows;
     using System.Windows.Navigation;
+    using System.Threading.Tasks;
+    using TranslationAssistant.TranslationServices.Core;
 
     /// <summary>
     ///     The Main window view model.
@@ -51,17 +53,12 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         {
             Properties.DocumentTranslator.Default.Upgrade();
             Properties.DocumentTranslator.Default.Reload();
-            try
+            StatusText = String.Format("{0}", Properties.Resources.Error_PleaseSubscribe);
+            TranslationServices.Core.TranslationServiceFacade.Initialize();
+            if (!TranslationServiceFacade.IsInitialized)
             {
-                TranslationServices.Core.TranslationServiceFacade.Initialize();
+                StatusText = string.Empty;
             }
-            catch (TranslationServices.Core.CredentialsMissingException ex)
-            {
-                StatusText = String.Format("{0}\n{1}", Properties.Resources.Error_PleaseSubscribe, ex.Message);
-                ShowStatus();
-                return;
-            }
-            StatusText = string.Empty;
             ShowStatus();
         }
 
