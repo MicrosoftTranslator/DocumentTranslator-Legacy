@@ -10,16 +10,16 @@ namespace TranslationAssistant.Business
     class VTTTranslate
     {
         #region Public Properties
-        public string category;
-        #endregion Properties
+        #endregion Public Properties
 
         #region Private Properties
         private List<string> Markup = new List<string>();
         private List<string> Content = new List<string>();
+        private List<string> Header = new List<string>();
         private string filename = null;
         private string langcode = null;
 
-        #endregion Properties
+        #endregion Private Properties
 
         #region Methods
 
@@ -37,19 +37,25 @@ namespace TranslationAssistant.Business
         public async Task<int> Translate(string tolangcode)
         {
             //Read into the Markup and Content arrays
-            
+            bool headerended = false;
+
             using (StreamReader streamReader = new StreamReader(filename))
             {
                 while (!streamReader.EndOfStream)
                 {
                     string line = streamReader.ReadLine();
-                    if (Char.IsDigit(line.Trim()[0]) && line.Contains("-->"))
+                    if (line.Trim().Length>0 && Char.IsDigit(line.Trim()[0]) && line.Contains("-->"))
                     {
                         Markup.Add(line);
+                        headerended = true;
                     }
                     else
                     {
-                        if (line.Trim().Length > 0) Content.Add(line);
+                        if (line.Trim().Length > 0)
+                        {
+                            if (headerended) Content.Add(line);
+                            else Header.Add(line);
+                        }
                     }
                 }
             }
@@ -66,20 +72,23 @@ namespace TranslationAssistant.Business
             string fromlangcode = null;
             if (Content.Count > 3)
             {
-                fromlangcode = await TranslationServiceFacade.DetectAsync(Content[Content.Count] + Content[Content.Count - 1] + Content[Content.Count - 2], true);
+                string sample = Content[Content.Count/2] + Content[Content.Count/2 - 1] + Content[Content.Count/2 + 1];
+                fromlangcode = await TranslationServiceFacade.DetectAsync(sample, true);
             }
 
-            string result = await TranslationServiceFacade.TranslateStringAsync(sb.ToString(), fromlangcode, tolangcode, category);
+            string result = await TranslationServiceFacade.TranslateStringAsync(sb.ToString(), fromlangcode, tolangcode);
             sb.Clear();
 
             //Compose the resulting VTT
 
             List<int> offsets = await TranslationServiceFacade.BreakSentencesAsync(result, tolangcode);
             List<string> resultVTT = new List<string>();
-            resultVTT.Add(result.Substring(0, offsets[0]));
-            for (int i=1; i <= offsets.Count; i++)
+            resultVTT.AddRange(Header);
+            int startindex = 0;
+            for (int i=0; i < offsets.Count; i++)
             {
-                resultVTT.Add(result.Substring(offsets[i - 1], offsets[i]));
+                resultVTT.Add(result.Substring(startindex, offsets[i]));
+                startindex += offsets[i];
             }
 
             using (StreamWriter outVTT = new StreamWriter(filename))

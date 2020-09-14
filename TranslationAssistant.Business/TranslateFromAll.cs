@@ -55,7 +55,7 @@ namespace TranslationAssistant.Business
         {
             KeyValuePair<string, string> kv = new KeyValuePair<string, string>(
                 key: from,
-                value: await TranslationServiceFacade.TranslateStringAsync(text, from, to, category, contentType).ConfigureAwait(false)
+                value: await TranslationServiceFacade.TranslateStringAsync(text, from, to, contentType).ConfigureAwait(false)
                 );
             return kv;
         }

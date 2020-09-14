@@ -86,7 +86,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
                 InputBox.Text,
                 translateFrom,
                 TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(documentTranslation.SelectedTargetLanguage),
-                TranslationServices.Core.TranslationServiceFacade.CategoryID,
                 contentType
             );
             try

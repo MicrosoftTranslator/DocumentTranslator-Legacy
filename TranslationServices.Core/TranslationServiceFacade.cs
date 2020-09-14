@@ -12,19 +12,19 @@
 // // ----------------------------------------------------------------------
 
 #region Usings
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Diagnostics;
-    using System.Globalization;
-    using System.IO;
-    using System.Linq;
-    using System.Net.Http;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 #endregion
 
 namespace TranslationAssistant.TranslationServices.Core
@@ -267,7 +267,10 @@ namespace TranslationAssistant.TranslationServices.Core
                 try
                 {
                     string[] teststring = { "Test" };
-                    Task<string[]> translateTask = TranslateV3Async(teststring, "en", "he", category);
+                    string remembercategory = CategoryID;
+                    CategoryID = category;
+                    Task<string[]> translateTask = TranslateV3Async(teststring, "en", "he");
+                    CategoryID = remembercategory;
                     await translateTask.ConfigureAwait(false);
                     if (translateTask.Result == null) return false; else return true;
                 }
@@ -483,7 +486,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
             toCode = LanguageNameToLanguageCode(to);
 
-            string[] result = TranslateV3Async(texts, fromCode, toCode, CategoryID, contentType).Result;
+            string[] result = TranslateV3Async(texts, fromCode, toCode, contentType).Result;
             return result;
         }
 
@@ -525,7 +528,7 @@ namespace TranslationAssistant.TranslationServices.Core
         private static async Task<int> LastSentenceBreak(string text, string languagecode)
         {
             int sum = 0;
-            List<int> breakSentenceResult = await BreakSentencesAsync(text, languagecode).ConfigureAwait(false);
+            List<int> breakSentenceResult = await BreakSentencesInternal(text, languagecode).ConfigureAwait(false);
             for (int i = 0; i < breakSentenceResult.Count-1; i++) sum += breakSentenceResult[i];
             return sum;
         }
@@ -543,22 +546,21 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <summary>
         /// Translates a string.
         /// </summary>
-        /// <param name="text">Test to translate</param>
+        /// <param name="text">Text to translate</param>
         /// <param name="from">From languagecode</param>
         /// <param name="to">To languagecode</param>
         /// <param name="category">Category ID</param>
         /// <param name="contentType">Plain text or HTML. Default is plain text.</param>
         /// 
         /// <returns></returns>
-        public static async Task<string> TranslateStringAsync(string text, string from, string to, string category, ContentType contentType = ContentType.plain)
+        public static async Task<string> TranslateStringAsync(string text, string from, string to, ContentType contentType = ContentType.plain)
         {
             string[] vs = new string[1];
             vs[0] = text;
-            Task<string[]> task = TranslateV3Async(vs, from, to, CategoryID, contentType);
-            await task.ConfigureAwait(false);
+            string[] result = await TranslateV3Async(vs, from, to, contentType);
             try
             {
-                return task.Result[0];
+                return result[0];
             }
             catch (System.IndexOutOfRangeException)
             {
@@ -602,6 +604,27 @@ namespace TranslationAssistant.TranslationServices.Core
             }
         }
 
+        /// <summary>
+        /// Breaks a string into sentences, regardless of the length of the input text. 
+        /// </summary>
+        /// <param name="text">The text to split. </param>
+        /// <param name="languagecode">The language of the text</param>
+        /// <returns>List of integers of sentence lengths.</returns>
+        public static async Task<List<int>> BreakSentencesAsync(string text, string languagecode)
+        {
+            if (text.Length > maxrequestsize)
+            {
+                List<string> splits = await SplitStringAsync(text, languagecode).ConfigureAwait(false);
+                List<int> resultlist = new List<int>();
+                foreach (string str in splits)
+                {
+                    List<int> toadd = await BreakSentencesInternal(str, languagecode).ConfigureAwait(false);
+                    resultlist.AddRange(toadd);
+                }
+                return resultlist;
+            }
+            else return await BreakSentencesInternal(text, languagecode).ConfigureAwait(false);
+        }
 
 
         /// <summary>
@@ -610,7 +633,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="text"></param>
         /// <param name="language"></param>
         /// <returns>List of integers denoting the offset of the sentence boundaries</returns>
-        public static async Task<List<int>> BreakSentencesAsync(string text, string languagecode)
+        private static async Task<List<int>> BreakSentencesInternal(string text, string languagecode)
         {
             if (UseCustomEndpoint)
             {
@@ -655,7 +678,7 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="contentType">Plain text or HTML</param>
         /// <param name="retrycount">How many times to retry</param>
         /// <returns></returns>
-        private static async Task<string[]> TranslateV3Async(string[] texts, string from, string to, string category, ContentType contentType = ContentType.plain, int retrycount = 3)
+        private static async Task<string[]> TranslateV3Async(string[] texts, string from, string to, ContentType contentType = ContentType.plain, int retrycount = 3)
         {
             if (from == to) return texts;
             bool translateindividually = false;
@@ -672,8 +695,10 @@ namespace TranslationAssistant.TranslationServices.Core
                     string linetranslation = string.Empty;
                     foreach (string innertext in splitstring)
                     {
-                        string innertranslation = await TranslateStringAsync(innertext, from, to, category, contentType).ConfigureAwait(false);
-                        linetranslation += innertranslation;
+                        string[] str = new string[1];
+                        str[0] = innertext;
+                        string[] innertranslation = await TranslateV3AsyncInternal(str, from, to, CategoryID, contentType).ConfigureAwait(false);
+                        linetranslation += innertranslation[0];
                     }
                     resultlist.Add(linetranslation);
                 }
@@ -681,7 +706,7 @@ namespace TranslationAssistant.TranslationServices.Core
             }
             else
             {
-                return await TranslateV3AsyncInternal(texts, from, to, category, contentType).ConfigureAwait(false);
+                return await TranslateV3AsyncInternal(texts, from, to, CategoryID, contentType).ConfigureAwait(false);
             }
         }
 
