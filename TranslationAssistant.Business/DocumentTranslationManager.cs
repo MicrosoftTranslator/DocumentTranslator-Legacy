@@ -770,6 +770,23 @@ namespace TranslationAssistant.Business
                 texts.AddRange(body.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>()
                     .Where(text => !String.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
 
+#if DEBUG
+                //--------DEBUG PROCESSING -------------
+                if (false)
+                {
+                    using (StreamWriter debugoutput = new StreamWriter(outputDocumentFullName + ".debug.txt"))
+                    {
+                        foreach (var text in texts)
+                        {
+                            debugoutput.WriteLine(text.Text);
+                        }
+                        debugoutput.Flush();
+                        debugoutput.Close();
+                    }
+                }
+                //--------END DEBUG --------------------
+#endif
+
                 var headers = doc.MainDocumentPart.HeaderParts.Select(p => p.Header);
                 foreach (var header in headers)
                 {

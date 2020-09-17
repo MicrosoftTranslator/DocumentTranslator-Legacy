@@ -113,7 +113,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
         /// </summary>
         public DocumentTranslation()
         {
-            TranslationServiceFacade.Initialize();
+            _ = TranslationServiceFacade.Initialize();
             this.PopulateAvailableLanguages();
             this.PopulateTranslateMode();
             this.ShowProgressBar = false;

@@ -381,6 +381,7 @@ namespace TranslationAssistant.TranslationServices.Core
             }
             catch (HttpRequestException)
             {
+                Debug.WriteLine("ERROR: Request exception while retrieving languages.");
                 authMode = AuthMode.Disconnected;
                 AvailableLanguages.Clear();
                 return;
