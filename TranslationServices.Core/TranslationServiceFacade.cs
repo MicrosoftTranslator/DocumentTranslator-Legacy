@@ -403,7 +403,7 @@ namespace TranslationAssistant.TranslationServices.Core
             }
             else if (AvailableLanguages.ContainsValue(languagename))
             {
-                return AvailableLanguages.First(t => t.Value == languagename).Key;
+                return AvailableLanguages.FirstOrDefault(t => t.Value == languagename).Key;
             }
             else
             {

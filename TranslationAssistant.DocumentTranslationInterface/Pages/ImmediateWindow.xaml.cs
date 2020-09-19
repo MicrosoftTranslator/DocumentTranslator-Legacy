@@ -158,8 +158,8 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
             documentTranslation.SelectedSourceLanguage = e.AddedItems[0].ToString();
             if (InputBox != null)
             {
-                if ((TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(documentTranslation.SelectedSourceLanguage) == "he") ||
-                 (TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(documentTranslation.SelectedSourceLanguage) == "ar"))
+                string langcode = TranslationServices.Core.TranslationServiceFacade.LanguageNameToLanguageCode(documentTranslation.SelectedSourceLanguage);
+                if ((langcode == "he") || (langcode == "ar"))   //Bidi languages
                 {
                     InputBox.HorizontalAlignment = HorizontalAlignment.Right;
                     InputBox.TextAlignment = TextAlignment.Right;
