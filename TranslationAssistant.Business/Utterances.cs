@@ -56,7 +56,7 @@ namespace TranslationAssistant.Business
                 else
                 {
                     u.portion = (double) u.content.Length / (double) sumlength;
-                    u.lines = CountNewlines(u.content);
+                    u.lines = CountNewlines(u.content) - 1;
                 }
 
             }
@@ -75,8 +75,15 @@ namespace TranslationAssistant.Business
                 Debug.WriteLine("Targetlength: {0}", targetlength);
 
                 string thistext = remainingstring.Substring(0 , FindClosestWordBreak(remainingstring, targetlength));
-                uResult.content = SplitLines(thistext, u.lines);
+                string tempstring = remainingstring.Substring(0, 10);
+                while (IsPunctuation(tempstring[0]))
+                {
+                    thistext += tempstring[0];
+                    tempstring = tempstring.Substring(1);
+                }
+                uResult.content = thistext;
                 remainingstring = remainingstring.Substring(uResult.content.Length);
+                uResult.content = SplitLines(thistext, u.lines);
                 UtteranceResultList.Add(uResult);
             }
 
@@ -110,7 +117,8 @@ namespace TranslationAssistant.Business
 
         private int FindClosestWordBreak(string input, int targetlength)
         {
-            if ((input.Length <= (targetlength + 1)) || (input.Length <=2)) return input.Length;
+            Random random = new Random();
+            if ((input.Length <= (targetlength + 2)) || (input.Length <=2) || (input.Length <= (targetlength - 2))) return input.Length;
             if (IsBreakCharacter(input[targetlength])) return targetlength;
             for (int i=1; i<targetlength; i++)
             {

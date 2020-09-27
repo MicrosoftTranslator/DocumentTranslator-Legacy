@@ -57,7 +57,7 @@ namespace TranslationAssistant.Business
                         if (line.Trim().Length > 0)
                         {
                             //this is a content line
-                            if (headerended) utterances[utterances.Count - 1].content += line + " ";
+                            if (headerended) utterances[utterances.Count - 1].content += line + "\n";
                             else Header.Add(line);
                         }
                         else
