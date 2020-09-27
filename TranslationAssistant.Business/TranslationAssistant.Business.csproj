@@ -70,6 +70,8 @@
     <Compile Include="AllLanguageList.cs" />
     <Compile Include="TranslateToAll.cs" />
     <Compile Include="TranslationBusinessHelper.cs" />
+    <Compile Include="Utterance.cs" />
+    <Compile Include="Utterances.cs" />
     <Compile Include="VTTTranslate.cs" />
     <Compile Include="XMLTranslationManager.cs" />
   </ItemGroup>

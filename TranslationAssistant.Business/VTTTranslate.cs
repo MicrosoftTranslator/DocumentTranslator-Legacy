@@ -13,9 +13,8 @@ namespace TranslationAssistant.Business
         #endregion Public Properties
 
         #region Private Properties
-        private List<string> Markup = new List<string>();
-        private List<string> Content = new List<string>();
         private List<string> Header = new List<string>();
+        private List<Utterance> utterances = new List<Utterance>();
         private string filename = null;
         private string langcode = null;
 
@@ -41,38 +40,52 @@ namespace TranslationAssistant.Business
 
             using (StreamReader streamReader = new StreamReader(filename))
             {
+                int i = 0;
                 while (!streamReader.EndOfStream)
                 {
                     string line = streamReader.ReadLine();
                     if (line.Trim().Length>0 && Char.IsDigit(line.Trim()[0]) && line.Contains("-->"))
                     {
-                        Markup.Add(line);
+                        //this is a time code line.
+                        Utterance u = new Utterance(i, string.Empty, string.Empty);
+                        u.timecode = line;
+                        utterances.Add(u);
                         headerended = true;
                     }
                     else
                     {
                         if (line.Trim().Length > 0)
                         {
-                            if (headerended) Content.Add(line);
+                            //this is a content line
+                            if (headerended) utterances[utterances.Count - 1].content += line + " ";
                             else Header.Add(line);
+                        }
+                        else
+                        {
+                            //this is a blank line, ending the utterance
+                            if (headerended)
+                            {
+                                i++;
+                            }
                         }
                     }
                 }
+                streamReader.Close();
             }
 
             //Concatenate the string
             StringBuilder sb = new StringBuilder();
-            foreach (var line in Content)
+            foreach (var u in utterances)
             {
-                sb.Append(line + " ");
+                sb.Append(u.content + " ");
             }
 
             //Translate
 
             string fromlangcode = null;
-            if (Content.Count > 3)
+            if (utterances.Count > 3)
             {
-                string sample = Content[Content.Count/2] + Content[Content.Count/2 - 1] + Content[Content.Count/2 + 1];
+                string sample = utterances[utterances.Count/2].content + utterances[utterances.Count/2 - 1].content + utterances[utterances.Count/2 + 1].content;
                 fromlangcode = await TranslationServiceFacade.DetectAsync(sample, true);
             }
 
@@ -80,22 +93,40 @@ namespace TranslationAssistant.Business
             sb.Clear();
 
             //Compose the resulting VTT
+            result = await InsertSentenceBreaks(result, tolangcode);
+            Utterances utt = new Utterances(utterances);
+            List<Utterance> newutt = utt.Distribute(result);
 
-            List<int> offsets = await TranslationServiceFacade.BreakSentencesAsync(result, tolangcode);
-            List<string> resultVTT = new List<string>();
-            resultVTT.AddRange(Header);
+            using (StreamWriter newVTT = new StreamWriter(filename))
+            {
+                foreach(var line in Header)
+                {
+                    newVTT.WriteLine(line);
+                }
+                newVTT.WriteLine();
+                foreach (var u in newutt)
+                {
+                    newVTT.WriteLine(u.timecode);
+                    newVTT.WriteLine(u.content);
+                    newVTT.WriteLine();
+                }
+                newVTT.Close();
+            }
+
+            return 0;
+        }
+
+        private async Task<string> InsertSentenceBreaks(string input, string tolangcode)
+        {
+            List<int> sentbreaks = await TranslationServiceFacade.BreakSentencesAsync(input, tolangcode);
+            StringBuilder sb = new StringBuilder();
             int startindex = 0;
-            for (int i=0; i < offsets.Count; i++)
+            for (int i = 0; i < sentbreaks.Count; i++)
             {
-                resultVTT.Add(result.Substring(startindex, offsets[i]));
-                startindex += offsets[i];
+                sb.AppendLine(input.Substring(startindex, sentbreaks[i]));
+                startindex += sentbreaks[i];
             }
-
-            using (StreamWriter outVTT = new StreamWriter(filename))
-            {
-                foreach (string line in resultVTT) outVTT.WriteLine(line);
-            }
-            return resultVTT.Count;
+            return sb.ToString();
         }
 
         #endregion Methods
