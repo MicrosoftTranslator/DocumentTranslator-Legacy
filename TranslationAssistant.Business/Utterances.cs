@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -48,7 +47,7 @@ namespace TranslationAssistant.Business
             List<int> groupsums = new List<int>();
 
             //assign groups and calculate group sum
-            for (int i =0; i< UtteranceList.Count; i++)
+            for (int i = 0; i < UtteranceList.Count; i++)
             {
                 UtteranceList[i].group = groupnum;
                 if (UtteranceList[i].lines == 0)
@@ -89,7 +88,7 @@ namespace TranslationAssistant.Business
             List<int>[] sentencebreaks = await Task.WhenAll(tasklist);
 
             //split the new text per ratio
-            for (int groupindex=0; groupindex<newtext.Count; groupindex++)
+            for (int groupindex = 0; groupindex < newtext.Count; groupindex++)
             {
                 //get all utterances for this group
                 IEnumerable<Utterance> grouplist = UtteranceList.Where(utterance => utterance.group == groupindex);
@@ -99,12 +98,13 @@ namespace TranslationAssistant.Business
                 {
                     portions.Add(item.portion);
                 }
-                List<string> splitlist = SplitString2(newtext[groupindex], portions);
+                List<string> splitlist = SplitString(newtext[groupindex], portions);
                 List<Utterance> newgrouplist = grouplist.ToList();
                 for (int utteranceindex = 0; utteranceindex < grouplist.Count(); utteranceindex++)
                 {
                     Utterance utt = newgrouplist[utteranceindex];
                     utt.content = splitlist[utteranceindex];
+                    utt.content = SplitLines(utt.content, utt.lines);
                     UtteranceResultList.Add(utt);
                 }
             }
@@ -113,67 +113,37 @@ namespace TranslationAssistant.Business
             return UtteranceResultList;
         }
 
-        private List<string> SplitString2(string text, List<double> portions)
+        /// <summary>
+        /// Splits a text into portions of uneven length
+        /// </summary>
+        /// <param name="text">The text to split</param>
+        /// <param name="portions">The distribution of portions</param>
+        /// <returns>List of strings, each one corresponding in length to the portions key</returns>
+        private List<string> SplitString(string text, List<double> portions)
         {
             List<double> normalizedportions = NormalizeDistribution(portions);
             List<string> resultlist = new List<string>(portions.Count);
-            if (portions.Count <= 1 )
+            if (portions.Count <= 1)
             {
                 resultlist.Add(text);
                 return resultlist;
             }
-            int firstbreak = FindClosestWordBreak(text, (int) (normalizedportions[0] * text.Length));
+            int firstbreak = FindClosestWordBreak(text, (int)(normalizedportions[0] * text.Length));
             resultlist.Add(text.Substring(0, firstbreak));
-            Debug.WriteLine("Resultlist added: " + text.Substring(0, firstbreak));
             string remainder = text.Substring(firstbreak);
             List<double> newportions = new List<double>(portions.Count);
             newportions = portions;
             newportions.RemoveAt(0);
-            resultlist.AddRange(SplitString2(remainder, newportions));
+            resultlist.AddRange(SplitString(remainder, newportions));
             return resultlist;
         }
 
 
-
         /// <summary>
-        /// Splits a text into uneven sized portions, trying to hit sentence breaks within tolerance
+        /// Normalize a distribution to sum up to 1.
         /// </summary>
-        /// <param name="text">The text to split</param>
-        /// <param name="sentencebreaks">An array of sentence breaks</param>
-        /// <param name="distribution">An array of facors for the relative length of each portion</param>
-        /// <param name="tolerance">The tolerance for sentence breaks relative to string length. Higher than tolerance goes to word break.</param>
-        /// <returns>Array of strings split by the distribution. Number of rows matches the length of the distribution array.</returns>
-        private List<string> SplitString(string text, List<int> sentencebreaks, List<double> distribution, float tolerance)
-        {
-            List<string> candidates = new List<string>(distribution.Count);
-            if (distribution.Count <= 1)
-            {
-                candidates.Add(text);
-                return candidates;
-            }
-            List<double> normalizeddistribution = NormalizeDistribution(distribution);
-
-            //
-            string remainingtext = text;
-            for (int index = 0; index < distribution.Count; index++)
-            {
-                int targetlength = (int)normalizeddistribution[index] * text.Length;
-                if (targetlength >= text.Length)
-                {
-                    candidates.Add(text);
-                    continue;
-                }
-                int brk = FindClosest(sentencebreaks, targetlength);
-                if (Math.Abs(brk - targetlength) > (targetlength * 1.25))
-                {
-                    brk = FindClosestWordBreak(remainingtext, targetlength);
-                }
-                candidates.Add(remainingtext.Substring(0, brk));
-                remainingtext = remainingtext.Substring(brk);
-            }
-            return candidates;
-        }
-
+        /// <param name="distribution">Distribution key</param>
+        /// <returns>Normalized distribution key, sums to 1</returns>
         private static List<double> NormalizeDistribution(List<double> distribution)
         {
             //Normalize the distribution
@@ -189,7 +159,7 @@ namespace TranslationAssistant.Business
 
         private int FindClosest(List<int> breaks, int targetlength)
         {
-            if (breaks.Count<1) return 0;
+            if (breaks.Count < 1) return 0;
             int candidate = breaks[0];
             int newcandidate = candidate;
             for (int i = 1; i < breaks.Count; i++)
@@ -213,7 +183,7 @@ namespace TranslationAssistant.Business
             List<int> sentencebreaks = await TranslationServices.Core.TranslationServiceFacade.BreakSentencesAsync(text, langcode);
             int candidate = sentencebreaks[0];
             int newcandidate = candidate;
-            for (int i=1; i<sentencebreaks.Count; i++)
+            for (int i = 1; i < sentencebreaks.Count; i++)
             {
                 newcandidate += sentencebreaks[i];
                 if (Math.Abs(newcandidate - targetlength) < Math.Abs(candidate - targetlength)) candidate = newcandidate;
@@ -222,34 +192,39 @@ namespace TranslationAssistant.Business
         }
 
 
+        /// <summary>
+        /// Inserts line breaks to make lines evenly long. Removes any pre-existing line breaks. 
+        /// </summary>
+        /// <param name="thistext">Original text</param>
+        /// <param name="lines">Number of lines</param>
+        /// <returns>Re-linebroken text</returns>
         private string SplitLines(string thistext, int lines)
         {
-            if (String.IsNullOrEmpty(thistext) || (lines < 1)) return string.Empty;
-            if (lines == 1) return thistext;
+            if (string.IsNullOrEmpty(thistext) || (lines < 1)) return string.Empty;
+            thistext = thistext.Replace("\r\n", " ");
+            thistext = thistext.Replace("\r", " ");
+            thistext = thistext.Replace("\n", " ");
+            if (lines <= 1) return thistext;
             StringBuilder result = new StringBuilder();
-            int avgLength = (int) (thistext.Length / lines);
+            int avgLength = thistext.Length / lines;
             string remainingtext = thistext;
-            for (int i=0; i<lines; i++)
+            for (int i = 0; i < (lines - 1) ; i++)
             {
                 int endindex = FindClosestWordBreak(remainingtext, avgLength);
                 string interim = remainingtext.Substring(0, endindex);
-                interim = interim .Replace("\r\n", " ");
-                interim = interim.Replace("\n", " ");
-                interim = interim.Replace("\n", " ");
                 result.AppendLine(interim.Trim());
                 remainingtext = remainingtext.Substring(endindex);
-                Debug.WriteLine("SplitLines.remainingtext: {0}", remainingtext);
             }
-
+            result.Append(remainingtext.Trim());
             return result.ToString();
         }
 
         private int FindClosestWordBreak(string input, int targetlength)
         {
             Random random = new Random();
-            if ((input.Length <= (targetlength + 2)) || (input.Length <=2) || (input.Length <= (targetlength - 2))) return input.Length;
+            if ((input.Length <= (targetlength + 2)) || (input.Length <= 2) || (input.Length <= (targetlength - 2))) return input.Length;
             if (IsBreakCharacter(input[targetlength])) return targetlength;
-            for (int i=1; i<targetlength; i++)
+            for (int i = 1; i < targetlength; i++)
             {
                 if ((targetlength + i) >= input.Length) return targetlength + i;
                 if (IsBreakCharacter(input[targetlength + i])) return targetlength + i;
@@ -295,23 +270,5 @@ namespace TranslationAssistant.Business
             }
         }
 
-
-
-
-        /// <summary>
-        /// Calculates the number of newlines in a string.
-        /// </summary>
-        /// <param name="content">Text Content to count</param>
-        /// <returns>Number of lines</returns>
-        private int CountNewlines(string content)
-        {
-            if (content.Length < 1) return 0;
-            int count = 1;
-            foreach (char c in content)
-            {
-                if (c == '\n') count++;
-            }
-            return count;
-        }
     }
 }

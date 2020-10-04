@@ -96,6 +96,14 @@ namespace TranslationAssistant.Business
 
             TranslateList translateList = new TranslateList();
             List<string> translationresult = await translateList.Translate(list, fromlangcode, tolangcode);
+            using (StreamWriter debugfile = new StreamWriter(filename + ".original.txt"))
+            {
+                foreach (string line in list) debugfile.WriteLine(line);
+            }
+            using (StreamWriter debugfile = new StreamWriter(filename + ".translation.txt"))
+            {
+                foreach (string line in translationresult) debugfile.WriteLine(line);
+            }
 
             //Compose the resulting VTT
             //translationresult = await InsertSentenceBreaks(translationresult, tolangcode);
