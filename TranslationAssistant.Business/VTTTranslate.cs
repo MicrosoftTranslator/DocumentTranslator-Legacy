@@ -57,28 +57,33 @@ namespace TranslationAssistant.Business
                         if (line.Trim().Length > 0)
                         {
                             //this is a content line
-                            if (headerended) utterances[utterances.Count - 1].content += line + "\n";
-                            else Header.Add(line);
-                        }
-                        else
-                        {
-                            //this is a blank line, ending the utterance
                             if (headerended)
                             {
-                                i++;
+                                utterances[utterances.Count - 1].content += line + " ";
+                                utterances[utterances.Count - 1].lines++;
                             }
+                            else Header.Add(line);
                         }
                     }
                 }
                 streamReader.Close();
             }
 
-            //Concatenate the string
+            //Concatenate the string in groups.
+            List<string> list = new List<string>();
             StringBuilder sb = new StringBuilder();
             foreach (var u in utterances)
             {
+                if (u.lines == 0)
+                {
+                    list.Add(sb.ToString());
+                    sb.Clear();
+                }
+
                 sb.Append(u.content + " ");
             }
+            if (sb.Length >= 1) list.Add(sb.ToString());
+            sb.Clear();
 
             //Translate
 
@@ -89,13 +94,13 @@ namespace TranslationAssistant.Business
                 fromlangcode = await TranslationServiceFacade.DetectAsync(sample, true);
             }
 
-            string result = await TranslationServiceFacade.TranslateStringAsync(sb.ToString(), fromlangcode, tolangcode);
-            sb.Clear();
+            TranslateList translateList = new TranslateList();
+            List<string> translationresult = await translateList.Translate(list, fromlangcode, tolangcode);
 
             //Compose the resulting VTT
-            result = await InsertSentenceBreaks(result, tolangcode);
+            //translationresult = await InsertSentenceBreaks(translationresult, tolangcode);
             Utterances utt = new Utterances(utterances);
-            List<Utterance> newutt = utt.Distribute(result);
+            List<Utterance> newutt = await utt.Distribute(translationresult);
 
             using (StreamWriter newVTT = new StreamWriter(filename))
             {

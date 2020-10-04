@@ -18,6 +18,7 @@ namespace TranslationAssistant.Business
         }
 
         public int order { get; set; }
+        public int group { get; set; }
         public string timecode { get; set; }
         public string content { get; set; }
         public int lines { get; set; }
