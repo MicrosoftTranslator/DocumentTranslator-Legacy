@@ -40,7 +40,8 @@ namespace TranslationAssistant.Business
         public async Task<List<Utterance>> Distribute(List<string> newtext)
         {
 
-            //Sum the lengths of each original utterance within the group of utterances. Groups are separated by a blank utterance.
+            //Sum the lengths of each original utterance within the group of utterances.
+            //Groups are separated by a blank utterance or sentence end punctuation as the last character of an utterance.
             //Two passes: First assign groups, then sum per group and calculate portions per utterance
             int groupsumlength = 0;
             int groupnum = 0;
@@ -77,15 +78,6 @@ namespace TranslationAssistant.Business
             }
 
             string remainingstring = string.Empty;
-
-            //generate sentence breaks
-            List<Task<List<int>>> tasklist = new List<Task<List<int>>>();
-            foreach (string line in newtext)
-            {
-                Task<List<int>> t = TranslationServices.Core.TranslationServiceFacade.BreakSentencesAsync(line, langcode);
-                tasklist.Add(t);
-            }
-            List<int>[] sentencebreaks = await Task.WhenAll(tasklist);
 
             //split the new text per ratio
             for (int groupindex = 0; groupindex < newtext.Count; groupindex++)
@@ -157,19 +149,6 @@ namespace TranslationAssistant.Business
             return normalizeddistribution;
         }
 
-        private int FindClosest(List<int> breaks, int targetlength)
-        {
-            if (breaks.Count < 1) return 0;
-            int candidate = breaks[0];
-            int newcandidate = candidate;
-            for (int i = 1; i < breaks.Count; i++)
-            {
-                newcandidate += breaks[i];
-                if (Math.Abs(newcandidate - targetlength) < Math.Abs(candidate - targetlength)) candidate = newcandidate;
-            }
-            return candidate;
-
-        }
 
         /// <summary>
         /// Returns offset of the closest sentence break
@@ -204,7 +183,7 @@ namespace TranslationAssistant.Business
             thistext = thistext.Replace("\r\n", " ");
             thistext = thistext.Replace("\r", " ");
             thistext = thistext.Replace("\n", " ");
-            if (lines <= 1) return thistext;
+            if (lines <= 1) return thistext.Trim();
             StringBuilder result = new StringBuilder();
             int avgLength = thistext.Length / lines;
             string remainingtext = thistext;
@@ -223,11 +202,17 @@ namespace TranslationAssistant.Business
         {
             Random random = new Random();
             if ((input.Length <= (targetlength + 2)) || (input.Length <= 2) || (input.Length <= (targetlength - 2))) return input.Length;
-            if (IsBreakCharacter(input[targetlength])) return targetlength;
+            if (IsPunctuation(input[targetlength])) return targetlength + 1;
+            if (IsPunctuation(input[targetlength + 1])) return targetlength + 2;
             for (int i = 1; i < targetlength; i++)
             {
                 if ((targetlength + i) >= input.Length) return targetlength + i;
-                if (IsBreakCharacter(input[targetlength + i])) return targetlength + i;
+                if (IsBreakCharacter(input[targetlength + i]))
+                {
+                    if (IsBreakCharacter(input[targetlength + i + 2])) return targetlength + i + 2;
+                    if (IsBreakCharacter(input[targetlength + i + 1])) return targetlength + i + 1;
+                    return targetlength + i;
+                }
                 if ((i < input.Length) && IsBreakCharacter(input[targetlength - i])) return targetlength - i;
             }
             return targetlength;
@@ -254,6 +239,8 @@ namespace TranslationAssistant.Business
 
         private bool IsPunctuation(char ch)
         {
+            if (ch == ',') return true;
+            if (ch == '.') return true;
             UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(ch);
             switch (category)
             {
@@ -264,6 +251,19 @@ namespace TranslationAssistant.Business
                 case UnicodeCategory.OtherPunctuation:
                 case UnicodeCategory.OtherSymbol:
                 case UnicodeCategory.ParagraphSeparator:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+        private bool IsSentEndPunctuation(char ch)
+        {
+            if (ch == '.') return true;
+            UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(ch);
+            switch (category)
+            {
+                case UnicodeCategory.ClosePunctuation:
+                case UnicodeCategory.FinalQuotePunctuation:
                     return true;
                 default:
                     return false;
