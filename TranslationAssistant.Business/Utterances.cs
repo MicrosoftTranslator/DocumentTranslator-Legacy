@@ -166,27 +166,6 @@ namespace TranslationAssistant.Business
 
 
         /// <summary>
-        /// Returns offset of the closest sentence break
-        /// </summary>
-        /// <param name="text">text to analyze</param>
-        /// <param name="targetlength">Target length</param>
-        /// <returns></returns>
-        private async Task<int> FindClosestSentenceBreak(string text, int targetlength)
-        {
-            if (string.IsNullOrEmpty(text)) return 0;
-            List<int> sentencebreaks = await TranslationServices.Core.TranslationServiceFacade.BreakSentencesAsync(text, langcode);
-            int candidate = sentencebreaks[0];
-            int newcandidate = candidate;
-            for (int i = 1; i < sentencebreaks.Count; i++)
-            {
-                newcandidate += sentencebreaks[i];
-                if (Math.Abs(newcandidate - targetlength) < Math.Abs(candidate - targetlength)) candidate = newcandidate;
-            }
-            return candidate;
-        }
-
-
-        /// <summary>
         /// Inserts line breaks to make lines evenly long. Removes any pre-existing line breaks. 
         /// </summary>
         /// <param name="thistext">Original text</param>

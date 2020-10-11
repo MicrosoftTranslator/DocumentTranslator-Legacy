@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using TranslationAssistant.TranslationServices.Core;
 
 namespace TranslationAssistant.Business
 {
@@ -44,7 +41,7 @@ namespace TranslationAssistant.Business
                 while (!streamReader.EndOfStream)
                 {
                     string line = streamReader.ReadLine();
-                    if (line.Trim().Length>0 && Char.IsDigit(line.Trim()[0]) && line.Contains("-->"))
+                    if (line.Trim().Length > 0 && char.IsDigit(line.Trim()[0]) && line.Contains("-->"))
                     {
                         //this is a time code line.
                         Utterance u = new Utterance(uttindex, string.Empty, string.Empty);
@@ -74,9 +71,11 @@ namespace TranslationAssistant.Business
             Utterances utt = new Utterances(utterances);
             List<Utterance> newutt = await utt.Translate(tolangcode);
 
+
+            //Write out the target file
             using (StreamWriter newVTT = new StreamWriter(filename))
             {
-                foreach(var line in Header)
+                foreach (var line in Header)
                 {
                     newVTT.WriteLine(line);
                 }
@@ -93,18 +92,6 @@ namespace TranslationAssistant.Business
             return 0;
         }
 
-        private async Task<string> InsertSentenceBreaks(string input, string tolangcode)
-        {
-            List<int> sentbreaks = await TranslationServiceFacade.BreakSentencesAsync(input, tolangcode);
-            StringBuilder sb = new StringBuilder();
-            int startindex = 0;
-            for (int i = 0; i < sentbreaks.Count; i++)
-            {
-                sb.AppendLine(input.Substring(startindex, sentbreaks[i]));
-                startindex += sentbreaks[i];
-            }
-            return sb.ToString();
-        }
 
         #endregion Methods
     }
