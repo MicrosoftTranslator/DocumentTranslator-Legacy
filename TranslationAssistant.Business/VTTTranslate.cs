@@ -40,14 +40,15 @@ namespace TranslationAssistant.Business
 
             using (StreamReader streamReader = new StreamReader(filename))
             {
-                int i = 0;
+                int uttindex = 0;
                 while (!streamReader.EndOfStream)
                 {
                     string line = streamReader.ReadLine();
                     if (line.Trim().Length>0 && Char.IsDigit(line.Trim()[0]) && line.Contains("-->"))
                     {
                         //this is a time code line.
-                        Utterance u = new Utterance(i, string.Empty, string.Empty);
+                        Utterance u = new Utterance(uttindex, string.Empty, string.Empty);
+                        uttindex++;
                         u.timecode = line;
                         utterances.Add(u);
                         headerended = true;
@@ -69,50 +70,9 @@ namespace TranslationAssistant.Business
                 streamReader.Close();
             }
 
-            //Concatenate the string in groups.
-            List<string> list = new List<string>();
-            StringBuilder sb = new StringBuilder();
-            foreach (var u in utterances)
-            {
-                if (u.lines == 0)
-                {
-                    list.Add(sb.ToString());
-                    sb.Clear();
-                }
-
-                sb.Append(u.content + " ");
-            }
-            if (sb.Length >= 1) list.Add(sb.ToString());
-            sb.Clear();
-
-            //Translate
-
-            string fromlangcode = null;
-            if (utterances.Count > 3)
-            {
-                string sample = utterances[utterances.Count/2].content + utterances[utterances.Count/2 - 1].content + utterances[utterances.Count/2 + 1].content;
-                fromlangcode = await TranslationServiceFacade.DetectAsync(sample, true);
-            }
-
-            TranslateList translateList = new TranslateList();
-            List<string> translationresult = await translateList.Translate(list, fromlangcode, tolangcode);
-
-            if (false)
-            {
-                using (StreamWriter debugfile = new StreamWriter(filename + ".original.txt"))
-                {
-                    foreach (string line in list) debugfile.WriteLine(line);
-                }
-                using (StreamWriter debugfile = new StreamWriter(filename + ".translation.txt"))
-                {
-                    foreach (string line in translationresult) debugfile.WriteLine(line);
-                }
-            }
-
-            //Compose the resulting VTT
-            //translationresult = await InsertSentenceBreaks(translationresult, tolangcode);
+            //Translate the utterances
             Utterances utt = new Utterances(utterances);
-            List<Utterance> newutt = await utt.Distribute(translationresult);
+            List<Utterance> newutt = await utt.Translate(tolangcode);
 
             using (StreamWriter newVTT = new StreamWriter(filename))
             {

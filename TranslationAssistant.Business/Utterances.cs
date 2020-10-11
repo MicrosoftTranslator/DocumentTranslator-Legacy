@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TranslationAssistant.TranslationServices.Core;
 
 namespace TranslationAssistant.Business
 {
@@ -14,6 +16,8 @@ namespace TranslationAssistant.Business
         public string langcode { get; set; }
 
         private List<Utterance> UtteranceResultList = new List<Utterance>();
+
+        private List<int> groupsumlengths = new List<int>();
 
         public Utterances(List<Utterance> utterances)
         {
@@ -30,6 +34,43 @@ namespace TranslationAssistant.Business
             langcode = languagecode;
         }
 
+        /// <summary>
+        /// Translate a lit of utterances and distribute the translation in equal length. 
+        /// </summary>
+        /// <param name="tolang">TO language</param>
+        /// <returns>List of translated utterances</returns>
+        public async Task<List<Utterance>> Translate(string tolang)
+        {
+            List<Task<string>> tasklist = new List<Task<string>>();
+            int groupid = 0;
+            string stringtotranslate = string.Empty;
+            foreach (Utterance utt in UtteranceList)
+            {
+                utt.group = groupid;
+                stringtotranslate += utt.content;
+                if (IsSentEndPunctuation(LastNonWhiteCharacter(stringtotranslate)) ||
+                    utt.content.Trim().Length < 1 ||
+                    utt.lines == 0)
+                {
+                    tasklist.Add(TranslationServiceFacade.TranslateStringAsync(stringtotranslate, langcode, tolang));
+                    groupid++;
+                    groupsumlengths.Add(stringtotranslate.Length);
+                    stringtotranslate = string.Empty;
+                }
+            }
+            string[] resultlist = await Task.WhenAll(tasklist);
+            Debug.Assert(groupid == resultlist.Length);
+            return Distribute(resultlist.ToList());
+        }
+
+        private char LastNonWhiteCharacter(string text)
+        {
+            if (text.Length < 1) return char.MinValue;
+            string candidate = text.Trim();
+            if (candidate.Length < 1) return char.MinValue;
+            return candidate[candidate.Length - 1];
+        }
+
 
         /// <summary>
         /// Distribute the New Text to the utterances that mirrors 
@@ -37,43 +78,19 @@ namespace TranslationAssistant.Business
         /// </summary>
         /// <param name="newtext">The new text.</param>
         /// <returns>The list of utterances containing the new text.</returns>
-        public async Task<List<Utterance>> Distribute(List<string> newtext)
+        private List<Utterance> Distribute(List<string> newtext)
         {
-
-            //Sum the lengths of each original utterance within the group of utterances.
-            //Groups are separated by a blank utterance or sentence end punctuation as the last character of an utterance.
-            //Two passes: First assign groups, then sum per group and calculate portions per utterance
-            int groupsumlength = 0;
-            int groupnum = 0;
-            List<int> groupsums = new List<int>();
-
-            //assign groups and calculate group sum
-            for (int i = 0; i < UtteranceList.Count; i++)
-            {
-                UtteranceList[i].group = groupnum;
-                if (UtteranceList[i].lines == 0)
-                {
-                    groupsums.Add(groupsumlength);
-                    groupnum++;
-                    groupsumlength = 0;
-                }
-                else
-                {
-                    groupsumlength += UtteranceList[i].content.Length;
-                }
-            }
-
             //Calculate the ratio of each utterance per group. 
-            for (int i = 0; i < UtteranceList.Count; i++)
+            for (int utteranceindex = 0; utteranceindex < UtteranceList.Count; utteranceindex++)
             {
-                if ((UtteranceList[i].content.Length < 1) || (groupsums[UtteranceList[i].group] == 0))
+                if ((UtteranceList[utteranceindex].content.Length < 1) || (groupsumlengths[UtteranceList[utteranceindex].group] == 0))
                 {
-                    UtteranceList[i].portion = 0;
-                    UtteranceList[i].lines = 0;
+                    UtteranceList[utteranceindex].portion = 0;
+                    UtteranceList[utteranceindex].lines = 0;
                 }
                 else
                 {
-                    UtteranceList[i].portion = (double)UtteranceList[i].content.Length / groupsums[UtteranceList[i].group];
+                    UtteranceList[utteranceindex].portion = (double)UtteranceList[utteranceindex].content.Length / groupsumlengths[UtteranceList[utteranceindex].group];
                 }
             }
 
@@ -100,8 +117,6 @@ namespace TranslationAssistant.Business
                     UtteranceResultList.Add(utt);
                 }
             }
-
-
             return UtteranceResultList;
         }
 
@@ -187,7 +202,7 @@ namespace TranslationAssistant.Business
             StringBuilder result = new StringBuilder();
             int avgLength = thistext.Length / lines;
             string remainingtext = thistext;
-            for (int i = 0; i < (lines - 1) ; i++)
+            for (int i = 0; i < (lines - 1); i++)
             {
                 int endindex = FindClosestWordBreak(remainingtext, avgLength);
                 string interim = remainingtext.Substring(0, endindex);
@@ -209,7 +224,7 @@ namespace TranslationAssistant.Business
                 if ((targetlength + i) >= input.Length) return targetlength + i;
                 if (IsBreakCharacter(input[targetlength + i]))
                 {
-                    if (IsBreakCharacter(input[targetlength + i + 2])) return targetlength + i + 2;
+                    if (input.Length > (targetlength + i + 2) && IsBreakCharacter(input[targetlength + i + 2])) return targetlength + i + 2;
                     if (IsBreakCharacter(input[targetlength + i + 1])) return targetlength + i + 1;
                     return targetlength + i;
                 }

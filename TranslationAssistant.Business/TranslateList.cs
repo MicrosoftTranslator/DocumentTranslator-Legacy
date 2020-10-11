@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TranslationAssistant.TranslationServices.Core;
 
@@ -18,7 +16,7 @@ namespace TranslationAssistant.Business
         {
             List<string> translatedlist = new List<string>();
             List<Task<string>> tasklist = new List<Task<string>>();
-            foreach(string text in list)
+            foreach (string text in list)
             {
                 Task<string> task = TranslationServiceFacade.TranslateStringAsync(text, from, to);
                 tasklist.Add(task);
