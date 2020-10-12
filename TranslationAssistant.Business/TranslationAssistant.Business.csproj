@@ -60,12 +60,13 @@
     <Compile Include="CsvWriter.cs" />
     <Compile Include="DocumentTranslationManager.cs" />
     <Compile Include="MDTranslationManager.cs" />
-    <Compile Include="SRTTranslationManager.cs" />
     <Compile Include="HTMLTranslationManager.cs" />
     <Compile Include="LoggingManager.cs" />
     <Compile Include="Model\CommentTranslationModel.cs" />
     <Compile Include="Model\SolutionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReplaceLanguageCode.cs" />
+    <Compile Include="SRTTranslationManager.cs" />
     <Compile Include="TranslateFromAll.cs" />
     <Compile Include="AllLanguageList.cs" />
     <Compile Include="TranslateList.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="TranslationBusinessHelper.cs" />
     <Compile Include="Utterance.cs" />
     <Compile Include="Utterances.cs" />
+    <Compile Include="SRTTranslate.cs" />
     <Compile Include="VTTTranslate.cs" />
     <Compile Include="XMLTranslationManager.cs" />
   </ItemGroup>

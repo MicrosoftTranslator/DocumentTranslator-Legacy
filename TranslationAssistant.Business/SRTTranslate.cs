@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace TranslationAssistant.Business
 {
-    class VTTTranslate
+    class SRTTranslate
     {
         #region Public Properties
         #endregion Public Properties
@@ -19,7 +19,7 @@ namespace TranslationAssistant.Business
 
         #region Methods
 
-        public VTTTranslate(string filename, string langcode = "Detect")
+        public SRTTranslate(string filename, string langcode = "Detect")
         {
             this.filename = filename;
             this.langcode = langcode;
@@ -60,11 +60,7 @@ namespace TranslationAssistant.Business
                                 utterances[utterances.Count - 1].content += line + " ";
                                 utterances[utterances.Count - 1].lines++;
                             }
-                            else
-                            {
-                                line = ReplaceLanguageCode.Replace(line, langcode, tolangcode);
-                                Header.Add(line);
-                            }
+                            else Header.Add(line);
                         }
                     }
                 }
