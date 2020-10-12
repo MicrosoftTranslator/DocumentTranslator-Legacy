@@ -5,7 +5,6 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TranslationAssistant.TranslationServices.Core;
 
 namespace TranslationAssistant.Business
 {
@@ -35,13 +34,13 @@ namespace TranslationAssistant.Business
         }
 
         /// <summary>
-        /// Translate a lit of utterances and distribute the translation in equal length. 
+        /// Translate a list of utterances and distribute the translation in equal length. 
         /// </summary>
         /// <param name="tolang">TO language</param>
         /// <returns>List of translated utterances</returns>
         public async Task<List<Utterance>> Translate(string tolang)
         {
-            List<Task<string>> tasklist = new List<Task<string>>();
+            List<string> listtotranslate = new List<string>();
             int groupid = 0;
             string stringtotranslate = string.Empty;
             foreach (Utterance utt in UtteranceList)
@@ -52,15 +51,15 @@ namespace TranslationAssistant.Business
                     utt.content.Trim().Length < 1 ||
                     utt.lines == 0)
                 {
-                    tasklist.Add(TranslationServiceFacade.TranslateStringAsync(stringtotranslate, langcode, tolang));
+                    listtotranslate.Add(stringtotranslate);
                     groupid++;
                     groupsumlengths.Add(stringtotranslate.Length);
                     stringtotranslate = string.Empty;
                 }
             }
-            string[] resultlist = await Task.WhenAll(tasklist);
-            Debug.Assert(groupid == resultlist.Length);
-            return Distribute(resultlist.ToList());
+            List<string> resultlist = await new TranslateList().Translate(listtotranslate, langcode, tolang);
+            Debug.Assert(groupid == resultlist.Count);
+            return Distribute(resultlist);
         }
 
         private char LastNonWhiteCharacter(string text)
@@ -194,8 +193,8 @@ namespace TranslationAssistant.Business
 
         private int FindClosestWordBreak(string input, int targetlength)
         {
-            Random random = new Random();
             if ((input.Length <= (targetlength + 2)) || (input.Length <= 2) || (input.Length <= (targetlength - 2))) return input.Length;
+            if (IsPunctuation(input[targetlength - 1])) return targetlength;
             if (IsPunctuation(input[targetlength])) return targetlength + 1;
             if (IsPunctuation(input[targetlength + 1])) return targetlength + 2;
             for (int i = 1; i < targetlength; i++)
@@ -235,6 +234,9 @@ namespace TranslationAssistant.Business
         {
             if (ch == ',') return true;
             if (ch == '.') return true;
+            if (ch == '?') return true;
+            if (ch == '!') return true;
+            if (ch == '-') return true;
             UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(ch);
             switch (category)
             {
@@ -253,6 +255,8 @@ namespace TranslationAssistant.Business
         private bool IsSentEndPunctuation(char ch)
         {
             if (ch == '.') return true;
+            if (ch == '?') return true;
+            if (ch == '!') return true;
             UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(ch);
             switch (category)
             {
