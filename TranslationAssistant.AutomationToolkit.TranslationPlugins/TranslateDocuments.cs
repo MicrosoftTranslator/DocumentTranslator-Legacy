@@ -60,7 +60,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
         {
             try
             {
-                TranslationServiceFacade.Initialize();
+                _ = TranslationServiceFacade.Initialize();
             }
             catch (CredentialsMissingException ex)
             {

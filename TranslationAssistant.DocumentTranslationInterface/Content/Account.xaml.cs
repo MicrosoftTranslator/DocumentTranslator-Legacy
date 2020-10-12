@@ -53,7 +53,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Content
 
         private void CheckBox_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            TranslationServices.Core.TranslationServiceFacade.Initialize(true);
+            _ = TranslationServices.Core.TranslationServiceFacade.Initialize(true);
             ShowExperimental_Changed?.Invoke(this, EventArgs.Empty);
         }
         private void CloudSelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
