@@ -46,7 +46,7 @@ namespace TranslationAssistant.Business
                         //this is a time code line.
                         Utterance u = new Utterance(uttindex, string.Empty, string.Empty);
                         uttindex++;
-                        u.timecode = line;
+                        u.Timecode = line;
                         utterances.Add(u);
                         headerended = true;
                     }
@@ -57,8 +57,8 @@ namespace TranslationAssistant.Business
                             //this is a content line
                             if (headerended)
                             {
-                                utterances[utterances.Count - 1].content += line + " ";
-                                utterances[utterances.Count - 1].lines++;
+                                utterances[utterances.Count - 1].Content += line + " ";
+                                utterances[utterances.Count - 1].Lines++;
                             }
                             else Header.Add(line);
                         }
@@ -82,8 +82,8 @@ namespace TranslationAssistant.Business
                 newVTT.WriteLine();
                 foreach (var u in newutt)
                 {
-                    newVTT.WriteLine(u.timecode);
-                    newVTT.WriteLine(u.content);
+                    newVTT.WriteLine(u.Timecode);
+                    newVTT.WriteLine(u.Content);
                     newVTT.WriteLine();
                 }
                 newVTT.Close();
