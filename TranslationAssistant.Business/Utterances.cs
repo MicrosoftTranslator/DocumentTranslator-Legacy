@@ -45,11 +45,11 @@ namespace TranslationAssistant.Business
             string stringtotranslate = string.Empty;
             foreach (Utterance utt in UtteranceList)
             {
-                utt.group = groupid;
-                stringtotranslate += utt.content;
+                utt.Group = groupid;
+                stringtotranslate += utt.Content.Trim() + " ";
                 if (IsSentEndPunctuation(LastNonWhiteCharacter(stringtotranslate)) ||
-                    utt.content.Trim().Length < 1 ||
-                    utt.lines == 0)
+                    utt.Content.Trim().Length < 1 ||
+                    utt.Lines == 0)
                 {
                     listtotranslate.Add(stringtotranslate);
                     groupid++;
@@ -82,14 +82,14 @@ namespace TranslationAssistant.Business
             //Calculate the ratio of each utterance per group. 
             for (int utteranceindex = 0; utteranceindex < UtteranceList.Count; utteranceindex++)
             {
-                if ((UtteranceList[utteranceindex].content.Length < 1) || (groupsumlengths[UtteranceList[utteranceindex].group] == 0))
+                if ((UtteranceList[utteranceindex].Content.Length < 1) || (groupsumlengths[UtteranceList[utteranceindex].Group] == 0))
                 {
-                    UtteranceList[utteranceindex].portion = 0;
-                    UtteranceList[utteranceindex].lines = 0;
+                    UtteranceList[utteranceindex].Portion = 0;
+                    UtteranceList[utteranceindex].Lines = 0;
                 }
                 else
                 {
-                    UtteranceList[utteranceindex].portion = (double)UtteranceList[utteranceindex].content.Length / groupsumlengths[UtteranceList[utteranceindex].group];
+                    UtteranceList[utteranceindex].Portion = (double)UtteranceList[utteranceindex].Content.Length / groupsumlengths[UtteranceList[utteranceindex].Group];
                 }
             }
 
@@ -99,20 +99,20 @@ namespace TranslationAssistant.Business
             for (int groupindex = 0; groupindex < newtext.Count; groupindex++)
             {
                 //get all utterances for this group
-                IEnumerable<Utterance> grouplist = UtteranceList.Where(utterance => utterance.group == groupindex);
+                IEnumerable<Utterance> grouplist = UtteranceList.Where(utterance => utterance.Group == groupindex);
 
                 List<double> portions = new List<double>();
                 foreach (var item in grouplist)
                 {
-                    portions.Add(item.portion);
+                    portions.Add(item.Portion);
                 }
                 List<string> splitlist = SplitString(newtext[groupindex], portions);
                 List<Utterance> newgrouplist = grouplist.ToList();
                 for (int utteranceindex = 0; utteranceindex < grouplist.Count(); utteranceindex++)
                 {
                     Utterance utt = newgrouplist[utteranceindex];
-                    utt.content = splitlist[utteranceindex];
-                    utt.content = SplitLines(utt.content, utt.lines);
+                    utt.Content = splitlist[utteranceindex];
+                    utt.Content = SplitLines(utt.Content, utt.Lines);
                     UtteranceResultList.Add(utt);
                 }
             }
@@ -237,6 +237,7 @@ namespace TranslationAssistant.Business
             if (ch == '?') return true;
             if (ch == '!') return true;
             if (ch == '-') return true;
+            if (ch == ')') return true;
             UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(ch);
             switch (category)
             {
@@ -257,6 +258,8 @@ namespace TranslationAssistant.Business
             if (ch == '.') return true;
             if (ch == '?') return true;
             if (ch == '!') return true;
+            if (ch == '#') return true;
+            if (ch == ')') return true;
             UnicodeCategory category = CharUnicodeInfo.GetUnicodeCategory(ch);
             switch (category)
             {

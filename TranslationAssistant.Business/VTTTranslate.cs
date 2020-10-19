@@ -4,6 +4,12 @@ using System.Threading.Tasks;
 
 namespace TranslationAssistant.Business
 {
+    /// <summary>
+    /// Translate VTT and SRT caption files.
+    /// The function this class performs is to combine utterances into sententes.
+    /// then translate as whole sentences, and then distribute to the original time code
+    /// with a line length that approximates the original closely.
+    /// </summary>
     class VTTTranslate
     {
         #region Public Properties
@@ -14,15 +20,18 @@ namespace TranslationAssistant.Business
         private List<Utterance> utterances = new List<Utterance>();
         private string filename = null;
         public string langcode = null;
+        public enum Filetype { srt, vtt };
+        public Filetype filetype = Filetype.vtt;
 
         #endregion Private Properties
 
         #region Methods
 
-        public VTTTranslate(string filename, string langcode = "Detect")
+        public VTTTranslate(string filename, string langcode = "Detect", Filetype filetype = Filetype.vtt)
         {
             this.filename = filename;
             this.langcode = langcode;
+            this.filetype = filetype;
         }
 
         /// <summary>
@@ -41,12 +50,24 @@ namespace TranslationAssistant.Business
                 while (!streamReader.EndOfStream)
                 {
                     string line = streamReader.ReadLine();
+                    if (filetype == Filetype.srt)
+                    {
+                        //read the utterance number
+                        try
+                        {
+                            uttindex = System.Convert.ToInt16(line.Trim());
+                            if (uttindex > 0) continue;
+                        }
+                        catch (System.FormatException) { }
+                    }
+
+
                     if (line.Trim().Length > 0 && char.IsDigit(line.Trim()[0]) && line.Contains("-->"))
                     {
                         //this is a time code line.
                         Utterance u = new Utterance(uttindex, string.Empty, string.Empty);
                         uttindex++;
-                        u.timecode = line;
+                        u.Timecode = line;
                         utterances.Add(u);
                         headerended = true;
                     }
@@ -57,8 +78,8 @@ namespace TranslationAssistant.Business
                             //this is a content line
                             if (headerended)
                             {
-                                utterances[utterances.Count - 1].content += line + " ";
-                                utterances[utterances.Count - 1].lines++;
+                                utterances[utterances.Count - 1].Content += line + " ";
+                                utterances[utterances.Count - 1].Lines++;
                             }
                             else
                             {
@@ -86,8 +107,9 @@ namespace TranslationAssistant.Business
                 newVTT.WriteLine();
                 foreach (var u in newutt)
                 {
-                    newVTT.WriteLine(u.timecode);
-                    newVTT.WriteLine(u.content);
+                    if (filetype == Filetype.srt) newVTT.WriteLine(u.Order);
+                    newVTT.WriteLine(u.Timecode);
+                    newVTT.WriteLine(u.Content);
                     newVTT.WriteLine();
                 }
                 newVTT.Close();

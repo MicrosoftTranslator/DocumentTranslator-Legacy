@@ -299,7 +299,8 @@ namespace TranslationAssistant.Business
                 }
                 else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".srt"))
                 {
-                    SRTTranslationManager.DoTranslation(fullNameForDocumentToProcess, sourceLanguage, targetLanguage);
+                    VTTTranslate vTTTranslate = new VTTTranslate(fullNameForDocumentToProcess, sourceLanguage, VTTTranslate.Filetype.srt);
+                    _ = vTTTranslate.Translate(TranslationServiceFacade.LanguageNameToLanguageCode(targetLanguage)).Result;
                 }
                 else if (fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".md") || fullNameForDocumentToProcess.ToLowerInvariant().EndsWith(".markdown"))
                 {
