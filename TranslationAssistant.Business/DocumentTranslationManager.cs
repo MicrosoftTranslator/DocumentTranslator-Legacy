@@ -30,10 +30,10 @@ namespace TranslationAssistant.Business
     using DocumentFormat.OpenXml.Wordprocessing;
     using Microsoft.Office.Core;
     using Microsoft.Office.Interop.Word;
-
     using TranslationAssistant.TranslationServices.Core;
 
     using Comment = DocumentFormat.OpenXml.Spreadsheet.Comment;
+    using Footnote = DocumentFormat.OpenXml.Wordprocessing.Footnote;
 
     #endregion
 
@@ -747,7 +747,7 @@ namespace TranslationAssistant.Business
                     RemoveBookmarks = true,
                     RemoveComments = true,
                     RemoveContentControls = true,
-                    RemoveEndAndFootNotes = true,
+                    RemoveEndAndFootNotes = false,
                     RemoveFieldCodes = true,
                     RemoveGoBackBookmark = true,
                     //RemoveHyperlinks = false,
@@ -791,14 +791,36 @@ namespace TranslationAssistant.Business
                 var headers = doc.MainDocumentPart.HeaderParts.Select(p => p.Header);
                 foreach (var header in headers)
                 {
-                    texts.AddRange(header.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !String.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
+                    texts.AddRange(header.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !string.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
                 }
 
                 var footers = doc.MainDocumentPart.FooterParts.Select(p => p.Footer);
                 foreach (var footer in footers)
                 {
-                    texts.AddRange(footer.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !String.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
+                    texts.AddRange(footer.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !string.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
                 }
+
+                FootnotesPart footnotesPart = doc.MainDocumentPart.FootnotesPart;
+                if (footnotesPart != null)
+                {
+                    var footnotes = footnotesPart.Footnotes.Elements<Footnote>();
+                    foreach (var footnote in footnotes)
+                    {
+                        texts.AddRange(footnote.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !string.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
+                    }
+                }
+
+                EndnotesPart endnotesPart = doc.MainDocumentPart.EndnotesPart;
+                if (endnotesPart != null)
+                {
+                    var endnotes = endnotesPart.Endnotes.Elements<DocumentFormat.OpenXml.Wordprocessing.Endnote>();
+                    foreach (var endnote in endnotes)
+                    {
+                        texts.AddRange(endnote.Descendants<DocumentFormat.OpenXml.Wordprocessing.Text>().Where(text => !string.IsNullOrEmpty(text.Text) && text.Text.Length > 0));
+                    }
+                }
+
+
 
                 if (ignoreHidden)
                 {
@@ -849,10 +871,13 @@ namespace TranslationAssistant.Business
                 {
                     throw new AggregateException(exceptions);
                 }
+                doc.MainDocumentPart.Document.Save();
+                doc.Close();
 
                 //doc.MainDocumentPart.PutXDocument();
             }
         }
+
 
 
         /// <summary>
