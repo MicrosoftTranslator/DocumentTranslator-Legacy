@@ -57,7 +57,7 @@ namespace TranslationAssistant.Business
         {
             string[] DNTList = { "script", "#text", "code", "col", "colgroup", "embed", "em", "#comment", "image", "map", "media", "meta", "source", "xml"};  //DNT - Do Not Translate - these nodes are skipped.
             HtmlNode child = rootnode;
-            while (child != rootnode.LastChild)
+            while (child != null && child != rootnode.LastChild)
             {
                 if (!DNTList.Contains(child.Name.ToLowerInvariant())) {
                     if (child.InnerHtml.Length > maxRequestSize)
