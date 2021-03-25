@@ -346,6 +346,31 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="AcceptLanguage">Accept-Language</param>
         public static async Task GetLanguages(string AcceptLanguage = "en")
         {
+            int retrycounter = 2;
+            while (retrycounter >= 0)
+            {
+                retrycounter--;
+                try
+                {
+                    await GetLanguagesInternal(AcceptLanguage);
+                    return;
+                }
+                catch
+                {
+                    if (retrycounter <= 0) throw;
+                    await Task.Delay(1000); //wait one second
+                }
+            }
+        }
+
+
+
+        /// <summary>
+        /// Fills the AvailableLanguages dictionary
+        /// </summary>
+        /// <param name="AcceptLanguage">Accept-Language</param>
+        private static async Task GetLanguagesInternal(string AcceptLanguage = "en")
+        {
             AvailableLanguages.Clear();
             if (UseCustomEndpoint)
             {
@@ -360,7 +385,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 using (HttpClient client = new HttpClient())
                 using (HttpRequestMessage request = new HttpRequestMessage())
                 {
-                    client.Timeout = TimeSpan.FromSeconds(5);
+                    client.Timeout = TimeSpan.FromSeconds(10);
                     request.Method = HttpMethod.Get;
                     request.RequestUri = new Uri(uri);
                     request.Headers.Add("Accept-Language", AcceptLanguage);
