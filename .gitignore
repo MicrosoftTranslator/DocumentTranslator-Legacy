@@ -26,7 +26,6 @@ TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vsh
 *.ide-wal
 .vs/Microsoft.DocumentTranslator/v15/sqlite3/storage.ide
 *.ide
-*.txt
 /TranslationAssistant.DocumentTranslationInstaller/obj/Debug
 *.dtbcache
 /TranslationAssistant.AutomationToolkit.BasePlugin/bin/Debug/TranslationAssistant.AutomationToolkit.BasePlugin.dll
@@ -45,3 +44,4 @@ TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vsh
 /azure-libraries-for-net
 /OpenXmlPowerTools/bin/Debug
 /.vs/Microsoft.DocumentTranslator/DesignTimeBuild
+.vs/

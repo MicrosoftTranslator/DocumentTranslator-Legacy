@@ -382,25 +382,23 @@ namespace TranslationAssistant.TranslationServices.Core
 
             try
             {
-                using (HttpClient client = new HttpClient())
-                using (HttpRequestMessage request = new HttpRequestMessage())
+                using HttpClient client = new HttpClient();
+                using HttpRequestMessage request = new HttpRequestMessage();
+                client.Timeout = TimeSpan.FromSeconds(10);
+                request.Method = HttpMethod.Get;
+                request.RequestUri = new Uri(uri);
+                request.Headers.Add("Accept-Language", AcceptLanguage);
+                HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
+                string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    client.Timeout = TimeSpan.FromSeconds(10);
-                    request.Method = HttpMethod.Get;
-                    request.RequestUri = new Uri(uri);
-                    request.Headers.Add("Accept-Language", AcceptLanguage);
-                    HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
-                    string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                    {
-                        var result = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
-                        var languages = result["translation"];
+                    var result = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
+                    var languages = result["translation"];
 
-                        string[] languagecodes = languages.Keys.ToArray();
-                        foreach (var kv in languages)
-                        {
-                            AvailableLanguages.Add(kv.Key, kv.Value["name"]);
-                        }
+                    string[] languagecodes = languages.Keys.ToArray();
+                    foreach (var kv in languages)
+                    {
+                        AvailableLanguages.Add(kv.Key, kv.Value["name"]);
                     }
                 }
             }
