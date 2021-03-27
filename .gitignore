@@ -45,3 +45,4 @@ TranslationAssistant.DocumentTranslationInterface/bin/Release/FileTranslator.vsh
 /OpenXmlPowerTools/bin/Debug
 /.vs/Microsoft.DocumentTranslator/DesignTimeBuild
 .vs/
+.vs/slnx.sqlite

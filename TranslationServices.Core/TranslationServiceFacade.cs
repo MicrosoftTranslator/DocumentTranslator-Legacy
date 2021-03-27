@@ -371,7 +371,10 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="AcceptLanguage">Accept-Language</param>
         private static async Task GetLanguagesInternal(string AcceptLanguage = "en")
         {
-            AvailableLanguages.Clear();
+            lock (AvailableLanguages)
+            { 
+                AvailableLanguages.Clear();
+            }
             if (UseCustomEndpoint)
             {
                 ContainerGetLanguages();
@@ -390,17 +393,21 @@ namespace TranslationAssistant.TranslationServices.Core
                 request.Headers.Add("Accept-Language", AcceptLanguage);
                 HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
                 string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                lock (AvailableLanguages)
                 {
-                    var result = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
-                    var languages = result["translation"];
-
-                    string[] languagecodes = languages.Keys.ToArray();
-                    foreach (var kv in languages)
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     {
-                        AvailableLanguages.Add(kv.Key, kv.Value["name"]);
+                        var result = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
+                        var languages = result["translation"];
+
+                        string[] languagecodes = languages.Keys.ToArray();
+                        foreach (var kv in languages)
+                        {
+                            AvailableLanguages.Add(kv.Key, kv.Value["name"]);
+                        }
                     }
                 }
+                Debug.Assert(AvailableLanguages.Count > 0, "GetLanguagesInternal: Zero languages.");
             }
             catch (HttpRequestException)
             {
