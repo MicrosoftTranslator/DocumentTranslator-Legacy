@@ -526,10 +526,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             if (!TranslationServiceFacade.UseCustomEndpoint) this.sourceLanguageList.Add(Properties.Resources.Common_AutoDetect);
             try
             {
-                lock (TranslationServiceFacade.AvailableLanguages)
-                {
-                    this.targetLanguageList.AddRange(TranslationServiceFacade.AvailableLanguages.Values);
-                }
+                targetLanguageList.AddRange(AvailableLanguages.GetLanguages().Values);
             }
             catch (Exception ex) {
                 this.StatusText = String.Format("{0}\n{1}", Properties.Resources.Error_LanguageList, ex.Message);

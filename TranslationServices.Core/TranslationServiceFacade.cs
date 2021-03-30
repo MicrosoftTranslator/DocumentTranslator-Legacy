@@ -72,8 +72,6 @@ namespace TranslationAssistant.TranslationServices.Core
         /// End point address for the Translator API
         /// </summary>
         public static string EndPointAddress { get; set; } = "https://api.cognitive.microsofttranslator.com";
-
-        public static Dictionary<string, string> AvailableLanguages { get; } = new Dictionary<string, string>();
         public static int Maxrequestsize { get => maxrequestsize; }
         public static int Maxelements { get => maxelements; }
         public static string AzureRegion { get; set; } = null;
@@ -303,8 +301,8 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns>False if credentials failed</returns>
         public static async Task<bool> Initialize(bool force = false)
         {
-            await GetLanguages(Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
-            if (IsInitialized && (!force) && (AvailableLanguages.Count>2)) return true;
+            Dictionary<string, string> availablelanguages = await AvailableLanguages.GetLanguages(Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName);
+            if (IsInitialized && (!force) && (availablelanguages.Count > 2)) return true;
             LoadCredentials();
             if (String.IsNullOrEmpty(AzureKey))
             {
@@ -335,88 +333,8 @@ namespace TranslationAssistant.TranslationServices.Core
                 else return true;
             }
             IsInitialized = true;
-            Debug.WriteLine("Facade: Number of available Languages: {0}", AvailableLanguages.Count);
+            Debug.WriteLine("Facade: Number of available Languages: {0}", availablelanguages.Count);
             return true;
-        }
-
-
-        /// <summary>
-        /// Fills the AvailableLanguages dictionary
-        /// </summary>
-        /// <param name="AcceptLanguage">Accept-Language</param>
-        public static async Task GetLanguages(string AcceptLanguage = "en")
-        {
-            int retrycounter = 2;
-            while (retrycounter >= 0)
-            {
-                retrycounter--;
-                try
-                {
-                    await GetLanguagesInternal(AcceptLanguage);
-                    return;
-                }
-                catch
-                {
-                    if (retrycounter <= 0) throw;
-                    await Task.Delay(1000); //wait one second
-                }
-            }
-        }
-
-
-
-        /// <summary>
-        /// Fills the AvailableLanguages dictionary
-        /// </summary>
-        /// <param name="AcceptLanguage">Accept-Language</param>
-        private static async Task GetLanguagesInternal(string AcceptLanguage = "en")
-        {
-            lock (AvailableLanguages)
-            { 
-                AvailableLanguages.Clear();
-            }
-            if (UseCustomEndpoint)
-            {
-                ContainerGetLanguages();
-                return;
-            }
-            string uri = EndPointAddress + "/languages?api-version=3.0&scope=translation";
-            if (ShowExperimental) uri += "&flight=experimental";
-
-            try
-            {
-                using HttpClient client = new HttpClient();
-                using HttpRequestMessage request = new HttpRequestMessage();
-                client.Timeout = TimeSpan.FromSeconds(10);
-                request.Method = HttpMethod.Get;
-                request.RequestUri = new Uri(uri);
-                request.Headers.Add("Accept-Language", AcceptLanguage);
-                HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
-                string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                lock (AvailableLanguages)
-                {
-                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                    {
-                        var result = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
-                        var languages = result["translation"];
-
-                        string[] languagecodes = languages.Keys.ToArray();
-                        foreach (var kv in languages)
-                        {
-                            AvailableLanguages.Add(kv.Key, kv.Value["name"]);
-                        }
-                    }
-                }
-                Debug.Assert(AvailableLanguages.Count > 0, "GetLanguagesInternal: Zero languages.");
-            }
-            catch (HttpRequestException)
-            {
-                Debug.WriteLine("ERROR: Request exception while retrieving languages.");
-                authMode = AuthMode.Disconnected;
-                AvailableLanguages.Clear();
-                return;
-            }
-            return;
         }
 
 
@@ -427,13 +345,14 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <returns></returns>
         public static string LanguageNameToLanguageCode(string languagename)
         {
-            if (AvailableLanguages.ContainsKey(languagename))
+            Dictionary<string, string> availablelanguages = AvailableLanguages.GetLanguages(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName).Result;
+            if (availablelanguages.ContainsKey(languagename))
             {
                 return languagename;
             }
-            else if (AvailableLanguages.ContainsValue(languagename))
+            else if (availablelanguages.ContainsValue(languagename))
             {
-                return AvailableLanguages.FirstOrDefault(t => t.Value == languagename).Key;
+                return availablelanguages.FirstOrDefault(t => t.Value == languagename).Key;
             }
             else
             {
@@ -443,6 +362,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
         public static string LanguageCodeToLanguageName(string languagecode)
         {
+            Dictionary<string, string> availablelanguages = AvailableLanguages.GetLanguages(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName).Result;
             switch (languagecode.ToLowerInvariant())
             {
                 case "zh-hans":
@@ -459,13 +379,13 @@ namespace TranslationAssistant.TranslationServices.Core
                     languagecode = "yue";
                     break;
             }
-            if (AvailableLanguages.ContainsValue(languagecode))
+            if (availablelanguages.ContainsValue(languagecode))
             {
                 return languagecode;
             }
-            else if (AvailableLanguages.ContainsKey(languagecode))
+            else if (availablelanguages.ContainsKey(languagecode))
             {
-                return AvailableLanguages.First(t => t.Key == languagecode).Value;
+                return availablelanguages.First(t => t.Key == languagecode).Value;
             }
             else
             {
@@ -511,7 +431,7 @@ namespace TranslationAssistant.TranslationServices.Core
             }
             else
             {
-                try { fromCode = AvailableLanguages.First(t => t.Value == from).Key; }
+                try { fromCode = AvailableLanguages.GetLanguages(CultureInfo.CurrentUICulture.TwoLetterISOLanguageName).Result.First(t => t.Value == from).Key; }
                 catch { fromCode = from; }
             }
 

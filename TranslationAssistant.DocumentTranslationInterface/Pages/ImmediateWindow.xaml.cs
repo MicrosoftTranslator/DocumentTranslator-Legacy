@@ -44,7 +44,6 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
 
         private void ImmediateWindow_GotFocus(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("ImmediateWindow.xaml.cs: Available Languages: {0}", TranslationServices.Core.TranslationServiceFacade.AvailableLanguages.Count);
             documentTranslation.PopulateAvailableLanguages();
             cbSourceLanguages.GetBindingExpression(ComboBox.ItemsSourceProperty).UpdateTarget();
             cbTargetLanguages.GetBindingExpression(ComboBox.ItemsSourceProperty).UpdateTarget();

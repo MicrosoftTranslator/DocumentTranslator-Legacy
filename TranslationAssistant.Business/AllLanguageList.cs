@@ -14,18 +14,15 @@ namespace TranslationAssistant.Business
 
         public static async Task<string> GetAllLanguages()
         {
-            Task GetLanguagesTask = TranslationServiceFacade.GetLanguages();
             StringWriter writer = new StringWriter();
             Dictionary<string, string> languagelist = new Dictionary<string, string>();
-            await GetLanguagesTask;
-            languagelist = TranslationServiceFacade.AvailableLanguages;
+            languagelist = AvailableLanguages.GetLanguages();
             writer.WriteLine("{0}\t{1}\t{2}", "Language", "Language Code", "Display Name");
             writer.WriteLine("------------------------------------------------------");
             foreach (KeyValuePair<string, string> language in languagelist.ToList())
             {
-                Task t = TranslationServiceFacade.GetLanguages(language.Key);
-                await t;
-                foreach (KeyValuePair<string, string> lang in TranslationServiceFacade.AvailableLanguages)
+                Dictionary<string, string> languagesinlanguage = await AvailableLanguages.GetLanguages(language.Key);
+                foreach (KeyValuePair<string, string> lang in languagesinlanguage)
                 {
                     writer.WriteLine("{0}\t{1}\t{2}", language.Key, lang.Key, lang.Value);
                 }

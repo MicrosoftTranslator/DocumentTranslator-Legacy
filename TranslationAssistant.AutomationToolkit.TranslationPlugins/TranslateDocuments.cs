@@ -82,7 +82,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 "from",
                 false,
                 new[] { "Auto-Detect" },
-                TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),
+                AvailableLanguages.GetLanguages().Keys.ToArray(),
                 true,
                 "The source language. Auto-detect if no language specified.");
 
@@ -90,7 +90,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 "to",
                 true,
                 new string[] { },
-                TranslationServiceFacade.AvailableLanguages.Keys.ToArray(),
+                AvailableLanguages.GetLanguages().Keys.ToArray(),
                 new[] { ',' },
                 "The target language code, or comma-separated list of language codes.");
 
@@ -185,7 +185,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                             var sourceLanguageExpanded = String.IsNullOrEmpty(this.sourceLanguage.ValueString)
                                                          || this.sourceLanguage.ValueString.Equals("Auto-Detect")
                                                              ? "Auto-Detect"
-                                                             : TranslationServiceFacade.AvailableLanguages[
+                                                             : AvailableLanguages.GetLanguages()[
                                                                  this.sourceLanguage.ValueString];
                             string languagename = TranslationServiceFacade.LanguageCodeToLanguageName(language.ToString());
 
