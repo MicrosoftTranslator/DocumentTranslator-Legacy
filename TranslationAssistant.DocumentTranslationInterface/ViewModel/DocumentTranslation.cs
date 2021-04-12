@@ -116,6 +116,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             _ = TranslationServiceFacade.Initialize();
             this.PopulateAvailableLanguages();
             this.PopulateTranslateMode();
+            AvailableLanguages.OnUpdate += AvailableLanguages_OnUpdate;
             this.ShowProgressBar = false;
             this.IsGoButtonEnabled = false;
             this.TargetFolder = string.Empty;
@@ -135,6 +136,11 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
 
             SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Unsubscribe(PopulateReadyToTranslateMessage);
             SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Subscribe(PopulateReadyToTranslateMessage);
+        }
+
+        private void AvailableLanguages_OnUpdate(object sender, EventArgs e)
+        {
+            PopulateAvailableLanguages();
         }
 
         /// <summary>
@@ -526,7 +532,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             if (!TranslationServiceFacade.UseCustomEndpoint) this.sourceLanguageList.Add(Properties.Resources.Common_AutoDetect);
             try
             {
-                targetLanguageList.AddRange(AvailableLanguages.GetLanguages().Values);
+                targetLanguageList.AddRange(AvailableLanguages.GetLanguages().Result.Values);
             }
             catch (Exception ex) {
                 this.StatusText = String.Format("{0}\n{1}", Properties.Resources.Error_LanguageList, ex.Message);

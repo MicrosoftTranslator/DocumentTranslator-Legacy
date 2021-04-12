@@ -16,7 +16,7 @@ namespace TranslationAssistant.Business
         {
             StringWriter writer = new StringWriter();
             Dictionary<string, string> languagelist = new Dictionary<string, string>();
-            languagelist = AvailableLanguages.GetLanguages();
+            languagelist = await AvailableLanguages.GetLanguages();
             writer.WriteLine("{0}\t{1}\t{2}", "Language", "Language Code", "Display Name");
             writer.WriteLine("------------------------------------------------------");
             foreach (KeyValuePair<string, string> language in languagelist.ToList())

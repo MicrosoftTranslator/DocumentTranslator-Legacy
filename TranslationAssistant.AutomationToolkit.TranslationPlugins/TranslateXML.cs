@@ -70,7 +70,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 "from",
                 false,
                 new[] { "Auto-Detect" },
-                AvailableLanguages.GetLanguages().Keys.ToArray(),
+                AvailableLanguages.GetLanguages().Result.Keys.ToArray(),
                 true,
                 "The source language. Auto-detect if no language specified.");
 
@@ -78,7 +78,7 @@ namespace TranslationAssistant.AutomationToolkit.TranslationPlugins
                 "to",
                 true,
                 new string[] { },
-                AvailableLanguages.GetLanguages().Keys.ToArray(),
+                AvailableLanguages.GetLanguages().Result.Keys.ToArray(),
                 new[] { ',' },
                 "The target language code, or comma-separated list of language codes.");
 

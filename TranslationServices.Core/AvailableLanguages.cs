@@ -30,10 +30,11 @@ namespace TranslationAssistant.TranslationServices.Core
         private static bool LastShowExperimental = false;
         private static string LastAcceptLanguage = string.Empty;
         public static string EndPointAddress = "https://api.cognitive.microsofttranslator.com";
+        public static event EventHandler OnUpdate;
 
-        public static Dictionary<string, string> GetLanguages()
+        public static async Task<Dictionary<string, string>> GetLanguages()
         {
-            _ = GetLanguagesWrapper(System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
+            await GetLanguages(System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
             lock (languages)
             {
                 return languages;
@@ -42,7 +43,7 @@ namespace TranslationAssistant.TranslationServices.Core
 
         static AvailableLanguages()
         {
-            _ = GetLanguagesWrapper(System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName);
+            
         }
 
 
@@ -52,29 +53,29 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="AcceptLanguage">Accept-Language</param>
         public static async Task<Dictionary<string, string>> GetLanguages(string AcceptLanguage)
         {
+            Debug.WriteLine("GetLanguages entered.");
             if (string.IsNullOrEmpty(AcceptLanguage)) AcceptLanguage = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
             if ((AcceptLanguage == LastAcceptLanguage) && (ShowExperimental == LastShowExperimental) && (languages.Count > 3))
             {
+                Debug.WriteLine("GetLanguages returned from cache.");
                 return languages;
             }
-            else return await GetLanguagesWrapper(AcceptLanguage);
-        }
-
-        private static async Task<Dictionary<string, string>> GetLanguagesWrapper(string AcceptLanguage)
-        {
+            LastAcceptLanguage = AcceptLanguage;
+            LastShowExperimental = ShowExperimental;
             int retrycounter = 2;
             while (retrycounter >= 0)
             {
                 retrycounter--;
                 try
                 {
+                    Debug.WriteLine("GetLanguages awaiting server response, retry #{0}.", retrycounter);
                     await GetLanguagesInternal(AcceptLanguage);
                     return languages;
                 }
                 catch
                 {
                     if (retrycounter <= 0) throw;
-                    await Task.Delay(1000); //wait one second
+                    await Task.Delay(200); //wait a bit before retrying
                 }
             }
             return null;
@@ -91,10 +92,12 @@ namespace TranslationAssistant.TranslationServices.Core
             lock (languages)
             {
                 languages.Clear();
+                OnUpdate?.Invoke(null, EventArgs.Empty);
             }
             if (UseCustomEndpoint)
             {
                 languages = await TranslationServiceFacade.ContainerGetLanguages();
+                OnUpdate?.Invoke(null, EventArgs.Empty);
                 return;
             }
             string uri = EndPointAddress + "/languages?api-version=3.0&scope=translation";
@@ -124,7 +127,7 @@ namespace TranslationAssistant.TranslationServices.Core
                         }
                     }
                 }
-                Debug.Assert(languages.Count > 0, "GetLanguagesInternal: Zero languages.");
+                OnUpdate?.Invoke(null, EventArgs.Empty);
             }
             catch (HttpRequestException)
             {
@@ -132,6 +135,7 @@ namespace TranslationAssistant.TranslationServices.Core
                 lock (languages)
                 {
                     languages.Clear();
+                    OnUpdate?.Invoke(null, EventArgs.Empty);
                 }
                 return;
             }
@@ -143,6 +147,7 @@ namespace TranslationAssistant.TranslationServices.Core
             lock (languages)
             {
                 languages.Clear();
+                OnUpdate?.Invoke(null, EventArgs.Empty);
             }
         }
     }
