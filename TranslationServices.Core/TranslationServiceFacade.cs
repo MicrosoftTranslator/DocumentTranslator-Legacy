@@ -52,7 +52,6 @@ namespace TranslationAssistant.TranslationServices.Core
         /// Holds the value of the custom endpoint, the container
         /// </summary>
         public static string CustomEndpointUrl { get; set; }
-        public static bool ShowExperimental { get; set; }
 
         /// <summary>
         /// Holds the Azure subscription key
@@ -693,7 +692,7 @@ namespace TranslationAssistant.TranslationServices.Core
             else
             {
                 string path = "/translate?api-version=3.0";
-                if (ShowExperimental) path += "&flight=experimental";
+                if (AvailableLanguages.ShowExperimental) path += "&flight=experimental";
                 string params_ = "&from=" + from + "&to=" + to;
                 string thiscategory = category;
                 if (String.IsNullOrEmpty(category))

@@ -22,6 +22,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
+    using TranslationAssistant.DocumentTranslationInterface.Common;
 
     /// <summary>
     ///     Interaction logic for ProjectCodeCommentsTranslationPage.xaml
@@ -41,6 +42,15 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
             this.InitializeComponent();
             this.Loaded += ImmediateWindow_Loaded;
             TranslationServices.Core.AvailableLanguages.OnUpdate += AvailableLanguages_OnUpdate;
+            SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Unsubscribe(RefreshLanguageComboBoxes);
+            SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Subscribe(RefreshLanguageComboBoxes);
+        }
+
+        private void RefreshLanguageComboBoxes(bool successful)
+        {
+            documentTranslation.PopulateAvailableLanguages();
+            cbSourceLanguages.Items.Refresh();
+            cbTargetLanguages.Items.Refresh();
         }
 
         private void AvailableLanguages_OnUpdate(object sender, EventArgs e)

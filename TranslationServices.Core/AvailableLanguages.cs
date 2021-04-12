@@ -62,6 +62,7 @@ namespace TranslationAssistant.TranslationServices.Core
             }
             LastAcceptLanguage = AcceptLanguage;
             LastShowExperimental = ShowExperimental;
+            Debug.WriteLine("AvailableLanguages: ShowExperimental: {0}", ShowExperimental);
             int retrycounter = 2;
             while (retrycounter >= 0)
             {
@@ -89,11 +90,6 @@ namespace TranslationAssistant.TranslationServices.Core
         /// <param name="AcceptLanguage">Accept-Language</param>
         private static async Task GetLanguagesInternal(string AcceptLanguage = "en")
         {
-            lock (languages)
-            {
-                languages.Clear();
-                OnUpdate?.Invoke(null, EventArgs.Empty);
-            }
             if (UseCustomEndpoint)
             {
                 languages = await TranslationServiceFacade.ContainerGetLanguages();
@@ -113,14 +109,15 @@ namespace TranslationAssistant.TranslationServices.Core
                 request.Headers.Add("Accept-Language", AcceptLanguage);
                 HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false);
                 string jsonResponse = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                lock (languages)
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                    {
-                        var result = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
-                        var langs = result["translation"];
+                    var result = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, Dictionary<string, string>>>>(jsonResponse);
+                    var langs = result["translation"];
 
-                        string[] languagecodes = languages.Keys.ToArray();
+                    string[] languagecodes = languages.Keys.ToArray();
+                    lock (languages)
+                    {
+                        languages.Clear();
                         foreach (var kv in langs)
                         {
                             languages.Add(kv.Key, kv.Value["name"]);
@@ -140,15 +137,6 @@ namespace TranslationAssistant.TranslationServices.Core
                 return;
             }
             return;
-        }
-
-        internal static void Clear()
-        {
-            lock (languages)
-            {
-                languages.Clear();
-                OnUpdate?.Invoke(null, EventArgs.Empty);
-            }
         }
     }
 }
