@@ -22,6 +22,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
     using System.Threading.Tasks;
     using System.Windows;
     using System.Windows.Controls;
+    using TranslationAssistant.DocumentTranslationInterface.Common;
 
     /// <summary>
     ///     Interaction logic for ProjectCodeCommentsTranslationPage.xaml
@@ -37,18 +38,26 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         /// </summary>
         public ImmediateWindow()
         {
+            Debug.WriteLine("ImmediateWindow entered.");
             this.InitializeComponent();
             this.Loaded += ImmediateWindow_Loaded;
-            this.GotFocus += ImmediateWindow_GotFocus;
+            TranslationServices.Core.AvailableLanguages.OnUpdate += AvailableLanguages_OnUpdate;
+            SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Unsubscribe(RefreshLanguageComboBoxes);
+            SingletonEventAggregator.Instance.GetEvent<AccountValidationEvent>().Subscribe(RefreshLanguageComboBoxes);
         }
 
-        private void ImmediateWindow_GotFocus(object sender, RoutedEventArgs e)
+        private void RefreshLanguageComboBoxes(bool successful)
         {
-            Debug.WriteLine("ImmediateWindow.xaml.cs: Available Languages: {0}", TranslationServices.Core.TranslationServiceFacade.AvailableLanguages.Count);
+            documentTranslation.PopulateAvailableLanguages();
+            cbSourceLanguages.Items.Refresh();
+            cbTargetLanguages.Items.Refresh();
+        }
+
+        private void AvailableLanguages_OnUpdate(object sender, EventArgs e)
+        {
             documentTranslation.PopulateAvailableLanguages();
             cbSourceLanguages.GetBindingExpression(ComboBox.ItemsSourceProperty).UpdateTarget();
             cbTargetLanguages.GetBindingExpression(ComboBox.ItemsSourceProperty).UpdateTarget();
-            
         }
 
         private void ImmediateWindow_Loaded(object sender, RoutedEventArgs e)
@@ -181,6 +190,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             documentTranslation.SaveSettings();
+            TranslationServices.Core.AvailableLanguages.OnUpdate -= AvailableLanguages_OnUpdate;
         }
 
         private void CbTranslateMode_SelectionChanged(object sender, SelectionChangedEventArgs e)

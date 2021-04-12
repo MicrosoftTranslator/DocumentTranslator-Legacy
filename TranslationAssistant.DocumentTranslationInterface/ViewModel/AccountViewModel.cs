@@ -264,7 +264,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             this.AzureCloud = TranslationServices.Core.TranslationServiceFacade.AzureCloud;
             this.useCustomEndpoint = TranslationServices.Core.TranslationServiceFacade.UseCustomEndpoint;
             this.customEndpointUrl = TranslationServices.Core.TranslationServiceFacade.CustomEndpointUrl;
-            this.showExperimental = TranslationServices.Core.TranslationServiceFacade.ShowExperimental;
+            this.showExperimental = TranslationServices.Core.AvailableLanguages.ShowExperimental;
         }
 
         /// <summary>
@@ -279,12 +279,12 @@ namespace TranslationAssistant.DocumentTranslationInterface.ViewModel
             TranslationServices.Core.TranslationServiceFacade.AzureRegion = this.azureRegion;
             TranslationServices.Core.TranslationServiceFacade.UseCustomEndpoint = this.useCustomEndpoint;
             TranslationServices.Core.TranslationServiceFacade.CustomEndpointUrl = this.customEndpointUrl;
-            TranslationServices.Core.TranslationServiceFacade.ShowExperimental = this.showExperimental;
+            TranslationServices.Core.AvailableLanguages.ShowExperimental = this.showExperimental;
+            TranslationServices.Core.AvailableLanguages.ShowExperimental = this.showExperimental;
             TranslationServices.Core.TranslationServiceFacade.SaveCredentials();
             _ = TranslationServices.Core.TranslationServiceFacade.Initialize(true);
 
-            bool isready = false;
-
+            bool isready;
             try { isready = await TranslationServices.Core.TranslationServiceFacade.IsTranslationServiceReadyAsync(); }
             catch { isready = false; }
 

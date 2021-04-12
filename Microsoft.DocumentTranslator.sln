@@ -3,14 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentTranslator", "TranslationAssistant.DocumentTranslationInterface\DocumentTranslator.csproj", "{4007B1E0-9E4F-449A-AE61-C38F771001F6}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationServices.Core", "TranslationServices.Core\TranslationServices.Core.csproj", "{9F027538-F794-4543-A510-155043A40CC6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TranslationAssistant.Business", "TranslationAssistant.Business\TranslationAssistant.Business.csproj", "{6BF8556D-3875-4C4A-86B4-A9AA5B1F8696}"
 	ProjectSection(ProjectDependencies) = postProject
 		{1E89FBEE-7C28-41F8-8894-1B11D4855A26} = {1E89FBEE-7C28-41F8-8894-1B11D4855A26}
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentTranslator", "TranslationAssistant.DocumentTranslationInterface\DocumentTranslator.csproj", "{4007B1E0-9E4F-449A-AE61-C38F771001F6}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "TranslationAssistant.DocumentTranslationInstaller", "TranslationAssistant.DocumentTranslationInstaller\TranslationAssistant.DocumentTranslationInstaller.wixproj", "{CB4E5694-FB0B-4E8C-92EB-FEB5362A28E8}"
 EndProject

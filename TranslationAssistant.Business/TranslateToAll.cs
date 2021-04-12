@@ -23,7 +23,7 @@ namespace TranslationAssistant.Business
         {
             EventHandler handler = OneTranslationDone;
             List<Task<KeyValuePair<string, string>>> tasklist = new List<Task<KeyValuePair<string, string>>>();
-            foreach (KeyValuePair<string, string> language in TranslationServiceFacade.AvailableLanguages)
+            foreach (KeyValuePair<string, string> language in await AvailableLanguages.GetLanguages())
             {
                 Task<KeyValuePair<string, string>> task = TranslateInternal(text, from, language.Key, category, contentType);
                 tasklist.Add(task);

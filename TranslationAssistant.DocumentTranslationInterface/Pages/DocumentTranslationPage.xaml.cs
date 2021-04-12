@@ -21,12 +21,13 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
 
     #endregion
 
-    /// <summary>
+        /// <summary>
     ///     Interaction logic for ProjectCodeCommentsTranslationPage.xaml
     /// </summary>
     public partial class DocumentTranslationPage : UserControl
     {
         #region Constructors and Destructors
+        readonly ViewModel.DocumentTranslation documentTranslation = new ViewModel.DocumentTranslation();
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="DocumentTranslationPage" /> class.
@@ -62,6 +63,7 @@ namespace TranslationAssistant.DocumentTranslationInterface.Pages
 
         private void RefreshLanguageComboBoxes(bool successful)
         {
+            documentTranslation.PopulateAvailableLanguages();
             cbSourceLanguages.Items.Refresh();
             cbTargetLanguages.Items.Refresh();
         }

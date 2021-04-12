@@ -31,29 +31,31 @@ namespace TranslationAssistant.TranslationServices.Core
         }
 
 
-        private static async void ContainerGetLanguages()
+        public static async Task<Dictionary<string, string>> ContainerGetLanguages()
         {
-            AvailableLanguages.Clear();
-            AvailableLanguages.Add("en", "English");
-            AvailableLanguages.Add("ar", "Arabic");
-            AvailableLanguages.Add("de", "German");
-            AvailableLanguages.Add("ru", "Russian");
-            AvailableLanguages.Add("zh-Hans", "Chinese (Simplified)");
-            AvailableLanguages.Add("es", "Spanish");
-            AvailableLanguages.Add("fr", "French");
+            Dictionary<string, string> languages = new Dictionary<string, string>();
+            languages.Clear();
+            languages.Add("en", "English");
+            languages.Add("ar", "Arabic");
+            languages.Add("de", "German");
+            languages.Add("ru", "Russian");
+            languages.Add("zh-Hans", "Chinese (Simplified)");
+            languages.Add("es", "Spanish");
+            languages.Add("fr", "French");
 
             ///This container probably only contains a subset of these.
             ///Test all of them and delete the ones that aren't valid.
             List<Task<KeyValuePair<string, bool>>> tasks = new List<Task<KeyValuePair<string, bool>>>();
-            foreach (KeyValuePair<string, string> kv in AvailableLanguages)
+            foreach (KeyValuePair<string, string> kv in languages)
             {
                 Task<KeyValuePair<string, bool>> task = ContainerTestLanguage(kv.Key);
             }
             await Task.WhenAll(tasks).ConfigureAwait(false);
             foreach (var task in tasks)
             {
-                if (!task.Result.Value) AvailableLanguages.Remove(task.Result.Key);
+                if (!task.Result.Value) languages.Remove(task.Result.Key);
             }
+            return languages;
         }
 
         private static async Task<KeyValuePair<string, bool>> ContainerTestLanguage(string language)
@@ -128,7 +130,6 @@ namespace TranslationAssistant.TranslationServices.Core
                     }
                     catch
                     {
-                        AvailableLanguages.Clear();
                         return null;
                     }
                 }
