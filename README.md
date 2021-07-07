@@ -1,3 +1,7 @@
+**There is a newer version of document translation functionality in the */Document Translation* project.
+Please use [Document Translation](https://github.com/microsofttranslator/documenttranslation) instead.**
+
+
 # Microsoft Document Translator
 The Microsoft Document Translator translates Microsoft Office, plain text, HTML, PDF files and SRT caption files, from and to any of the 70+ languages supported by the Microsoft Translator web service.
 Document Translator uses the customer's own credentials and subscription to perform the Translation. Document Translator also may use custom MT systems trained via Custom Translator (https://portal.customtranslator.azure.ai).
