@@ -62,7 +62,8 @@ namespace TranslationAssistant.Business
                 if (!DNTList.Contains(child.Name.ToLowerInvariant())) {
                     if (child.InnerHtml.Length > maxRequestSize)
                     {
-                        AddNodes(child.FirstChild, ref nodes);
+                        if (child.FirstChild.Name == "#text") nodes.Add(child); //only text in here
+                        else AddNodes(child.FirstChild, ref nodes);
                     }
                     else
                     {

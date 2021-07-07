@@ -479,6 +479,7 @@ namespace TranslationAssistant.TranslationServices.Core
         {
             int sum = 0;
             List<int> breakSentenceResult = await BreakSentencesInternal(text, languagecode).ConfigureAwait(false);
+            if (breakSentenceResult is null) return 0;
             for (int i = 0; i < breakSentenceResult.Count-1; i++) sum += breakSentenceResult[i];
             return sum;
         }
