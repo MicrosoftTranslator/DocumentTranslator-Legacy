@@ -55,7 +55,7 @@ namespace TranslationAssistant.Business
         /// <param name="nodes">Reference to the node list</param>
         private static void AddNodes(HtmlNode rootnode, ref List<HtmlNode> nodes)
         {
-            string[] DNTList = { "script", "#text", "code", "col", "colgroup", "embed", "em", "#comment", "image", "map", "media", "meta", "source", "xml"};  //DNT - Do Not Translate - these nodes are skipped.
+            string[] DNTList = { "script", "code", "col", "colgroup", "embed", "#comment", "image", "map", "media", "meta", "source", "xml" };  //DNT - Do Not Translate - these nodes are skipped.
             HtmlNode child = rootnode;
             while (child != null && child != rootnode.LastChild)
             {
@@ -63,7 +63,7 @@ namespace TranslationAssistant.Business
                     if (child.InnerHtml.Length > maxRequestSize)
                     {
                         if (child.FirstChild.Name == "#text") nodes.Add(child); //only text in here
-                        else AddNodes(child.FirstChild, ref nodes);
+                        else AddNodes(child.FirstChild, ref nodes);  //recurse into the elements below this one
                     }
                     else
                     {
